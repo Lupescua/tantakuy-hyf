@@ -8,7 +8,9 @@ This folder holds global and modular stylesheets.
 
 Example:
 
+```
 style/
-globals.css
-variables.css
-layout.css
+  globals.css
+  variables.css
+  layout.css
+```

@@ -9,10 +9,12 @@ This folder contains the backend route handlers and API logic for the applicatio
 
 Example structure:
 
+```
 api/
-users/
-route.js # GET, POST for users
-meals/
-route.js # GET, POST for meals
+  users/
+    route.js # GET, POST for users
+  competitions/
+    route.js # GET, POST for meals
+```
 
 For more info, see [Next.js Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers).

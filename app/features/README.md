@@ -8,10 +8,13 @@ This folder contains feature-specific logic and components.
 
 Example:
 
+```
 features/
-auth/
-LoginForm.js
-authContext.js
-meals/
-MealList.js
-mealAPI.js
+  auth/
+    LoginForm.js
+    authContext.js
+  meals/
+    MealList.js
+    mealAPI.js
+
+```

@@ -9,7 +9,10 @@ This folder contains reusable React components used throughout the app.
 
 Example:
 
+```
 components/
-Button.js
-Header.js
-CompetitionCard.js
+  Button.js
+  Header.js
+  CompetitionCard.js
+
+```
