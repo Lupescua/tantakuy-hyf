@@ -14,5 +14,4 @@ components/
   Button.js
   Header.js
   CompetitionCard.js
-
 ```

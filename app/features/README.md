@@ -13,8 +13,8 @@ features/
   auth/
     LoginForm.js
     authContext.js
-  meals/
-    MealList.js
-    mealAPI.js
-
+  signup/
+    CompanySignupForm.js
+    ParticipantSignupForm.js
+    signupAPI.js
 ```
