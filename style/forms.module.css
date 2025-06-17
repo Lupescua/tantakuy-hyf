@@ -1,0 +1,38 @@
+ .buttonBlack{
+    /* Auto layout */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 32px;
+    gap: 10px;
+
+    width: 514px;
+    height: 64px;
+
+    background: #0E1525;
+    border-radius: 10px;
+  }
+
+  .buttonWhite{
+    /* Auto layout */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 30px;
+    gap: 4px;
+    margin:20px auto;
+    width: 651px;
+    height: 80px;
+
+    background: #F8F9FA;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    color: var(--text-color)
+  }
+
+  .buttonWhite:hover {
+    background: #BCD8FF;
+    border-color: #000;
+  }
