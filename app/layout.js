@@ -1,5 +1,6 @@
 import { Montserrat } from 'next/font/google';
-import './globals.css';
+
+import '../style/globals.css';
 import '../style/base.css';
 
 const montserrat = Montserrat({
@@ -8,11 +9,18 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 });
 
+export const metadata = {
+  title: 'Tantakuy',
+  description: 'Gamified competition platform',
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={montserrat.variable}>
-        {children}
+        <div className="container">
+          <main>{children}</main>
+        </div>
       </body>
     </html>
   );

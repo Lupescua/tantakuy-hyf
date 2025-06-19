@@ -1,8 +1,8 @@
-export default function Home() {
+export default function LoggedInPage() {
   return (
     <main className="home">
       <header className="header">
-        <h1 className="logo">Tantakuy</h1>
+        <h1 className="logo">VELKOMMEN (username)</h1>
       </header>
 
       <section className="hero">
