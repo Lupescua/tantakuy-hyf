@@ -106,9 +106,11 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
----
+---```
+
 
 ## 📁 Folder Structure Explained
+```
 
 app/
 ├── components/
@@ -122,5 +124,6 @@ app/
 │
 ├── loggedin/page.jsx          → Simulated logged-in user page with Navbar & Footer when user is logged in
 └── loggedout/page.jsx         → Simulated logged-out user page with Navbar & Footer when user is logged out
+```
 
 ---
