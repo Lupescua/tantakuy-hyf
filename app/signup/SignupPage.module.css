@@ -1,0 +1,53 @@
+.container .container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 2rem;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1.5rem;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  margin-bottom: 1.5rem;
+}
+
+.button {
+  width: 100%;
+  background-color: #0c0c0c;
+  color: white;
+  padding: 0.875rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #000000;
+}
