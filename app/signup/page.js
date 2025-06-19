@@ -1,3 +1,4 @@
+import styles from './SignupPage.module.css';
 import RoleSelector from '../components/signup/RoleSelector';
 export default function SignupPage() {
   return (
