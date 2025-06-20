@@ -97,11 +97,18 @@
  }
 
   .itemButton{
-    background: none;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: inherit;
+    color: #000;
+    cursor: pointer;
+    margin-bottom: 1rem;
     border: none;
+    outline: none;
     box-shadow: none;
-    position:absolute;
-    top: 100px;
+    appearance: none; 
+    -webkit-appearance: none; 
   }
   .itemIcon{
     font-family: 'Courier New', Courier, monospace;
