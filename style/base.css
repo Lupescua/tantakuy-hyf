@@ -12,13 +12,23 @@
     padding: 0;
     box-sizing: border-box;
   }
-  
+  html{
+    height: 100%;
+    width: 100%;
+  }
   body {
+    height: 100%;
+    width: 100%;
     font-family: var(--font-montserrat);
     background-color: var(--background-color);
     color: var(--text-color);
   }
-    
+
+  main{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+  }
   .home {
     padding: 20px;
   }
@@ -74,6 +84,7 @@
   }
   
   .card {
+    width: 100%;
     background-color: white;
     border-radius: var(--radius);
     height: 100px;
