@@ -22,7 +22,7 @@ export default function ForgotPasswordForm() {
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2>Forgot Password ?</h2>
+        <h2>Forgot Password?</h2>
         <p>
           Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
           lacus.
@@ -39,7 +39,7 @@ export default function ForgotPasswordForm() {
           Next →
         </button>
         <a href="/login" className={styles.link}>
-          Back to Login
+          Back to Log in
         </a>
       </form>
     </div>

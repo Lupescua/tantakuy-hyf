@@ -17,13 +17,15 @@ export default function VerifyToken() {
 
   return (
     <div className={styles.centeredContainer}>
-      <div className={styles.spinner}></div>
-      <p className={styles.message}>
-        Please wait while we confirm your email token
-      </p>
-      <a href="/login" className={styles.backLink}>
-        Back to Log in
-      </a>
+      <div className={styles.leftAlignText}>
+        <div className={styles.spinner}></div>
+        <p className={styles.message}>
+          Please wait while we confirm your email token
+        </p>
+        <a href="/login" className={styles.backLink}>
+          Back to Log in
+        </a>
+      </div>
     </div>
   );
 }
