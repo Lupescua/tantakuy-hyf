@@ -27,7 +27,9 @@ export default function RegistrationForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
-      <label htmlFor="userName">User Name</label><br />
+
+      <div className={styles.formItem}>
+      <label htmlFor="userName">Username</label><br />
       <input
         type="text"
         id="userName"
@@ -35,8 +37,10 @@ export default function RegistrationForm() {
         value={formData.userName}
         onChange={handleChange}
         required
-      /><br /><br />
+      />
+      </div>
 
+       <div className={styles.formItem}>
       <label htmlFor="email">Email</label><br />
       <input
         type="email"
@@ -45,7 +49,8 @@ export default function RegistrationForm() {
         value={formData.email}
         onChange={handleChange}
         required
-      /><br /><br />
+      /></div>
+       <div className={styles.formItem}>
 
       <label htmlFor="password">Password</label><br />
       <input
@@ -55,7 +60,9 @@ export default function RegistrationForm() {
         value={formData.password}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+       <div className={styles.formItem}>
 
       <label htmlFor="confirmPassword">Confirm Password</label><br />
       <input
@@ -65,22 +72,28 @@ export default function RegistrationForm() {
         value={formData.confirmPassword}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
 
-      <label>
-        <input
+
+       <div className={styles.formItem}>
+      <input
+        className={styles.formCheckbox}
           type="checkbox"
           name="acceptTerms"
           checked={formData.acceptTerms}
           onChange={handleChange}
           required
-        />{' '}
+          />{' '}
+      <label>
         I accept the terms and conditions
       </label>
+       
       <p className='hero-subtitle'>You agree to our Terms of Service and Privacy Policy.</p>
-      <br /><br />
+          </div>
+     
 
-      <button className={styles.buttonBlack} type="submit">Registration</button>
+      <button className={styles.buttonBlack} type="submit">Registration →</button>
     </form>
   );
 }

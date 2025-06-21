@@ -26,11 +26,13 @@ export default function OrganizationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add form validation and submission logic here
-    console.log('Organization form submitted:', formData);
+    console.log('Company form submitted:', formData);
   };
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
+       <div className={styles.formItemCompany}>
+
       <label htmlFor="name">Name</label><br />
       <input
         type="text"
@@ -39,7 +41,9 @@ export default function OrganizationForm() {
         value={formData.name}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+ <div className={styles.formItemCompany}>
 
       <label htmlFor="position">Position</label><br />
       <input
@@ -49,7 +53,9 @@ export default function OrganizationForm() {
         value={formData.position}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+ <div className={styles.formItemCompany}>
 
       <label htmlFor="companyName">Company Name</label><br />
       <input
@@ -59,7 +65,9 @@ export default function OrganizationForm() {
         value={formData.companyName}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+     <div className={styles.formItemCompany}>
 
       <label htmlFor="businessNumber">Business Number</label><br />
       <input
@@ -69,7 +77,9 @@ export default function OrganizationForm() {
         value={formData.businessNumber}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+     <div className={styles.formItemCompany}>
 
       <label htmlFor="cvrNumber">CVR Number</label><br />
       <input
@@ -79,7 +89,10 @@ export default function OrganizationForm() {
         value={formData.cvrNumber}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+
+     <div className={styles.formItemCompany}>
 
       <label htmlFor="email">Email</label><br />
       <input
@@ -89,7 +102,9 @@ export default function OrganizationForm() {
         value={formData.email}
         onChange={handleChange}
         required
-      /><br /><br />
+        />
+        </div>
+     <div className={styles.formItemCompany}>
 
       <label htmlFor="password">Password</label><br />
       <input
@@ -99,7 +114,11 @@ export default function OrganizationForm() {
         value={formData.password}
         onChange={handleChange}
         required
-      /><br /><br />
+      />
+      </div>
+
+       <div className={styles.formItemCompany}>
+
 
       <label htmlFor="confirmPassword">Confirm Password</label><br />
       <input
@@ -109,20 +128,21 @@ export default function OrganizationForm() {
         value={formData.confirmPassword}
         onChange={handleChange}
         required
-      /><br /><br />
-
-      <label>
-        <input
+        />
+        </div>
+       <div className={styles.formItemCompany}>
+       <input
           type="checkbox"
           name="acceptTerms"
           checked={formData.acceptTerms}
           onChange={handleChange}
           required
-        />{' '}
+          />{' '}
+      <label>
         I accept the terms and conditions
       </label>
        <p className='hero-subtitle'>You agree to our Terms of Service and Privacy Policy.</p>
-      <br /><br />
+          </div>
 
       <button className={styles.buttonBlack} type="submit">Registration</button>
     </form>
