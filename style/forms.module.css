@@ -1,4 +1,5 @@
 
+
 .signupContainer{
   width: 100%;
   height: 100%;
@@ -87,7 +88,7 @@
  .formItemOrg:nth-child(3),
 .formItemOrg:nth-child(6),
 .formItemOrg:nth-child(7),
- .formItemCompany:nth-child(2)
+ .formItemCompany:nth-child(2),
  .formItemCompany:nth-child(3),
  .formItemCompany:nth-child(4),
  .formItemCompany:nth-child(5),
@@ -96,10 +97,10 @@
   width: 49%;
  }
 
+
   .itemButton{
     display: flex;
     align-items: center;
-    padding: 0.5rem 1rem;
     background-color: inherit;
     color: #000;
     cursor: pointer;
@@ -109,6 +110,9 @@
     box-shadow: none;
     appearance: none; 
     -webkit-appearance: none; 
+    position: absolute;
+    top: 0;
+    margin-top: 50px;
   }
   .itemIcon{
     font-family: 'Courier New', Courier, monospace;
@@ -116,6 +120,10 @@
     margin-right: 7px;
     font-weight: 900;
     
+  }
+  .itemIcon:hover{
+    transform: scale(1.2);
+    transition: 0.5s;
   }
   .itemContainer{
     /* Auto layout */
@@ -138,6 +146,7 @@
   .itemContainer:hover {
     background: #BCD8FF;
     border-color: #000;
+    cursor: pointer;
   }
 
 

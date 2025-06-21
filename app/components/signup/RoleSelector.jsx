@@ -4,6 +4,9 @@ import { useState } from 'react';
 import ParticpantForm from "./ParticipantForm"
 import CompanyForm from "./CompanyForm"
 import OrganizationForm from './OrganizationForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+
 
 import styles from '../../../style/forms.module.css';
 import { all } from 'axios';
@@ -26,7 +29,7 @@ export default function RoleSelector({onSend}) {
     <div className={styles.signupContainer}>
       {
         backButton &&
-      <button onClick={handleBack} className={styles.itemButton}> <span className={styles.itemIcon}>{'<'}</span>Back</button>
+      <button onClick={handleBack} className={styles.itemButton}> <span className={styles.itemIcon}> <FontAwesomeIcon icon={faAngleLeft} /></span>Back</button>
       }
       {!selectedRole && (
         <div className={styles.signupContainer}>
