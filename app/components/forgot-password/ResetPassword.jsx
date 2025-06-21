@@ -30,7 +30,7 @@ export default function ResetPasswordForm() {
   return (
     <div className={styles.formContainer}>
       <h1 className={styles.title}>Email verified please login</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Email</label>
           <input
