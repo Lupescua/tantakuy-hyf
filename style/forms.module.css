@@ -2,6 +2,17 @@
   width: 100%;
   height: 100%;
 }
+<<<<<<< HEAD
+=======
+.warningText {
+  color: #7f0000;
+  font-size: 12px;
+  width: 100%;
+  background-color: #ffd0d0;
+  padding: 5px;
+  text-align: center;
+}
+>>>>>>> 8b4e411 (Register a new participant from frontend to backend to MongoDB)
 .signUpItems {
   font-family: var(--font-family);
   font-size: 14px;
@@ -65,6 +76,12 @@
   width: 100%;
   margin: 10px 0;
 }
+<<<<<<< HEAD
+=======
+.formItem input {
+  color: black;
+}
+>>>>>>> 8b4e411 (Register a new participant from frontend to backend to MongoDB)
 
 .formItemCompany,
 .formItemOrg {
@@ -90,6 +107,7 @@
 .formItemCompany:nth-child(8) {
   width: 49%;
 }
+<<<<<<< HEAD
 
 .itemButton {
   display: flex;
@@ -141,6 +159,61 @@
   cursor: pointer;
 }
 
+=======
+.hero-subtitle {
+  font-size: 1px;
+}
+.itemButton {
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  color: #000;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  top: 0;
+  margin-top: 50px;
+}
+.itemIcon {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  margin-right: 7px;
+  font-weight: 900;
+}
+.itemIcon:hover {
+  transform: scale(1.2);
+  transition: 0.5s;
+}
+.itemContainer {
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 30px;
+  gap: 4px;
+  margin: 20px auto;
+  width: 100%;
+  height: 80px;
+
+  background: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  color: var(--text-color);
+}
+
+.itemContainer:hover {
+  background: #bcd8ff;
+  border-color: #000;
+  cursor: pointer;
+}
+
+>>>>>>> 8b4e411 (Register a new participant from frontend to backend to MongoDB)
 .formItem:nth-child(5) label {
   flex-direction: row-reverse;
   font-size: 11px;
