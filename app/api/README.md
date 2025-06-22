@@ -11,10 +11,12 @@ Example structure:
 
 ```
 api/
-  users/
-    route.js # GET, POST for users
-  competitions/
-    route.js # GET, POST for meals
+  company/
+    route.js # Handles GET, POST requests related to companies
+  participant/
+    route.js # Handles GET, POST requests related to participants
+  auth/
+    route.js # Handles authentication-related API endpoints
 ```
 
 For more info, see [Next.js Route Handlers](https://nextjs.org/docs/app/building-your-application/routing/route-handlers).
