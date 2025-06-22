@@ -1,5 +1,6 @@
 .navbar {
-  background-color: white;
+  background-color: black;
+  color: white;
   width: 100%;
   padding: 16px 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
@@ -25,7 +26,7 @@
 .site-title {
   font-weight: 700;
   font-size: 20px;
-  color: var(--primary-color);
+  color: white;
   text-transform: uppercase;
   cursor: pointer;
 }
@@ -40,10 +41,10 @@
   font-size: 13px;
   border-radius: 8px;
   font-weight: 500;
-  border: 1px solid #ccc;
+  border: 1px solid white;
   cursor: pointer;
   background-color: transparent;
-  color: #333;
+  color: white;
   transition: background-color 0.3s ease, color 0.3s ease;
   text-decoration: none;
   display: inline-flex;
@@ -52,17 +53,17 @@
 }
 
 .nav-btn.primary {
-  background-color: var(--primary-color);
-  color: white;
+  background-color: white;
+  color: black;
   border: none;
 }
 
 .nav-btn:hover {
-  background-color: #f0f0f0;
+  background-color: #222;
 }
 
 .nav-btn.primary:hover {
-  background-color: #3b2bc1;
+  background-color: #e5e5e5;
 }
 
 .fade-in {
