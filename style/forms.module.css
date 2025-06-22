@@ -1,62 +1,57 @@
-
-
-.signupContainer{
+.signupContainer {
   width: 100%;
   height: 100%;
 }
-.signUpItems{
+.signUpItems {
   font-family: var(--font-family);
   font-size: 14px;
   font-weight: 500;
 }
-.buttonBlack{
-    /* Auto layout */
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    padding: 16px 32px;
-    gap: 10px;
+.buttonBlack {
+  /* Auto layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 32px;
+  gap: 10px;
 
-    width: 514px;
-    height: 64px;
+  width: 514px;
+  height: 64px;
 
-    background: #0E1525;
-    border-radius: 10px;
-  }
-  .signUpItemsDescription{
-    font-size: 11px;
-    color: grey;
-    text-align: left;
-
-  }
-  .signUpItem{
-    
-  }
-  .signUpItem form label{
-    font-size: 12px;
-    font-family: var(--font-family);
-    font-weight: 500;
-    
-  }
-  .signUpItem form input{
-    border: none;
-    background-color: var( --background-color);
-    height: 40px;
-    border-radius: 10px;
-    margin-top: 8px;
-    padding-left: 12px;
-    width: 100%;
-  }
-  .signUpItem form input[type="checkbox"]:checked{
-     background-color: #666;
-  }
-  .signUpItem form{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
-.signUpItem form input[type="checkbox"] {
+  background: #0e1525;
+  border-radius: 10px;
+}
+.signUpItemsDescription {
+  font-size: 11px;
+  color: grey;
+  text-align: left;
+}
+.signUpItem {
+}
+.signUpItem form label {
+  font-size: 12px;
+  font-family: var(--font-family);
+  font-weight: 500;
+}
+.signUpItem form input {
+  border: none;
+  background-color: var(--background-color);
+  height: 40px;
+  border-radius: 10px;
+  margin-top: 8px;
+  padding-left: 12px;
+  width: 100%;
+}
+.signUpItem form input[type='checkbox']:checked {
+  background-color: #666;
+}
+.signUpItem form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.signUpItem form input[type='checkbox'] {
   width: 15px;
   height: 15px;
   appearance: none;
@@ -65,139 +60,130 @@
   border: 1px solid grey;
   border-radius: 4px;
   cursor: pointer;
-  
 }
- .formItem{
+.formItem {
   width: 100%;
   margin: 10px 0;
- }
+}
 
-
- .formItemCompany, .formItemOrg{
+.formItemCompany,
+.formItemOrg {
   margin: 5px 0;
- }
+}
 
- .formItemCompany:nth-child(1),
- .formItemOrg:nth-child(1),
- .formItemOrg:nth-child(5),
- .formItemOrg:nth-child(4),
- .formItemCompany:nth-child(6){
+.formItemCompany:nth-child(1),
+.formItemOrg:nth-child(1),
+.formItemOrg:nth-child(5),
+.formItemOrg:nth-child(4),
+.formItemCompany:nth-child(6) {
   width: 100%;
- }
- .formItemOrg:nth-child(2),
- .formItemOrg:nth-child(3),
+}
+.formItemOrg:nth-child(2),
+.formItemOrg:nth-child(3),
 .formItemOrg:nth-child(6),
 .formItemOrg:nth-child(7),
- .formItemCompany:nth-child(2),
- .formItemCompany:nth-child(3),
- .formItemCompany:nth-child(4),
- .formItemCompany:nth-child(5),
- .formItemCompany:nth-child(7),
- .formItemCompany:nth-child(8){
+.formItemCompany:nth-child(2),
+.formItemCompany:nth-child(3),
+.formItemCompany:nth-child(4),
+.formItemCompany:nth-child(5),
+.formItemCompany:nth-child(7),
+.formItemCompany:nth-child(8) {
   width: 49%;
- }
+}
 
+.itemButton {
+  display: flex;
+  align-items: center;
+  background-color: inherit;
+  color: #000;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  -webkit-appearance: none;
+  position: absolute;
+  top: 0;
+  margin-top: 50px;
+}
+.itemIcon {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 20px;
+  margin-right: 7px;
+  font-weight: 900;
+}
+.itemIcon:hover {
+  transform: scale(1.2);
+  transition: 0.5s;
+}
+.itemContainer {
+  /* Auto layout */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 30px;
+  gap: 4px;
+  margin: 20px auto;
+  width: 100%;
+  height: 80px;
 
-  .itemButton{
-    display: flex;
-    align-items: center;
-    background-color: inherit;
-    color: #000;
-    cursor: pointer;
-    margin-bottom: 1rem;
-    border: none;
-    outline: none;
-    box-shadow: none;
-    appearance: none; 
-    -webkit-appearance: none; 
-    position: absolute;
-    top: 0;
-    margin-top: 50px;
-  }
-  .itemIcon{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 20px;
-    margin-right: 7px;
-    font-weight: 900;
-    
-  }
-  .itemIcon:hover{
-    transform: scale(1.2);
-    transition: 0.5s;
-  }
-  .itemContainer{
-    /* Auto layout */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 30px;
-    gap: 4px;
-    margin:20px auto;
-    width: 100%;
-    height: 80px;
+  background: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 20px;
+  color: var(--text-color);
+}
 
-    background: #F8F9FA;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-radius: 20px;
-    color: var(--text-color)
-  }
+.itemContainer:hover {
+  background: #bcd8ff;
+  border-color: #000;
+  cursor: pointer;
+}
 
-  .itemContainer:hover {
-    background: #BCD8FF;
-    border-color: #000;
-    cursor: pointer;
-  }
-
-
-.formItem:nth-child(5) label{
+.formItem:nth-child(5) label {
   flex-direction: row-reverse;
   font-size: 11px;
   font-weight: 600;
   margin-left: 5px;
   position: relative;
   top: -3px;
- 
 }
-.formItem:nth-child(5) p{
+.formItem:nth-child(5) p {
   margin-left: 23px;
   font-size: 11px;
 }
-.formItemOrg:nth-child(8) label{
+.formItemOrg:nth-child(8) label {
   flex-direction: row-reverse;
   font-size: 11px;
   font-weight: 600;
   margin-left: 5px;
   position: relative;
   top: -3px;
- 
 }
-.formItemOrg:nth-child(8) p{
+.formItemOrg:nth-child(8) p {
   margin-left: 23px;
   font-size: 11px;
 }
 
-.formItemCompany:nth-child(9) p{
+.formItemCompany:nth-child(9) p {
   margin-left: 23px;
   font-size: 11px;
 }
 
-.formItemCompany:nth-child(9) label{
+.formItemCompany:nth-child(9) label {
   flex-direction: row-reverse;
   font-size: 11px;
   font-weight: 600;
   margin-left: 5px;
   position: relative;
   top: -3px;
- 
 }
-.formItemCompany:nth-child(9) p{
+.formItemCompany:nth-child(9) p {
   margin-left: 23px;
   font-size: 11px;
 }
 
-  .buttonBlack{
-    color: white  ;
-
-  }
-  
+.buttonBlack {
+  color: white;
+}
