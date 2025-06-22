@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
 
-
 export default function OrganizationForm() {
   const [formData, setFormData] = useState({
     name: '',
@@ -31,120 +30,121 @@ export default function OrganizationForm() {
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
-       <div className={styles.formItemCompany}>
-
-      <label htmlFor="name">Name</label><br />
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        required
+      <div className={styles.formItemCompany}>
+        <label htmlFor="name">Name</label>
+        <br />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
         />
-        </div>
- <div className={styles.formItemCompany}>
-
-      <label htmlFor="position">Position</label><br />
-      <input
-        type="text"
-        id="position"
-        name="position"
-        value={formData.position}
-        onChange={handleChange}
-        required
+      </div>
+      <div className={styles.formItemCompany}>
+        <label htmlFor="position">Position</label>
+        <br />
+        <input
+          type="text"
+          id="position"
+          name="position"
+          value={formData.position}
+          onChange={handleChange}
+          required
         />
-        </div>
- <div className={styles.formItemCompany}>
-
-      <label htmlFor="companyName">Company Name</label><br />
-      <input
-        type="text"
-        id="companyName"
-        name="companyName"
-        value={formData.companyName}
-        onChange={handleChange}
-        required
+      </div>
+      <div className={styles.formItemCompany}>
+        <label htmlFor="companyName">Company Name</label>
+        <br />
+        <input
+          type="text"
+          id="companyName"
+          name="companyName"
+          value={formData.companyName}
+          onChange={handleChange}
+          required
         />
-        </div>
-     <div className={styles.formItemCompany}>
-
-      <label htmlFor="businessNumber">Business Number</label><br />
-      <input
-        type="text"
-        id="businessNumber"
-        name="businessNumber"
-        value={formData.businessNumber}
-        onChange={handleChange}
-        required
+      </div>
+      <div className={styles.formItemCompany}>
+        <label htmlFor="businessNumber">Business Number</label>
+        <br />
+        <input
+          type="text"
+          id="businessNumber"
+          name="businessNumber"
+          value={formData.businessNumber}
+          onChange={handleChange}
+          required
         />
-        </div>
-     <div className={styles.formItemCompany}>
-
-      <label htmlFor="cvrNumber">CVR Number</label><br />
-      <input
-        type="text"
-        id="cvrNumber"
-        name="cvrNumber"
-        value={formData.cvrNumber}
-        onChange={handleChange}
-        required
+      </div>
+      <div className={styles.formItemCompany}>
+        <label htmlFor="cvrNumber">CVR Number</label>
+        <br />
+        <input
+          type="text"
+          id="cvrNumber"
+          name="cvrNumber"
+          value={formData.cvrNumber}
+          onChange={handleChange}
+          required
         />
-        </div>
-
-     <div className={styles.formItemCompany}>
-
-      <label htmlFor="email">Email</label><br />
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-        />
-        </div>
-     <div className={styles.formItemCompany}>
-
-      <label htmlFor="password">Password</label><br />
-      <input
-        type="password"
-        id="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-      />
       </div>
 
-       <div className={styles.formItemCompany}>
-
-
-      <label htmlFor="confirmPassword">Confirm Password</label><br />
-      <input
-        type="password"
-        id="confirmPassword"
-        name="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        required
+      <div className={styles.formItemCompany}>
+        <label htmlFor="email">Email</label>
+        <br />
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          required
         />
-        </div>
-       <div className={styles.formItemCompany}>
-       <input
+      </div>
+      <div className={styles.formItemCompany}>
+        <label htmlFor="password">Password</label>
+        <br />
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className={styles.formItemCompany}>
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <br />
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+      </div>
+      <div className={styles.formItemCompany}>
+        <input
           type="checkbox"
           name="acceptTerms"
           checked={formData.acceptTerms}
           onChange={handleChange}
           required
-          />{' '}
-      <label>
-        I accept the terms and conditions
-      </label>
-       <p className='hero-subtitle'>You agree to our Terms of Service and Privacy Policy.</p>
-          </div>
+        />{' '}
+        <label>I accept the terms and conditions</label>
+        <p className="hero-subtitle">
+          You agree to our Terms of Service and Privacy Policy.
+        </p>
+      </div>
 
-      <button className={styles.buttonBlack} type="submit">Registration</button>
+      <button className={styles.buttonBlack} type="submit">
+        Registration
+      </button>
     </form>
   );
 }

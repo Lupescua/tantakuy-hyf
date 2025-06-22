@@ -1,95 +1,91 @@
 :root {
-    --primary-color: #4e36e2;
-    --secondary-color: #00c6ae;
-    --background-color: #f5f5f5;
-    --text-color: #1c1c1c;
-    --font-family: var(--font-montserrat);
-    --radius: 12px;
-  }
-  s
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  html{
-    height: 100%;
-    width: 100%;
-  }
-  body {
-    height: 100%;
-    width: 100%;
-    font-family: var(--font-montserrat);
-    background-color: var(--background-color);
-    color: var(--text-color);
-  }
+  --primary-color: #4e36e2;
+  --secondary-color: #00c6ae;
+  --background-color: #f5f5f5;
+  --text-color: #1c1c1c;
+  --font-family: var(--font-montserrat);
+  --radius: 12px;
+}
+s * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  height: 100%;
+  width: 100%;
+}
+body {
+  height: 100%;
+  width: 100%;
+  font-family: var(--font-montserrat);
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
 
-  main{
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-  }
-  .home {
-    padding: 20px;
-  }
-  
-  .header {
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--primary-color);
-  }
-    
-  .hero {
-    margin-bottom: 30px;
-  }
-  
-  .hero-title {
-    font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  
-  .hero-subtitle {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 16px;
-  }
-  
-  .filters {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  
-  .filters select {
-    padding: 8px;
-    border-radius: var(--radius);
-    border: 1px solid #ccc;
-  }
-    
-  .competition-preview h3 {
-    font-size: 18px;
-    margin-bottom: 12px;
-  }
-  
-  .image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 12px;
-  }
-  
-  .card {
-    width: 100%;
-    background-color: white;
-    border-radius: var(--radius);
-    height: 100px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
+main {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.home {
+  padding: 20px;
+}
 
- 
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.hero {
+  margin-bottom: 30px;
+}
+
+.hero-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.hero-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filters select {
+  padding: 8px;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+}
+
+.competition-preview h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.card {
+  width: 100%;
+  background-color: white;
+  border-radius: var(--radius);
+  height: 100px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}

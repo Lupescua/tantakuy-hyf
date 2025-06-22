@@ -8,13 +8,20 @@ export default function Home() {
       <section className="hero">
         <h2 className="hero-title">Konkurrencer</h2>
         <p className="hero-subtitle">
-          Udforsk kreative konkurrencer og deltag i udfordringer, der belønner engagement, originalitet og indflydelse.
+          Udforsk kreative konkurrencer og deltag i udfordringer, der belønner
+          engagement, originalitet og indflydelse.
         </p>
 
         <div className="filters">
-          <select><option>Kategori</option></select>
-          <select><option>Popularitet</option></select>
-          <select><option>Dato</option></select>
+          <select>
+            <option>Kategori</option>
+          </select>
+          <select>
+            <option>Popularitet</option>
+          </select>
+          <select>
+            <option>Dato</option>
+          </select>
         </div>
       </section>
 
