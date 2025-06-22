@@ -5,13 +5,15 @@ const ParticipantSchema = new mongoose.Schema(
   {
     userName: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, 'Username is required'],
       trim: true,
+      unique: true,
     },
     email: {
       type: String,
       required: [true, 'Email is required'],
       lowercase: true,
+      unique: true,
       match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
     },
     password: {
@@ -45,8 +47,5 @@ ParticipantSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-
-
 const Participant = mongoose.models.Participant || mongoose.model('Participant', ParticipantSchema);
-
 export default Participant;
