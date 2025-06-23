@@ -6,6 +6,7 @@
   box-shadow: 0 -1px 4px rgba(0,0,0,0.05);
   z-index: 10;
   position: relative;
+  font-family: var(--font-montserrat);
 }
 
 .footer-content {
@@ -29,14 +30,14 @@
 }
 
 .footer-socials a {
-  color: var(--primary-color);
+  color: black; 
   font-size: 24px;
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .footer-socials a:hover {
-  color: var(--secondary-color);
+  color: #333; 
 }
 
 .footer-nav {
@@ -65,7 +66,7 @@
   }
 
   .footer-icon {
-    color: var(--primary-color);
+    color: black;
     font-size: 28px;
     cursor: pointer;
     outline: none;
@@ -78,11 +79,11 @@
   }
 
   .footer-icon:hover {
-    color: var(--secondary-color);
+    color: #333;
   }
 
   .footer-icon:focus-visible {
-    outline: 2px solid var(--primary-color);
+    outline: 2px solid black;
     outline-offset: 2px;
   }
 
