@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import styles from '../../../style/ForgotPassword.module.css';
 import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -16,15 +17,28 @@ export default function ResetPasswordForm() {
       alert('Passwords do not match');
       return;
     }
-    // Here we should typically send the email and password to the backend for processing
-    console.log('Resetting password for:', email);
-    console.log('New password:', newPassword);
+    try {
+      const res = await API.post('/api/forgotPassword', {email, newPassword})
+      console.log(res)
+      console.log(res.data)
+      const { user } = res.data.user;
 
-    // Redirect to login page after successful reset
-    alert(
-      'Password reset successful! You can now log in with your new password.',
-    );
-    router.push('/login');
+      console.log(user.userName, user.email)
+
+      if(!user.userName|| !user.email){
+        throw new Error("something went wrong")
+      }
+      alert(
+        'Password reset successful! You can now log in with your new password.',
+      );
+      router.push('/login');
+    } catch (error) {
+      console.error("Reset error:", error);
+      alert("Failed to reset password. Please try again.");
+    }
+
+
+    
   };
 
   return (
