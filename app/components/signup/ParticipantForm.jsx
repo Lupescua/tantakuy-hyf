@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
-import axios from 'axios';
-import API from '@/utils/axios';
-
-import { data } from 'autoprefixer';
 import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 
 export default function RegistrationForm() {
   const router = useRouter();
