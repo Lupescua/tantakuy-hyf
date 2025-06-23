@@ -3,13 +3,18 @@ import bcrypt from 'bcryptjs';
 
 const CompanySchema = new mongoose.Schema(
   {
+    logoUrl: String,
+    coverPictureUrl: String,
     name: {
       type: String,
-      required: [true, 'Name is required'],
+      required: [true, 'Company name is required'],
       trim: true,
     },
+    contactPersonName: {
+      type: String,
+      required: [true, 'Contact person name is required'],
+    },
     position: String,
-    companyName: { type: String, required: [true, 'Company Name is required'] },
     businessNumber: Number,
     cvrNumber: { type: Number, required: [true, 'CVR number is required'] },
 
@@ -29,6 +34,25 @@ const CompanySchema = new mongoose.Schema(
         },
         message: 'Password must contain at least one uppercase letter',
       },
+    },
+    location: String,
+    shortDescription: {
+      type: String,
+      maxlength: 160,
+    },
+    description: String,
+    website: String,
+    facebook: String,
+    instagram: String,
+    competitions: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Competition',
+      },
+    ],
+    followersCount: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true },
