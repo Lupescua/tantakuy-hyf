@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
-<<<<<<< HEAD
-=======
+import axios from 'axios';
+import API from '@/utils/axios';
+
 import { data } from 'autoprefixer';
 import { useRouter } from 'next/navigation';
->>>>>>> 8b4e411 (Register a new participant from frontend to backend to MongoDB)
 
 export default function RegistrationForm() {
   const router = useRouter();
@@ -28,31 +28,20 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const res = await fetch('/api/participants', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      setError(data.message || `Failed to register. Please try again.`);
-      console.log(error);
-    } else {
-      setError('');
-
+    try {
+      const res = await API.post('/api/participants', formData);
+      const data = res.json();
+      setError(''); 
       router.push('/');
+    } catch (error) {
+      const message = error.response?.data?.message || 'Failed to register. Please try again.';
+      setError(message);
+      console.log(error);
     }
-
-    // console.log('Form submitted:', formData);
   };
 
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
-<<<<<<< HEAD
-=======
-      {error && <p className={styles.warningText}>{error}</p>}
-
->>>>>>> 8b4e411 (Register a new participant from frontend to backend to MongoDB)
       <div className={styles.formItem}>
         <label htmlFor="userName">Username</label>
         <br />
