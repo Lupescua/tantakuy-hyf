@@ -1,0 +1,193 @@
+.loginPage {
+  height: 100vh;
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+}
+
+.loginHeader {
+  margin-bottom: 70px;
+  padding: 0px 60px;
+}
+
+.loginHeader > h1 {
+    font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 42px;
+  line-height: 1; 
+  letter-spacing: 0;
+  color: #000000;
+  margin-bottom: 30px; 
+
+}
+
+.loginHeader > p {
+font-family: 'Inter', sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: 0%;
+color: #00000066;
+
+}
+
+
+.loginFormWrapper {
+  width: 100%;
+}
+
+.formFields {
+  padding: 0px 60px;
+  margin-bottom: 60px;
+}
+
+.formFields > label {
+font-family: 'Inter', sans-serif;
+font-weight: 400;
+font-size: 16px;
+line-height: 150%;
+letter-spacing: 0%;
+color: #000000;
+}
+
+/* Email input */
+.email {
+  width: 95%;
+  height: 52px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  border-style: none;
+  margin-bottom: 15px;
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 95%;
+  margin-bottom: 15px;
+}
+
+.passwordWrapper input {
+  width: 100%;
+  height: 52px;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  border-style: none;
+  padding-right: 40px; 
+}
+
+.passwordToggleIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.formOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 95%;
+}
+
+.rememberMe {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+}
+
+.rememberMecheckbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border-width: 1px;
+  border: 1px solid #00000033
+}
+
+
+.rememberMe > label{
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 14px;
+  letter-spacing: 0%;
+  color: #000000;
+} 
+
+
+.forgotPasswordLink{
+  font-family: Inter;
+font-weight: 400;
+font-size: 16px;
+line-height: 30px;
+letter-spacing: 0%;
+color: #0E152566;
+text-decoration: none;
+}
+
+
+.formLabel {
+  font-size: 16px;
+  font-weight: bold;
+  display: block;
+}
+
+.formInput {
+  display: block;
+  color: black;
+}
+
+
+.formButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.button {
+width: 70%;
+height: 64px;
+gap: 10px;
+padding-top: 16px;
+padding-right: 32px;
+padding-bottom: 16px;
+padding-left: 32px;
+border-radius: 10px;
+color: white;
+background: #0E1525;
+font-family: 'Inter', sans-serif;
+font-weight: 400;
+font-size: 20px;
+line-height: 30px;
+letter-spacing: 0%;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 15px;
+}
+
+.formButton > p {
+font-family: 'Inter', sans-serif;
+font-weight: 400;
+font-size: 20px;
+line-height: 30px;
+letter-spacing: 0%;
+color: #0E152566;
+}
+
+.signUpLink {
+  margin-left: 20px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 30px;
+  letter-spacing: 0%;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: 0%;
+  border-width: 0px, 1px, 0px, 1px;
+  color: #0E1525;
+}
