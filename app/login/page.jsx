@@ -51,7 +51,7 @@ export default function login(){
                             <label htmlFor="remember-me"  className={styles.formLabel} >Remember me</label>
                         </div>
                         <div>
-                            <Link href="/forgotPassword" className={styles.forgotPasswordLink}>
+                            <Link href="/forgot-password" className={styles.forgotPasswordLink}>
                                 Forgot password?
                                 </Link>
 
