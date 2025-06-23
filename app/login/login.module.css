@@ -3,6 +3,7 @@
   width: 100%;
   padding: 20px;
   background-color: white;
+  max-width: 700px;
 }
 
 .loginHeader {
@@ -34,6 +35,13 @@ color: #00000066;
 
 .loginFormWrapper {
   width: 100%;
+}
+
+.loginForm {
+  display: block ;
+  align-items: initial ;
+  justify-content: initial ;
+  gap: 0;
 }
 
 .formFields {

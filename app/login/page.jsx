@@ -3,7 +3,7 @@ import { useState } from "react";
 import Link from 'next/link';
 import styles from './login.module.css'
 
-export default function login(){
+export default function Login(){
     const [showPassword, setShowPassword] = useState(false);
 
     const togglePasswordVisibility = () => {
@@ -22,7 +22,7 @@ export default function login(){
             </div>
             <div className={styles.loginFormWrapper}>
 
-                <form>
+                <form className={styles.loginForm}>
 
                     <div className={styles.formFields}>
                     <label htmlFor="email" className={styles.formLabel}>Email</label>
