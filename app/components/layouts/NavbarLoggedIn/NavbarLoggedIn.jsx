@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import styles from './NavbarLoggedOut.module.css';
+import styles from './NavbarLoggedIn.module.css';
 
-export default function NavbarLoggedOut() {
+export default function NavbarLoggedIn() {
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-container']}>

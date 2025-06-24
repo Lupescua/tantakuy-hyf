@@ -6,28 +6,34 @@
   --font-family: var(--font-montserrat);
   --radius: 12px;
 }
-s * {
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-html {
-  height: 100%;
-  width: 100%;
-}
+
+html,
 body {
   height: 100%;
   width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   font-family: var(--font-montserrat);
   background-color: var(--background-color);
   color: var(--text-color);
 }
 
 main {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
+  flex: 1;
+  width: 63%;
 }
+
+
 .home {
   padding: 20px;
 }
