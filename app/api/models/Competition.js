@@ -12,8 +12,9 @@ const CompetitionSchema = new mongoose.Schema(
     },
     competitionTerms: {
       type: String,
+      required: [true, 'Competition terms is required'],
     },
-    dateOfEnd: {
+    endDate: {
       type: Date,
       required: [true, 'End date is required'],
       validate: {
@@ -28,7 +29,7 @@ const CompetitionSchema = new mongoose.Schema(
       validate: {
         validator: function (value) {
           if (!value) return true;
-          return this.dateOfEnd && value > this.dateOfEnd;
+          return this.endDate && value > this.endDate;
         },
         message: 'Winner selection date must be after end date',
       },
@@ -42,5 +43,7 @@ const CompetitionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Competition = mongoose.model('Competition', CompetitionSchema);
+const Competition =
+  mongoose.models.Competition ||
+  mongoose.model('Competition', CompetitionSchema);
 export default Competition;
