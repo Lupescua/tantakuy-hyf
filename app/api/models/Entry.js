@@ -16,6 +16,10 @@ const EntrySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Image URL is required'],
     },
+    caption: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true },
 );
