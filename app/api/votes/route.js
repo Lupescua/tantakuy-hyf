@@ -4,7 +4,7 @@ import dbConnect from "@/utils/dbConnects";
 import { verifyToken } from '@/utils/jwt'
 
 
-export async function POST(req) {
+export async function Post(req) {
     await dbConnect();
 
     try {
@@ -15,36 +15,45 @@ export async function POST(req) {
         const token = cookieStore.get('token')?.value;
 
         if (!token) {
-            throw new Error("Unauthorized!")
+            return Response.json({ success: false, message: "Unauthorized" }, { status: 401 });
         }
         const decoded = verifyToken(token);
         const participantId = decoded.id
 
-        const vote = await saveVote({
+        const voteResult = await saveVote({
             entryId: entry,
             participantId: participantId,
             voteType,
         })
-        return Response.json({ success: true, vote }, { status: 201 });
+        if (!voteResult.success) {
+            return Response.json({ success: false, message: voteResult.message }, { status: 400 });
+        }
+        return Response.json({ success: true, vote: voteResult.data }, { status: 201 });
 
     } catch (error) {
-        return Response.json({ success: false, message: error.message }, { status: 401 });
+        console.error("POST /api/vote error:", error);
+        return Response.json({ success: false, message: "Server error" }, { status: 500 });
     }
-
 }
 
-export async function GET(req) {
+export async function Get(req) {
     try {
         const { searchParams } = new URL(req.URL)
         const entryId = searchParams.get("entryId")
         if (!entryId) {
             return Response.json({ success: false, message: "Missing entryId" }, { status: 400 });
         }
-        const votes = await countVotesForEntry({ entry: entryId });
-        console.log(votes)
-        return Response.json({ success: true, votes }, { status: 200 });
+
+        const result = await countVotesForEntry({ entryId });
+
+        if (!result.success) {
+            return Response.json({ success: false, message: result.message }, { status: 400 });
+        }
+
+        return Response.json({ success: true, votes: result.data }, { status: 200 });
 
     } catch (error) {
-        return Response.json({ success: false, message: error.message }, { status: 401 });
+        console.error("GET /api/vote error:", error);
+        return Response.json({ success: false, message: "Server error" }, { status: 500 });
     }
 }
