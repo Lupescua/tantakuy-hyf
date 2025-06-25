@@ -5,7 +5,7 @@ import { getUserFromToken } from '@/utils/jwt';
 
 export const saveVote = async ({ entryId, participantId, voteType }) => {
     if (!entryId || !participantId || !voteType) {
-        throw new Error("Missing required fields");
+        return { success: false, message: "Missing required fields" };
     }
     try {
         const vote = await Vote.create({
@@ -13,24 +13,26 @@ export const saveVote = async ({ entryId, participantId, voteType }) => {
             participant: participantId,
             voteType,
         });
-        return vote;
+        return { success: true, data: vote };
     } catch (error) {
-        throw new Error(`Couldn't save the vote ${error}`)
+        return { success: false, message: "Couldn't save the vote" };
+
     }
 
 }
 
-export const countVotesForEntry = async({entryId}) => {
-    if(!entryId){
-        throw new Error("Missing required fields");
+export const countVotesForEntry = async ({ entryId }) => {
+    if (!entryId) {
+        return { success: false, message: "Missing required fields" };
     }
     try {
 
         const voteCount = await Vote.countDocuments({ entry: entryId })
-        .populate('entry', 'title');
-        return voteCount;
+            .populate('entry', 'title');
+        return { success: true, data: voteCount };
 
     } catch (error) {
-        throw new Error(`Can't get data ${error}`)
+        return { success: false, message: "Couldn't count the votes" };
+
     }
 }
