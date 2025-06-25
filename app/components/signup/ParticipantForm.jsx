@@ -45,8 +45,27 @@ const saveTerms = () => {
   setIsEditing(false);
 };
 // Terms and conditions end
+
+//Privacy Policy starts
+const [isPrivacyOpen, setPrivacyOpen] = useState(false);
+const [privacy, setPrivacy] = useState("This is the default privacy policy.");
+const [tempPrivacy, setTempPrivacy] = useState(privacy);
+const [isPrivacyEditing, setIsPrivacyEditing] = useState(false);
+
+const openPrivacyModal = () => setPrivacyOpen(true);
+const closePrivacyModal = () => {
+  setIsPrivacyEditing(false);
+  setTempPrivacy(privacy);
+  setPrivacyOpen(false);
+};
+
+const savePrivacy = () => {
+  setPrivacy(tempPrivacy);
+  setIsPrivacyEditing(false);
+};
+// Privacy Policy ends
   return (
-    <><form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
+    <><><form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
       <div className={styles.formItem}>
         <label htmlFor="userName">Username</label>
         <br />
@@ -103,31 +122,38 @@ const saveTerms = () => {
           required />{' '}
         <label>I accept the terms and conditions</label>
         <p className="hero-subtitle">
+
           You agree to our{" "}
           <span
             style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
             onClick={openModal}
           >
-            Terms and conditions
+            Terms and Conditions
           </span>{" "}
-          and Privacy Policy.
+          and{" "}
+          <span
+            style={{ color: "blue", textDecoration: "underline", cursor: "pointer" }}
+            onClick={openPrivacyModal}
+          >
+            Privacy Policy
+          </span>.
         </p>
+
       </div>
 
       <button className={styles.buttonBlack} type="submit">
         Registration →
       </button>
     </form>
-    <Modal isOpen={isModalOpen} onClose={closeModal}>
-      <h2>Terms and conditions</h2>
-      {isEditing ? (
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Terms and conditions</h2>
+        {isEditing ? (
           <>
             <textarea
               value={tempTerms}
               onChange={(e) => setTempTerms(e.target.value)}
               rows={10}
-              style={{ width: "100%" }}
-            />
+              style={{ width: "100%" }} />
             <div style={{ marginTop: 10 }}>
               <button onClick={saveTerms}>Save</button>
               <button onClick={closeModal} style={{ marginLeft: 10 }}>
@@ -139,7 +165,29 @@ const saveTerms = () => {
           <p>{terms}</p>
         )}
       </Modal>
-    </>
-    
-  );
+    </><Modal isOpen={isPrivacyOpen} onClose={closePrivacyModal}>
+        <h2>Privacy Policy</h2>
+        {isPrivacyEditing ? (
+          <>
+            <textarea
+              value={tempPrivacy}
+              onChange={(e) => setTempPrivacy(e.target.value)}
+              rows={10}
+              style={{ width: "100%" }} />
+            <div style={{ marginTop: 10 }}>
+              <button onClick={savePrivacy}>Save</button>
+              <button onClick={closePrivacyModal} style={{ marginLeft: 10 }}>
+                Cancel
+              </button>
+            </div>
+          </>
+        ) : (
+          <p>{privacy}</p>
+        )}
+
+      </Modal>
+      </>
+
+
+);
 }
