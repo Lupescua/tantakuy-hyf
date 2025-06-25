@@ -25,6 +25,11 @@ const ParticipantSchema = new mongoose.Schema(
         message: 'Password must contain at least one uppercase letter',
       },
     },
+    role: {
+      type: String,
+      default: 'participant',
+      enum: ['participant'],
+    },
   },
   { timestamps: true },
 );
