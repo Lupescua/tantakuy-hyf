@@ -25,6 +25,12 @@ const ParticipantSchema = new mongoose.Schema(
         message: 'Password must contain at least one uppercase letter',
       },
     },
+    resetToken: {
+      type: String,
+    },
+    resetTokenExpiry: {
+      type: Number, 
+    },
   },
   { timestamps: true },
 );
@@ -38,6 +44,8 @@ ParticipantSchema.pre('save', async function (next) {
 ParticipantSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
+
+
 
 const Participant = mongoose.models.Participant || mongoose.model('Participant', ParticipantSchema);
 
