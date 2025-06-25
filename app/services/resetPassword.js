@@ -1,5 +1,8 @@
 import Participant from "../api/models/Participant";
 import bcrypt from 'bcryptjs';
+import crypto from 'crypto';
+
+const DOMAIN = process.env.DOMAIN
 
 export async function resetPassword(forgotObj = {}) {
     const { email, newPassword } = forgotObj;
@@ -8,15 +11,20 @@ export async function resetPassword(forgotObj = {}) {
         throw new Error("Missing required fields")
     }
     try {
-        const hashedPassword = await bcrypt.hash(newPassword, 10);
-        const user = await Participant.findOne({ email })
+        const user = await Participant.findOne({
+            resetToken: req.query.token,
+            resetTokenExpiry: { $gt: Date.now() } 
+          });
+
+
 
         if (!user) {
-            throw new Error("User not found");
+            throw new Error("Token Expired!");
         }
+
         await Participant.updateOne(
             { email },
-            { $set: { password: hashedPassword } }
+            { $set: { password: newPassword } }
         );
 
         return { user: { email: user.email, userName: user.userName } };

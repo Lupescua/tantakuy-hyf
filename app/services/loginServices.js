@@ -13,7 +13,7 @@ export async function loginUser(login = {}) {
         const participant = await Participant.findOne({ email })
 
         if (!participant) {
-            throw new Error("User not found");
+            throw new Error("Username or password do not match");
         }
 
         const isMatch = await participant.comparePassword(password);

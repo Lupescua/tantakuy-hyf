@@ -1,8 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../../style/ForgotPassword.module.css';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import API from '@/utils/axios';
+import InvalidToken from './InvalidToken';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -10,6 +12,33 @@ export default function ResetPasswordForm() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const [status, setStatus] = useState('loading');
+
+  useEffect(()=>{
+    const validatingToken = async() =>{
+      try {
+        const res = await API.post('/api/validate-token', {token})
+        if(res.valid.data){
+          setStatus('valid')
+        }else{
+          setStatus('invalid')
+        }
+      } catch (error) {
+        console.error(err);
+        setStatus('invalid');
+      }
+    };
+    if (token) {
+      validatingToken();
+    } else {
+      setStatus('invalid');
+    }
+  }, [token]);
+  if (status === 'loading' || status === 'invalid') return <InvalidToken message={status}  />
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
