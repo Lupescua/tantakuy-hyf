@@ -18,7 +18,7 @@ export default function ModalSuccess({ isOpen, onClose }) {
 
 
   return (
-    <div className={style.modelContainer}>
+    <div className={style.modalContainer}>
       <div className="">
         <h1 className={style.modalTitle}>Konkurrence Oprettet</h1>
         <button
