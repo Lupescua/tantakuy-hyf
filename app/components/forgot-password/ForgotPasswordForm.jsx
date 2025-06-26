@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../../style/ForgotPassword.module.css';
+import API from '@/utils/axios';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
+  const [status, setStatus] = useState("");
 
   const router = useRouter();
 
@@ -15,8 +17,18 @@ export default function ForgotPasswordForm() {
       setError('Please enter a valid email address.');
       return;
     }
-
-    router.push('/forgot-password?step=verify');
+    try {
+      const res = API.post('/api/request-reset', {email})
+      console.log("Response:", response.data);
+      if(res.data.success){
+        setStatus("If your email is registered, a reset link has been sent.")
+      }else {
+        setStatus('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus('Server error. Please try again later.');
+    }
   };
 
   return (
@@ -24,8 +36,7 @@ export default function ForgotPasswordForm() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Forgot Password?</h2>
         <p>
-          Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
-          lacus.
+        Enter your email address and we'll send you a link to reset your password. The link will expire in 15 minutes for security.
         </p>
         <label className={styles.label}>Enter your email address</label>
         <input
@@ -41,6 +52,7 @@ export default function ForgotPasswordForm() {
         <a href="/login" className={styles.link}>
           Back to Log in
         </a>
+        {status && <p>{status}</p>}
       </form>
     </div>
   );
