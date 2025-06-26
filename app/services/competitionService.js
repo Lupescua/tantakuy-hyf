@@ -12,11 +12,7 @@ export async function getCompetitionById(id) {
   return res.data;
 }
 
-export async function createCompetition(data, token) {
-  const res = await axios.post(API_URL, data, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+export async function createCompetition(data) {
+  const res = await axios.post(API_URL, data);
   return res.data;
 }
