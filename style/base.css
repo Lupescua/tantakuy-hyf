@@ -5,6 +5,7 @@
   --text-color: #1c1c1c;
   --font-family: var(--font-montserrat);
   --radius: 12px;
+  --bar-color: rgb(182, 182, 182);
 }
 s * {
   margin: 0;
