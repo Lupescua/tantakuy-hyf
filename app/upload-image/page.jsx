@@ -30,7 +30,6 @@ export default function UploadImage() {
         const data = await response.json();
         return data.secure_url;
     };
-    
 
 
     const handleComputerUpload = async (e) => {
