@@ -1,0 +1,120 @@
+.card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.buttonGroup {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  display: flex;
+  gap: 16px;
+  padding: 3px 16px;
+  pointer-events: auto;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.button {
+  display: flex;
+  align-items: center;
+  gap: 6px;          
+  min-width: 0;             
+  font-size: 0.95rem;
+  max-width: 100px;         
+  justify-content: center;
+}
+
+.icon {
+  font-size: 20px;
+}
+
+.gallery {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  grid-template-columns: repeat(1, 1fr);
+  background-color: black;
+}
+
+.joinButton {
+  position: fixed;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 20px;
+  font-size: 16px;
+  background-color:#868483;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 60%;
+}
+
+@media (min-width: 690px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+@media (min-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+
+@media (min-width: 1024px) {
+  .gallery {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+
+@media (min-width: 1280px) {
+  .gallery {
+    grid-template-columns: repeat(6, 1fr);
+  }
+  .buttonGroup {
+    font-size: 16px;
+    padding: 4px 12px;
+    gap: 12px;
+  }
+
+  .button {
+    font-size: 16px;
+    max-width: 80px;
+  }
+}
+
+
+
