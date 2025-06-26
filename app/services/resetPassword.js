@@ -1,38 +1,34 @@
 import Participant from "../api/models/Participant";
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
+import { AppError } from "@/utils/errorHandler";
 
 const DOMAIN = process.env.DOMAIN
 
 export async function resetPassword(forgotObj = {}) {
     const { email, newPassword } = forgotObj;
-    console.log(forgotObj, "forgotObj")
+
     if (!newPassword) {
-        throw new Error("Missing required fields")
+        throw new AppError("Password is required.")
     }
-    try {
-        const user = await Participant.findOne({
-            resetToken: req.query.token,
-            resetTokenExpiry: { $gt: Date.now() } 
-          });
-
-
-
-        if (!user) {
-            throw new Error("Token Expired!");
-        }
-
-        await Participant.updateOne(
-            { email },
-            { $set: { password: newPassword } }
-        );
-
-        return { user: { email: user.email, userName: user.userName } };
-
-
-    } catch (error) {
-        throw new Error(error.message || "Password Reset Failed!");
+    const user = await Participant.findOne({
+        resetToken: req.query.token,
+        resetTokenExpiry: { $gt: Date.now() }
+    });
+    if (!user) {
+        throw new AppError("Reset token is invalid or has expired.", 410);
     }
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
 
+    user.password = hashedPassword;
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+    await user.save();
 
+    return {
+        user: {
+            email: user.email,
+            userName: user.userName,
+        },
+    };
 }

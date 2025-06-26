@@ -1,18 +1,25 @@
 import Participant from '../api/models/Participant';
+import { AppError } from "@/utils/errorHandler"
 
 export async function createParticipant(user = {}) {
   const { userName, email, password } = user;
   if (!email || !userName || !password) {
-    throw new Error('userName, email, and password are required!');
+    throw new AppError('userName, email, and password are required!', 400);
   }
-  const existingEmail = await Participant.findOne({ email });
-  if (existingEmail) throw new Error('Email already in use');
+  const [existingEmail, existingUserName] = await Promise.all([
+    Participant.findOne({ email }),
+    Participant.findOne({ userName }),
+  ]);
 
-  const existingUserName = await Participant.findOne({ userName });
-  if (existingUserName) throw new Error('Username already taken');
+  if (existingEmail) {
+    throw new AppError('Email already in use', 409);
+  }
+
+  if (existingUserName) {
+    throw new AppError('Username already taken', 409);
+  }
 
   const newParticipant = new Participant({ userName, email, password });
-
   await newParticipant.save();
 
   return newParticipant;
