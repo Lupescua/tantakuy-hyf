@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import API from '@/utils/axios';
 import InvalidToken from './InvalidToken';
+import { withErrorHandling, AppError } from "@/utils/errorHandler"
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -48,14 +49,10 @@ export default function ResetPasswordForm() {
     }
     try {
       const res = await API.post('/api/forgotPassword', {email, newPassword})
-      console.log(res)
-      console.log(res.data)
       const { user } = res.data.user;
 
-      console.log(user.userName, user.email)
-
       if(!user.userName|| !user.email){
-        throw new Error("something went wrong")
+        throw new AppError("Missing user data", 400);
       }
       alert(
         'Password reset successful! You can now log in with your new password.',
