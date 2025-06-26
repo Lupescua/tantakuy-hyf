@@ -58,7 +58,6 @@
   max-width: 1200px;
   margin: 0 auto;
   grid-template-columns: repeat(1, 1fr);
-  background-color: black;
 }
 
 .joinButton {
