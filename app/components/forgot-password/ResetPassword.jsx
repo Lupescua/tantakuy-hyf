@@ -36,7 +36,7 @@ export default function ResetPasswordForm() {
       setStatus('invalid');
     }
   }, [token]);
-  if (status === 'loading' || status === 'invalid') return <InvalidToken message={status}  />
+  if (status === 'invalid') return <InvalidToken message={status}  />
 
 
 
