@@ -1,3 +1,13 @@
+import Link from 'next/link';
+import styles from '../../competition-gallery/competition-gallery.module.css';
+
 export default function JoinButton() {
-  return <></>;
+  return (
+    <div className={styles.buttonWrapper}>
+      <Link href="/login" className={styles.joinButton}>
+      DELTAG HER
+    </Link>
+    </div>
+    
+  );
 }
