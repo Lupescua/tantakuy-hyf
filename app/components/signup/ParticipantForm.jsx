@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
+import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 
 export default function RegistrationForm() {
+  const router = useRouter();
+  const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     userName: '',
     email: '',
@@ -18,10 +23,18 @@ export default function RegistrationForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form validation and submission logic here
-    console.log('Form submitted:', formData);
+    try {
+      const res = await API.post('/api/participants', formData);
+      const data = res.json();
+      setError(''); 
+      router.push('/');
+    } catch (error) {
+      const message = error.response?.data?.message || 'Failed to register. Please try again.';
+      setError(message);
+      console.log(error);
+    }
   };
 
   return (

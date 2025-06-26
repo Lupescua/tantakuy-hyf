@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
+
 const CompanySchema = new mongoose.Schema(
   {
     logoUrl: String,
@@ -9,20 +10,34 @@ const CompanySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Company name is required'],
       trim: true,
-    },
-    contactPersonName: {
-      type: String,
-      required: [true, 'Contact person name is required'],
-    },
-    position: String,
-    businessNumber: Number,
-    cvrNumber: { type: Number, required: [true, 'CVR number is required'] },
 
+    },
+    position: {
+      type: String,
+      trim: true,
+    },
+    companyName: {
+      type: String,
+      required: [true, 'Company Name is required'],
+      unique: true,
+      trim: true,
+    },
+    businessNumber: {
+      type: String,
+      trim: true,
+    },
+    cvrNumber: {
+      type: String,
+      required: [true, 'CVR number is required'],
+      unique: true,
+      trim: true,
+    },
     email: {
       type: String,
       required: [true, 'Email is required'],
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, 'Please use a valid email address'],
+      unique: true,
     },
     password: {
       type: String,
@@ -68,5 +83,9 @@ CompanySchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const Company = mongoose.model('Company', CompanySchema);
-export default Company;
+const Company = 
+  mongoose.models.Company || 
+  mongoose.model('Company', CompanySchema);
+
+
+export default Company; 

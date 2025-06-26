@@ -1,19 +1,37 @@
-'use client';
+import Link from "next/link";
 import { useState } from "react";
-import Link from 'next/link';
-import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut';
-import styles from './login.module.css';
+import NavbarLoggedOut from "../components/NavbarLoggedOut"; // adjust import path as needed
+import styles from "./login.module.css";
 
-export default function Login() {
+export default function LoginPage() {
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
+  };
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle login logic here
+    console.log(data);
   };
 
   return (
     <>
-      <NavbarLoggedOut /> 
+      <NavbarLoggedOut />
       <div className={styles.loginPage}>
         <div className={styles.loginHeader}>
           <h1>Log in</h1>
@@ -21,16 +39,27 @@ export default function Login() {
         </div>
 
         <div className={styles.loginFormWrapper}>
-          <form className={styles.loginForm}>
+          <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formFields}>
               <label htmlFor="email" className={styles.formLabel}>Email</label>
-              <input type="email" className={`${styles.formInput} ${styles.email}`} required />
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={data.email}
+                onChange={handleChange}
+                required
+                className={`${styles.formInput} ${styles.email}`}
+              />
 
               <label htmlFor="password" className={styles.formLabel}>Password</label>
               <div className={styles.passwordWrapper}>
                 <input
                   type={showPassword ? "text" : "password"}
+                  name="password"
                   id="password"
+                  value={data.password}
+                  onChange={handleChange}
                   required
                   className={styles.formInput}
                 />
@@ -44,25 +73,30 @@ export default function Login() {
 
               <div className={styles.formOptions}>
                 <div className={styles.rememberMe}>
-                  <input type='checkbox' id="remember-me" className={styles.rememberMecheckbox} />
+                  <input
+                    type="checkbox"
+                    id="remember-me"
+                    name="rememberMe"
+                    checked={data.rememberMe}
+                    onChange={handleChange}
+                    className={styles.rememberMecheckbox}
+                  />
                   <label htmlFor="remember-me" className={styles.formLabel}>Remember me</label>
                 </div>
-                <div>
-                  <Link href="/forgot-password" className={styles.forgotPasswordLink}>
-                    Forgot password?
-                  </Link>
-                </div>
+                <Link href="/forgot-password" className={styles.forgotPasswordLink}>
+                  Forgot password?
+                </Link>
               </div>
             </div>
 
             <div className={styles.formButton}>
-              <button type='submit' className={styles.button}>
-                Log in  
+              <button type="submit" className={styles.button}>
+                Log in
                 <img src="/Arrow icon.png" alt="arrow icon" />
               </button>
               <p>
-                Don’t have an account? 
-                <span><Link href='/signup' className={styles.signUpLink}>Sign up</Link></span>
+                Don’t have an account?
+                <Link href="/signup" className={styles.signUpLink}> Sign up</Link>
               </p>
             </div>
           </form>

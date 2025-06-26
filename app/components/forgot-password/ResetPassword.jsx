@@ -1,7 +1,10 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../../style/ForgotPassword.module.css';
 import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import API from '@/utils/axios';
+import InvalidToken from './InvalidToken';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -9,6 +12,33 @@ export default function ResetPasswordForm() {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const [status, setStatus] = useState('loading');
+
+  useEffect(()=>{
+    const validatingToken = async() =>{
+      try {
+        const res = await API.post('/api/validate-token', {token})
+        if(res.valid.data){
+          setStatus('valid')
+        }else{
+          setStatus('invalid')
+        }
+      } catch (error) {
+        console.error(err);
+        setStatus('invalid');
+      }
+    };
+    if (token) {
+      validatingToken();
+    } else {
+      setStatus('invalid');
+    }
+  }, [token]);
+  if (status === 'invalid') return <InvalidToken message={status}  />
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,15 +46,28 @@ export default function ResetPasswordForm() {
       alert('Passwords do not match');
       return;
     }
-    // Here we should typically send the email and password to the backend for processing
-    console.log('Resetting password for:', email);
-    console.log('New password:', newPassword);
+    try {
+      const res = await API.post('/api/forgotPassword', {email, newPassword})
+      console.log(res)
+      console.log(res.data)
+      const { user } = res.data.user;
 
-    // Redirect to login page after successful reset
-    alert(
-      'Password reset successful! You can now log in with your new password.',
-    );
-    router.push('/login');
+      console.log(user.userName, user.email)
+
+      if(!user.userName|| !user.email){
+        throw new Error("something went wrong")
+      }
+      alert(
+        'Password reset successful! You can now log in with your new password.',
+      );
+      router.push('/login');
+    } catch (error) {
+      console.error("Reset error:", error);
+      alert("Failed to reset password. Please try again.");
+    }
+
+
+    
   };
 
   return (
