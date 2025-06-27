@@ -1,23 +1,25 @@
-import Participant from '../api/models/Participant';
-import { generateToken } from '@/utils/jwt';
+import Participant from "../api/models/Participant";
+import { generateToken } from "@/utils/jwt";
+import { AppError } from "@/utils/errorHandler";
+
 export async function loginUser(login = {}) {
   const { email, password } = login;
 
-  console.log(email, password);
   if (!email || !password) {
-    throw new Error('Missing required fields');
+    throw new AppError("Email and password are required.", 400);
   }
+
   try {
     const participant = await Participant.findOne({ email });
 
     if (!participant) {
-      throw new Error('Username or password do not match');
+      throw new AppError("Email or password is incorrect.", 401);
     }
 
     const isMatch = await participant.comparePassword(password);
 
     if (!isMatch) {
-      throw new Error('Invalid credentials');
+      throw new AppError("Email or password is incorrect.", 401);
     }
 
     const token = generateToken({
@@ -28,6 +30,6 @@ export async function loginUser(login = {}) {
 
     return { token, user: participant };
   } catch (error) {
-    throw new Error(error.message || 'Login failed');
+    throw new AppError(error.message || "Login failed", 500);
   }
 }
