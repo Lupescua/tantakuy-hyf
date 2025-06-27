@@ -4,7 +4,7 @@ import styles from '../../../style/ForgotPassword.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import API from '@/utils/axios';
 import InvalidToken from './InvalidToken';
-import { AppError } from "@/utils/errorHandler";
+import { AppError } from '@/utils/errorHandler';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -54,10 +54,12 @@ export default function ResetPasswordForm() {
       const { user } = res.data.user;
 
       if (!user.userName || !user.email) {
-        throw new AppError("Missing user data", 400);
+        throw new AppError('Missing user data', 400);
       }
 
-      alert('Password reset successful! You can now log in with your new password.');
+      alert(
+        'Password reset successful! You can now log in with your new password.',
+      );
       router.push('/login');
     } catch (error) {
       console.error('Reset error:', error);
@@ -67,7 +69,9 @@ export default function ResetPasswordForm() {
 
   return (
     <div className={styles.formContainer}>
-      <h1 className={styles.title}>Email verified, please reset your password</h1>
+      <h1 className={styles.title}>
+        Email verified, please reset your password
+      </h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Email</label>

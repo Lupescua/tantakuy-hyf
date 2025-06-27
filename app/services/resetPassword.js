@@ -1,12 +1,12 @@
 import Participant from '../api/models/Participant';
 import bcrypt from 'bcryptjs';
-import { AppError } from "@/utils/errorHandler";
+import { AppError } from '@/utils/errorHandler';
 
 export async function resetPassword(forgotObj = {}, token) {
   const { email, newPassword } = forgotObj;
 
   if (!email || !newPassword || !token) {
-    throw new AppError("Missing required fields.", 400);
+    throw new AppError('Missing required fields.', 400);
   }
 
   try {
@@ -17,7 +17,7 @@ export async function resetPassword(forgotObj = {}, token) {
     });
 
     if (!user) {
-      throw new AppError("Reset token is invalid or has expired.", 410);
+      throw new AppError('Reset token is invalid or has expired.', 410);
     }
 
     const hashedPassword = await bcrypt.hash(newPassword, 12);

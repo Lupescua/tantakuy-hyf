@@ -1,5 +1,5 @@
 import Participant from '../api/models/Participant';
-import { AppError } from "@/utils/errorHandler"
+import { AppError } from '@/utils/errorHandler';
 
 export async function createParticipant(user = {}) {
   const { userName, email, password } = user;

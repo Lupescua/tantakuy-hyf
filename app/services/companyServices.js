@@ -1,5 +1,5 @@
-import Company from "../api/models/Company";
-import { AppError } from "@/utils/errorHandler";
+import Company from '../api/models/Company';
+import { AppError } from '@/utils/errorHandler';
 
 export async function createCompany(company = {}) {
   const {
@@ -24,15 +24,15 @@ export async function createCompany(company = {}) {
   ]);
 
   if (existingEmail) {
-    throw new AppError("Email already in use.", 409);
+    throw new AppError('Email already in use.', 409);
   }
 
   if (existingCvr) {
-    throw new AppError("CVR Number already taken.", 409);
+    throw new AppError('CVR Number already taken.', 409);
   }
 
   if (existingCompanyName) {
-    throw new AppError("Company name already in use.", 409);
+    throw new AppError('Company name already in use.', 409);
   }
 
   const newCompany = new Company({
