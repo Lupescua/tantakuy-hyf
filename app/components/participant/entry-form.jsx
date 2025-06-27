@@ -55,13 +55,9 @@ const EntryForm = () => {
       </header>
       <div className="uploadbar">
         <div className="closecircle">
-          {/* <CloseIcon className="closeicon" /> */}
           <FontAwesomeIcon icon={faXmark} className="closeicon" />
         </div>
         <span className="uploadtitle">Valgte billeder</span>
-        {/* <button className="nextbtn" onClick={handleNext}>
-          Next
-        </button> */}
         <Link className="nextbtn" href={'/competitions'}>
           Next
         </Link>
