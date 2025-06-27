@@ -1,6 +1,7 @@
 import { dbConnect } from '@/utils/dbConnects';
 import Entry from '../models/Entry';
 import { getUserFromCookie } from '@/utils/auth';
+
 export async function DELETE(req) {
   await dbConnect();
   const user = getUserFromCookie();
