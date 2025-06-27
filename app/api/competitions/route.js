@@ -1,6 +1,6 @@
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
-import { verifyToken } from '@/utils/auth';
+import { getUserFromRequest } from '@/utils/auth';
 
 export async function GET() {
   await dbConnect();
@@ -11,11 +11,16 @@ export async function GET() {
 export async function POST(req) {
   try {
     await dbConnect();
-    verifyToken(req);
+
+    const user = await getUserFromRequest(req);
+    if (!user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const competitionData = await req.json();
 
     const created = await Competition.create(competitionData);
+    
     return Response.json(created, { status: 201 });
   } catch (error) {
     console.error('Error creating competition:', error);
