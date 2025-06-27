@@ -1,11 +1,10 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import styles from '../../../style/ForgotPassword.module.css';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import API from '@/utils/axios';
 import InvalidToken from './InvalidToken';
-import { withErrorHandling, AppError } from "@/utils/errorHandler"
+import { AppError } from '@/utils/errorHandler';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
@@ -17,17 +16,17 @@ export default function ResetPasswordForm() {
   const token = searchParams.get('token');
   const [status, setStatus] = useState('loading');
 
-  useEffect(()=>{
-    const validatingToken = async() =>{
+  useEffect(() => {
+    const validatingToken = async () => {
       try {
-        const res = await API.post('/api/validate-token', {token})
-        if(res.valid.data){
-          setStatus('valid')
-        }else{
-          setStatus('invalid')
+        const res = await API.post('/api/validate-token', { token });
+        if (res.data.valid) {
+          setStatus('valid');
+        } else {
+          setStatus('invalid');
         }
       } catch (error) {
-        console.error(err);
+        console.error('Token validation error:', error);
         setStatus('invalid');
       }
     };
@@ -37,39 +36,42 @@ export default function ResetPasswordForm() {
       setStatus('invalid');
     }
   }, [token]);
-  if (status === 'invalid') return <InvalidToken message={status}  />
 
-
+  if (status === 'invalid') return <InvalidToken message={status} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (newPassword !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
+
     try {
-      const res = await API.post('/api/forgotPassword', {email, newPassword})
+      const res = await API.post('/api/forgotPassword', { email, newPassword });
+      console.log(res.data);
+
       const { user } = res.data.user;
 
-      if(!user.userName|| !user.email){
-        throw new AppError("Missing user data", 400);
+      if (!user.userName || !user.email) {
+        throw new AppError('Missing user data', 400);
       }
+
       alert(
         'Password reset successful! You can now log in with your new password.',
       );
       router.push('/login');
     } catch (error) {
-      console.error("Reset error:", error);
-      alert("Failed to reset password. Please try again.");
+      console.error('Reset error:', error);
+      alert('Failed to reset password. Please try again.');
     }
-
-
-    
   };
 
   return (
     <div className={styles.formContainer}>
-      <h1 className={styles.title}>Email verified please login</h1>
+      <h1 className={styles.title}>
+        Email verified, please reset your password
+      </h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
           <label className={styles.label}>Email</label>
@@ -117,7 +119,7 @@ export default function ResetPasswordForm() {
         </div>
 
         <button type="submit" className={styles.submitButton}>
-          Log in →
+          Reset Password →
         </button>
       </form>
     </div>

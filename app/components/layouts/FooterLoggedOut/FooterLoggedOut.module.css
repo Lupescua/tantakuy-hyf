@@ -1,0 +1,62 @@
+.footer {
+  background-color: white;
+  border-top: 1px solid #eee;
+  padding: 20px 0;
+  width: 100%;
+  box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  position: relative;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: #777;
+}
+
+.footer-auth-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.footer-btn {
+  padding: 6px 16px;
+  font-size: 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  color: #333;
+  background-color: transparent;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.signup-btn {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+}
+
+.signup-btn:hover {
+  background-color: #3b2bc1;
+}

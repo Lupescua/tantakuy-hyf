@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-
 const CompanySchema = new mongoose.Schema(
   {
     logoUrl: String,
@@ -10,7 +9,6 @@ const CompanySchema = new mongoose.Schema(
       type: String,
       required: [true, 'Company name is required'],
       trim: true,
-
     },
     position: {
       type: String,
@@ -83,9 +81,7 @@ CompanySchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const Company = 
-  mongoose.models.Company || 
-  mongoose.model('Company', CompanySchema);
+const Company =
+  mongoose.models.Company || mongoose.model('Company', CompanySchema);
 
-
-export default Company; 
+export default Company;

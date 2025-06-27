@@ -31,7 +31,7 @@ const ParticipantSchema = new mongoose.Schema(
       type: String,
     },
     resetTokenExpiry: {
-      type: Number, 
+      type: Number,
     },
   },
   { timestamps: true },
@@ -47,5 +47,7 @@ ParticipantSchema.methods.comparePassword = function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const Participant = mongoose.models.Participant || mongoose.model('Participant', ParticipantSchema);
+const Participant =
+  mongoose.models.Participant ||
+  mongoose.model('Participant', ParticipantSchema);
 export default Participant;
