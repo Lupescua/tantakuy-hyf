@@ -15,6 +15,9 @@ export default function RegistrationForm() {
     acceptTerms: false,
   });
 
+  //I added this loader to disable the form while loading
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -25,17 +28,27 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    //check for password matching 
+    if (formData.password !== formData.confirmPassword) {
+    setError("Passwords do not match.");
+    return;
+    }
+
+    //the loader 
+    setLoading(true);
+    setError(null);
+
     try {
-      const res = await API.post('/api/participants', formData);
-      const data = res.json();
-      setError('');
-      router.push('/');
+    await API.post('/participants', formData);
+    router.push('/');
     } catch (error) {
       const message =
-        error.response?.data?.message ||
-        'Failed to register. Please try again.';
+        error.response?.data?.message || 'Failed to register. Please try again.';
       setError(message);
-      console.log(error);
+      console.error('Registration error:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -105,9 +118,13 @@ export default function RegistrationForm() {
           You agree to our Terms of Service and Privacy Policy.
         </p>
       </div>
+      
+      {/* displaying any errors */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
 
-      <button className={styles.buttonBlack} type="submit">
-        Registration →
+      {/* the button will inactive while loading */}
+      <button className={styles.buttonBlack} type="submit" disabled={loading}>
+        {loading ? 'Registering...' : 'Registration →'}
       </button>
     </form>
   );
