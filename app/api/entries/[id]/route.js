@@ -1,18 +1,10 @@
 import { dbConnect } from '@/utils/dbConnects';
 import Entry from '../models/Entry';
-import { getUserFromCookie } from '@/utils/auth';
+import { withAuth } from '@/utils/authMiddleware';
 
-export async function DELETE(req) {
+async function deleteEntry(req, { params, user }) {
   await dbConnect();
-  const user = getUserFromCookie();
-  if (!user) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-    });
-  }
-  const url = new URL(req.url);
-  const entryId = url.pathname.split('/').pop();
-
+  const entryId = params.id;
   if (!entryId) {
     return new Response(JSON.stringify({ error: 'Entry ID is required' }), {
       status: 400,
@@ -25,12 +17,20 @@ export async function DELETE(req) {
         status: 404,
       });
     }
-    if (entry.participant.toString() != user.id) {
+    if (entry.participant.toString() !== user.id) {
       return new Response(JSON.stringify({ error: 'Forbidden' }), {
         status: 403,
       });
     }
-    await Entry.findByIdAndDelete(entryId);
+
+    const deletedEntry = await Entry.findByIdAndDelete(entryId);
+
+    if (!deletedEntry) {
+      return new Response(JSON.stringify({ error: 'Failed to delete entry' }), {
+        status: 500,
+      });
+    }
+
     return new Response(null, { status: 204 });
   } catch (error) {
     console.error('Error deleting entry:', error);
@@ -39,3 +39,5 @@ export async function DELETE(req) {
     });
   }
 }
+
+export const DELETE = withAuth(deleteEntry);
