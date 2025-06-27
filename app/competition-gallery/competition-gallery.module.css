@@ -23,20 +23,20 @@
 }
 
 .buttonGroup {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   display: flex;
-  gap: 16px;
   padding: 3px 16px;
   pointer-events: auto;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   width: 80%;
   max-width: 100%;
   box-sizing: border-box;
 }
 
 .button {
+  all: unset;
   display: flex;
   align-items: center;
   gap: 6px;          
@@ -44,10 +44,18 @@
   font-size: 0.95rem;
   max-width: 100px;         
   justify-content: center;
+  cursor: pointer;
 }
 
 .icon {
-  font-size: 20px;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+}
+
+.shareImg{
+  width: 20px;
+  height: 17px;
 }
 
 .gallery {
