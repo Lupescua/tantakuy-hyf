@@ -8,10 +8,9 @@
   width: 100%;
   padding: 16px 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
-  z-index: 999; 
+  z-index: 999;
   display: flex;
   justify-content: center;
-  
 }
 
 .navbar-container {
@@ -46,7 +45,9 @@
   cursor: pointer;
   background-color: transparent;
   color: white;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -66,4 +67,3 @@
 .nav-btn.primary:hover {
   background-color: #e5e5e5;
 }
-

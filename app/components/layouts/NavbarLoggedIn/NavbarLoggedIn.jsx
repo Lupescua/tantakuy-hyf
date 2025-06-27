@@ -11,7 +11,10 @@ export default function NavbarLoggedIn() {
             <Link href="/login" className={styles['nav-btn']}>
               Log in
             </Link>
-            <Link href="/signup" className={`${styles['nav-btn']} ${styles.primary}`}>
+            <Link
+              href="/signup"
+              className={`${styles['nav-btn']} ${styles.primary}`}
+            >
               Sign up
             </Link>
           </div>

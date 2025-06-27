@@ -5,12 +5,18 @@ import styles from './FooterLoggedIn.module.css';
 export default function Footer() {
   return (
     <footer className={styles.footer}>
-        
       {/* footer desktop */}
       <div className={styles['footer-content']}>
-        <p className={styles['footer-text']}>© 2025 Tantakuy. All rights reserved.</p>
+        <p className={styles['footer-text']}>
+          © 2025 Tantakuy. All rights reserved.
+        </p>
         <div className={styles['footer-socials']}>
-          <a href="https://instagram.com/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <a
+            href="https://instagram.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram"
+          >
             <FiInstagram />
           </a>
         </div>

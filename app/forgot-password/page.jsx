@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut'; 
+import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut';
 import ForgotPasswordForm from '../components/forgot-password/ForgotPasswordForm';
 import VerifyToken from '../components/forgot-password/VerifyToken';
 import ResetPasswordForm from '../components/forgot-password/ResetPassword';
@@ -23,10 +23,8 @@ export default function ForgotPasswordPage() {
 
   return (
     <>
-      <NavbarLoggedOut /> 
-      <div style={{ paddingTop: '96px' }}> 
-        {renderStep()}
-      </div>
+      <NavbarLoggedOut />
+      <div style={{ paddingTop: '96px' }}>{renderStep()}</div>
     </>
   );
 }

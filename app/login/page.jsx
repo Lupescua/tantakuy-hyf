@@ -1,7 +1,8 @@
-import Link from "next/link";
-import { useState } from "react";
-import NavbarLoggedOut from "../components/NavbarLoggedOut"; // adjust import path as needed
-import styles from "./login.module.css";
+'use client';
+import { useState } from 'react';
+import Link from 'next/link';
+import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut';
+import styles from './login.module.css';
 
 export default function LoginPage() {
   const [data, setData] = useState({
@@ -35,12 +36,16 @@ export default function LoginPage() {
       <div className={styles.loginPage}>
         <div className={styles.loginHeader}>
           <h1>Log in</h1>
-          <p>Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna lacus.</p>
+          <p>
+            Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
+            lacus.
+          </p>
         </div>
 
         <div className={styles.loginFormWrapper}>
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formFields}>
+<<<<<<< HEAD
               <label htmlFor="email" className={styles.formLabel}>Email</label>
               <input
                 type="email"
@@ -50,13 +55,28 @@ export default function LoginPage() {
                 onChange={handleChange}
                 required
                 className={`${styles.formInput} ${styles.email}`}
+=======
+              <label htmlFor="email" className={styles.formLabel}>
+                Email
+              </label>
+              <input
+                type="email"
+                className={`${styles.formInput} ${styles.email}`}
+                required
+>>>>>>> a51de8b (fix: format files with Prettier)
               />
 
-              <label htmlFor="password" className={styles.formLabel}>Password</label>
+              <label htmlFor="password" className={styles.formLabel}>
+                Password
+              </label>
               <div className={styles.passwordWrapper}>
                 <input
+<<<<<<< HEAD
                   type={showPassword ? "text" : "password"}
                   name="password"
+=======
+                  type={showPassword ? 'text' : 'password'}
+>>>>>>> a51de8b (fix: format files with Prettier)
                   id="password"
                   value={data.password}
                   onChange={handleChange}
@@ -76,6 +96,7 @@ export default function LoginPage() {
                   <input
                     type="checkbox"
                     id="remember-me"
+<<<<<<< HEAD
                     name="rememberMe"
                     checked={data.rememberMe}
                     onChange={handleChange}
@@ -86,6 +107,22 @@ export default function LoginPage() {
                 <Link href="/forgot-password" className={styles.forgotPasswordLink}>
                   Forgot password?
                 </Link>
+=======
+                    className={styles.rememberMecheckbox}
+                  />
+                  <label htmlFor="remember-me" className={styles.formLabel}>
+                    Remember me
+                  </label>
+                </div>
+                <div>
+                  <Link
+                    href="/forgot-password"
+                    className={styles.forgotPasswordLink}
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
+>>>>>>> a51de8b (fix: format files with Prettier)
               </div>
             </div>
 
@@ -96,7 +133,15 @@ export default function LoginPage() {
               </button>
               <p>
                 Don’t have an account?
+<<<<<<< HEAD
                 <Link href="/signup" className={styles.signUpLink}> Sign up</Link>
+=======
+                <span>
+                  <Link href="/signup" className={styles.signUpLink}>
+                    Sign up
+                  </Link>
+                </span>
+>>>>>>> a51de8b (fix: format files with Prettier)
               </p>
             </div>
           </form>

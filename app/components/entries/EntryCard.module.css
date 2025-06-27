@@ -36,7 +36,7 @@
 }
 
 .voteButton.voted {
-  color: #e63946; 
+  color: #e63946;
 }
 
 .voteButton:disabled {

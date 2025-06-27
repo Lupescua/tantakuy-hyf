@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './CompetitionCard.module.css';
-import EntryCard from '../entries/EntryCard'; 
+import EntryCard from '../entries/EntryCard';
 
 const PLACEHOLDER_IMG = 'https://via.placeholder.com/150';
 

@@ -21,11 +21,7 @@ const competitionsMock = [
     id: '2',
     name: 'Konkurrence titel',
     logo: '/images/logo2.png',
-    images: [
-      '/images/entry7.jpg',
-      '/images/entry8.jpg',
-      '/images/entry9.jpg',
-    ],
+    images: ['/images/entry7.jpg', '/images/entry8.jpg', '/images/entry9.jpg'],
   },
 ];
 
