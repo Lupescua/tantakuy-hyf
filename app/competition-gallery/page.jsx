@@ -1,5 +1,5 @@
-import CompetitionGallery from '../components/competition/CompetitionGallery';
-import JoinButton from '../components/competition/JoinButton';
+import CompetitionGallery from '../components/competitionGallery/CompetitionGallery';
+import JoinButton from '../components/competitionGallery/JoinButton';
 export default function CompetitionGalleryPage() {
   return (
     <>
