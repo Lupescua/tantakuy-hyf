@@ -1,6 +1,6 @@
 import { dbConnect } from '@/utils/dbConnects';
 import Entry from '../models/Entry';
-import { getUserFromCookie } from '@/utils/auth';
+import { withAuth } from '@/utils/authMiddleware';
 
 export async function GET(req) {
   await dbConnect();
@@ -26,14 +26,9 @@ export async function GET(req) {
   }
 }
 
-export async function POST(req) {
+async function createEntry(req, { params, user }) {
   await dbConnect();
-  const user = getUserFromCookie();
-  if (!user) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-    });
-  }
+
   // TODO: add role-based access control once token includes roles (only participants should be able to upload entries)
   try {
     const body = await req.json();
@@ -58,3 +53,4 @@ export async function POST(req) {
     });
   }
 }
+export const POST = withAuth(createEntry);
