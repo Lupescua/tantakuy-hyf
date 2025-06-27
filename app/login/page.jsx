@@ -4,8 +4,6 @@ import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import Link from 'next/link';
 import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut';
-import NavbarLoggedIn from '../components/layouts/NavbarLoggedIn/NavbarLoggedIn';
-import FooterLoggedIn from '../components/layouts/FooterLoggedIn/FooterLoggedIn';
 import styles from './login.module.css';
 
 export default function LoginPage() {
