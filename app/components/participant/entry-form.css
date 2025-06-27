@@ -2,30 +2,33 @@
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 700px;
-  height: 900px;
-  top: 100px;
+  max-width: 700px;
+  width: 90vw;
+  max-height: auto;
   background: #ffffff;
-  margin: 0 auto;
+  margin: 5px auto 0;
   font-family: 'Inter', sans-serif;
   overflow: visible;
+  padding-top: 10px;
   border: 1px solid #ddd;
   box-sizing: border-box;
 }
 
 .entryheader {
-  position: absolute;
-  top: 0;
-  left: 200px;
-  width: 500px;
+  position: relative;
+  /* top: 0;
+  left: 200px; */
+  width: 100%;
   height: 81px;
   background: #ffffff;
+  border-bottom: #000000 1px solid;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  padding: 0 24px;
+  padding: 0;
   box-sizing: border-box;
+  margin: 10px auto;
   z-index: 10;
 }
 
@@ -34,20 +37,22 @@
   color: #000000;
   text-align: center;
   font-weight: 400;
+  flex: 1;
 }
 
 .uploadbar {
-  position: absolute;
-  top: 81px;
-  left: 0;
-  width: 700px;
+  position: relative;
+  /* top: 81px;
+  left: 0; */
+  width: 100%;
   height: 63px;
   background: #aeaeae;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  padding: 10px 24px;
   box-sizing: border-box;
+  margin-top: 0.5rem;
   z-index: 9;
 }
 
@@ -87,17 +92,20 @@
 }
 
 .imagepreview {
-  position: absolute;
-  top: 200px;
-  left: 19px;
-  width: 662px;
-  height: 393px;
-  background: #d9d9d9;
+  position: relative;
+  /* top: 200px;
+  left: 19px; */
+  width: 100%;
+  max-width: 662px;
+  aspect-ratio: 662 / 393;
+  background: #ffffff;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
   border-radius: 6px;
+  margin: 1rem auto 0;
+  padding-top: 100px;
   overflow: hidden;
 }
 
@@ -108,16 +116,17 @@
 }
 
 .placeholderimage {
-  position: absolute;
-  top: 90px;
+  position: relative;
+  /* top: 90px; */
   width: 100%;
   height: 400px;
+  padding-top: 10px;
   background-size: contain;
 }
 
 .textlabel {
   position: absolute;
-  top: 642px;
+  top: 600px;
   left: 22px;
   font-size: 16px;
   color: #1e1e1e;
@@ -126,7 +135,7 @@
 
 .entrytextarea {
   position: absolute;
-  top: 672px;
+  top: 640px;
   left: 22px;
   width: 640px;
   height: 80px;
@@ -140,10 +149,10 @@
 
 .submitbtn {
   position: absolute;
-  top: 803px;
+  top: 750px;
   left: calc(50% - 681px / 2);
   width: 681px;
-  height: 71px;
+  height: 51px;
   background: #868483;
   border-radius: 30px;
   border: none;
@@ -163,4 +172,58 @@
   left: 22px;
   color: red;
   font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .entrycontainer {
+    width: 95vw;
+    margin-top: 50px;
+  }
+
+  .entryheader {
+    height: 60px;
+    padding: 0 16px;
+  }
+
+  .uploadbar {
+    height: 50px;
+    padding: 0 16px;
+  }
+
+  .uploadtitle,
+  .nextbtn {
+    font-size: 1.5rem;
+  }
+
+  .submitbtn {
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .entrytextarea {
+    max-width: 100%;
+    margin-left: 0.5rem;
+    width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 480px) {
+  .uploadtitle,
+  .nextbtn {
+    font-size: 1.25rem;
+  }
+
+  .closecircle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .closeicon {
+    font-size: 1rem;
+  }
+
+  .submitbtn {
+    height: 55px;
+    font-size: 1.25rem;
+  }
 }

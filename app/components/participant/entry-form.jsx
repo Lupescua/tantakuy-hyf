@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './entry-form.css';
 import CloseIcon from '@mui/icons-material/Close';
-import Link from 'next/link';
 
 const EntryForm = () => {
   const [image, setImage] = useState(null);
@@ -58,7 +57,7 @@ const EntryForm = () => {
           <CloseIcon className="closeicon" />
         </div>
         <span className="uploadtitle">Valgte billeder</span>
-        <Link className="nextbtn">Next</Link>
+        <span className="nextbtn">Next</span>
       </div>
 
       <form className="entryform" onSubmit={handleSubmit}>
