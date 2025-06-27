@@ -6,10 +6,11 @@ import styles from './login.module.css';
 
 export default function LoginPage() {
   const [data, setData] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
     rememberMe: false,
   });
+
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -20,13 +21,12 @@ export default function LoginPage() {
     const { name, value, type, checked } = e.target;
     setData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle login logic here
     console.log(data);
   };
 
@@ -45,8 +45,9 @@ export default function LoginPage() {
         <div className={styles.loginFormWrapper}>
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formFields}>
-<<<<<<< HEAD
-              <label htmlFor="email" className={styles.formLabel}>Email</label>
+              <label htmlFor="email" className={styles.formLabel}>
+                Email
+              </label>
               <input
                 type="email"
                 name="email"
@@ -55,15 +56,6 @@ export default function LoginPage() {
                 onChange={handleChange}
                 required
                 className={`${styles.formInput} ${styles.email}`}
-=======
-              <label htmlFor="email" className={styles.formLabel}>
-                Email
-              </label>
-              <input
-                type="email"
-                className={`${styles.formInput} ${styles.email}`}
-                required
->>>>>>> a51de8b (fix: format files with Prettier)
               />
 
               <label htmlFor="password" className={styles.formLabel}>
@@ -71,13 +63,9 @@ export default function LoginPage() {
               </label>
               <div className={styles.passwordWrapper}>
                 <input
-<<<<<<< HEAD
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-=======
                   type={showPassword ? 'text' : 'password'}
->>>>>>> a51de8b (fix: format files with Prettier)
                   id="password"
+                  name="password"
                   value={data.password}
                   onChange={handleChange}
                   required
@@ -96,33 +84,21 @@ export default function LoginPage() {
                   <input
                     type="checkbox"
                     id="remember-me"
-<<<<<<< HEAD
                     name="rememberMe"
                     checked={data.rememberMe}
                     onChange={handleChange}
-                    className={styles.rememberMecheckbox}
-                  />
-                  <label htmlFor="remember-me" className={styles.formLabel}>Remember me</label>
-                </div>
-                <Link href="/forgot-password" className={styles.forgotPasswordLink}>
-                  Forgot password?
-                </Link>
-=======
                     className={styles.rememberMecheckbox}
                   />
                   <label htmlFor="remember-me" className={styles.formLabel}>
                     Remember me
                   </label>
                 </div>
-                <div>
-                  <Link
-                    href="/forgot-password"
-                    className={styles.forgotPasswordLink}
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
->>>>>>> a51de8b (fix: format files with Prettier)
+                <Link
+                  href="/forgot-password"
+                  className={styles.forgotPasswordLink}
+                >
+                  Forgot password?
+                </Link>
               </div>
             </div>
 
@@ -132,16 +108,10 @@ export default function LoginPage() {
                 <img src="/Arrow icon.png" alt="arrow icon" />
               </button>
               <p>
-                Don’t have an account?
-<<<<<<< HEAD
-                <Link href="/signup" className={styles.signUpLink}> Sign up</Link>
-=======
-                <span>
-                  <Link href="/signup" className={styles.signUpLink}>
-                    Sign up
-                  </Link>
-                </span>
->>>>>>> a51de8b (fix: format files with Prettier)
+                Don’t have an account?{' '}
+                <Link href="/signup" className={styles.signUpLink}>
+                  Sign up
+                </Link>
               </p>
             </div>
           </form>
