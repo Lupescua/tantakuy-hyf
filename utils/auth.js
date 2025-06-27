@@ -8,7 +8,7 @@ export function getUserFromCookie() {
   if (!token) return null;
 
   try {
-    return verifyToken(token); 
+    return verifyToken(token);
   } catch {
     return null;
   }

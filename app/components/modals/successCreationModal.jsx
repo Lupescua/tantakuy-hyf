@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import style from "@/style/successCreationModel.module.css"
+import style from '@/style/successCreationModel.module.css';
 import { useState, useEffect } from 'react';
 export default function ModalSuccess({ isOpen, onClose }) {
   if (!isOpen) return null;
@@ -10,27 +10,25 @@ export default function ModalSuccess({ isOpen, onClose }) {
   useEffect(() => {
     if (counter > 0) {
       const timer = setTimeout(() => setCounter(counter - 1), 1000);
-      return () => clearTimeout(timer); 
-    }else{
+      return () => clearTimeout(timer);
+    } else {
       onClose();
     }
   }, [counter, onClose]);
-
 
   return (
     <div className={style.modalContainer}>
       <div className="">
         <h1 className={style.modalTitle}>Konkurrence Oprettet</h1>
-        <button
-          onClick={onClose}
-          className={style.modalCloseBtn}
-        >
+        <button onClick={onClose} className={style.modalCloseBtn}>
           <i class="fa-solid fa-xmark"></i>
         </button>
         <div className={style.modalIconsContainer}>
-          <span className={style.modalCheckIcon}><i class="fa-solid fa-circle-check"></i></span>
+          <span className={style.modalCheckIcon}>
+            <i class="fa-solid fa-circle-check"></i>
+          </span>
           <svg
-          className={style.modalSvg}
+            className={style.modalSvg}
             width="150"
             height="100"
             viewBox="0 0 100 60"
@@ -56,7 +54,7 @@ export default function ModalSuccess({ isOpen, onClose }) {
             </path>
           </svg>
           <svg
-          className={style.modalSvg2}
+            className={style.modalSvg2}
             width="50"
             height="100"
             viewBox="0 0 100 60"
@@ -82,7 +80,7 @@ export default function ModalSuccess({ isOpen, onClose }) {
             </path>
           </svg>
           <svg
-          className={style.modalSvg3}
+            className={style.modalSvg3}
             width="50"
             height="100"
             viewBox="0 0 100 60"
@@ -114,9 +112,7 @@ export default function ModalSuccess({ isOpen, onClose }) {
           <div className={style.orangeEmptyCircle}></div>
           <div className={style.greenEmptyDarkCircle}></div>
           <div className={style.greenEmptyLightCircle}></div>
-
         </div>
-        
       </div>
       <div className={style.backIn}>Close in {counter}</div>
     </div>

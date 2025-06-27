@@ -5,10 +5,8 @@ import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 
 export default function OrganizationForm() {
-
   const router = useRouter();
   const [error, setError] = useState(null);
-
 
   const [formData, setFormData] = useState({
     name: '',
@@ -34,12 +32,13 @@ export default function OrganizationForm() {
     e.preventDefault();
     try {
       const res = await API.post('/companies', formData);
-      console.log(`result: ${res}`)
+      console.log(`result: ${res}`);
       const data = res.json();
       setError('');
       router.push('/');
     } catch (e) {
-      const message = e.response?.data?.message || 'Failed to register. Please try again.';
+      const message =
+        e.response?.data?.message || 'Failed to register. Please try again.';
       setError(message);
       console.log(error);
     }

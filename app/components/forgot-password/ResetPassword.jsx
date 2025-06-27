@@ -16,14 +16,14 @@ export default function ResetPasswordForm() {
   const token = searchParams.get('token');
   const [status, setStatus] = useState('loading');
 
-  useEffect(()=>{
-    const validatingToken = async() =>{
+  useEffect(() => {
+    const validatingToken = async () => {
       try {
-        const res = await API.post('/api/validate-token', {token})
-        if(res.valid.data){
-          setStatus('valid')
-        }else{
-          setStatus('invalid')
+        const res = await API.post('/api/validate-token', { token });
+        if (res.valid.data) {
+          setStatus('valid');
+        } else {
+          setStatus('invalid');
         }
       } catch (error) {
         console.error(err);
@@ -36,9 +36,7 @@ export default function ResetPasswordForm() {
       setStatus('invalid');
     }
   }, [token]);
-  if (status === 'invalid') return <InvalidToken message={status}  />
-
-
+  if (status === 'invalid') return <InvalidToken message={status} />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,27 +45,24 @@ export default function ResetPasswordForm() {
       return;
     }
     try {
-      const res = await API.post('/api/forgotPassword', {email, newPassword})
-      console.log(res)
-      console.log(res.data)
+      const res = await API.post('/api/forgotPassword', { email, newPassword });
+      console.log(res);
+      console.log(res.data);
       const { user } = res.data.user;
 
-      console.log(user.userName, user.email)
+      console.log(user.userName, user.email);
 
-      if(!user.userName|| !user.email){
-        throw new Error("something went wrong")
+      if (!user.userName || !user.email) {
+        throw new Error('something went wrong');
       }
       alert(
         'Password reset successful! You can now log in with your new password.',
       );
       router.push('/login');
     } catch (error) {
-      console.error("Reset error:", error);
-      alert("Failed to reset password. Please try again.");
+      console.error('Reset error:', error);
+      alert('Failed to reset password. Please try again.');
     }
-
-
-    
   };
 
   return (

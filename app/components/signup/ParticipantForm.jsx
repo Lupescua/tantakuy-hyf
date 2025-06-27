@@ -28,10 +28,12 @@ export default function RegistrationForm() {
     try {
       const res = await API.post('/api/participants', formData);
       const data = res.json();
-      setError(''); 
+      setError('');
       router.push('/');
     } catch (error) {
-      const message = error.response?.data?.message || 'Failed to register. Please try again.';
+      const message =
+        error.response?.data?.message ||
+        'Failed to register. Please try again.';
       setError(message);
       console.log(error);
     }

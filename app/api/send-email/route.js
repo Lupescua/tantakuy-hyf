@@ -3,10 +3,10 @@ import nodemailer from 'nodemailer';
 export async function POST(req) {
   const { to, subject, text, html } = await req.json();
   const transporter = nodemailer.createTransport({
-    service: 'gmail', 
+    service: 'gmail',
     auth: {
       user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_APP_PASSWORD
+      pass: process.env.EMAIL_APP_PASSWORD,
     },
   });
 
@@ -21,7 +21,9 @@ export async function POST(req) {
     return Response.json({ success: true });
   } catch (error) {
     console.error(error);
-    return Response.json({ success: false, message: error.message }, { status: 500 });
+    return Response.json(
+      { success: false, message: error.message },
+      { status: 500 },
+    );
   }
-
 }
