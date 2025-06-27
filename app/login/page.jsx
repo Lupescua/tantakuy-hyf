@@ -1,10 +1,16 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 import Link from 'next/link';
 import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut';
+import NavbarLoggedIn from '../components/layouts/NavbarLoggedIn/NavbarLoggedIn';
+import FooterLoggedIn from '../components/layouts/FooterLoggedIn/FooterLoggedIn';
 import styles from './login.module.css';
 
 export default function LoginPage() {
+  const router = useRouter(); 
+
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -25,9 +31,19 @@ export default function LoginPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log(data);
+    try {
+    const response = await API.post('/login', {
+      email: data.email,
+      password: data.password,
+    });
+
+    console.log('Login success:', response.data);
+    router.push('/');
+  } catch (error) {
+    console.error('Login failed:', error.response?.data?.message || error.message);
+  }
   };
 
   return (

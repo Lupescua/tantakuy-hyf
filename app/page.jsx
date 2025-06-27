@@ -1,7 +1,10 @@
 import NavbarLoggedIn from './components/layouts/NavbarLoggedIn/NavbarLoggedIn';
 import FooterLoggedIn from './components/layouts/FooterLoggedIn/FooterLoggedIn';
+import { getUserFromCookie } from '@/utils/auth';
 
-export default function Home() {
+export default async function  Home() {
+  
+  
   return (
     <>
       <NavbarLoggedIn />
