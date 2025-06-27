@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './entry-form.css';
-// import CloseIcon from '@mui/icons-material/Close';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
@@ -63,7 +62,7 @@ const EntryForm = () => {
         {/* <button className="nextbtn" onClick={handleNext}>
           Next
         </button> */}
-        <Link className="nextbtn" href={'/competition-overview'}>
+        <Link className="nextbtn" href={'/competitions'}>
           Next
         </Link>
       </div>
