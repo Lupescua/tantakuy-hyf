@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './NavbarLoggedIn.module.css';
 
-export default function NavbarLoggedIn() {
+export default function NavbarLoggedIn({ user }) {
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-container']}>
@@ -17,6 +17,7 @@ export default function NavbarLoggedIn() {
             >
               Profile
             </Link>
+            <span>Welcome {user?.userName}!</span>
           </div>
         </div>
       </div>

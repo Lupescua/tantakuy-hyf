@@ -1,9 +1,10 @@
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/jwt.js';
 
-export function getUserFromCookie() {
+export async function getUserFromCookie() {
   const cookieStore = cookies();
-  const token = cookieStore.get('token')?.value;
+   const tokenCookie = await cookieStore.get('token'); 
+   const token = tokenCookie?.value;
 
   if (!token) return null;
 
