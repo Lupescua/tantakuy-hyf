@@ -1,6 +1,6 @@
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
-import { verifyToken } from '@/utils/server/auth';
+import { verifyToken } from '@/utils/jwt.js';
 
 export async function GET() {
   await dbConnect();
