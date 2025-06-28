@@ -10,7 +10,8 @@ export async function getUserFromCookie() {
 
   try {
     return verifyToken(token);
-  } catch {
+  } catch (error) {
+    console.error('verifyToken failed:', error);
     return null;
   }
 }

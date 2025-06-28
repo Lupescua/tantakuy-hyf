@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import styles from './footerLoggedOut.module.css';
+import styles from './FooterLoggedOut.module.css';
 
 export default function FooterLoggedOut() {
   return (
