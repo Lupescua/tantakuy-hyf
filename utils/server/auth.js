@@ -3,7 +3,7 @@ import { verifyToken } from '@/utils/jwt.js';
 
 export async function getUserFromCookie() {
   const cookieStore = cookies();
-   const tokenCookie = await cookieStore.get('token'); 
+   const tokenCookie = cookieStore.get('token'); 
    const token = tokenCookie?.value;
 
   if (!token) return null;

@@ -16,13 +16,12 @@ const montserrat = Montserrat({
 
 export default async function RootLayout({ children }) {
   const user = await getUserFromCookie();
-  console.log(user, user.userName, user.id, user.email)
   const isLoggedIn = !!user;
 
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
-      {isLoggedIn ? <NavbarLoggedIn user={user} /> : <NavbarLoggedOut />}
+      {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
       {children}
       {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
         </body>

@@ -2,7 +2,7 @@ import { loginUser } from '@/app/services/loginServices';
 import dbConnect from '@/utils/dbConnects';
 import { cookies } from 'next/headers';
 
-export async function Post(req) {
+export async function POST(req) {
   try {
     await dbConnect();
     const body = await req.json();
