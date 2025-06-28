@@ -1,4 +1,4 @@
-export default async function  Home() {  
+export default async function Home() {
   return (
     <>
       <main className="home">
@@ -36,7 +36,6 @@ export default async function  Home() {
           </div>
         </section>
       </main>
-
     </>
   );
 }
