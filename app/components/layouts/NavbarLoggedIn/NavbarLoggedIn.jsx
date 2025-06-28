@@ -8,14 +8,14 @@ export default function NavbarLoggedIn() {
         <div className={`${styles['navbar-top']} ${styles['fade-in']}`}>
           <h1 className={styles['site-title']}>Tantakuy</h1>
           <div className={styles['auth-buttons']}>
-            <Link href="/login" className={styles['nav-btn']}>
-              Log in
+            <Link href="/home" className={styles['nav-btn']}>
+              Home
             </Link>
             <Link
-              href="/signup"
+              href="/profile"
               className={`${styles['nav-btn']} ${styles.primary}`}
             >
-              Sign up
+              Profile
             </Link>
           </div>
         </div>
