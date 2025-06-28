@@ -24,7 +24,7 @@ export async function sendResetLink(email) {
     user.resetTokenExpiry = Date.now() + 1000 * 60 * 15;
     await user.save();
 
-    const resetLink = `${DOMAIN}/forgot-password?step=reset&token=${token}`;
+    const resetLink = `${DOMAIN}forgot-password?step=reset&token=${token}`;
     return resetLink;
   } catch (error) {
     throw new AppError(error.message || 'Password Reset Failed!', 500);

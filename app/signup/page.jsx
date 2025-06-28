@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import styles from './SignupPage.module.css';
 import RoleSelector from '../components/signup/RoleSelector';
-import NavbarLoggedOut from '../components/layouts/NavbarLoggedOut/NavbarLoggedOut';
 
 export default function SignupPage() {
   const [buttonSignup, setButtonSignUp] = useState(true);
@@ -13,7 +12,6 @@ export default function SignupPage() {
 
   return (
     <>
-      <NavbarLoggedOut />
       <main className={styles.container}>
         <div className={styles.wrapper}>
           <h1 className={styles.title}>Get started</h1>

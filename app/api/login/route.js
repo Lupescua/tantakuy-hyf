@@ -2,12 +2,11 @@ import { loginUser } from '@/app/services/loginServices';
 import dbConnect from '@/utils/dbConnects';
 import { cookies } from 'next/headers';
 
-export async function POST(req) {
+export async function Post(req) {
   try {
     await dbConnect();
     const body = await req.json();
     const { token, user } = await loginUser(body);
-    console.log(token, user);
     const cookieStore = await cookies();
     cookieStore.set('token', token, {
       httpOnly: true,

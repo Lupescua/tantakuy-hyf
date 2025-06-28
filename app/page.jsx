@@ -1,14 +1,6 @@
-import NavbarLoggedIn from './components/layouts/NavbarLoggedIn/NavbarLoggedIn';
-import FooterLoggedIn from './components/layouts/FooterLoggedIn/FooterLoggedIn';
-import { getUserFromCookie } from '@/utils/auth';
-
-export default async function  Home() {
-  
-  
+export default async function  Home() {  
   return (
     <>
-      <NavbarLoggedIn />
-
       <main className="home">
         <header className="header">
           <h1 className="logo">HOME</h1>
@@ -45,7 +37,6 @@ export default async function  Home() {
         </section>
       </main>
 
-      <FooterLoggedIn />
     </>
   );
 }

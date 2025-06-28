@@ -19,7 +19,7 @@ export default function ResetPasswordForm() {
   useEffect(() => {
     const validatingToken = async () => {
       try {
-        const res = await API.post('/api/validate-token', { token });
+        const res = await API.post('/validate-token', { token });
         if (res.data.valid) {
           setStatus('valid');
         } else {
