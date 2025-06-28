@@ -1,5 +1,5 @@
 'use client';
-import React from 'react'
+import React from 'react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
@@ -7,9 +7,8 @@ import Link from 'next/link';
 import styles from './page.module.css';
 
 function LoginForm() {
-    const router = useRouter(); 
+  const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
-
 
   const [data, setData] = useState({
     email: '',
@@ -31,22 +30,22 @@ function LoginForm() {
     }));
   };
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
     try {
-    const response = await API.post('/login', {
-      email: data.email,
-      password: data.password,
-    });
+      const response = await API.post('/login', {
+        email: data.email,
+        password: data.password,
+      });
 
-    console.log('Login success:', response.data);
-    router.push('/');
-  } catch (error) {
-    const msg = error.response?.data?.error || 'Login failed';
-    console.error('Login failed:', msg);
-    setErrorMsg(msg);
-  }
+      console.log('Login success:', response.data);
+      router.push('/');
+    } catch (error) {
+      const msg = error.response?.data?.error || 'Login failed';
+      console.error('Login failed:', msg);
+      setErrorMsg(msg);
+    }
   };
   return (
     <>
@@ -60,7 +59,7 @@ function LoginForm() {
         </div>
 
         <div className={styles.loginFormWrapper}>
-        {errorMsg && <p className={styles.errorText}>{errorMsg}</p>}
+          {errorMsg && <p className={styles.errorText}>{errorMsg}</p>}
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formFields}>
               <label htmlFor="email" className={styles.formLabel}>
@@ -136,7 +135,7 @@ function LoginForm() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;

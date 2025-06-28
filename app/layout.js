@@ -16,7 +16,7 @@ const montserrat = Montserrat({
 
 export default async function RootLayout({ children }) {
   const user = await getUserFromCookie();
-  console.log(user, user.userName, user.id, user.email);
+  console.log(user?.userName, user?.id, user?.email); // ✅ Seguro
   const isLoggedIn = !!user;
 
   return (
