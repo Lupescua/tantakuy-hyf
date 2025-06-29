@@ -29,7 +29,7 @@ const competitionsMock = [
   },
 ];
 
-export default function CompetitionDetailPage() {
+export default function CompetitionGalleryPage() {
   const { id } = useParams();
   const competition = competitionsMock.find((c) => c.id === id);
 
