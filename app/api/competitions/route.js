@@ -1,6 +1,6 @@
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
-import { getUserFromRequest } from '@/utils/server/auth';
+import { getUserFromCookie } from '@/utils/server/auth';
 import { verifyToken } from '@/utils/jwt.js';
 
 export async function GET() {
@@ -13,7 +13,7 @@ export async function POST(req) {
   try {
     await dbConnect();
 
-    const user = await getUserFromRequest(req);
+    const user = await getUserFromCookie();
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
