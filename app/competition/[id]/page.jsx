@@ -50,7 +50,6 @@ export default function CompetitionGalleryPage() {
         </div>
         <JoinButton/>
       </main>
-      <FooterLoggedIn />
     </>
   );
 }
