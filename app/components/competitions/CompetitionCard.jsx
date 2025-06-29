@@ -28,6 +28,8 @@ export default function CompetitionCard({ competition }) {
             key={i}
             image={src}
             entryId={`competition-${id}-img-${i}`}
+            showActions={false}
+            showVoteCount={false}
           />
         ))}
       </div>
