@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import './CompetitionForm.css';
-import  Success from './app/layout.js';
-import NavbarLoggedIn from 'app/components/layouts/NavbarLoggedIn';
-import Footer from 'app/components/layouts/FooterLoggedIn';
 
 function CompetitionForm() {
   const [formData, setFormData] = useState({
