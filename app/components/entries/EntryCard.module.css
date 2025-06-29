@@ -43,3 +43,44 @@
   opacity: 1;
   cursor: default;
 }
+
+
+.shareButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: #444;
+  cursor: pointer;
+}
+
+.shareButton > img {
+  width: 18px;
+  height: 15px;
+  object-fit: cover;
+
+}
+
+
+.voteButton,
+.shareButton {
+  background: none;
+  border: none;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.buttonGroupWrapper {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 12px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.8); /* Slight white opacity */
+  padding: 6px 12px;
+  margin-top: 8px;
+}
+
