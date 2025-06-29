@@ -42,7 +42,7 @@ function LoginForm() {
       console.log('Login success:', response.data);
       router.push('/');
     } catch (error) {
-      const msg = error.response?.data?.error || 'Login failed';
+      const msg = error.response?.data?.message || 'Login failed';
       console.error('Login failed:', msg);
       setErrorMsg(msg);
     }
