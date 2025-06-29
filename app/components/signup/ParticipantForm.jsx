@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css'
 import Modal from "../terms-conditions/Modal";
-
-
-
+import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 
 export default function RegistrationForm() {
+  const router = useRouter();
+  const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     userName: '',
     email: '',
@@ -13,6 +15,9 @@ export default function RegistrationForm() {
     confirmPassword: '',
     acceptTerms: false,
   });
+
+  //I added this loader to disable the form while loading
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -22,10 +27,31 @@ export default function RegistrationForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form validation and submission logic here
-    console.log('Form submitted:', formData);
+
+    //check for password matching
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match.');
+      return;
+    }
+
+    //the loader
+    setLoading(true);
+    setError(null);
+
+    try {
+      await API.post('/participants', formData);
+      router.push('/');
+    } catch (error) {
+      const message =
+        error.response?.data?.message ||
+        'Failed to register. Please try again.';
+      setError(message);
+      console.error('Registration error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 // Terms & conditions starts
 const [isModalOpen, setModalOpen] = useState(false);
@@ -141,8 +167,12 @@ const savePrivacy = () => {
 
       </div>
 
-      <button className={styles.buttonBlack} type="submit">
-        Registration →
+      {/* displaying any errors */}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
+      {/* the button will inactive while loading */}
+      <button className={styles.buttonBlack} type="submit" disabled={loading}>
+        {loading ? 'Registering...' : 'Registration →'}
       </button>
     </form>
       <Modal isOpen={isModalOpen} onClose={closeModal}>

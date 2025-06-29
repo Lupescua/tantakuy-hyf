@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
 import Modal from "../terms-conditions/Modal";
-
-
-
+import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
 
 export default function OrganizationForm() {
+  const router = useRouter();
+  const [error, setError] = useState(null);
+
   const [formData, setFormData] = useState({
     name: '',
     position: '',
@@ -26,10 +28,20 @@ export default function OrganizationForm() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add form validation and submission logic here
-    console.log('Company form submitted:', formData);
+    try {
+      const res = await API.post('/companies', formData);
+      console.log(`result: ${res}`);
+      const data = res.data;
+      setError('');
+      router.push('/');
+    } catch (e) {
+      const message =
+        e.response?.data?.message || 'Failed to register. Please try again.';
+      setError(message);
+      console.log(error);
+    }
   };
   // Terms & conditions starts
   const [isModalOpen, setModalOpen] = useState(false);

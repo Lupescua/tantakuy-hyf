@@ -2,6 +2,14 @@
   width: 100%;
   height: 100%;
 }
+.warningText {
+  color: #7f0000;
+  font-size: 12px;
+  width: 100%;
+  background-color: #ffd0d0;
+  padding: 5px;
+  text-align: center;
+}
 .signUpItems {
   font-family: var(--font-family);
   font-size: 14px;
@@ -66,9 +74,13 @@
   width: 100%;
   margin: 10px 0;
 }
+.formItem input {
+  color: black;
+}
 
 .formItemCompany,
 .formItemOrg {
+  color: black;
   margin: 5px 0;
 }
 
@@ -91,7 +103,9 @@
 .formItemCompany:nth-child(8) {
   width: 49%;
 }
-
+.hero-subtitle {
+  font-size: 1px;
+}
 .itemButton {
   display: flex;
   align-items: center;
@@ -187,4 +201,17 @@
 
 .buttonBlack {
   color: white;
+}
+
+.itemButton {
+  margin-top: 70px;
+  background: none;
+  border: none;
+  font-weight: 500;
+  font-size: 16px;
+  color: black;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
 }

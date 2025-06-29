@@ -1,0 +1,9 @@
+.imageContainer1 {
+  width: 100%;
+  height: 100%;
+  background-color: var(--bar-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
