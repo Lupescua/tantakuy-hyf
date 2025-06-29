@@ -146,10 +146,11 @@ const savePrivacy = () => {
       </button>
     </form>
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <h2>Terms and conditions</h2>
+        <h2 className={styles.termsModalTitle}>Terms and conditions</h2>
         {isEditing ? (
           <>
             <textarea
+            className={styles.textModal}f
               value={tempTerms}
               onChange={(e) => setTempTerms(e.target.value)}
               rows={10}
