@@ -14,6 +14,7 @@ export function getUserFromCookie() {
   }
 }
 
+
 export async function getUserFromRequest(req) {
   const cookieHeader = req.headers.get('cookie');
   if (!cookieHeader) return null;
@@ -31,3 +32,4 @@ export async function getUserFromRequest(req) {
     return null;
   }
 }
+
