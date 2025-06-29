@@ -6,3 +6,42 @@
   font-size: 15px;
   cursor: pointer;
 }
+
+
+.main {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  margin-bottom: 2rem;
+}
+
+.joinButton {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 20px;
+  font-size: 16px;
+  background-color:#868483;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 60%;
+}
+
