@@ -54,12 +54,6 @@ const CompanySchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
-
-    role: {
-      type: String,
-      default: 'company',
-      enum: ['company'],
-    },
   },
   { timestamps: true },
 );
