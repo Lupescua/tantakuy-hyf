@@ -3,8 +3,13 @@ import { useEffect, useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import styles from './EntryCard.module.css';
 
-export default function EntryCard({ image, initialVotes = 0, entryId, showVoteCount = true,
-  showActions = true}) {
+export default function EntryCard({
+  image,
+  initialVotes = 0,
+  entryId,
+  showVoteCount = true,
+  showActions = true,
+}) {
   const [voted, setVoted] = useState(false);
   const [votes, setVotes] = useState(initialVotes);
 
@@ -20,12 +25,21 @@ export default function EntryCard({ image, initialVotes = 0, entryId, showVoteCo
   }, [entryId]);
 
   const handleVote = () => {
-    if (!voted) {
+    const voteKey = `voted-${entryId}`;
+    const countKey = `votes-${entryId}`;
+
+    if (voted) {
+      const newVotes = votes - 1;
+      setVotes(newVotes);
+      setVoted(false);
+      localStorage.removeItem(voteKey);
+      localStorage.setItem(countKey, newVotes);
+    } else {
       const newVotes = votes + 1;
       setVotes(newVotes);
       setVoted(true);
-      localStorage.setItem(`voted-${entryId}`, 'true');
-      localStorage.setItem(`votes-${entryId}`, newVotes);
+      localStorage.setItem(voteKey, 'true');
+      localStorage.setItem(countKey, newVotes);
     }
   };
 
@@ -34,29 +48,24 @@ export default function EntryCard({ image, initialVotes = 0, entryId, showVoteCo
       <img src={image} alt="entry" className={styles.image} />
 
       <div className={styles.bottom}>
-         {showVoteCount && (
-    <div className={styles.voteCount}>{votes} stemmer</div>
-  )}
-    {showActions && (
-    <div className={styles.buttonGroupWrapper}>
-      <button
-        onClick={handleVote}
-        disabled={voted}
-        className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
-      >
-        {voted ? <FaHeart /> : <FaRegHeart />} Stem
-      </button>
+        {showVoteCount && (
+          <div className={styles.voteCount}>{votes} stemmer</div>
+        )}
+        {showActions && (
+          <div className={styles.buttonGroupWrapper}>
+            <button
+              onClick={handleVote}
+              className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
+            >
+              {voted ? <FaHeart /> : <FaRegHeart />} Stem
+            </button>
 
-      <button className={styles.shareButton}>
-        <img
-          src="/del.png"
-          alt="Del"
-          className={styles.shareIcon}
-        />
-        Del
-      </button>
-    </div>
-  )}
+            <button className={styles.shareButton}>
+              <img src="/del.png" alt="Del" className={styles.shareIcon} />
+              Del
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
