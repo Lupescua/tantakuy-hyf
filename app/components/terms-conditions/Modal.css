@@ -1,0 +1,48 @@
+/* Modal.css */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* top: 0; right: 0; bottom: 0; left: 0 */
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  padding: 2rem;
+  max-width: 600px;
+  width: 90%;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+.modal-content h2{
+  font-size: 20px;
+  padding: 10px 0;
+  font-family: var(--font-family);
+}
+.modal-content p{
+  padding: 15px 0;
+  font-size: 15px;
+  line-height: 25px;
+  font-family: var(--font-family);
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.modal-close:hover {
+  color: #000;
+}

@@ -25,6 +25,7 @@ export default async function RootLayout({ children }) {
       {children}
       {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
         </body>
+
     </html>
   );
 }
