@@ -1,6 +1,7 @@
 import { Montserrat } from 'next/font/google';
 import '../style/global.css';
 import '../style/base.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const montserrat = Montserrat({
   subsets: ['latin'],

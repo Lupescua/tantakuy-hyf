@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from '../../../style/ForgotPassword.module.css';
 import { useRouter } from 'next/navigation';
 
-export default function VerifyToken() {
+export default function InvalidToken({ message }) {
   const router = useRouter();
   const [countdown, setCountdown] = useState(3);
 
@@ -25,10 +25,7 @@ export default function VerifyToken() {
   return (
     <div className={styles.centeredContainer}>
       <div className={styles.leftAlignText}>
-        <p className={styles.message}>
-          If your email is registered, a reset link has been sent. Please check
-          your inbox.
-        </p>
+        <p className={styles.message}>{message}</p>
         <a href="/login" className={styles.backLink}>
           Back to Log in
         </a>
