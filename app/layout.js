@@ -21,10 +21,10 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
-        {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-        {children}
-        {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
-      </body>
+      {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+      {children}
+      {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
+        </body>
     </html>
   );
 }
