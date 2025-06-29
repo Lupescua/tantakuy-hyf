@@ -1,5 +1,3 @@
-import NavbarLoggedIn from '../components/layouts/NavbarLoggedIn/NavbarLoggedIn';
-import FooterLoggedIn from '../components/layouts/FooterLoggedIn/FooterLoggedIn';
 import CompetitionList from '../components/competitions/CompetitionList';
 import styles from './competitions.module.css';
 
@@ -28,12 +26,10 @@ const competitionsMock = [
 export default function CompetitionsPage() {
   return (
     <>
-      <NavbarLoggedIn />
       <main className={styles.mainContent}>
         <h1>Igangværende Konkurrencer</h1>
         <CompetitionList competitions={competitionsMock} />
       </main>
-      <FooterLoggedIn />
     </>
   );
 }

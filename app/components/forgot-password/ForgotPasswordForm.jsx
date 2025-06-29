@@ -18,9 +18,11 @@ export default function ForgotPasswordForm() {
       return;
     }
     try {
-      const res = API.post('/api/request-reset', { email });
-      console.log('Response:', response.data);
+      const res = await API.post('/request-reset', { email });
+      console.log('Response: is this ', res);
+      console.log("this is req.data.sucecss and data an succes", res.data.success, res.data, res.success)
       if (res.data.success) {
+        console.log(res.data.success)
         setStatus('If your email is registered, a reset link has been sent.');
       } else {
         setStatus('Something went wrong. Please try again.');

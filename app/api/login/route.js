@@ -7,7 +7,6 @@ export async function POST(req) {
     await dbConnect();
     const body = await req.json();
     const { token, user } = await loginUser(body);
-    console.log(token, user);
     const cookieStore = await cookies();
     cookieStore.set('token', token, {
       httpOnly: true,
