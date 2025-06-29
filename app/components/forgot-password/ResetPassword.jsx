@@ -14,28 +14,31 @@ export default function ResetPasswordForm() {
   const [rememberMe, setRememberMe] = useState(false);
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
+  const emailParam = searchParams.get('email')
   const [status, setStatus] = useState('loading');
-
+  console.log(emailParam)
   useEffect(() => {
     const validatingToken = async () => {
       try {
-        const res = await API.post('/validate-token', { token });
-        if (res.data.valid) {
+        const res = await API.post('/validate-token', {
+          email: emailParam,
+          token: token,
+        });
+        if (res.status) {
           setStatus('valid');
         } else {
           setStatus('invalid');
         }
       } catch (error) {
-        console.error('Token validation error:', error);
         setStatus('invalid');
       }
     };
-    if (token) {
+    if (emailParam && token) {
       validatingToken();
     } else {
-      setStatus('invalid');
+      setStatus('invalid'); // Invalid if params are missing
     }
-  }, [token]);
+  }, [emailParam, token]);
 
   if (status === 'invalid') return <InvalidToken message={status} />;
 

@@ -18,13 +18,13 @@ export async function sendResetLink(email) {
     if (!user) {
       throw new AppError('No user found with that email.', 404);
     }
-    // const token = crypto.randomBytes(32).toString('hex');
-    // user.resetToken = token;
-    // user.resetTokenExpiry = Date.now() + 1000 * 60 * 15;
-    // await user.save();
+    const token = crypto.randomBytes(32).toString('hex');
+    user.resetToken = token;
+    user.resetTokenExpiry = Date.now() + 1000 * 60 * 15;
+    await user.save();
 
-    // const resetLink = `${DOMAIN}forgot-password?step=reset&token=${token}`;
-    // return resetLink;
+    const resetLink = `${DOMAIN}forgot-password?step=reset&token=${token}&email=${email}`;
+    return resetLink;
   } catch (error) {
     throw new AppError(error.message || 'Password Reset Failed!', 500);
   }
