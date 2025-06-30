@@ -1,6 +1,7 @@
 'use client';
+
 import { useEffect, useState } from 'react';
-import { fetchCompetitionById } from '@/utils/fetchCompetitionById';
+import { getCompetitionById } from '@/services/competitionService';
 
 export default function CompetitionDetailsModal({ competitionId, onClose }) {
   const [competition, setCompetition] = useState(null);
@@ -10,7 +11,7 @@ export default function CompetitionDetailsModal({ competitionId, onClose }) {
     if (!competitionId) return;
 
     setLoading(true);
-    fetchCompetitionById(competitionId)
+    getCompetitionById(competitionId)
       .then(setCompetition)
       .catch((err) => {
         console.error('Failed to fetch competition:', err);
@@ -36,7 +37,7 @@ export default function CompetitionDetailsModal({ competitionId, onClose }) {
           <>
             <h2 className="text-2xl font-bold mb-2">{competition.title}</h2>
             <p className="text-gray-600 mb-4">{competition.description}</p>
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-gray-500 space-y-1">
               <p>
                 <strong>Ends:</strong>{' '}
                 {new Date(competition.endDate).toLocaleDateString()}
@@ -55,7 +56,7 @@ export default function CompetitionDetailsModal({ competitionId, onClose }) {
         ) : (
           <p>Competition not found.</p>
         )}
-      </div>Add commentMore actions
+      </div>
     </div>
   );
 }
