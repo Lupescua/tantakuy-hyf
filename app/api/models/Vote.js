@@ -22,5 +22,5 @@ const VoteSchema = new mongoose.Schema(
 );
 
 VoteSchema.index({ participant: 1, entry: 1 }, { unique: true });
-const Vote = mongoose.model('Vote', VoteSchema);
+const Vote = mongoose.models.Vote || mongoose.model('Vote', VoteSchema);
 export default Vote;
