@@ -1,35 +1,39 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import CompetitionList from '../components/competitions/CompetitionList';
 import styles from './competitions.module.css';
 
-const competitionsMock = [
-  {
-    id: '1',
-    name: 'Bistad - Efterårshygge',
-    logo: '/images/logo1.png',
-    images: [
-      '/images/entry1.jpg',
-      '/images/entry2.jpg',
-      '/images/entry3.jpg',
-      '/images/entry4.jpg',
-      '/images/entry5.jpg',
-      '/images/entry6.jpg',
-    ],
-  },
-  {
-    id: '2',
-    name: 'Konkurrence titel',
-    logo: '/images/logo2.png',
-    images: ['/images/entry7.jpg', '/images/entry8.jpg', '/images/entry9.jpg'],
-  },
-];
-
 export default function CompetitionsPage() {
+  const [competitions, setCompetitions] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchCompetitions() {
+      try {
+        const res = await fetch('/api/competitions');
+        const data = await res.json();
+        setCompetitions(data);
+      } catch (err) {
+        console.error('Failed to load competitions:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchCompetitions();
+  }, []);
+
   return (
-    <>
-      <main className={styles.mainContent}>
-        <h1>Igangværende Konkurrencer</h1>
-        <CompetitionList competitions={competitionsMock} />
-      </main>
-    </>
+    <main className={styles.mainContent}>
+      <h1>Igangværende Konkurrencer</h1>
+      {loading ? (
+        <p>Henter konkurrencer...</p>
+      ) : competitions.length > 0 ? (
+        <CompetitionList competitions={competitions} />
+      ) : (
+        <p>Ingen konkurrencer fundet.</p>
+      )}
+    </main>
   );
 }
