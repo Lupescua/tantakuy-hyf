@@ -2,8 +2,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import './entry-form.css';
-import CloseIcon from '@mui/icons-material/Close';
-
+// import CloseIcon from '@mui/icons-material/Close';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 const EntryForm = () => {
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
@@ -54,10 +56,16 @@ const EntryForm = () => {
       </header>
       <div className="uploadbar">
         <div className="closecircle">
-          <CloseIcon className="closeicon" />
+          {/* <CloseIcon className="closeicon" /> */}
+          <FontAwesomeIcon icon={faXmark} className="closeicon" />
         </div>
         <span className="uploadtitle">Valgte billeder</span>
-        <span className="nextbtn">Next</span>
+        {/* <button className="nextbtn" onClick={handleNext}>
+          Next
+        </button> */}
+        <Link className="nextbtn" href={'/competition-overview'}>
+          Next
+        </Link>
       </div>
 
       <form className="entryform" onSubmit={handleSubmit}>
