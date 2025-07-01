@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './CompetitionCard.module.css';
 import EntryCard from '../entries/EntryCard';
-
-const PLACEHOLDER_IMG = '/default-image.png';
+import CompetitionDetailsModal from '../modals/CompetitionDetailsModal';
+const PLACEHOLDER_IMG = 'https://via.placeholder.com/150';
 
 export default function CompetitionCard({ competition }) {
   const { title, logo, images } = competition;
@@ -22,6 +22,7 @@ export default function CompetitionCard({ competition }) {
         </div>
         {/* <h2 className={styles.title}>{title}</h2> */}
       </Link>
+      <CompetitionDetailsModal competitionId={id} />
 
       <div className={styles.grid}>
         {images.map((src, i) => (
