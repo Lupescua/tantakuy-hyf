@@ -7,7 +7,7 @@ const PLACEHOLDER_IMG = 'https://via.placeholder.com/150';
 export default function CompetitionCard({ competition }) {
   const { id, name, logo, images } = competition;
 
-  const displayedImages = [...images];
+  const displayedImages = [images];
   while (displayedImages.length < 6) {
     displayedImages.push(PLACEHOLDER_IMG);
   }
@@ -15,7 +15,7 @@ export default function CompetitionCard({ competition }) {
 
   return (
     <div className={styles.card}>
-      <Link href={`/competition/${id}`} className={styles.header}>
+      <Link href={`/competitions/${id}`} className={styles.header}>
         <div className={styles.logoWrapper}>
           <img src={logo} alt={`${name} logo`} className={styles.logo} />
         </div>
@@ -27,7 +27,7 @@ export default function CompetitionCard({ competition }) {
           <EntryCard
             key={i}
             image={src}
-            entryId={`competition-${id}-img-${i}`}
+            entryId={`competitions-${id}-img-${i}`}
             showActions={false}
             showVoteCount={false}
           />

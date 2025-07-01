@@ -51,10 +51,11 @@ export default function ResetPasswordForm() {
     }
 
     try {
-      const res = await API.post('/api/forgotPassword', { email, newPassword });
-      console.log(res.data);
+      const res = await API.post('/forgotPassword', {email, newPassword, token});
+     
 
       const { user } = res.data.user;
+      
 
       if (!user.userName || !user.email) {
         throw new AppError('Missing user data', 400);

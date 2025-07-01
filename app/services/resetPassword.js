@@ -2,9 +2,9 @@ import Participant from '../api/models/Participant';
 import bcrypt from 'bcryptjs';
 import { AppError } from '@/utils/errorHandler';
 
-export async function resetPassword(forgotObj = {}, token) {
-  const { email, newPassword } = forgotObj;
-
+export async function resetPassword(forgotObj = {}) {
+  const { email, newPassword, token} = forgotObj;
+  
   if (!email || !newPassword || !token) {
     throw new AppError('Missing required fields.', 400);
   }
