@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './CompetitionCard.module.css';
 import EntryCard from '../entries/EntryCard';
-
+import CompetitionDetailsModal from '../modals/CompetitionDetailsModal';
 const PLACEHOLDER_IMG = 'https://via.placeholder.com/150';
 
 export default function CompetitionCard({ competition }) {
@@ -21,6 +21,7 @@ export default function CompetitionCard({ competition }) {
         </div>
         <h2 className={styles.title}>{name}</h2>
       </Link>
+      <CompetitionDetailsModal competitionId={id}/>
 
       <div className={styles.grid}>
         {displayedImages.map((src, i) => (
