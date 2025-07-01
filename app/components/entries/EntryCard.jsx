@@ -1,62 +1,117 @@
 'use client';
-import { useEffect, useState } from 'react';
+
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import styles from './EntryCard.module.css';
+import API from '@/utils/axios';
+import { useAuth } from '@/context/AuthContext';
+import Loader from '../loader/Loader';
 
-export default function EntryCard({ image, initialVotes = 0, entryId, showVoteCount = true,
-  showActions = true}) {
-  const [voted, setVoted] = useState(false);
-  const [votes, setVotes] = useState(initialVotes);
+export default function EntryCard({
+  image,
+  entryId,
+  showActions = true,
+  showVoteCount = true,
+}) {
+  const router = useRouter();
+  const { user, loading: authLoading, refresh } = useAuth();
 
+  // ▶️ Component state
+  const [votes, setVotes] = useState(0);
+  const [hasVoted, setHasVoted] = useState(false);
+  const [voteRecordId, setVoteRecordId] = useState(null);
+  const [loadingVotes, setLoadingVotes] = useState(true);
+
+  // 📥 1) Load total votes + whether current user already voted
   useEffect(() => {
-    const storedVote = localStorage.getItem(`voted-${entryId}`);
-    const storedCount = localStorage.getItem(`votes-${entryId}`);
-    if (storedVote === 'true') {
-      setVoted(true);
+    if (!entryId) {
+      // placeholder slot → skip API
+      setLoadingVotes(false);
+      return;
     }
-    if (storedCount) {
-      setVotes(parseInt(storedCount));
+    let isMounted = true;
+    async function fetchVoteInfo() {
+      setLoadingVotes(true);
+      try {
+        // GET /api/votes/me?entryId=...
+        const { data } = await API.get(`/votes/me`, { params: { entryId } });
+        if (data.success && isMounted) {
+          setVotes(data.votes);
+          setHasVoted(data.hasVoted);
+          setVoteRecordId(data.recordId);
+        }
+      } catch (err) {
+        console.error('Failed to load vote info:', err);
+      } finally {
+        if (isMounted) setLoadingVotes(false);
+      }
     }
-  }, [entryId]);
+    fetchVoteInfo();
+    return () => {
+      isMounted = false;
+    };
+  }, [entryId, refresh]);
 
-  const handleVote = () => {
-    if (!voted) {
-      const newVotes = votes + 1;
-      setVotes(newVotes);
-      setVoted(true);
-      localStorage.setItem(`voted-${entryId}`, 'true');
-      localStorage.setItem(`votes-${entryId}`, newVotes);
+  // 🔄 2) Toggle vote on/off, or redirect guest to login
+  const handleVote = async () => {
+    if (authLoading || loadingVotes) return;       // guard during loads
+    if (!user) {
+      router.push('/login');                       // guests go to login
+      return;
+    }
+
+    setLoadingVotes(true);
+    try {
+      if (!hasVoted) {
+        // cast new vote
+        const { data } = await API.post('/votes', {
+          entry: entryId,
+          voteType: 'like',
+        });
+        if (data.success) {
+          setVotes((v) => v + 1);
+          setHasVoted(true);
+          setVoteRecordId(data.vote._id);
+        }
+      } else {
+        // remove existing vote
+        await API.delete(`/votes/${voteRecordId}`);
+        setVotes((v) => Math.max(v - 1, 0));
+        setHasVoted(false);
+        setVoteRecordId(null);
+      }
+      refresh();  // update auth context (in case other UIs depend on it)
+    } catch (err) {
+      console.error('Vote operation failed:', err);
+    } finally {
+      setLoadingVotes(false);
     }
   };
 
   return (
     <div className={styles.card}>
-      <img src={image} alt="entry" className={styles.image} />
+      {/* ENTRY IMAGE */}
+      <img src={image} alt="Entry image" className={styles.image} />
 
+      {/* FOOTER: vote count + button */}
       <div className={styles.bottom}>
-         {showVoteCount && (
-    <div className={styles.voteCount}>{votes} stemmer</div>
-  )}
-    {showActions && (
-    <div className={styles.buttonGroupWrapper}>
-      <button
-        onClick={handleVote}
-        disabled={voted}
-        className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
-      >
-        {voted ? <FaHeart /> : <FaRegHeart />} Stem
-      </button>
+        {showVoteCount && (
+          <div className={styles.voteCount}>
+            {/* show loader while fetching votes */}
+            {loadingVotes ? <Loader /> : `${votes} stemmer`}
+          </div>
+        )}
 
-      <button className={styles.shareButton}>
-        <img
-          src="/del.png"
-          alt="Del"
-          className={styles.shareIcon}
-        />
-        Del
-      </button>
-    </div>
-  )}
+        {showActions && (
+          <button
+            onClick={handleVote}
+            disabled={authLoading || loadingVotes || !entryId}
+            className={`${styles.voteButton} ${hasVoted ? styles.voted : ''}`}
+          >
+            {hasVoted ? <FaHeart /> : <FaRegHeart />} Stem
+          </button>
+        )}
       </div>
     </div>
   );

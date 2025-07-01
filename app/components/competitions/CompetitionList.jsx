@@ -1,5 +1,6 @@
 'use client';
 
+
 import { useEffect, useState } from 'react';
 import CompetitionCard from './CompetitionCard';
 import Loader from '../loader/Loader';
@@ -8,11 +9,11 @@ import API from '@/utils/axios';
 
 export default function CompetitionList() {
   const [competitions, setCompetitions] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading,      setLoading]      = useState(true);
+  const [error,        setError]        = useState(null);
 
   useEffect(() => {
-    const fetchCompetitions = async () => {
+    async function fetchCompetitions() {
       try {
         const res = await API.get('/competitions');
         setCompetitions(res.data);
@@ -22,18 +23,22 @@ export default function CompetitionList() {
       } finally {
         setLoading(false);
       }
-    };
-
+    }
     fetchCompetitions();
   }, []);
 
   if (loading) return <Loader />;
-  if (error) return <p className={styles.error}>{error}</p>;
+  if (error)   return <p className={styles.error}>{error}</p>;
 
   return (
     <div className={styles.list}>
       {competitions.map((competition) => (
-        <CompetitionCard key={competition._id} competition={competition} />
+        <CompetitionCard
+          key={competition._id}
+          competition={competition}
+          showActions={false}     // ← hide vote/share buttons
+          showVoteCount={false}   // ← hide vote counts
+        />
       ))}
     </div>
   );

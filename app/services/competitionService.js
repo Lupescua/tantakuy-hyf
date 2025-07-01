@@ -1,18 +1,39 @@
-import axios from 'axios';
+import API from '@/utils/axios';
 
-const API_URL = '/api/competitions';
+const PATH = '/competitions';
 
 export async function getAllCompetitions() {
-  const res = await axios.get(API_URL);
-  return res.data;
+  try {
+    const res = await API.get(PATH);
+    return res.data;
+  } catch (err) {
+    console.error('getAllCompetitions failed', err);
+    throw new Error(
+      err.response?.data?.error || 'Unable to fetch competitions',
+    );
+  }
 }
 
 export async function getCompetitionById(id) {
-  const res = await axios.get(`${API_URL}/${id}`);
-  return res.data;
+  try {
+    const res = await API.get(`${PATH}/${id}`);
+    return res.data;
+  } catch (err) {
+    console.error(`getCompetitionById(${id}) failed`, err);
+    throw new Error(
+      err.response?.data?.error || `Unable to fetch competition ${id}`,
+    );
+  }
 }
 
-export async function createCompetition(data) {
-  const res = await axios.post(API_URL, data);
-  return res.data;
+export async function createCompetition(payload) {
+  try {
+    const res = await API.post(PATH, payload);
+    return res.data;
+  } catch (err) {
+    console.error('createCompetition failed', err);
+    throw new Error(
+      err.response?.data?.error || 'Unable to create competition',
+    );
+  }
 }
