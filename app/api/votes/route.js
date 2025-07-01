@@ -21,23 +21,27 @@ export async function POST(req) {
 
     const { id: participantId } = verifyToken(token);
 
-    const voteResult = await saveVote({
+    const result = await saveVote({
       entryId: entry,
       participantId,
       voteType,
     });
 
-    if (!voteResult.success) {
+    if (!result.ok) {
+      if (result.reason === 'duplicate') {
+        // client already has a vote – return 409
+        return Response.json(
+          { success: false, message: 'Already voted' },
+          { status: 409 },
+        );
+      }
       return Response.json(
-        { success: false, message: voteResult.message },
-        { status: 400 },
+        { success: false, message: 'Could not save vote' },
+        { status: 500 },
       );
     }
 
-    return Response.json(
-      { success: true, vote: voteResult.data },
-      { status: 201 },
-    );
+    return Response.json({ success: true, vote: result.vote }, { status: 201 });
   } catch (error) {
     console.error('POST /api/votes error:', error);
     return Response.json(
@@ -56,7 +60,7 @@ export async function GET(req) {
   if (!entryId) {
     return Response.json(
       { success: false, message: 'Missing entryId' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -65,7 +69,7 @@ export async function GET(req) {
   if (!countResult.success) {
     return Response.json(
       { success: false, message: countResult.message },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -88,6 +92,6 @@ export async function GET(req) {
 
   return Response.json(
     { success: true, votes: countResult.data, userVoted },
-    { status: 200 }
+    { status: 200 },
   );
 }

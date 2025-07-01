@@ -29,8 +29,8 @@ export default function EntryCard({
     const isRealId =
       typeof entryId === 'string' && /^[0-9a-f]{24}$/i.test(entryId);
     if (!isRealId) {
-      setLoadingVotes(false);      // placeholder → no spinner
-      return;                      // ⤴ skip fetch
+      setLoadingVotes(false); // placeholder → no spinner
+      return; // ⤴ skip fetch
     }
     let isMounted = true;
     async function fetchVoteInfo() {
@@ -57,9 +57,9 @@ export default function EntryCard({
 
   // 🔄 2) Toggle vote on/off, or redirect guest to login
   const handleVote = async () => {
-    if (authLoading || loadingVotes) return;       // guard during loads
+    if (authLoading || loadingVotes) return; // guard during loads
     if (!user) {
-      router.push('/login');                       // guests go to login
+      router.push('/login'); // guests go to login
       return;
     }
 
@@ -83,9 +83,14 @@ export default function EntryCard({
         setHasVoted(false);
         setVoteRecordId(null);
       }
-      refresh();  // update auth context (in case other UIs depend on it)
+      refresh(); // update auth context (in case other UIs depend on it)
     } catch (err) {
-      console.error('Vote operation failed:', err);
+      /* 409 means we already have a vote → sync UI */
+      if (err.response?.status === 409) {
+        setHasVoted(true);
+      } else {
+        console.error('Vote operation failed:', err);
+      }
     } finally {
       setLoadingVotes(false);
     }

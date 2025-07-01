@@ -30,12 +30,21 @@ export async function saveVote({ entryId, participantId, voteType }) {
     throw new AppError('Missing required fields', 400);
   }
   await dbConnect();
-  const vote = await Vote.create({
-    entry: entryId,
-    participant: participantId,
-    voteType,
-  });
-  return vote;
+  try {
+    const vote = await Vote.create({
+      entry: entryId,
+      participant: participantId,
+      voteType,
+    });
+    return { ok: true, vote };
+  } catch (error) {
+    /* E11000 = duplicate key → user already voted */
+    if (error.code === 11000) {
+      return { ok: false, reason: 'duplicate' };
+    }
+
+    throw new AppError("Couldn't save the vote", 500);
+  }
 }
 
 export async function deleteVoteById({ voteId, participantId }) {
@@ -45,6 +54,7 @@ export async function deleteVoteById({ voteId, participantId }) {
   await dbConnect();
   const vote = await Vote.findById(voteId);
   if (!vote) throw new AppError('Vote not found', 404);
-  if (vote.participant.toString() !== participantId) throw new AppError('Forbidden', 403);
+  if (vote.participant.toString() !== participantId)
+    throw new AppError('Forbidden', 403);
   await Vote.deleteOne({ _id: voteId });
 }
