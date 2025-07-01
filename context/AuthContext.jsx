@@ -15,35 +15,27 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
   const router = useRouter()
 
-  // load current user once on mount
-  useEffect(() => {
-    async function loadMe() {
-      setLoading(true)
-      try {
-        const { data } = await API.get('/auth/me')
-        setUser(data.success ? data.user : null)
-      } catch {
-        setUser(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-    loadMe()
-  }, [])
-
-  // call after login or logout to re-fetch /auth/me
-  const refresh = async () => {
+  //one helper to DRY load logic
+  const fetchMe = async () => {
     setLoading(true)
     try {
       const { data } = await API.get('/auth/me')
       setUser(data.success ? data.user : null)
     } catch {
+      // /auth/me *should not* throw now, but in case of
+      // network problems we still fall back to “guest”
       setUser(null)
     } finally {
       setLoading(false)
     }
   }
 
+  //initial fetch 
+  useEffect(() => { fetchMe() }, [])
+  
+  /* ─── expose refresh() to other comps ───── */
+  const refresh = fetchMe
+  
   return (
     <AuthContext.Provider value={{ user, loading, refresh }}>
       {children}
@@ -51,6 +43,6 @@ export function AuthProvider({ children }) {
   )
 }
 
-export function useAuth() {
+export function useAuth () {
   return useContext(AuthContext)
 }
