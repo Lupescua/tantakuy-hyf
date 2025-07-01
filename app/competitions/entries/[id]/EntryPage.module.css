@@ -1,7 +1,7 @@
 .container {
-  width: 100%;
-  max-width: 480px;
-  margin: 65px auto 0;
+  width: 100%; 
+  max-width: 480px; 
+  margin: 65px auto 0; 
   padding: 1.2rem;
   font-family: 'Inter', sans-serif;
   background: #fff;
@@ -72,7 +72,7 @@
 }
 
 .actions {
-  display: flex;
+  display: flex; 
   justify-content: center;
   gap: 1.5rem;
   margin-bottom: 1.2rem;
