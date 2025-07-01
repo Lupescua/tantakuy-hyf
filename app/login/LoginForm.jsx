@@ -41,6 +41,7 @@ function LoginForm() {
 
       console.log('Login success:', response.data);
       router.push('/');
+      router.refresh();
     } catch (error) {
       const msg = error.response?.data?.error || 'Login failed';
       console.error('Login failed:', msg);
