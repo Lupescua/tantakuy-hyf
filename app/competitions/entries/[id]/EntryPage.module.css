@@ -1,0 +1,111 @@
+.container {
+  width: 100%;
+  max-width: 480px;
+  margin: 65px auto 0;
+  padding: 1.2rem;
+  font-family: 'Inter', sans-serif;
+  background: #fff;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1rem;
+  letter-spacing: 1px;
+}
+
+.buttons button {
+  font-size: 0.85rem;
+  margin-left: 0.5rem;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.2rem;
+}
+
+.username {
+  font-size: 0.9rem;
+  color: #888;
+  margin-bottom: 1rem;
+}
+
+.imageWrapper {
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.votes {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #fff;
+  color: #111;
+  font-weight: 600;
+  font-size: 0.75rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  max-height: 460px;
+  border-radius: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1.2rem;
+}
+
+.vote,
+.share {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  background-color: #f2f2f2;
+  border: none;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 2rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+}
+
+.footer button {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

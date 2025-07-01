@@ -7,7 +7,6 @@
   cursor: pointer;
 }
 
-
 .main {
   padding: 2rem;
   max-width: 1000px;
@@ -37,11 +36,10 @@
   align-items: center;
   padding: 20px 20px;
   font-size: 16px;
-  background-color:#868483;
+  background-color: #868483;
   color: white;
   border: none;
   border-radius: 30px;
   cursor: pointer;
   width: 60%;
 }
-

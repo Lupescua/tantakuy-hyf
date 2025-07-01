@@ -1,17 +1,15 @@
-'use client'
+'use client';
 import Link from 'next/link';
 import styles from './NavbarLoggedIn.module.css';
 import { useRouter } from 'next/router';
 import API from '@/utils/axios';
 
-
 export default function NavbarLoggedIn() {
-
   const handleLogout = async () => {
     const res = API.post('/logout');
 
-    router.push('/login')
-  }
+    router.push('/login');
+  };
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-container']}>
@@ -21,7 +19,7 @@ export default function NavbarLoggedIn() {
             {/* <Link href="/login" className={styles['nav-btn']}>
               Log in
             </Link> */}
-            <span>Welcome!     </span>
+            <span>Welcome! </span>
             <button
               onClick={handleLogout}
               className={`${styles['nav-btn']} ${styles.primary}`}
