@@ -55,6 +55,10 @@ export default function EntryCard({
           <div className={styles.buttonGroupWrapper}>
             <button
               onClick={handleVote}
+<<<<<<< HEAD
+=======
+              disabled={voted}
+>>>>>>> 2e13555 (Fix: format code with Prettier to pass build)
               className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
             >
               {voted ? <FaHeart /> : <FaRegHeart />} Stem

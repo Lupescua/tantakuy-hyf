@@ -1,8 +1,12 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import dbConnect from '../../../../utils/dbConnects';
 =======
 import dbConnect from '../../../../utils/dbConnects'; 
 >>>>>>> 537af64 (Entry page UI and working vote logic connected to DB)
+=======
+import dbConnect from '../../../../utils/dbConnects';
+>>>>>>> 2e13555 (Fix: format code with Prettier to pass build)
 import Entry from '../../models/Entry';
 import { withAuth } from '../../../../utils/authMiddleware';
 
@@ -49,10 +53,14 @@ export async function PATCH(req, { params }) {
       id,
       { $inc: { votes: 1 } },
 <<<<<<< HEAD
+<<<<<<< HEAD
       { new: true },
 =======
       { new: true }
 >>>>>>> 537af64 (Entry page UI and working vote logic connected to DB)
+=======
+      { new: true },
+>>>>>>> 2e13555 (Fix: format code with Prettier to pass build)
     );
 
     if (!entry) {

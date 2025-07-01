@@ -9,7 +9,7 @@ const EntrySchema = new mongoose.Schema(
     },
     participant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User', 
+      ref: 'User',
       required: true,
     },
     imageUrl: {
@@ -29,7 +29,7 @@ const EntrySchema = new mongoose.Schema(
       default: 0,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Entry = mongoose.models.Entry || mongoose.model('Entry', EntrySchema);

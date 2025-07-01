@@ -45,7 +45,11 @@ export default function EntryPage() {
           <p>{entry.description}</p>
 
           <div className={styles.imageWrapper}>
-            <img src={entry.imageUrl} alt="Entry Image" className={styles.image} />
+            <img
+              src={entry.imageUrl}
+              alt="Entry Image"
+              className={styles.image}
+            />
             <span className={styles.votes}>{entry.votes} stemmer</span>
           </div>
 
@@ -63,7 +67,7 @@ export default function EntryPage() {
                   const updatedEntry = await res.json();
 
                   setEntries((prev) =>
-                    prev.map((e) => (e._id === entry._id ? updatedEntry : e))
+                    prev.map((e) => (e._id === entry._id ? updatedEntry : e)),
                   );
                 } catch (err) {
                   console.error(err);
