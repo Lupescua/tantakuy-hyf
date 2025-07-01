@@ -6,6 +6,7 @@ import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import styles from './EntryCard.module.css';
 import API from '@/utils/axios';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
 import Loader from '../loader/Loader';
 
 export default function EntryCard({
@@ -99,7 +100,16 @@ export default function EntryCard({
   return (
     <div className={styles.card}>
       {/* ENTRY IMAGE */}
-      <img src={image} alt="Entry image" className={styles.image} />
+
+      {entryId ? (
+        /* real entry → click goes to its own page */
+        <Link href={`/entry/${entryId}`}>
+          <img src={image} alt="Entry image" className={styles.image} />
+        </Link>
+      ) : (
+        /* placeholder slot → static img, no link */
+        <img src={image} alt="Entry image" className={styles.image} />
+      )}
 
       {/* FOOTER: vote count + button */}
       <div className={styles.bottom}>
