@@ -1,19 +1,34 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './CompetitionCard.module.css';
 import EntryCard from '../entries/EntryCard';
 
-const PLACEHOLDER_IMG = 'https://via.placeholder.com/150';
+const PLACEHOLDER_IMG = '/default-image.png';
 
 export default function CompetitionCard({ competition }) {
-  const { _id, name, logo, images } = competition;
+  const { _id, name, logo } = competition;
+  const [images, setImages] = useState([]);
 
- const displayedImages = (competition.entries || [])
-  .slice(0, 6)
-  .map((entry) => entry.imageUrl);
+  useEffect(() => {
+    async function fetchEntries() {
+      try {
+        const res = await fetch(`/api/entries?competitionId=${_id}`);
+        const data = await res.json();
+        const imageUrls = data.slice(0, 6).map((entry) => entry.imageUrl);
 
-while (displayedImages.length < 6) {
-  displayedImages.push(PLACEHOLDER_IMG);
-}
+        while (imageUrls.length < 6) {
+          imageUrls.push(PLACEHOLDER_IMG);
+        }
+
+        setImages(imageUrls);
+      } catch (err) {
+        console.error(`Failed to load entries for competition ${_id}`, err);
+        setImages(Array(6).fill(PLACEHOLDER_IMG));
+      }
+    }
+
+    fetchEntries();
+  }, [_id]);
 
   return (
     <div className={styles.card}>
@@ -25,11 +40,10 @@ while (displayedImages.length < 6) {
       </Link>
 
       <div className={styles.grid}>
-        {displayedImages.map((src, i) => (
+        {images.map((src, i) => (
           <EntryCard
             key={i}
             image={src}
-            entryId={`entry-${i}`}
             showVoteCount={false}
             showActions={false}
           />

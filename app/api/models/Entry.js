@@ -24,5 +24,4 @@ const EntrySchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Entry = mongoose.model('Entry', EntrySchema);
-export default Entry;
+export default mongoose.models.Entry || mongoose.model('Entry', EntrySchema);
