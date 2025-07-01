@@ -1,55 +1,76 @@
-.competition-form-modal {
+.modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   z-index: 1000;
 }
 
-.competition-form {
+.modal {
   background: white;
-  padding: 24px;
-  border-radius: 8px;
+  padding: 30px;
+  border-radius: 10px;
   width: 90%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  max-width: 600px;
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
 }
 
-.competition-form h2 {
-  margin-bottom: 12px;
-  text-align: center;
+h2 {
+  margin-top: 0;
+  font-size: 22px;
 }
 
-.competition-form input,
-.competition-form textarea {
+label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: bold;
+}
+
+input, textarea {
   width: 100%;
   padding: 8px;
+  border-radius: 5px;
   border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
-.competition-form button {
-  padding: 10px;
-  background-color: green ;
-  color: white;
+textarea {
+  height: 80px;
+}
+
+.upload-box {
+  border: 2px dashed #aaa;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 10px;
+  color: #666;
+  border-radius: 5px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: none;
+  font-size: 24px;
   border: none;
-  border-radius: 4px;
   cursor: pointer;
 }
 
-.competition-form button:hover {
-  background-color: green;
-}
-
-.form-message {
-  text-align: center;
-  margin-top: 10px;
-  color: green;
+.submit-btn {
+  margin-top: 20px;
+  padding: 10px;
+  width: 100%;
+  background-color: #999;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
 }
