@@ -1,7 +1,7 @@
 .container {
-  width: 100%; 
-  max-width: 480px; 
-  margin: 65px auto 0; 
+  width: 100%;
+  max-width: 480px;
+  margin: 65px auto 0;
   padding: 1.2rem;
   font-family: 'Inter', sans-serif;
   background: #fff;
@@ -69,8 +69,6 @@
   object-fit: cover;
   max-height: 460px;
   border-radius: 10px;
-  
-
 }
 
 .actions {

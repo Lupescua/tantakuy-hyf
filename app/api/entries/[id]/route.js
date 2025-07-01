@@ -1,4 +1,4 @@
-import dbConnect from '../../../../utils/dbConnects'; 
+import dbConnect from '../../../../utils/dbConnects';
 import Entry from '../../models/Entry';
 import { withAuth } from '../../../../utils/authMiddleware';
 
@@ -44,7 +44,7 @@ export async function PATCH(req, { params }) {
     const entry = await Entry.findByIdAndUpdate(
       id,
       { $inc: { votes: 1 } },
-      { new: true }
+      { new: true },
     );
 
     if (!entry) {
