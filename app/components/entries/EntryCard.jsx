@@ -25,12 +25,21 @@ export default function EntryCard({
   }, [entryId]);
 
   const handleVote = () => {
-    if (!voted) {
+    const voteKey = `voted-${entryId}`;
+    const countKey = `votes-${entryId}`;
+
+    if (voted) {
+      const newVotes = votes - 1;
+      setVotes(newVotes);
+      setVoted(false);
+      localStorage.removeItem(voteKey);
+      localStorage.setItem(countKey, newVotes);
+    } else {
       const newVotes = votes + 1;
       setVotes(newVotes);
       setVoted(true);
-      localStorage.setItem(`voted-${entryId}`, 'true');
-      localStorage.setItem(`votes-${entryId}`, newVotes);
+      localStorage.setItem(voteKey, 'true');
+      localStorage.setItem(countKey, newVotes);
     }
   };
 
@@ -46,7 +55,6 @@ export default function EntryCard({
           <div className={styles.buttonGroupWrapper}>
             <button
               onClick={handleVote}
-              disabled={voted}
               className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
             >
               {voted ? <FaHeart /> : <FaRegHeart />} Stem
