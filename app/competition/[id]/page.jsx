@@ -48,7 +48,6 @@ export default function CompetitionGalleryPage() {
 
   return (
     <>
-      <NavbarLoggedIn />
       <main className={styles.main}>
         <h1 className={styles.title}>{competition.name}</h1>
         <div className={styles.grid}>
