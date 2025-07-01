@@ -14,7 +14,7 @@ export async function sendResetLink(email) {
 
   try {
     const user = await Participant.findOne({ email });
-    console.log(user)
+    console.log(user);
     if (!user) {
       throw new AppError('No user found with that email.', 404);
     }

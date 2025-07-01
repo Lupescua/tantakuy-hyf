@@ -14,9 +14,9 @@ export default function ResetPasswordForm() {
   const [rememberMe, setRememberMe] = useState(false);
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  const emailParam = searchParams.get('email')
+  const emailParam = searchParams.get('email');
   const [status, setStatus] = useState('loading');
-  console.log(emailParam)
+  console.log(emailParam);
   useEffect(() => {
     const validatingToken = async () => {
       try {
