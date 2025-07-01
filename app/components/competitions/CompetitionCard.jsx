@@ -1,4 +1,3 @@
-// app/components/competitions/CompetitionCard.jsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -12,29 +11,42 @@ const PLACEHOLDER_IMG = 'https://picsum.photos/320/240?grayscale&blur=1';
 
 export default function CompetitionCard({ competition }) {
   const { _id, title, logo } = competition;
-  const [entryImages, setEntryImages] = useState([]);
 
+  /** We keep an **array of objects** so we can preserve
+   *  real Mongo IDs _and_ mark placeholders with `id:null`
+   *  → `EntryCard` can now decide to skip vote-logic for null IDs.
+   **/
+  const [slots, setSlots] = useState(
+    Array(6).fill({ id: null, src: PLACEHOLDER_IMG }),
+  );
+
+  /* ───────────────── fetch first six entries ───────────────── */
   useEffect(() => {
     async function fetchEntries() {
       try {
         const res = await API.get('/entries', {
           params: { competitionId: _id },
         });
-        // if route returns { error: "..."} on 4xx/5xx, you'll now see it:
-        if (res.data.error) throw new Error(res.data.error);
 
-        const images = res.data.map((e) => e.imageUrl || PLACEHOLDER_IMG);
+        // transform → [{ id, src }, …]
+        const fetched = res.data.map((e) => ({
+          id: e._id,
+          src: e.imageUrl || PLACEHOLDER_IMG,
+        }));
 
-        while (images.length < 6) images.push(PLACEHOLDER_IMG);
-        images.length = 6;
+        // fill / trim to exactly six slots
+        while (fetched.length < 6)
+          fetched.push({ id: null, src: PLACEHOLDER_IMG });
+        fetched.length = 6;
 
-        setEntryImages(images);
+        setSlots(fetched);
       } catch (err) {
         console.error(
           'Error fetching entry images:',
           err.response?.data || err.message,
         );
-        setEntryImages(Array(6).fill(PLACEHOLDER_IMG));
+        // fall back to all placeholders
+        setSlots(Array(6).fill({ id: null, src: PLACEHOLDER_IMG }));
       }
     }
     fetchEntries();
@@ -42,6 +54,7 @@ export default function CompetitionCard({ competition }) {
 
   return (
     <div className={styles.card}>
+      {/* clicking the header navigates to the gallery page */}
       <Link href={`/competition/${_id}`} className={styles.header}>
         <div className={styles.logoWrapper}>
           <img
@@ -53,17 +66,18 @@ export default function CompetitionCard({ competition }) {
         <h2 className={styles.title}>{title}</h2>
       </Link>
 
+      {/* “Om”-modal trigger */}
       <CompetitionDetailsModal competitionId={_id} />
 
+      {/* six EntryCards — placeholders have id === null */}
       <div className={styles.grid}>
-        {entryImages.map((src, i) => (
+        {slots.map(({ id, src }, idx) => (
           <EntryCard
-            key={i}
+            key={id ?? `ph-${idx}`}
             image={src}
-            entryId={`competition-${_id}-img-${i}`}
-            showActions={false}
-            showVoteCount={false}
-            showActions={false}
+            entryId={id} /* null → EntryCard will skip vote logic   */
+            showActions={false} /* overview cards never show buttons       */
+            showVoteCount={false} /* overview cards never show vote counts   */
           />
         ))}
       </div>
