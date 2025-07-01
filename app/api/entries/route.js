@@ -1,6 +1,11 @@
 import { dbConnect } from '@/utils/dbConnects';
 import Entry from '../models/Entry';
 import { withAuth } from '@/utils/authMiddleware';
+import {
+  getEntriesByCompetition,
+  createEntry,
+} from '../services/entryServices';
+import Participant from '../models/Participant';
 
 export async function GET(req) {
   await dbConnect();
@@ -14,9 +19,7 @@ export async function GET(req) {
     );
   }
   try {
-    const entries = await Entry.find({ competition: competitionId }).sort({
-      createdAt: -1,
-    });
+    const entries = await getEntriesByCompetition(competitionId);
     return new Response(JSON.stringify(entries), { status: 200 });
   } catch (error) {
     console.error('Error fetching entries:', error);
@@ -26,7 +29,7 @@ export async function GET(req) {
   }
 }
 
-async function createEntry(req, { params, user }) {
+async function createEntryRoute(req, { params, user }) {
   await dbConnect();
 
   // TODO: add role-based access control once token includes roles (only participants should be able to upload entries)
@@ -39,9 +42,9 @@ async function createEntry(req, { params, user }) {
         { status: 400 },
       );
     }
-    const newEntry = await Entry.create({
+    const newEntry = await createEntry({
       competition,
-      participant: user.id,
+      participantId: user.id,
       imageUrl,
       caption,
     });
@@ -53,4 +56,4 @@ async function createEntry(req, { params, user }) {
     });
   }
 }
-export const POST = withAuth(createEntry);
+export const POST = withAuth(createEntryRoute);
