@@ -9,7 +9,17 @@ import CompetitionDetailsModal from '../modals/CompetitionDetailsModal';
 
 const PLACEHOLDER_IMG = 'https://picsum.photos/320/240?grayscale&blur=1';
 
-export default function CompetitionCard({ competition }) {
+/**
+ * @param {Object}  competition  the competition document
+ * @param {Boolean} [showActions=true]    show vote / share buttons?
+ * @param {Boolean} [showVoteCount=true]  show vote counter?
+ */
+
+export default function CompetitionCard({
+  competition,
+  showActions = true,
+  showVoteCount = true,
+}) {
   const { _id, title, logo } = competition;
 
   /** We keep an **array of objects** so we can preserve
@@ -75,9 +85,12 @@ export default function CompetitionCard({ competition }) {
           <EntryCard
             key={id ?? `ph-${idx}`}
             image={src}
-            entryId={id} /* null → EntryCard will skip vote logic   */
-            showActions={false} /* overview cards never show buttons       */
-            showVoteCount={false} /* overview cards never show vote counts   */
+            entryId={
+              id
+            } /* null → placeholder, EntryCard will skip vote logic   */
+            /* show action and counts only whe: the caller allows them and this card is not a placeholder */
+            showActions={showActions && Boolean(id)}
+            showVoteCount={showVoteCount && Boolean(id)}
           />
         ))}
       </div>
