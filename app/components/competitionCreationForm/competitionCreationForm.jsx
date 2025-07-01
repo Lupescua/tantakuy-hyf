@@ -6,8 +6,8 @@ function CompetitionForm() {
     title: '',
     description: '',
     banner: null,
-    startDate: '',
-    endDate: ''
+    endDate: '',
+    prizeDate: ''
   });
 
   const [message, setMessage] = useState('');
@@ -30,8 +30,8 @@ function CompetitionForm() {
     form.append('conditions', formData.conditions);
     form.append('prize', formData.prize);
     form.append('banner', formData.banner);
-    form.append('startDate', formData.startDate);
     form.append('endDate', formData.endDate);
+    form.append('prizeDate', formData.prizeDate);
 
         try {
             const response = await fetch('/api/competitions', {
@@ -55,7 +55,7 @@ function CompetitionForm() {
   return (
     <div className="competition-form-modal">
       <form className="competition-form" onSubmit={handleSubmit}>
-        <h2>Opret ny konkurrence </h2>
+        <h2> Opret ny konkurrence </h2>
 
         <label> Titel :</label>
         <input
@@ -65,7 +65,7 @@ function CompetitionForm() {
           onChange={handleChange}
           required
         />
-  <label>Præmie :</label>
+  <label> Præmie :</label>
         <textarea
           name="prize"
           value={formData.prize}
@@ -103,7 +103,7 @@ function CompetitionForm() {
         <input
           type="date"
           name="endDate"
-          value={formData.startDate}
+          value={formData.endDate}
           onChange={handleChange}
           required
         />
@@ -112,7 +112,7 @@ function CompetitionForm() {
         <input
           type="date"
           name="prizeDate"
-          value={formData.endDate}
+          value={formData.prizeDate}
           onChange={handleChange}
           required
         />
