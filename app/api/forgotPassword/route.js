@@ -1,28 +1,29 @@
 import { resetPassword } from '@/app/services/resetPassword';
 import dbConnect from '@/utils/dbConnects';
-import { sendResetLink } from '@/app/services/resetLinkServices';
+
 
 export async function POST(req) {
   try {
     await dbConnect();
     const body = await req.json();
-    console.log(body);
     const user = await resetPassword(body);
+    
+
+    return Response.json({
+      success: true,
+      message: 'Password reset successful',
+      user, 
+    });
+  } catch (error) {
+    console.error('Error resetting password:', error);
 
     return Response.json(
       {
-        success: true,
-        user,
-      },
-      { status: 200 },
-    );
-  } catch (error) {
-    return Response.json(
-      {
         success: false,
-        message: error.message,
+        message: 'Failed to reset password',
+        error: error.message,
       },
-      { status: 401 },
+      { status: 500 }
     );
   }
 }

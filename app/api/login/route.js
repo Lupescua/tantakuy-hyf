@@ -19,6 +19,7 @@ export async function POST(req) {
     return Response.json(
       {
         success: true,
+        message: "logged in",
         user: {
           email: user.email,
           userName: user.userName,

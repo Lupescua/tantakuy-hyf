@@ -38,11 +38,15 @@ function LoginForm() {
         email: data.email,
         password: data.password,
       });
-
-      console.log('Login success:', response.data);
-      router.push('/');
+      if (response.data.success) {
+        console.log('Login success:', response.data.user);
+        router.push('/');
+      } else {
+        console.error('Login failed:', response.data.message);
+        setErrorMsg(response.data.message);
+      }
     } catch (error) {
-      const msg = error.response?.data?.error || 'Login failed';
+      const msg = error.response?.data?.message || 'Login failed';
       console.error('Login failed:', msg);
       setErrorMsg(msg);
     }
