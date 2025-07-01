@@ -11,7 +11,7 @@ export async function GET(req) {
   if (!competitionId) {
     return new Response(
       JSON.stringify({ error: 'competitionId query parameter is required' }),
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -45,7 +45,7 @@ async function createEntry(req, { params, user }) {
     if (!competition || !imageUrl) {
       return new Response(
         JSON.stringify({ error: 'Competition and imageUrl are required' }),
-        { status: 400 },
+        { status: 400 }
       );
     }
 
