@@ -1,12 +1,13 @@
+// app/components/competitions/CompetitionCard.jsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import API from '@/utils/axios';
 import styles from './CompetitionCard.module.css';
 import EntryCard from '../entries/EntryCard';
 import CompetitionDetailsModal from '../modals/CompetitionDetailsModal';
 
-// Placeholder image from picsum.photos
 const PLACEHOLDER_IMG = 'https://picsum.photos/320/240?grayscale&blur=1';
 
 export default function CompetitionCard({ competition }) {
@@ -16,26 +17,26 @@ export default function CompetitionCard({ competition }) {
   useEffect(() => {
     async function fetchEntries() {
       try {
-        const res = await fetch(`/api/entries?competitionId=${_id}`);
-        if (!res.ok) throw new Error('Failed to fetch entries');
-        const entries = await res.json();
-        const images = entries.map(
-          (entry) => entry.imageUrl || PLACEHOLDER_IMG,
-        );
+        const res = await API.get('/entries', {
+          params: { competitionId: _id },
+        });
+        // if route returns { error: "..."} on 4xx/5xx, you'll now see it:
+        if (res.data.error) throw new Error(res.data.error);
 
-        // Ensure we have exactly 6 images
-        while (images.length < 6) {
-          images.push(PLACEHOLDER_IMG);
-        }
+        const images = res.data.map((e) => e.imageUrl || PLACEHOLDER_IMG);
+
+        while (images.length < 6) images.push(PLACEHOLDER_IMG);
         images.length = 6;
 
         setEntryImages(images);
       } catch (err) {
-        console.error('Error fetching entry images:', err);
-        setEntryImages(new Array(6).fill(PLACEHOLDER_IMG));
+        console.error(
+          'Error fetching entry images:',
+          err.response?.data || err.message,
+        );
+        setEntryImages(Array(6).fill(PLACEHOLDER_IMG));
       }
     }
-
     fetchEntries();
   }, [_id]);
 
