@@ -1,5 +1,5 @@
-import { getUserFromCookie } from './auth';
-import { dbConnect } from './dbConnects';
+import { getUserFromCookie } from './server/auth';
+import dbConnect from './dbConnects';
 
 export function withAuth(handler) {
   return async function (req, context) {

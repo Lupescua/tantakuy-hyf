@@ -1,56 +1,66 @@
+// app/competition/[id]/page.jsx
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import API from '@/utils/axios';
 import EntryCard from '@/app/components/entries/EntryCard';
-import NavbarLoggedIn from '@/app/components/layouts/NavbarLoggedIn/NavbarLoggedIn';
-import FooterLoggedIn from '@/app/components/layouts/FooterLoggedIn/FooterLoggedIn';
-import styles from '../competition.module.css';
 import JoinButton from '@/app/components/competitions/JoinButton';
+import Loader from '@/app/components/loader/Loader';
+import styles from '../competition.module.css';
 
-const competitionsMock = [
-  {
-    id: '1',
-    name: 'Bistad - Efterårshygge',
-    logo: '/images/logo1.png',
-    images: [
-      '/images/entry1.jpg',
-      '/images/entry2.jpg',
-      '/images/entry3.jpg',
-      '/images/entry4.jpg',
-      '/images/entry5.jpg',
-      '/images/entry6.jpg',
-    ],
-  },
-  {
-    id: '2',
-    name: 'Konkurrence titel',
-    logo: '/images/logo2.png',
-    images: ['/images/entry7.jpg', '/images/entry8.jpg', '/images/entry9.jpg'],
-  },
-];
+const PLACEHOLDER_IMG = 'https://picsum.photos/320/240?grayscale&blur=1';
 
 export default function CompetitionGalleryPage() {
   const { id } = useParams();
-  const competition = competitionsMock.find((c) => c.id === id);
+  const [entries, setEntries] = useState([]);
+  const [competitionName, setCompetitionName] = useState('Konkurrence');
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [entriesRes, compRes] = await Promise.all([
+          API.get('/entries', { params: { competitionId: id } }),
+          API.get(`/competitions/${id}`),
+        ]);
+
+        // Check for backend errors:
+        if (entriesRes.data.error)  throw new Error(entriesRes.data.error);
+        if (compRes.data.error)     throw new Error(compRes.data.error);
+
+        setEntries(entriesRes.data);
+        const title = compRes.data.title || compRes.data.name;
+        if (title) setCompetitionName(title);
+      } catch (err) {
+        console.error('Error loading competition data:', err.response?.data || err.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [id]);
+
+  if (loading) return <Loader />;
 
   return (
-    <>
-      <NavbarLoggedIn />
-      <main className={styles.main}>
-        <h1 className={styles.title}>{competition.name}</h1>
-        <div className={styles.grid}>
-          {competition.images.map((src, index) => (
+    <main className={styles.main}>
+      <h1 className={styles.title}>{competitionName}</h1>
+      <div className={styles.grid}>
+        {entries.length > 0 ? (
+          entries.map((entry) => (
             <EntryCard
-              key={index}
-              image={src}
-              entryId={`competition-${id}-img-${index}`}
-              showVoteCount={false}
+              key={entry._id}
+              image={entry.imageUrl || PLACEHOLDER_IMG}
+              entryId={entry._id}
+              showVoteCount={true}
             />
-          ))}
-        </div>
-        <JoinButton/>
-      </main>
-      <FooterLoggedIn />
-    </>
+          ))
+        ) : (
+          <p className={styles.noEntries}>Ingen bidrag endnu.</p>
+        )}
+      </div>
+      <JoinButton />
+    </main>
   );
 }

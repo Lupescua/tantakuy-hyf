@@ -2,7 +2,7 @@ import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
 
-export async function GET(request, { params }) {
+export async function GET(req, { params }) {
   await dbConnect();
 
   const { id } = params;

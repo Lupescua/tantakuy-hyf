@@ -1,4 +1,4 @@
-import { dbConnect } from '@/utils/dbConnects';
+import dbConnect from '@/utils/dbConnects';
 import Entry from '../models/Entry';
 import { withAuth } from '@/utils/authMiddleware';
 
