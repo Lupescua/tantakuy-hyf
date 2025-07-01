@@ -17,11 +17,14 @@ export async function GET(request) {
   }
 
   // total votes
-  const countResult = await countVotesForEntry({ entryId });
-  if (!countResult.success) {
+  let votes;
+  try {
+    votes = await countVotesForEntry({ entryId }); // returns a NUMBER
+  } catch (err) {
+    console.error('countVotesForEntry failed:', err);
     return Response.json(
-      { success: false, message: 'Could not count votes' },
-      { status: 500 },
+      { success: false, message: err.message || 'Could not count votes' },
+      { status: err.statusCode || 500 },
     );
   }
 
@@ -33,7 +36,7 @@ export async function GET(request) {
     return Response.json(
       {
         success: true,
-        votes: countResult.data,
+        votes,
         hasVoted: false,
       },
       { status: 200 },
@@ -50,7 +53,7 @@ export async function GET(request) {
     return Response.json(
       {
         success: true,
-        votes: countResult.data,
+        votes,
         hasVoted: false,
       },
       { status: 200 },
@@ -58,20 +61,27 @@ export async function GET(request) {
   }
 
   // fetch user vote
-  const userVote = await getUserVoteForEntry({ entryId, participantId });
-  if (!userVote.success) {
+  let hasVoted = false;
+  let recordId = null;
+  try {
+    const res = await getUserVoteForEntry({ entryId, participantId });
+    hasVoted = res.hasVoted;
+    recordId = res.recordId;
+  } catch (err) {
+    console.error('getUserVoteForEntry failed:', err);
+    // still return at least the total votes
     return Response.json(
-      { success: false, message: 'Could not load user vote' },
-      { status: 500 },
+      { success: false, message: err.message || 'Could not load user vote' },
+      { status: err.statusCode || 500 },
     );
   }
 
   return Response.json(
     {
       success: true,
-      votes: countResult.data,
-      hasVoted: userVote.hasVoted,
-      recordId: userVote.recordId || null,
+      votes,
+      hasVoted,
+      recordId,
     },
     { status: 200 },
   );

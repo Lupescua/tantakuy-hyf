@@ -25,17 +25,19 @@ export default function EntryCard({
 
   // 📥 1) Load total votes + whether current user already voted
   useEffect(() => {
-    if (!entryId) {
-      // placeholder slot → skip API
-      setLoadingVotes(false);
-      return;
+    // only *real* Mongo ObjectIds (24-hex) may call /api/votes/*
+    const isRealId =
+      typeof entryId === 'string' && /^[0-9a-f]{24}$/i.test(entryId);
+    if (!isRealId) {
+      setLoadingVotes(false);      // placeholder → no spinner
+      return;                      // ⤴ skip fetch
     }
     let isMounted = true;
     async function fetchVoteInfo() {
       setLoadingVotes(true);
       try {
         // GET /api/votes/me?entryId=...
-        const { data } = await API.get(`/votes/me`, { params: { entryId } });
+        const { data } = await API.get('/votes/me', { params: { entryId } });
         if (data.success && isMounted) {
           setVotes(data.votes);
           setHasVoted(data.hasVoted);
