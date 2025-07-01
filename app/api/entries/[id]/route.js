@@ -1,6 +1,7 @@
 import dbConnect from '../../../../utils/dbConnects';
 import Entry from '../../models/Entry';
 import { withAuth } from '../../../../utils/authMiddleware';
+import { deleteEntryById } from '@/app/services/entryServices';
 
 export async function GET(req, { params }) {
   try {
@@ -74,10 +75,9 @@ export async function PATCH(req, { params }) {
   }
 }
 
-async function deleteEntry(req, { params, user }) {
-  await dbConnect();
-
+async function deleteEntryRoute(req, { params, user }) {
   const entryId = params.id;
+
   if (!entryId) {
     return new Response(JSON.stringify({ error: 'Entry ID is required' }), {
       status: 400,
@@ -85,29 +85,15 @@ async function deleteEntry(req, { params, user }) {
   }
 
   try {
-    const entry = await Entry.findById(entryId);
-
-    if (!entry) {
-      return new Response(JSON.stringify({ error: 'Entry not found' }), {
-        status: 404,
-      });
-    }
-
-    if (entry.participant.toString() !== user.id) {
-      return new Response(JSON.stringify({ error: 'Forbidden' }), {
-        status: 403,
-      });
-    }
-
-    await Entry.findByIdAndDelete(entryId);
-
+    await deleteEntryById(entryId, user.id);
     return new Response(null, { status: 204 });
   } catch (error) {
     console.error('Error deleting entry:', error);
-    return new Response(JSON.stringify({ error: 'Failed to delete entry' }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ error: error.message || 'Failed to delete entry' }),
+      { status: error.statusCode || 500 },
+    );
   }
 }
 
-export const DELETE = withAuth(deleteEntry);
+export const DELETE = withAuth(deleteEntryRoute);
