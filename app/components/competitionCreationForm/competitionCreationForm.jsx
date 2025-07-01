@@ -1,126 +1,52 @@
+
 import React, { useState } from 'react';
 import './CompetitionForm.css';
+import NavbarLoggedIn from '../layouts/NavbarLoggedIn/NavbarLoggedIn';
 
 function CompetitionForm() {
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    banner: null,
-    startDate: '',
-    endDate: ''
-  });
-
-  const [message, setMessage] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === 'banner') {
-      setFormData({ ...formData, banner: files[0] });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const form = new FormData();
-    form.append('title', formData.title);
-    form.append('description', formData.description);
-    form.append('conditions', formData.conditions);
-    form.append('prize', formData.prize);
-    form.append('banner', formData.banner);
-    form.append('startDate', formData.startDate);
-    form.append('endDate', formData.endDate);
-
-        try {
-            const response = await fetch('/api/competitions', {
-              method: 'POST',
-              body: form,
-              credentials: 'include'
-            });
-      
-            if (response.ok) {
-              
-              router.push('/success'); 
-            } else {
-              setMessage('Submission failed.');
-            }
-          } catch (error) {
-            console.error(error);
-            setMessage('An error occurred.');
-          }
-        } ;
+  const [title, setTitle] = useState('');
+  const [prize, setPrize] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [prizeDate, setprizeDate] = useState('');
+  const [description, setDescription] = useState('');
+  const [terms, setTerms] = useState('');
+  const [fileTitle, setFileTitle] = useState('');
 
   return (
-    <div className="competition-form-modal">
-      <form className="competition-form" onSubmit={handleSubmit}>
-        <h2>Opret ny konkurrence </h2>
+    <div className="modal-overlay">
+      <div className="modal">
+        <button className="close-btn"> × </button>
+        <h2> Opret ny konkurrence</h2>
+        
+        <label>Titel:</label>
+        <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
 
-        <label> Titel :</label>
-        <input
-          type="text"
-          name="title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
-  <label>Præmie :</label>
-        <textarea
-          name="prize"
-          value={formData.prize}
-          onChange={handleChange}
-          required
-        ></textarea>
+        <label>Præmie:</label>
+        <input type="text" value={prize} onChange={e => setPrize(e.target.value)} />
 
-         <label>  Billede :</label>
-        <input
-          type="file"
-          name="banner"
-          accept="image/*"
-          onChange={handleChange}
-          required
-        />
+        <label>Dato for slut:</label>
+        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
 
-        <label> Beskrivelse: </label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          required
-        ></textarea>
+        <label>Dato for udvælgelse af vinder:</label>
+        <input type="date" value={selectionDate} onChange={e => setprizeDate(e.target.value)} />
 
-<label> Konkurrencevilkår: </label>
-        <textarea
-          name="conditions"
-          value={formData.conditions}
-          onChange={handleChange}
-          required
-        ></textarea>
+        <label>Beskrivelse:</label>
+        <textarea value={description} onChange={e => setDescription(e.target.value)} />
 
-       
-        <label> Dato for slut :  </label>
-        <input
-          type="date"
-          name="endDate"
-          value={formData.startDate}
-          onChange={handleChange}
-          required
-        />
+        <label>Konkurrencevilkår:</label>
+        <textarea value={terms} onChange={e => setTerms(e.target.value)} />
 
-        <label> Dato for udvægelse af vinder : </label>
-        <input
-          type="date"
-          name="prizeDate"
-          value={formData.endDate}
-          onChange={handleChange}
-          required
-        />
+        <label>Tilføj billeder</label>
+        <div className="upload-box">Add photos<br /><small>Or drag and drop</small></div>
 
-        <button type="submit"> Bekræft </button>
+        <label>Tilføj fil (f.eks. katalog, shopping, andet)</label>
+        <div className="upload-box">Add file<br /><small>Or drag and drop</small></div>
 
-        {message && <p className="form-message">{message}</p>}
-      </form>
+        <label>Tilføj fil titel (f.eks. katalog, shopping, andet)</label>
+        <input type="text" value={fileTitle} onChange={e => setFileTitle(e.target.value)} />
+
+        <button className="submit-btn">Opret konkurrence</button>
+      </div>
     </div>
   );
 }
