@@ -73,6 +73,7 @@ export default function EntryCard({
 
   return (
     <div className={styles.card}>
+      <div className={styles.imageContainer}>
       <img src={image} alt="entry" className={styles.image} />
 
       <div className={styles.bottom}>
@@ -95,6 +96,7 @@ export default function EntryCard({
             </button>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

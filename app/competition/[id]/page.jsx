@@ -20,7 +20,7 @@ export default function CompetitionGalleryPage() {
     async function fetchCompetitionData() {
       try {
         const [compRes, entriesRes] = await Promise.all([
-          fetch(`/api/competitions`), 
+          fetch(`/api/competitions`),
           fetch(`/api/entries?competitionId=${id}`),
         ]);
 
@@ -57,14 +57,13 @@ export default function CompetitionGalleryPage() {
               key={entry._id}
               image={entry.imageUrl}
               entryId={entry._id}
-              showVoteCount={true}
+              showVoteCount={false}
               showActions={true}
             />
           ))}
         </div>
         <JoinButton />
       </main>
-      <FooterLoggedIn />
     </>
   );
 }
