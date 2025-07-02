@@ -1,6 +1,81 @@
-import dbConnect from '@/utils/dbConnects';
-import Entry from '../models/Entry';
-import { withAuth } from '@/utils/authMiddleware';
+import dbConnect from '../../../../utils/dbConnects';
+import Entry from '../../models/Entry';
+import { withAuth } from '../../../../utils/authMiddleware';
+
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get('userId');
+
+  if (!userId) {
+    return new Response(JSON.stringify({ error: 'userId is required' }), {
+      status: 400,
+    });
+  }
+
+  await dbConnect();
+
+  const entries = await Entry.find({ participant: userId }).populate(
+    'participant',
+  );
+
+  console.log('=>+>{>;/>>>>>>>>>>>>>>>>>');
+  console.log(entries);
+  console.log('=>+>{>;/>>>>>>>>>>>>>>>>>');
+
+  const formattedEntries = entries.map((entry) => ({
+    id: entry._id,
+    title: entry.caption || 'Untitled Entry',
+    username: entry.participant?.name || 'Unknown',
+    imageUrl: entry.imageUrl || 'https://via.placeholder.com/600x400',
+    description: entry.description || '',
+    votes: entry.votes || 0,
+  }));
+
+  return new Response(JSON.stringify(formattedEntries), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+export async function PATCH(req) {
+  await dbConnect();
+
+  const { id } = params;
+
+  try {
+    const entry = await Entry.findByIdAndUpdate(
+      id,
+      { $inc: { votes: 1 } },
+
+      { new: true },
+    );
+
+    if (!entry) {
+      return new Response(JSON.stringify({ error: 'Entry not found' }), {
+        status: 404,
+      });
+    }
+
+    const formatted = {
+      id: entry._id,
+      title: entry.caption || 'Untitled Entry',
+      username: entry.participant?.name || 'Unknown',
+      imageUrl: entry.imageUrl || 'https://via.placeholder.com/600x400',
+      description: entry.description || '',
+      votes: entry.votes || 0,
+    };
+
+    return new Response(JSON.stringify(formatted), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+    });
+  } catch (error) {
+    console.error('Error voting entry:', error);
+    return new Response(JSON.stringify({ error: 'Failed to vote' }), {
+      status: 500,
+    });
+  }
+}
 
 async function deleteEntry(req, { params, user }) {
   await dbConnect();

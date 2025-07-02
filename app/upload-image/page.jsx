@@ -20,18 +20,6 @@ export default function UploadImage() {
 
   const [imageUrl, setImageUrl] = useState(null);
 
-  const uploadToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
-
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    );
 
     const uploadToCloudinary = async (file) => {
         const formData = new FormData();
