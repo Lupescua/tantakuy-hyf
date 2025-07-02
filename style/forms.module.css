@@ -121,6 +121,7 @@
   position: absolute;
   top: 0;
   margin-top: 50px;
+
 }
 .itemIcon {
   font-family: 'Courier New', Courier, monospace;
@@ -201,6 +202,8 @@
 
 .buttonBlack {
   color: white;
+  width: 100%;
+  max-width: 100%;
 }
 
 .itemButton {
