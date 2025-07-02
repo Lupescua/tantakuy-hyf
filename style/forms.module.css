@@ -207,6 +207,7 @@
 }
 
 .itemButton {
+  position: absolute;
   margin-top: 70px;
   background: none;
   border: none;
@@ -215,6 +216,6 @@
   color: black;
   display: flex;
   align-items: center;
-  gap: 4px;
+  padding: 50px 0;
   cursor: pointer;
 }
