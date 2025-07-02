@@ -1,7 +1,6 @@
 import { saveVote, countVotesForEntry } from '@/app/services/voteServices';
-import { cookies } from 'next/headers';
 import dbConnect from '@/utils/dbConnects';
-import { verifyToken } from '@/utils/jwt';
+import { getUserFromCookie } from '@/utils/server/auth'; // or correct path
 
 export async function POST(req) {
   await dbConnect();
@@ -10,17 +9,12 @@ export async function POST(req) {
     const body = await req.json();
     const { entry, voteType } = body;
 
-    const cookieStore = cookies();
-    const token = cookieStore.get('token')?.value;
-
-    if (!token) {
-      return Response.json(
-        { success: false, message: 'Unauthorized' },
-        { status: 401 },
-      );
+    const user = await getUserFromCookie();
+    if (!user) {
+      return Response.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
-    const decoded = verifyToken(token);
-    const participantId = decoded.id;
+
+    const participantId = user.id;
 
     const voteResult = await saveVote({
       entryId: entry,
