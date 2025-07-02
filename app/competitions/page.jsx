@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import CompetitionList from '../components/competitions/CompetitionList';
-import styles from './competitions.module.css';
+import styles from './page.module.css';
 
 export default function CompetitionsPage() {
   const [competitions, setCompetitions] = useState([]);
