@@ -34,9 +34,9 @@ export default function CompetitionCard({ competition }) {
     <div className={styles.card}>
       <Link href={`/competition/${_id}`} className={styles.header}>
         <div className={styles.logoWrapper}>
-          <img src={logo} alt={`${name} logo`} className={styles.logo} />
+          <img src={logo} alt={`${title} logo`} className={styles.logo} />
         </div>
-        <h2 className={styles.title}>{name}</h2>
+        {/* <h2 className={styles.title}>{title}</h2> */}
       </Link>
 
       <div className={styles.grid}>

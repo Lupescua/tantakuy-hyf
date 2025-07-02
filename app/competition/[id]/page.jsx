@@ -49,7 +49,7 @@ export default function CompetitionGalleryPage() {
 
   return (
     <>
-      <main className={styles.main}>
+      <div className={styles.main}>
         <h1 className={styles.title}>{competition.name}</h1>
         <div className={styles.grid}>
           {entries.map((entry) => (
@@ -62,8 +62,8 @@ export default function CompetitionGalleryPage() {
             />
           ))}
         </div>
-        <JoinButton />
-      </main>
+        <JoinButton competitionId={competition._id} />
+      </div>
     </>
   );
 }
