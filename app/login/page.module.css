@@ -25,7 +25,7 @@
 }
 
 .loginHeader > p {
-  font-family: 'Inter', sans-serif;
+  
   font-size: 16px;
   color: #00000066;
 }
@@ -44,7 +44,7 @@
 }
 
 .formFields > label {
-  font-family: 'Inter', sans-serif;
+  
   font-weight: 400;
   font-size: 16px;
   color: #000000;
