@@ -10,7 +10,7 @@ export async function POST(req) {
     const body = await req.json();
     const { entry, voteType } = body;
 
-    const cookieStore = await cookies();
+    const cookieStore = cookies();
     const token = cookieStore.get('token')?.value;
 
     if (!token) {
