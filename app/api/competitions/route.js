@@ -8,7 +8,7 @@ export async function GET() {
   try {
     const competitions = await Competition.find().sort({ createdAt: -1 });
     if(competitions){
-      return Response.json(competitions);
+      return Response.json({data: competitions, success: true}, {status: 200});
     }
     
   } catch (error) {

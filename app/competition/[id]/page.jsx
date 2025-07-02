@@ -24,7 +24,8 @@ export default function CompetitionGalleryPage() {
           fetch(`/api/entries?competitionId=${id}`),
         ]);
 
-        const competitions = await compRes.json();
+        const compJson = await compRes.json();
+        const competitions = compJson.data || [];
         const selectedCompetition = competitions.find((c) => c._id === id);
 
         if (selectedCompetition) {

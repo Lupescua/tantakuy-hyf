@@ -13,7 +13,7 @@ export default function CompetitionsPage() {
       try {
         const res = await fetch('/api/competitions');
         const data = await res.json();
-        setCompetitions(data);
+        setCompetitions(data.data || []);
       } catch (err) {
         console.error('Failed to load competitions:', err);
       } finally {
