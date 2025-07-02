@@ -12,6 +12,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ImageTemplate from '../components/image-container-template/ImageTemplate';
 import { CldImage } from 'next-cloudinary';
+import API from '@/utils/axios';
 
 export default function UploadImage() {
   const CLOUD_NAME = 'dahasdpeh';
@@ -32,9 +33,16 @@ export default function UploadImage() {
       },
     );
 
-    const data = await response.json();
-    return data.secure_url;
-  };
+    const uploadToCloudinary = async (file) => {
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', UPLOAD_PRESET);
+    
+        const response = await API.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {formData});
+    
+        const data = await response.json();
+        return data.secure_url;
+    };
 
   const handleComputerUpload = async (e) => {
     const file = e.target.files[0];
