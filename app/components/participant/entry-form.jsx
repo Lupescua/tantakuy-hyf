@@ -29,7 +29,6 @@ const EntryForm = ({ userId, competitionId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (!uploadedImageUrl || !text.trim()) {
       setError('Både billede og tekst er påkrævet');
       return;

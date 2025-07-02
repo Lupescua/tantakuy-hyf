@@ -10,7 +10,6 @@ export async function GET(req) {
     await dbConnect();
 
     const comp = await Competition.findById(competitionId);
-
     if (!comp) {
       return Response.json({ error: 'Not found' }, { status: 404 });
     }
