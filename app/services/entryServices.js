@@ -15,15 +15,13 @@ export async function createEntry({
   caption,
 }) {
   await dbConnect();
-  if (!competition) {
-    throw new AppError('Competition is required.', 400);
-  }
-  if (!participantId) {
-    throw new AppError('Participant ID is required.', 401);
-  }
-  if (!imageUrl) {
-    throw new AppError('Image URL is required.', 400);
-  }
+  [
+    [competition, 'Competition is required.', 400],
+    [participantId, 'Participant ID is required.', 401],
+    [imageUrl, 'Image URL is required.', 400],
+  ].forEach(([value, message, code]) => {
+    if (!value) throw new AppError(message, code);
+  });
 
   try {
     const newEntry = await Entry.create({

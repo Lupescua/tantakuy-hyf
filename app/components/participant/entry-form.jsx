@@ -1,10 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import axios from 'axios';
 import './entry-form.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import API from '@/utils/axios';
 const EntryForm = () => {
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
@@ -32,11 +32,7 @@ const EntryForm = () => {
     formData.append('text', text);
 
     try {
-      await axios.post('/api/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      await API.post('/upload', formData);
       alert('Uploadet!');
       setImage(null);
       setText('');
