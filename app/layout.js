@@ -23,7 +23,6 @@ export default async function RootLayout({ children }) {
       <body className={`${montserrat.variable} antialiased`}>
         {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
         {children}
-        {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
       </body>
     </html>
   );
