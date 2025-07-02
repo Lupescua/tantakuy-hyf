@@ -13,24 +13,32 @@ export default function CompetitionGalleryPage() {
   const [competition, setCompetition] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=> {
-    async function fetchCompetition(){
+  useEffect(() => {
+    async function fetchCompetition() {
       try {
-        const data = await API.get(id)
-        setCompetition(data)
+        const [compRes, entriesRes] = await Promise.all([
+          API.get(`/competitions/${id}`),
+          API.get(`/entries/by-competition/${id}`)
+        ]);
+        setCompetition({
+          ...compRes.data,
+          images: entriesRes.data.data.map((entry) => entry.imageUrl),
+        });
       } catch (error) {
-        console.error(error);
+        console.error('Failed to fetch competition:', error);
       } finally {
         setLoading(false);
       }
     }
+
     fetchCompetition();
-  },[id])
+  }, [id]);
+
   if (loading) return <div>Loading...</div>;
   if (!competition) return <div>Competition not found</div>;
   return (
     <>
-      <main className={styles.main}>
+      <div className={styles.main}>
         <h1 className={styles.title}>{competition.name}</h1>
         <div className={styles.grid}>
           {competition.images?.map((src, index) => (
@@ -42,8 +50,8 @@ export default function CompetitionGalleryPage() {
             />
           ))}
         </div>
-        <JoinButton />
-      </main>
+        <JoinButton competitionId = {competition._id} />
+      </div>
     </>
   );
 }

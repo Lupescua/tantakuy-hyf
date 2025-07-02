@@ -1,49 +1,41 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 import dbConnect from '../../../../utils/dbConnects';
-=======
-import dbConnect from '../../../../utils/dbConnects'; 
->>>>>>> 537af64 (Entry page UI and working vote logic connected to DB)
-=======
-import dbConnect from '../../../../utils/dbConnects';
->>>>>>> 2e13555 (Fix: format code with Prettier to pass build)
 import Entry from '../../models/Entry';
 import { withAuth } from '../../../../utils/authMiddleware';
 
-export async function GET(req, { params }) {
-  try {
-    await dbConnect();
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get('userId');
 
-    const entry = await Entry.findById(params.id).populate('participant');
-
-    if (!entry) {
-      return new Response(JSON.stringify({ error: 'Entry not found' }), {
-        status: 404,
-      });
-    }
-
-    const formatted = {
-      id: entry._id,
-      title: entry.caption || 'Untitled Entry',
-      username: entry.participant?.name || 'Unknown',
-      imageUrl: entry.imageUrl || 'https://via.placeholder.com/600x400',
-      description: entry.description || '',
-      votes: entry.votes || 0,
-    };
-
-    return new Response(JSON.stringify(formatted), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  } catch (error) {
-    console.error('Error fetching entry:', error);
-    return new Response(JSON.stringify({ error: 'Internal server error' }), {
-      status: 500,
-    });
+  if (!userId) {
+    return new Response(JSON.stringify({ error: 'userId is required' }), { status: 400 });
   }
+
+  await dbConnect();
+
+  const entries = await Entry.find({ participant: userId }).populate('participant');
+  
+  console.log("=>+>{>;/>>>>>>>>>>>>>>>>>")
+  console.log(entries)
+  console.log("=>+>{>;/>>>>>>>>>>>>>>>>>")
+
+  const formattedEntries = entries.map(entry => ({
+    id: entry._id,
+    title: entry.caption || 'Untitled Entry',
+    username: entry.participant?.name || 'Unknown',
+    imageUrl: entry.imageUrl || 'https://via.placeholder.com/600x400',
+    description: entry.description || '',
+    votes: entry.votes || 0,
+  }));
+
+  return new Response(JSON.stringify(formattedEntries), {
+    status: 200,
+    headers: { 'Content-Type': 'application/json' },
+  });
+
 }
 
-export async function PATCH(req, { params }) {
+export async function PATCH(req) {
   await dbConnect();
 
   const { id } = params;
@@ -52,15 +44,8 @@ export async function PATCH(req, { params }) {
     const entry = await Entry.findByIdAndUpdate(
       id,
       { $inc: { votes: 1 } },
-<<<<<<< HEAD
-<<<<<<< HEAD
+
       { new: true },
-=======
-      { new: true }
->>>>>>> 537af64 (Entry page UI and working vote logic connected to DB)
-=======
-      { new: true },
->>>>>>> 2e13555 (Fix: format code with Prettier to pass build)
     );
 
     if (!entry) {
