@@ -9,7 +9,7 @@ const EntrySchema = new mongoose.Schema(
     },
     participant: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Participant',
+      ref: 'User',
       required: true,
     },
     imageUrl: {
@@ -20,8 +20,18 @@ const EntrySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    description: {
+      type: String,
+      trim: true,
+    },
+    votes: {
+      type: Number,
+      default: 0,
+    },
   },
   { timestamps: true },
 );
 
-export default mongoose.models.Entry || mongoose.model('Entry', EntrySchema);
+const Entry = mongoose.models.Entry || mongoose.model('Entry', EntrySchema);
+
+export default Entry;

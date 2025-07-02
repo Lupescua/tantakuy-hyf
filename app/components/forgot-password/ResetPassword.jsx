@@ -14,9 +14,9 @@ export default function ResetPasswordForm() {
   const [rememberMe, setRememberMe] = useState(false);
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
-  const emailParam = searchParams.get('email')
+  const emailParam = searchParams.get('email');
   const [status, setStatus] = useState('loading');
-  console.log(emailParam)
+  console.log(emailParam);
   useEffect(() => {
     const validatingToken = async () => {
       try {
@@ -51,10 +51,11 @@ export default function ResetPasswordForm() {
     }
 
     try {
-      const res = await API.post('/api/forgotPassword', { email, newPassword });
-      console.log(res.data);
+      const res = await API.post('/forgotPassword', {email, newPassword, token});
+     
 
       const { user } = res.data.user;
+      
 
       if (!user.userName || !user.email) {
         throw new AppError('Missing user data', 400);

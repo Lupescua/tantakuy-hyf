@@ -55,7 +55,6 @@
   cursor: default;
 }
 
-
 .shareButton {
   display: flex;
   align-items: center;
@@ -69,9 +68,7 @@
   width: 18px;
   height: 15px;
   object-fit: cover;
-
 }
-
 
 .voteButton,
 .shareButton {
@@ -94,4 +91,3 @@
   padding: 6px 30px;
   margin-top: 8px;
 }
-

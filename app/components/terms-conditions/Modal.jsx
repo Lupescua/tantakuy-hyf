@@ -1,6 +1,6 @@
-"use client";
-import React from "react";
-import "./Modal.css";
+'use client';
+import React from 'react';
+import './Modal.css';
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
@@ -8,7 +8,9 @@ const Modal = ({ isOpen, onClose, children }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>x</button>
+        <button className="modal-close" onClick={onClose}>
+          x
+        </button>
         {children}
       </div>
     </div>

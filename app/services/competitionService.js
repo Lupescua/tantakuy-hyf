@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = '/api/competitions';
+const API_URL = '/competitions';
 
 export async function getAllCompetitions() {
   const res = await axios.get(API_URL);

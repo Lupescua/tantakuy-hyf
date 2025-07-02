@@ -5,9 +5,8 @@ export default function JoinButton() {
   return (
     <div className={styles.buttonWrapper}>
       <Link href="/login" className={styles.joinButton}>
-      DELTAG HER
-    </Link>
+        DELTAG HER
+      </Link>
     </div>
-    
   );
 }

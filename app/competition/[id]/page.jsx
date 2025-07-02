@@ -62,6 +62,7 @@ export default function CompetitionGalleryPage() {
           ))}
         </div>
         <JoinButton />
+        <JoinButton />
       </main>
     </>
   );

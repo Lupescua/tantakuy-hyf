@@ -5,7 +5,7 @@ export function withAuth(handler) {
   return async function (req, context) {
     await dbConnect();
 
-    const user = getUserFromCookie();
+    const user = getUserFromCookie(req);
 
     if (!user) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), {
