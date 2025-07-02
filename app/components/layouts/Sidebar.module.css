@@ -1,0 +1,64 @@
+.hamburger {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 1101;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.bar {
+  width: 28px;
+  height: 3px;
+  background: #222;
+  border-radius: 2px;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -240px;
+  width: 220px;
+  height: 100vh;
+  background: #fff;
+  border-right: 1px solid #eee;
+  padding-top: 64px;
+  z-index: 1100;
+  transition: left 0.3s;
+}
+
+.sidebar.open {
+  left: 0;
+}
+
+.sidebar nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar nav li {
+  padding: 16px 24px;
+}
+
+.sidebar nav li a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.15);
+  z-index: 1099;
+} 
