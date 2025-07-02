@@ -5,7 +5,7 @@ export default function FooterLoggedOut() {
   return (
     <footer className={styles.footer}>
       <div className={styles['footer-content']}>
-        <p className={styles['footer-text']}>¿Do you have an account?</p>
+        <p className={styles['footer-text']}>Do you have an account?</p>
         <div className={styles['footer-auth-buttons']}>
           <Link
             href="/login"
