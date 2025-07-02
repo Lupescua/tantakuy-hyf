@@ -11,13 +11,6 @@ export default function EntryCard({
   showVoteCount = true,
   showActions = true,
 }) {
-export default function EntryCard({
-  image,
-  initialVotes = 0,
-  entryId,
-  showVoteCount = true,
-  showActions = true,
-}) {
   const [voted, setVoted] = useState(false);
   const [votes, setVotes] = useState(initialVotes);
   const [loading, setLoading] = useState(false);
@@ -97,12 +90,6 @@ export default function EntryCard({
               {voted ? <FaHeart /> : <FaRegHeart />} Stem
             </button>
 
-            <button className={styles.shareButton}>
-              <img src="/del.png" alt="Del" className={styles.shareIcon} />
-              Del
-            </button>
-          </div>
-        )}
             <button className={styles.shareButton}>
               <img src="/del.png" alt="Del" className={styles.shareIcon} />
               Del
