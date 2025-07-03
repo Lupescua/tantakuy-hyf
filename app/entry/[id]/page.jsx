@@ -102,7 +102,7 @@ export default function EntryPage() {
     <main className={styles.main}>
       {/* ── 1. username ── */}
       <h3 className={styles.title}>
-        {entry.participant?.userName || 'Ukendt deltager'}
+        {entry?.participant?.userName ?? 'Ukendt deltager'}
       </h3>
 
       {/* ── 2. image ── */}

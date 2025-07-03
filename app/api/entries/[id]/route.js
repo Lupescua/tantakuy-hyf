@@ -1,22 +1,25 @@
 import dbConnect from '@/utils/dbConnects';
 import Entry from '@/app/api/models/Entry';
-import '@/app/api/models/Participant'; // make sure the schema is registered
-import { withAuth } from '@/utils/authMiddleware';
+import '@/app/api/models/Participant'; // registers schema
+import { cookies } from 'next/headers';
+import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 
-/* ───────── GET /api/entries/[id] ───────── */
-export async function GET(_request, context) {
-  /* 1. grab the dynamic id ***before*** the first await  */
-  const id = context.params?.id;
-  if (!isValidObjectId(id)) {
-    return Response.json({ error: 'Bad id' }, { status: 400 });
-  }
+/* helper – pull :id safely from the URL string */
+function extractId(request) {
+  const { pathname } = new URL(request.url);
+  const id = pathname.split('/').pop(); // last segment
+  return isValidObjectId(id) ? id : null;
+}
 
-  /* 2. connect to DB (now it’s safe to await) */
+/* ───────────── GET /api/entries/[id] ───────────── */
+export async function GET(request) {
+  const id = extractId(request);
+  if (!id) return Response.json({ error: 'Bad id' }, { status: 400 });
+
   await dbConnect();
 
   try {
-    /* 3. fetch entry + participant username */
     const entry = await Entry.findById(id)
       .populate({
         path: 'participant',
@@ -25,9 +28,9 @@ export async function GET(_request, context) {
       })
       .lean();
 
-    if (!entry) {
+    if (!entry)
       return Response.json({ error: 'Entry not found' }, { status: 404 });
-    }
+
     return Response.json(entry, { status: 200 });
   } catch (err) {
     console.error('Error fetching entry:', err);
@@ -35,28 +38,37 @@ export async function GET(_request, context) {
   }
 }
 
-/* ───────── DELETE /api/entries/[id] (auth) ───────── */
-async function deleteEntry(req, { params, user }) {
-  const entryId = params.id;
-  if (!isValidObjectId(entryId)) {
-    return Response.json({ error: 'Bad id' }, { status: 400 });
+/* ──────────── DELETE /api/entries/[id] (auth) ─────────── */
+export async function DELETE(request) {
+  const id = extractId(request);
+  if (!id) return Response.json({ error: 'Bad id' }, { status: 400 });
+
+  // auth
+  const store = await cookies();
+  const token = store.get('token')?.value;
+  if (!token) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+  let userId;
+  try {
+    userId = verifyToken(token).id;
+  } catch {
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   await dbConnect();
 
   try {
-    const entry = await Entry.findById(entryId);
+    const entry = await Entry.findById(id);
     if (!entry)
       return Response.json({ error: 'Entry not found' }, { status: 404 });
-    if (entry.participant.toString() !== user.id)
+
+    if (entry.participant.toString() !== userId)
       return Response.json({ error: 'Forbidden' }, { status: 403 });
 
-    await Entry.deleteOne({ _id: entryId });
+    await Entry.deleteOne({ _id: id });
     return Response.json(null, { status: 204 });
   } catch (err) {
     console.error('Error deleting entry:', err);
     return Response.json({ error: 'Failed to delete entry' }, { status: 500 });
   }
 }
-
-export const DELETE = withAuth(deleteEntry);

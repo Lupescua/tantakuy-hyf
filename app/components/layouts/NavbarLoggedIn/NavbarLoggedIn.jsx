@@ -20,11 +20,10 @@ export default function NavbarLoggedIn() {
     <header className={styles.navbar}>
       <div className={styles['navbar-container']}>
         <div className={`${styles['navbar-top']} ${styles['fade-in']}`}>
-          <h1 className={styles['site-title']}>Tantakuy</h1>
+          <Link href={'/'}>
+            <h1 className={styles['site-title']}>Tantakuy</h1>
+          </Link>
           <div className={styles['auth-buttons']}>
-            {/* <Link href="/login" className={styles['nav-btn']}>
-              Log in
-            </Link> */}
             <span>Welcome! </span>
             <button
               onClick={handleLogout}

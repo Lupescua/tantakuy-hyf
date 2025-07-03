@@ -1,60 +1,40 @@
+import dbConnect from '@/utils/dbConnects';
+import Vote from '@/app/api/models/Vote';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/jwt';
-import { deleteVoteById } from '@/app/services/voteServices';
+import { isValidObjectId } from 'mongoose';
 
-export async function DELETE(request, { params }) {
-  const voteId = params.id;
-  if (!voteId) {
-    return Response.json(
-      {
-        success: false,
-        message: 'Missing vote ID',
-      },
-      {
-        status: 400,
-      },
-    );
+/* ───────── DELETE  /api/votes/[id] ───────── */
+export async function DELETE(request) {
+  /* 1️⃣  grab :id from URL before the first await */
+  const { pathname } = new URL(request.url);
+  const voteId = pathname.split('/').pop();
+
+  if (!isValidObjectId(voteId)) {
+    return Response.json({ error: 'Bad id' }, { status: 400 });
   }
 
-  // 1️⃣ Auth
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  if (!token) {
-    return Response.json(
-      {
-        success: false,
-        message: 'Unauthorized',
-      },
-      {
-        status: 401,
-      },
-    );
-  }
+  /* 2️⃣  auth */
+  const store = await cookies();
+  const token = store.get('token')?.value;
+  if (!token) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
   let participantId;
   try {
     participantId = verifyToken(token).id;
   } catch {
-    return Response.json(
-      {
-        success: false,
-        message: 'Invalid token',
-      },
-      {
-        status: 401,
-      },
-    );
+    return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  // 2️⃣ Business logic
-  try {
-    await deleteVoteById({ voteId, participantId });
-    // 204 no content
-    return new Response(null, { status: 204 });
-  } catch (err) {
-    return Response.json(
-      { success: false, message: err.message },
-      { status: err.statusCode || 500 },
-    );
+  /* 3️⃣  DB */
+  await dbConnect();
+
+  const vote = await Vote.findById(voteId);
+  if (!vote) return Response.json({ error: 'Vote not found' }, { status: 404 });
+  if (vote.participant.toString() !== participantId) {
+    return Response.json({ error: 'Forbidden' }, { status: 403 });
   }
+
+  await Vote.deleteOne({ _id: voteId });
+  return new Response(null, { status: 204 });
 }
