@@ -1,0 +1,158 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  color: white;
+  padding: 0;
+  height: 56px;
+  position: relative;
+  z-index: 1200;
+  font-family: 'Montserrat', 'Inter', Arial, sans-serif;
+  overflow: hidden;
+  width: 100vw;
+  min-width: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1600px;
+  padding: 0 12px;
+  box-sizing: border-box;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 0;
+  height: 56px;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-right: 8px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 20px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.center, .right, .companyDropdown, .competitions, .idCircle, .user, .icon {
+  font-size: 15px;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: 56px;
+}
+
+.companyDropdown {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.competitions {
+  font-weight: 600;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-right: 0;
+  height: 56px;
+}
+
+.idCircle {
+  background: #e6efef;
+  color: #222;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-family: inherit;
+}
+
+.user {
+  margin-left: 4px;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.icon {
+  font-size: 1.3rem;
+  margin-left: 8px;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 700px) {
+  .navbar {
+    padding: 0;
+    height: 48px;
+  }
+  .navbar-inner {
+    padding: 0 6px;
+  }
+  .logo {
+    font-size: 1rem;
+  }
+  .center {
+    display: none;
+  }
+  .right {
+    gap: 8px;
+    height: 48px;
+  }
+  .idCircle {
+    width: 26px;
+    height: 26px;
+    font-size: 0.9rem;
+  }
+  .icon {
+    font-size: 1.1rem;
+    margin-left: 4px;
+  }
+} 
