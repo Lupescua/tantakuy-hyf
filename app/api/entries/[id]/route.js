@@ -13,7 +13,10 @@ export async function GET(request, context) {
   }
 
   try {
-    const entry = await Entry.findById(id);
+    const entry = await Entry.findById(id).populate(
+      'participant',
+      'userName email',
+    );
     if (!entry) {
       return Response.json({ error: 'Entry not found' }, { status: 404 });
     }
