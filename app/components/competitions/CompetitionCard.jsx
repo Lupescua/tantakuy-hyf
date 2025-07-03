@@ -1,21 +1,38 @@
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './CompetitionCard.module.css';
 import EntryCard from '../entries/EntryCard';
 
-const PLACEHOLDER_IMG = 'https://via.placeholder.com/150';
+const PLACEHOLDER_IMG = '/default-image.png';
 
 export default function CompetitionCard({ competition }) {
-  const { id, name, logo, images } = competition;
+  const { _id, name, logo } = competition;
+  const [images, setImages] = useState([]);
 
-  const displayedImages = [images];
-  while (displayedImages.length < 6) {
-    displayedImages.push(PLACEHOLDER_IMG);
-  }
-  displayedImages.length = 6;
+  useEffect(() => {
+    async function fetchEntries() {
+      try {
+        const res = await fetch(`/api/entries?competitionId=${_id}`);
+        const data = await res.json();
+        const imageUrls = data.slice(0, 6).map((entry) => entry.imageUrl);
+
+        while (imageUrls.length < 6) {
+          imageUrls.push(PLACEHOLDER_IMG);
+        }
+
+        setImages(imageUrls);
+      } catch (err) {
+        console.error(`Failed to load entries for competition ${_id}`, err);
+        setImages(Array(6).fill(PLACEHOLDER_IMG));
+      }
+    }
+
+    fetchEntries();
+  }, [_id]);
 
   return (
     <div className={styles.card}>
-      <Link href={`/competitions/${id}`} className={styles.header}>
+      <Link href={`/competition/${_id}`} className={styles.header}>
         <div className={styles.logoWrapper}>
           <img src={logo} alt={`${name} logo`} className={styles.logo} />
         </div>
@@ -23,13 +40,12 @@ export default function CompetitionCard({ competition }) {
       </Link>
 
       <div className={styles.grid}>
-        {displayedImages.map((src, i) => (
+        {images.map((src, i) => (
           <EntryCard
             key={i}
             image={src}
-            entryId={`competitions-${id}-img-${i}`}
-            showActions={false}
             showVoteCount={false}
+            showActions={false}
           />
         ))}
       </div>

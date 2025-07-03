@@ -1,44 +1,64 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import EntryCard from '@/app/components/entries/EntryCard';
-import styles from '../competition.module.css';
+import NavbarLoggedIn from '@/app/components/layouts/NavbarLoggedIn/NavbarLoggedIn';
+import FooterLoggedIn from '@/app/components/layouts/FooterLoggedIn/FooterLoggedIn';
 import JoinButton from '@/app/components/competitions/JoinButton';
-import { useState, useEffect } from 'react';
-import API from '@/utils/axios';
-
+import styles from '../competition.module.css';
 
 export default function CompetitionGalleryPage() {
   const { id } = useParams();
   const [competition, setCompetition] = useState(null);
+  const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(()=> {
-    async function fetchCompetition(){
+  useEffect(() => {
+    if (!id) return;
+
+    async function fetchCompetitionData() {
       try {
-        const data = await API.get(id)
-        setCompetition(data)
+        const [compRes, entriesRes] = await Promise.all([
+          fetch(`/api/competitions`),
+          fetch(`/api/entries?competitionId=${id}`),
+        ]);
+
+        const compJson = await compRes.json();
+        const competitions = compJson.data || [];
+        const selectedCompetition = competitions.find((c) => c._id === id);
+
+        if (selectedCompetition) {
+          setCompetition(selectedCompetition);
+        }
+
+        const entriesData = await entriesRes.json();
+        setEntries(entriesData);
+        setLoading(false);
       } catch (error) {
-        console.error(error);
-      } finally {
+        console.error('Error loading data:', error);
         setLoading(false);
       }
     }
-    fetchCompetition();
-  },[id])
-  if (loading) return <div>Loading...</div>;
-  if (!competition) return <div>Competition not found</div>;
+
+    fetchCompetitionData();
+  }, [id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (!competition) return <p>Competition not found</p>;
+
   return (
     <>
       <main className={styles.main}>
         <h1 className={styles.title}>{competition.name}</h1>
         <div className={styles.grid}>
-          {competition.images?.map((src, index) => (
+          {entries.map((entry) => (
             <EntryCard
-              key={index}
-              image={src}
-              entryId={`competition-${id}-img-${index}`}
+              key={entry._id}
+              image={entry.imageUrl}
+              entryId={entry._id}
               showVoteCount={false}
+              showActions={true}
             />
           ))}
         </div>

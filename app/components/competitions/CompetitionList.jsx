@@ -9,9 +9,7 @@ export default function CompetitionList({ competitions }) {
   return (
     <div className={styles.list}>
       {competitions.map((competition) => (
-        <div><h1>{competition.title}</h1>
-        <CompetitionCard key={competition._id || competition.id} competition={competition} />
-        </div>
+        <CompetitionCard key={competition._id} competition={competition} />
       ))}
     </div>
   );ç
