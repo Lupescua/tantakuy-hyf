@@ -7,10 +7,12 @@ export async function GET() {
   await dbConnect();
   try {
     const competitions = await Competition.find().sort({ createdAt: -1 });
-    if(competitions){
-      return Response.json({data: competitions, success: true}, {status: 200});
+    if (competitions) {
+      return Response.json(
+        { data: competitions, success: true },
+        { status: 200 },
+      );
     }
-    
   } catch (error) {
     console.error('Error fetch competitions:', error);
     return Response.json(
