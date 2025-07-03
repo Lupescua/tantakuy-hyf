@@ -121,6 +121,7 @@
   position: absolute;
   top: 0;
   margin-top: 50px;
+
 }
 .itemIcon {
   font-family: 'Courier New', Courier, monospace;
@@ -201,9 +202,12 @@
 
 .buttonBlack {
   color: white;
+  width: 100%;
+  max-width: 100%;
 }
 
 .itemButton {
+  position: absolute;
   margin-top: 70px;
   background: none;
   border: none;
@@ -212,6 +216,6 @@
   color: black;
   display: flex;
   align-items: center;
-  gap: 4px;
+  padding: 50px 0;
   cursor: pointer;
 }
