@@ -8,7 +8,9 @@ export async function GET(req, { params }) {
   try {
     await dbConnect();
 
-    const entries = await Entry.find({ competition: competitionId }).select('imageUrl');
+    const entries = await Entry.find({ competition: competitionId }).select(
+      'imageUrl',
+    );
 
     return NextResponse.json({
       success: true,
@@ -18,7 +20,7 @@ export async function GET(req, { params }) {
     console.error('Error fetching entries:', error);
     return NextResponse.json(
       { success: false, message: 'Server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

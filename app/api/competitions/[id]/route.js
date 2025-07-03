@@ -1,14 +1,15 @@
-
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
 import mongoose from 'mongoose';
 
-
 export async function GET(request, { params }) {
-  const { id } = await params
+  const { id } = await params;
 
   if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return Response.json({ error: 'Invalid or missing competition ID' }, { status: 400 });
+    return Response.json(
+      { error: 'Invalid or missing competition ID' },
+      { status: 400 },
+    );
   }
 
   try {

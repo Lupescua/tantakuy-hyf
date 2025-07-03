@@ -5,13 +5,12 @@ import dbConnect from '@/utils/dbConnects';
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const companyId = searchParams.get('companyId');
-  console.log("company_iddddd", companyId);
-  
+  console.log('company_iddddd', companyId);
 
   if (!companyId || !mongoose.Types.ObjectId.isValid(companyId)) {
     return Response.json(
       { success: false, message: 'Invalid or missing companyId' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -20,11 +19,11 @@ export async function GET(req) {
 
     const company = await Company.findById(companyId);
     if (!company) {
-        return Response.json(
-          { success: false, message: 'Company not found' },
-          { status: 200 }
-        );
-      }
+      return Response.json(
+        { success: false, message: 'Company not found' },
+        { status: 200 },
+      );
+    }
 
     return Response.json({
       success: true,
@@ -34,7 +33,7 @@ export async function GET(req) {
     console.error('Error fetching company name:', error);
     return Response.json(
       { success: false, message: 'Server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
