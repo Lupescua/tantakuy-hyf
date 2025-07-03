@@ -42,7 +42,6 @@ export default async function Home() {
           </div>
         </section>
       </main>
-      {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
     </>
   );
 }
