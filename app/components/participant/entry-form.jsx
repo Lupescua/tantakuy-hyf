@@ -6,7 +6,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import UploadImageModal from '../modals/uploadImageModal';
 import API from '@/utils/axios';
-const EntryForm = ( {userId, competitionId}) => {
+const EntryForm = ({ userId, competitionId }) => {
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
   const [preview, setPreview] = useState(null);
@@ -14,7 +14,6 @@ const EntryForm = ( {userId, competitionId}) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [uploadedImageUrl, setUploadedImageUrl] = useState(null);
 
-  
   // const handleImageChange = (e) => {
   //   const file = e.target.files[0];
   //   if (!file) return;
@@ -30,19 +29,19 @@ const EntryForm = ( {userId, competitionId}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!uploadedImageUrl || !text.trim()) {
       setError('Både billede og tekst er påkrævet');
       return;
     }
-  
+
     try {
       await API.post('/entries/create-new-entry/', {
-        imageUrl: uploadedImageUrl,  
+        imageUrl: uploadedImageUrl,
         caption: text,
         participant: userId,
         competition: competitionId,
-        description: " "
+        description: ' ',
       });
       alert('Uploadet!');
       setImage(null);
@@ -76,10 +75,10 @@ const EntryForm = ( {userId, competitionId}) => {
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}
             onImageUpload={handleImageUpload}
-            uId = {userId}
+            uId={userId}
           />
           <img
-            src={preview || uploadedImageUrl || "/default-image.png"}
+            src={preview || uploadedImageUrl || '/default-image.png'}
             alt="Preview or placeholder"
             className="placeholderimage"
           />
@@ -91,7 +90,7 @@ const EntryForm = ( {userId, competitionId}) => {
         <textarea
           id="text"
           className="entrytextarea"
-          style={{color: 'white'}}
+          style={{ color: 'white' }}
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="Tekst"

@@ -8,12 +8,13 @@
   --bar-color: rgb(182, 182, 182);
 }
 
-
 * {
   margin: 0;
   padding: 0;
 }
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 

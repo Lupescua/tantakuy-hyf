@@ -20,17 +20,19 @@ export default function UploadImage() {
 
   const [imageUrl, setImageUrl] = useState(null);
 
+  const uploadToCloudinary = async (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
 
-    const uploadToCloudinary = async (file) => {
-        const formData = new FormData();
-        formData.append('file', file);
-        formData.append('upload_preset', UPLOAD_PRESET);
-    
-        const response = await API.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {formData});
-    
-        const data = await response.json();
-        return data.secure_url;
-    };
+    const response = await API.post(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+      { formData },
+    );
+
+    const data = await response.json();
+    return data.secure_url;
+  };
 
   const handleComputerUpload = async (e) => {
     const file = e.target.files[0];

@@ -1,147 +1,144 @@
 .modalOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 1000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modal {
-    background: #fff;
-    padding: 1rem;
-    width: 90%;
-    max-width: 900px;
-    border-radius: 10px;
-    position: relative;
-    height: calc(80vh - 3.1rem)  ;
-  }
-  
-  .closeButton {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    position: absolute;
-    left: 30px;
-    
-  }
-  .titleBar {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-     align-items: center;
-    width: 100%;
-    padding: 20px;
-    background-color: var(--bar-color);
-    color: black;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .nextButton {
-    color: var(--primary-color);
-    position: absolute;
-    font-size: 30px;
-    right: 30px;
-    
+.modal {
+  background: #fff;
+  padding: 1rem;
+  width: 90%;
+  max-width: 900px;
+  border-radius: 10px;
+  position: relative;
+  height: calc(80vh - 3.1rem);
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: absolute;
+  left: 30px;
+}
+.titleBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  background-color: var(--bar-color);
+  color: black;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.nextButton {
+  color: var(--primary-color);
+  position: absolute;
+  font-size: 30px;
+  right: 30px;
+}
+.barTitle {
+  font-size: 1.3rem;
+}
+.imageContainer {
+  width: 100%;
+  background-color: var(--bar-color);
+  min-height: 40vh; /* or adjust as needed */
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.imageIcon {
+  color: grey;
+}
+.uploadFunctionContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.uploadFuncBar {
+  padding: 1rem 0.3rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.UploadTextIconContain,
+.uploadButtons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 15px;
+}
+.UploadTextIconContain .uploadImageRight:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+.uploadImagesIcon:hover,
+.uploaCamera:hover,
+.closeIcon:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+.lastestUploadedPics {
+  padding: 0.5rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.7rem;
+}
+.lastestUploadedPics::-webkit-scrollbar {
+  height: 8px;
+}
+.imageHoler {
+  cursor: pointer;
+  flex: 1 1 150px;
+  max-width: 200px;
+  aspect-ratio: 1 / 1;
+}
+.imageHoler:hover {
+  transform: scale(1.05);
+  transition: 0.2s;
+}
+
+.nextIcon {
+  animation: colorWave 10s linear infinite;
+}
+@keyframes colorWave {
+  0% {
+    color: #4da3ff;
   }
-  .barTitle {
-    font-size: 1.3rem;
+  25% {
+    color: #7fa9d6;
   }
-  .imageContainer {
-    width: 100%;
-    background-color: var(--bar-color);
-    min-height: 40vh; /* or adjust as needed */
-    height: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
+  50% {
+    color: #007afd;
   }
-  .imageIcon {
-    color: grey;
+  75% {
+    color: #4da6ff;
   }
-  .uploadFunctionContainer {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  100% {
+    color: #004fa4;
   }
-  .uploadFuncBar {
-    padding: 1rem 0.3rem;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .UploadTextIconContain,
-  .uploadButtons {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    font-size: 15px;
-  }
-  .UploadTextIconContain .uploadImageRight:hover {
-    transform: scale(1.1);
-    cursor: pointer;
-  }
-  .uploadImagesIcon:hover,
-  .uploaCamera:hover,
-  .closeIcon:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-  .lastestUploadedPics {
-    padding: 0.5rem 0;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    gap: 0.7rem;
-  }
-  .lastestUploadedPics::-webkit-scrollbar {
-    height: 8px;
-  }
-  .imageHoler {
-    cursor: pointer;
-    flex: 1 1 150px;
-    max-width: 200px;
-    aspect-ratio: 1 / 1;
-  }
-  .imageHoler:hover {
-    transform: scale(1.05);
-    transition: 0.2s;
-  }
-  
-  .nextIcon {
-    animation: colorWave 10s linear infinite;
-  }
-  @keyframes colorWave {
-    0% {
-      color: #4da3ff;
-    }
-    25% {
-      color: #7fa9d6;
-    }
-    50% {
-      color: #007afd;
-    }
-    75% {
-      color: #4da6ff;
-    }
-    100% {
-      color: #004fa4;
-    }
-  }
-  
+}

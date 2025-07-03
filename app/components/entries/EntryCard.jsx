@@ -74,29 +74,29 @@ export default function EntryCard({
   return (
     <div className={styles.card}>
       <div className={styles.imageContainer}>
-      <img src={image} alt="entry" className={styles.image} />
+        <img src={image} alt="entry" className={styles.image} />
 
-      <div className={styles.bottom}>
-        {showVoteCount && (
-          <div className={styles.voteCount}>{votes} stemmer</div>
-        )}
-        {showActions && (
-          <div className={styles.buttonGroupWrapper}>
-            <button
-              onClick={handleVote}
-              disabled={voted || loading}
-              className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
-            >
-              {voted ? <FaHeart /> : <FaRegHeart />} Stem
-            </button>
+        <div className={styles.bottom}>
+          {showVoteCount && (
+            <div className={styles.voteCount}>{votes} stemmer</div>
+          )}
+          {showActions && (
+            <div className={styles.buttonGroupWrapper}>
+              <button
+                onClick={handleVote}
+                disabled={voted || loading}
+                className={`${styles.voteButton} ${voted ? styles.voted : ''}`}
+              >
+                {voted ? <FaHeart /> : <FaRegHeart />} Stem
+              </button>
 
-            <button className={styles.shareButton}>
-              <img src="/del.png" alt="Del" className={styles.shareIcon} />
-              Del
-            </button>
-          </div>
-        )}
-      </div>
+              <button className={styles.shareButton}>
+                <img src="/del.png" alt="Del" className={styles.shareIcon} />
+                Del
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
