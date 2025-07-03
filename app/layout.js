@@ -7,6 +7,7 @@ import NavbarLoggedOut from './components/layouts/NavbarLoggedOut/NavbarLoggedOu
 import { getUserFromCookie } from '@/utils/server/auth';
 import FooterLoggedIn from './components/layouts/FooterLoggedIn/FooterLoggedIn';
 import FooterLoggedOut from './components/layouts/FooterLoggedOut/FooterLoggedOut';
+import { AuthProvider } from '../context/AuthContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -21,9 +22,11 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
-        {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
-        <main className="content">{children}</main>
-        {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
+        <AuthProvider>
+          {isLoggedIn ? <NavbarLoggedIn /> : <NavbarLoggedOut />}
+          {children}
+          {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
+        </AuthProvider>
       </body>
     </html>
   );

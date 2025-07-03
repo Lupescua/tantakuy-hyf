@@ -1,9 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import CompetitionList from '../components/competitions/CompetitionList';
-import styles from './page.module.css';
-
 export default function CompetitionsPage() {
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,15 +21,11 @@ export default function CompetitionsPage() {
   }, []);
 
   return (
-    <main className={styles.mainContent}>
-      <h1>Igangværende Konkurrencer</h1>
-      {loading ? (
-        <p>Henter konkurrencer...</p>
-      ) : competitions.length > 0 ? (
-        <CompetitionList competitions={competitions} />
-      ) : (
-        <p>Ingen konkurrencer fundet.</p>
-      )}
-    </main>
+    <>
+      <main className={styles.mainContent}>
+        <h1>Igangværende Konkurrencer</h1>
+        <CompetitionList />
+      </main>
+    </>
   );
 }

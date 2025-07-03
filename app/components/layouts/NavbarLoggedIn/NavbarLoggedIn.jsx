@@ -1,14 +1,20 @@
 'use client';
 import Link from 'next/link';
 import styles from './NavbarLoggedIn.module.css';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 
 export default function NavbarLoggedIn() {
-  const handleLogout = async () => {
-    const res = API.post('/logout');
+  const router = useRouter();
 
-    router.push('/login');
+  const handleLogout = async () => {
+    try {
+      await API.post('/logout');
+      router.push('/');
+      router.refresh(); // re-run server props / layout auth check
+    } catch (err) {
+      console.error('Logout failed', err);
+    }
   };
   return (
     <header className={styles.navbar}>

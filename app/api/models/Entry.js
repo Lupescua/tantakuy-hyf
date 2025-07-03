@@ -32,6 +32,6 @@ const EntrySchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+//reuse the existing model if it’s already registered:
 const Entry = mongoose.models.Entry || mongoose.model('Entry', EntrySchema);
-
 export default Entry;

@@ -105,3 +105,110 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme).
 
 Check out [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+-----
+
+# Tantakuy — Voting & Gallery Module (Sprint 06 / July 2025)
+
+This update explains the architecture and usage of the voting workflow, gallery pages and the new authentication flow introduced in **PR #50**.
+
+---
+
+## 1. Folder map
+
+```text
+app/
+ ├─ api/
+ │   ├─ votes/               ← HTTP wrappers only
+ │   │   ├─ route.js         POST / GET (count)
+ │   │   └─ [id]/route.js    DELETE
+ │   ├─ entries/
+ │   │   ├─ route.js         list / create
+ │   │   └─ [id]/route.js    GET / DELETE
+ │   ├─ competitions/…
+ │   └─ auth/…
+ │
+ ├─ context/
+ │   └─ AuthContext.jsx      ← client-side user state
+ │
+ ├─ components/
+ │   ├─ competitions/
+ │   │   ├─ CompetitionList.jsx
+ │   │   └─ CompetitionCard.jsx
+ │   ├─ entries/
+ │   │   └─ EntryCard.jsx
+ │   └─ loader/
+ │       └─ Loader.jsx
+ │
+ ├─ competition/
+ │   └─ [id]/page.jsx        ← gallery
+ ├─ entry/
+ │   └─ [id]/page.jsx        ← single entry
+ └─ …
+
+Back-end data work lives in app/services/. Example:
+import { saveVote } from '@/app/services/voteServices'
+// handles validation + DB, returns { ok, vote | reason }
+
+
+2. Auth flow
+/api/login sets token (httpOnly).
+
+AuthContext runs once on mount → GET /api/auth/me.
+success → user state ; fail → user = null
+
+logout clears cookie (/api/logout) + refresh().
+
+Any component can:
+const { user, loading, refresh } = useAuth()
+
+3. Voting API
+Method & route	Body / Query	Returns
+POST /api/votes \ Body / Query:	{ entry, voteType } \ Returns:	201 + vote or 409 duplicate
+GET /api/votes/me	\ Body/ Query : ?entryId=	\ returns: { votes, hasVoted, recordId}
+DELETE /api/votes/:id \ Body/Query: 	–	  \ returns 204 on success
+
+voteServices.js throws AppError for consistent HTTP codes.
+
+4. Frontend components
+4.1 EntryCard
+Placeholders: entryId === null → skip API, disable buttons.
+
+Real ids:
+
+GET vote info on mount.
+
+Auth-guarded vote toggle → optimistic UI.
+
+409 from API means the user already voted (edge-case double-click).
+
+4.2 CompetitionCard
+Fetch up to six most-recent entries.
+
+Build fixed 6-slot array [ {id,src}, … ].
+
+Renders EntryCards with showActions={false} in overview.
+
+5. Pages
+/competitions
+CompetitionList → grid of cards.
+
+/competition/:id
+Loads entries + competition name, shows JoinButton.
+
+/entry/:id
+Single full-width image, caption, participant name, vote/share.
+
+6. Styling notes
+Buttons follow the global .submitButton palette.
+
+Layout uses simple grid / flex – see entryPage.module.css.
+
+Happy testing & let us know if you hit any edge cases 🙌
+
+
+
+
+
+

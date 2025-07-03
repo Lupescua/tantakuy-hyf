@@ -1,28 +1,40 @@
+import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
-import mongoose from 'mongoose';
+import { isValidObjectId } from 'mongoose';
 
 export async function GET(request, { params }) {
-  const { id } = await params;
+  const { id } = params;
 
-  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-    return Response.json(
-      { error: 'Invalid or missing competition ID' },
+  // 1) Validate ID format
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: 'Invalid competition ID' },
       { status: 400 },
     );
+    // return new Response(JSON.stringify({ error: 'Invalid competition ID' }), {
+    //   status: 400,
+    // });
   }
 
-  try {
-    await dbConnect();
+  // 2) Connect (this must complete before any model calls)
+  await dbConnect();
 
-    const competition = await Competition.findById(id);
-    if (!competition) {
-      return Response.json({ error: 'Competition not found' }, { status: 404 });
+  try {
+    // 3) Fetch & lean
+    const comp = await Competition.findById(id);
+    if (!comp) {
+      return new Response(JSON.stringify({ error: 'Not found' }), {
+        status: 404,
+      });
     }
 
-    return Response.json(competition);
-  } catch (err) {
-    console.error('Error fetching competition:', err);
-    return Response.json({ error: 'Server error' }, { status: 500 });
+    // 4) Return the doc
+    return NextResponse.json(comp);
+  } catch (error) {
+    console.error('Error fetching competition:', error);
+    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
+      status: 500,
+    });
   }
 }
