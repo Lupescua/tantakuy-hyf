@@ -10,14 +10,12 @@ export async function loginUser(login = {}) {
   }
 
   try {
-
     const participant = await Participant.findOne({ email });
     if (!participant) {
       throw new AppError('Email or password is incorrect.', 401);
     }
 
     const isMatch = await participant.comparePassword(password);
-
 
     if (!isMatch) {
       throw new AppError('password is incorrect.', 401);

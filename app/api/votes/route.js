@@ -11,7 +11,10 @@ export async function POST(req) {
 
     const user = await getUserFromCookie();
     if (!user) {
-      return Response.json({ success: false, message: 'Unauthorized' }, { status: 401 });
+      return Response.json(
+        { success: false, message: 'Unauthorized' },
+        { status: 401 },
+      );
     }
 
     const participantId = user.id;
