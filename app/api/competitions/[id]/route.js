@@ -9,7 +9,7 @@ export async function GET(request, { params }) {
   // 1) Validate ID format
   if (!isValidObjectId(id)) {
     return NextResponse.json(
-      { error: 'Invalid competition ID'},
+      { error: 'Invalid competition ID' },
       { status: 400 },
     );
     // return new Response(JSON.stringify({ error: 'Invalid competition ID' }), {
