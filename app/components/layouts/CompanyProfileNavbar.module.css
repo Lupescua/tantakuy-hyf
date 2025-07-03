@@ -58,7 +58,13 @@
   height: 100%;
 }
 
-.center, .right, .companyDropdown, .competitions, .idCircle, .user, .icon {
+.center,
+.right,
+.companyDropdown,
+.competitions,
+.idCircle,
+.user,
+.icon {
   font-size: 15px;
 }
 
@@ -155,4 +161,4 @@
     font-size: 1.1rem;
     margin-left: 4px;
   }
-} 
+}

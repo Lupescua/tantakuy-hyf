@@ -11,11 +11,17 @@
 * {
   margin: 0;
   padding: 0;
+}
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html,
 body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
 }
@@ -32,6 +38,7 @@ body {
 main {
   flex: 1;
   width: 63%;
+  margin: 0 auto;
 }
 
 .home {

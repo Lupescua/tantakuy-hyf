@@ -1,5 +1,5 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 import CompanyProfileNavbar from '../../components/layouts/CompanyProfileNavbar';
 import Sidebar from '../../components/layouts/Sidebar';
 import styles from './CompanyProfilePage.module.css';
@@ -11,9 +11,7 @@ export default function CompanyProfileLayout({ children }) {
     <>
       <CompanyProfileNavbar onHamburgerClick={() => setSidebarOpen(true)} />
       <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
-      <main className={styles.mainContent}>
-        {children}
-      </main>
+      <main className={styles.mainContent}>{children}</main>
     </>
   );
-} 
+}

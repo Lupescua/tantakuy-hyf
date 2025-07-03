@@ -15,41 +15,31 @@ export default function CompetitionGalleryPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
-
-    async function fetchCompetitionData() {
+    async function fetchCompetition() {
       try {
         const [compRes, entriesRes] = await Promise.all([
-          fetch(`/api/competitions`),
-          fetch(`/api/entries?competitionId=${id}`),
+          API.get(`/competitions/${id}`),
+          API.get(`/entries/by-competition/${id}`),
         ]);
-
-        const compJson = await compRes.json();
-        const competitions = compJson.data || [];
-        const selectedCompetition = competitions.find((c) => c._id === id);
-
-        if (selectedCompetition) {
-          setCompetition(selectedCompetition);
-        }
-
-        const entriesData = await entriesRes.json();
-        setEntries(entriesData);
-        setLoading(false);
+        setCompetition({
+          ...compRes.data,
+          images: entriesRes.data.data.map((entry) => entry.imageUrl),
+        });
       } catch (error) {
-        console.error('Error loading data:', error);
+        console.error('Failed to fetch competition:', error);
+      } finally {
         setLoading(false);
       }
     }
 
-    fetchCompetitionData();
+    fetchCompetition();
   }, [id]);
 
-  if (loading) return <p>Loading...</p>;
-  if (!competition) return <p>Competition not found</p>;
-
+  if (loading) return <div>Loading...</div>;
+  if (!competition) return <div>Competition not found</div>;
   return (
     <>
-      <main className={styles.main}>
+      <div className={styles.main}>
         <h1 className={styles.title}>{competition.name}</h1>
         <div className={styles.grid}>
           {entries.map((entry) => (
@@ -62,8 +52,8 @@ export default function CompetitionGalleryPage() {
             />
           ))}
         </div>
-        <JoinButton />
-      </main>
+        <JoinButton competitionId={competition._id} />
+      </div>
     </>
   );
 }

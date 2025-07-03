@@ -1,16 +1,28 @@
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
+import mongoose from 'mongoose';
 
-export async function GET(_, { params }) {
+export async function GET(request, { params }) {
+  const { id } = await params;
+
+  if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+    return Response.json(
+      { error: 'Invalid or missing competition ID' },
+      { status: 400 },
+    );
+  }
+
   try {
     await dbConnect();
 
-    const comp = await Competition.findById(params.id);
-    if (!comp) {
-      return Response.json({ error: 'Not found' }, { status: 404 });
+    const competition = await Competition.findById(id);
+    if (!competition) {
+      return Response.json({ error: 'Competition not found' }, { status: 404 });
     }
-    return Response.json(comp);
+
+    return Response.json(competition);
   } catch (err) {
-    return Response.json({ error: err.message }, { status: 500 });
+    console.error('Error fetching competition:', err);
+    return Response.json({ error: 'Server error' }, { status: 500 });
   }
 }

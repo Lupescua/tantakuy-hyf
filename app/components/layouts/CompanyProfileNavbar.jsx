@@ -1,13 +1,17 @@
-"use client";
-import { FaBell, FaCog, FaBars } from "react-icons/fa";
-import styles from "./CompanyProfileNavbar.module.css";
+'use client';
+import { FaBell, FaCog, FaBars } from 'react-icons/fa';
+import styles from './CompanyProfileNavbar.module.css';
 
 export default function CompanyProfileNavbar({ onHamburgerClick }) {
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-inner']}>
         <div className={styles.left}>
-          <button className={styles.menuButton} onClick={onHamburgerClick} aria-label="Open sidebar menu">
+          <button
+            className={styles.menuButton}
+            onClick={onHamburgerClick}
+            aria-label="Open sidebar menu"
+          >
             <FaBars />
           </button>
           <span className={styles.logo}>TANTAKUY</span>
@@ -25,4 +29,4 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
       </div>
     </header>
   );
-} 
+}
