@@ -3,26 +3,30 @@
 import Link from 'next/link';
 import styles from '../../competition/competition.module.css';
 import { useAuth } from '@/context/AuthContext';
+import Loader from '../loader/Loader';
 
 /**
  * “DEL­TAG HER” button
- * – Logged-in  →  /participant-entry
+ * – Logged-in  →  /participant-entry/[competitionId]
  * – Guest      →  /login
  */
-export default function JoinButton() {
+export default function JoinButton({ competitionId }) {
   const { user, loading } = useAuth();
 
-  // While auth state is loading we just render a disabled-looking span.
   if (loading) {
     return (
       <div className={styles.buttonWrapper}>
-        <span className={`${styles.joinButton} ${styles.disabled}`}>…</span>
+        <span className={`${styles.joinButton} ${styles.disabled}`}>
+          <Loader />
+        </span>
       </div>
     );
   }
 
-  // Decide destination based on presence of user
-  const href = user ? '/participant-entry' : '/login';
+  // if logged in, point at the dynamic route
+  const href = user ? `/participant-entry/${competitionId}` : '/login';
+
+  console.log('JoinButton → linking to:', href);
 
   return (
     <div className={styles.buttonWrapper}>

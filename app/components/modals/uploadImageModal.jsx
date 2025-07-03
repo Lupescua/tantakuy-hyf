@@ -13,6 +13,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import ImageTemplate from '../image-container-template/ImageTemplate';
 import API from '@/utils/axios';
+import Loader from '../loader/Loader';
 
 export default function UploadImageModal({
   isOpen,
@@ -27,7 +28,8 @@ export default function UploadImageModal({
 
   const [imageUrl, setImageUrl] = useState(null);
   const [userImages, setUserImages] = useState([]);
-  const [selectedImageUrl, setSelectedImageUrl] = useState(null); // NEW
+  const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // const imageArr = Array.from({ length: 12 }, (_, i) => i);
 
@@ -74,12 +76,18 @@ export default function UploadImageModal({
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const uploadedUrl = await uploadToCloudinary(file);
-      setImageUrl(uploadedUrl);
-      console.log('Uploaded:', uploadedUrl);
-      if (onImageUpload && uploadedUrl) {
-        onImageUpload(uploadedUrl);
-        onClose();
+      setLoading(true);
+      try {
+        const uploadedUrl = await uploadToCloudinary(file);
+        setImageUrl(uploadedUrl);
+        console.log('Uploaded:', uploadedUrl);
+        if (onImageUpload && uploadedUrl) {
+          onImageUpload(uploadedUrl);
+        }
+      } catch (err) {
+        console.error('Upload failed:', err);
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -88,6 +96,11 @@ export default function UploadImageModal({
 
   return (
     <div className={styles.modalOverlay}>
+      {loading && (
+        <div className={styles.loaderWrapper}>
+          <Loader />
+        </div>
+      )}
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titleBar}>
           <button onClick={onClose} className={styles.closeButton}>

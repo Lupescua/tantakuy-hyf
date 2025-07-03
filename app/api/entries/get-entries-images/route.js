@@ -1,38 +1,47 @@
-import dbConnect from '../../../../utils/dbConnects';
-import Entry from '../../models/Entry';
-import { withAuth } from '../../../../utils/authMiddleware';
-export async function GET(req) {
-  const { searchParams } = new URL(req.url);
-  const userId = searchParams.get('userId');
+import dbConnect from '@/utils/dbConnects';
+import Entry from '@/app/api/models/Entry';
+import { cookies } from 'next/headers'; // ← ADD
+import { verifyToken } from '@/utils/jwt'; // ← ADD
+import { isValidObjectId } from 'mongoose';
 
+/* ───────── GET /api/entries/get-entries-images ───────── */
+export async function GET(request) {
+  /* 1. who is asking?  ─────────────────────────────────── */
+  const { searchParams } = new URL(request.url);
+  let userId = searchParams.get('userId'); // optional
+
+  /* If no userId param, fall back to the logged-in user   */
   if (!userId) {
-    return Response.json(
-      { success: false, message: 'userId is required' },
-      { status: 400 },
-    );
+    const store = await cookies();
+    const token = store.get('token')?.value;
+    if (!token)
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    try {
+      userId = verifyToken(token).id;
+    } catch {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
   }
 
+  if (!isValidObjectId(userId)) {
+    return Response.json({ error: 'Bad user id' }, { status: 400 });
+  }
+
+  /* 2. DB – fetch entries for that user  ───────────────── */
   await dbConnect();
+  const entries = await Entry.find({ participant: userId })
+    .select('imageUrl caption description votes') // leaner payload
+    .lean();
 
-  const entries = await Entry.find({ participant: userId }).populate(
-    'participant',
-  );
-
-  const formattedEntries = entries.map((entry) => ({
-    id: entry._id,
-    title: entry.caption || 'Untitled Entry',
-    username: entry.participant?.name || 'Unknown',
-    imageUrl: entry.imageUrl || 'https://via.placeholder.com/600x400',
-    description: entry.description || '',
-    votes: entry.votes || 0,
+  /* 3. shape response  ─────────────────────────────────── */
+  const data = entries.map((e) => ({
+    id: e._id,
+    title: e.caption || 'Untitled Entry',
+    imageUrl: e.imageUrl || 'https://via.placeholder.com/600x400',
+    description: e.description || '',
+    votes: e.votes || 0,
   }));
 
-  return Response.json(
-    {
-      success: true,
-      message: 'Entries fetched successfully',
-      data: formattedEntries,
-    },
-    { status: 200 },
-  );
+  return Response.json({ success: true, data }, { status: 200 });
 }
