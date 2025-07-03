@@ -100,19 +100,19 @@ export default function EntryPage() {
 
   return (
     <main className={styles.main}>
-      {/* headline: participant name · optional caption */}
-      <h1 className={styles.title}>
-        {entry.participant?.userName ?? 'Ukendt deltager'}
-        {entry.caption && ` · ${entry.caption}`}
-      </h1>
+      {/* ── 1. username ── */}
+      <h3 className={styles.title}>
+        {entry.participant?.userName || 'Ukendt deltager'}
+      </h3>
 
+      {/* ── 2. image ── */}
       <img
         className={styles.image}
         src={entry.imageUrl || PLACEHOLDER_IMG}
         alt="Entry"
       />
 
-      {/* vote counter + buttons */}
+      {/* ── 3. vote count + buttons ── */}
       <div className={styles.actions}>
         <button
           onClick={toggleVote}
@@ -126,6 +126,9 @@ export default function EntryPage() {
           <FaShareAlt /> Del
         </button>
       </div>
+
+      {/* ── 4. description / caption ── */}
+      {entry.caption && <p className={styles.caption}>{entry.caption}</p>}
     </main>
   );
 }

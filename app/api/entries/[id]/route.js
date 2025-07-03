@@ -1,22 +1,30 @@
 import dbConnect from '@/utils/dbConnects';
 import Entry from '@/app/api/models/Entry';
+import '@/app/api/models/Participant'; // make sure the schema is registered
 import { withAuth } from '@/utils/authMiddleware';
+import { isValidObjectId } from 'mongoose';
 
-/* ---------------- GET /api/entries/[id] ----------------
-   Public – no auth needed – returns one entry document   */
-export async function GET(request, context) {
-  await dbConnect();
-
-  const { id } = context.params;
-  if (!id) {
-    return Response.json({ error: 'Missing id' }, { status: 400 });
+/* ───────── GET /api/entries/[id] ───────── */
+export async function GET(_request, context) {
+  /* 1. grab the dynamic id ***before*** the first await  */
+  const id = context.params?.id;
+  if (!isValidObjectId(id)) {
+    return Response.json({ error: 'Bad id' }, { status: 400 });
   }
 
+  /* 2. connect to DB (now it’s safe to await) */
+  await dbConnect();
+
   try {
-    const entry = await Entry.findById(id).populate(
-      'participant',
-      'userName email',
-    );
+    /* 3. fetch entry + participant username */
+    const entry = await Entry.findById(id)
+      .populate({
+        path: 'participant',
+        select: 'userName',
+        model: 'Participant',
+      })
+      .lean();
+
     if (!entry) {
       return Response.json({ error: 'Entry not found' }, { status: 404 });
     }
@@ -27,39 +35,27 @@ export async function GET(request, context) {
   }
 }
 
+/* ───────── DELETE /api/entries/[id] (auth) ───────── */
 async function deleteEntry(req, { params, user }) {
-  await dbConnect();
-
   const entryId = params.id;
-  if (!entryId) {
-    return new Response(JSON.stringify({ error: 'Entry ID is required' }), {
-      status: 400,
-    });
+  if (!isValidObjectId(entryId)) {
+    return Response.json({ error: 'Bad id' }, { status: 400 });
   }
+
+  await dbConnect();
 
   try {
     const entry = await Entry.findById(entryId);
+    if (!entry)
+      return Response.json({ error: 'Entry not found' }, { status: 404 });
+    if (entry.participant.toString() !== user.id)
+      return Response.json({ error: 'Forbidden' }, { status: 403 });
 
-    if (!entry) {
-      return new Response(JSON.stringify({ error: 'Entry not found' }), {
-        status: 404,
-      });
-    }
-
-    if (entry.participant.toString() !== user.id) {
-      return new Response(JSON.stringify({ error: 'Forbidden' }), {
-        status: 403,
-      });
-    }
-
-    await Entry.findByIdAndDelete(entryId);
-
-    return new Response(null, { status: 204 });
-  } catch (error) {
-    console.error('Error deleting entry:', error);
-    return new Response(JSON.stringify({ error: 'Failed to delete entry' }), {
-      status: 500,
-    });
+    await Entry.deleteOne({ _id: entryId });
+    return Response.json(null, { status: 204 });
+  } catch (err) {
+    console.error('Error deleting entry:', err);
+    return Response.json({ error: 'Failed to delete entry' }, { status: 500 });
   }
 }
 
