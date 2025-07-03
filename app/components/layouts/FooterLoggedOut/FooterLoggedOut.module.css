@@ -52,11 +52,11 @@
 }
 
 .signup-btn {
-  background-color: var(--primary-color);
+  background-color: var(--footer-btn-color);
   color: white;
   border: none;
 }
 
 .signup-btn:hover {
-  background-color: #3b2bc1;
+  background-color: var(--footer-btn-color);
 }
