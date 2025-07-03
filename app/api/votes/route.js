@@ -1,4 +1,5 @@
 import { saveVote, countVotesForEntry } from '@/app/services/voteServices';
+import { cookies } from 'next/headers';
 import dbConnect from '@/utils/dbConnects';
 import { verifyToken } from '@/utils/jwt';
 import Vote from '../models/Vote';

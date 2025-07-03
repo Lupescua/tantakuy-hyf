@@ -1,40 +1,47 @@
+// app/api/competitions/[id]/route.js
 import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
 
-export async function GET(request, { params }) {
-  const { id } = params;
+export async function GET(request /* ← only one arg now */) {
+  /* ---------------------------------------------------------- *
+   * 1) Extract :id from the URL manually to avoid Next bug      *
+   * ---------------------------------------------------------- */
+  const pathname = new URL(request.url).pathname; // e.g. /api/competitions/64f…
+  const id = pathname.split('/').pop(); // "64f…"
 
-  // 1) Validate ID format
+  // 1-bis) Validate ID format
   if (!isValidObjectId(id)) {
     return NextResponse.json(
       { error: 'Invalid competition ID' },
       { status: 400 },
     );
-    // return new Response(JSON.stringify({ error: 'Invalid competition ID' }), {
-    //   status: 400,
-    // });
   }
 
-  // 2) Connect (this must complete before any model calls)
+  /* ---------------------------------------------------------- *
+   * 2) Connect BEFORE any model access                         *
+   * ---------------------------------------------------------- */
   await dbConnect();
 
   try {
-    // 3) Fetch & lean
+    /* -------------------------------------------------------- *
+     * 3) Fetch the document                                    *
+     * -------------------------------------------------------- */
     const comp = await Competition.findById(id);
     if (!comp) {
-      return new Response(JSON.stringify({ error: 'Not found' }), {
-        status: 404,
-      });
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
 
-    // 4) Return the doc
+    /* -------------------------------------------------------- *
+     * 4) Return                                                *
+     * -------------------------------------------------------- */
     return NextResponse.json(comp);
-  } catch (error) {
-    console.error('Error fetching competition:', error);
-    return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
-      status: 500,
-    });
+  } catch (err) {
+    console.error('Error fetching competition:', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    );
   }
 }

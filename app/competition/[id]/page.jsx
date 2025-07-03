@@ -1,91 +1,86 @@
 'use client';
 
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import API from '@/utils/axios';
+
 import EntryCard from '@/app/components/entries/EntryCard';
 import JoinButton from '@/app/components/competitions/JoinButton';
 import Loader from '@/app/components/loader/Loader';
+
 import styles from '../competition.module.css';
 
 const PLACEHOLDER_IMG = 'https://picsum.photos/320/240?grayscale&blur=1';
 
 export default function CompetitionGalleryPage() {
   const { id } = useParams();
+
+  /* ------------------------------------------------------------------
+     local state
+  ------------------------------------------------------------------ */
+  const [competition, setCompetition] = useState(null);
   const [entries, setEntries] = useState([]);
-  const [competitionName, setCompetitionName] = useState('Konkurrence');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  /* ------------------------------------------------------------------
+     fetch competition + its entries in parallel
+  ------------------------------------------------------------------ */
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const [entriesRes, compRes] = await Promise.all([
-          API.get('/entries', { params: { competitionId: id } }),
-          API.get(`/competitions/${id}`),
-        ]);
-
-        // Check for backend errors:
-        if (entriesRes.data.error) throw new Error(entriesRes.data.error);
-        if (compRes.data.error) throw new Error(compRes.data.error);
-
-        setEntries(entriesRes.data);
-        const title = compRes.data.title || compRes.data.name;
-        if (title) setCompetitionName(title);
-      } catch (err) {
-        console.error(
-          'Error loading competition data:',
-          err.response?.data || err.message,
-        );
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchData();
-  }, [id]);
-
-  if (loading) return <Loader />;
-
-  useEffect(() => {
-    async function fetchCompetition() {
+    if (!id) return; // should never happen but guard anyway
+    setLoading(true);
+    (async () => {
       try {
         const [compRes, entriesRes] = await Promise.all([
           API.get(`/competitions/${id}`),
-          API.get(`/entries/by-competition/${id}`),
+          API.get('/entries', { params: { competitionId: id } }),
         ]);
-        setCompetition({
-          ...compRes.data,
-          images: entriesRes.data.data.map((entry) => entry.imageUrl),
-        });
-      } catch (error) {
-        console.error('Failed to fetch competition:', error);
+
+        /* back-end contract:
+           /competitions/:id   → document or { error }
+           /entries?competitionId → [ … ] or { error }                  */
+        if (compRes.data?.error) throw new Error(compRes.data.error);
+        if (entriesRes.data?.error) throw new Error(entriesRes.data.error);
+
+        setCompetition(compRes.data);
+        setEntries(entriesRes.data); // plain array of entry docs
+      } catch (err) {
+        console.error('Error loading competition:', err);
+        setError('Kunne ikke indlæse konkurrencen 😕');
       } finally {
         setLoading(false);
       }
-    }
-
-    fetchCompetition();
+    })();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
-  if (!competition) return <div>Competition not found</div>;
+  /* ------------------------------------------------------------------
+     render
+  ------------------------------------------------------------------ */
+  if (loading) return <Loader />;
+  if (error) return <p className={styles.error}>{error}</p>;
+  if (!competition) return <p>Konkurrence ikke fundet.</p>;
+
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>{competitionName}</h1>
+      <h1 className={styles.title}>{competition.title ?? 'Konkurrence'}</h1>
+
       <div className={styles.grid}>
-        {entries.length > 0 ? (
+        {entries.length ? (
           entries.map((entry) => (
             <EntryCard
               key={entry._id}
               image={entry.imageUrl || PLACEHOLDER_IMG}
               entryId={entry._id}
-              showVoteCount={true}
+              showVoteCount /* default = true */
             />
           ))
         ) : (
           <p className={styles.noEntries}>Ingen bidrag endnu.</p>
         )}
       </div>
-      <JoinButton />
+
+      {/* Join button (handles auth internally) */}
+      <JoinButton competitionId={competition._id} />
     </main>
   );
 }

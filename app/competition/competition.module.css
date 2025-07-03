@@ -8,13 +8,17 @@
 }
 
 .main {
-  position: relative;
+  /* common props */
   padding: 2rem;
   max-width: 1000px;
-  width: 100%;
   margin: auto;
+
+  /* from **first** snippet: keep flexible grow & horizontal scroll */
+  width: 100%;
+  position: relative;
   flex-grow: 1;
   overflow-x: auto;
+  /* (second snippet didn’t conflict with these extras) */
 }
 .title {
   font-size: 2rem;
@@ -24,7 +28,6 @@
 
 .grid {
   display: grid;
-
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin-bottom: 2rem;
@@ -36,9 +39,11 @@
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 20px 20px;
   font-size: 16px;
   background-color: #868483;

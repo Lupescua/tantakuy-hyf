@@ -1,15 +1,20 @@
 .card {
-  background: white;
+  background: #fff;
+  border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 3px rgba(0 0 0 / .1);
+  display: flex;
+  flex-direction: column;
 }
 
+/* optional wrapper if you ever need overlays */
 .imageContainer {
-  position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1;          /* perfect square          */
+  position: relative;
 }
 
+/* ---------- the image itself ---------- */
 .image {
   width: 100%;
   height: 100%;
@@ -17,33 +22,41 @@
   display: block;
 }
 
+/* ---------- footer (vote count + buttons) ---------- */
 .bottom {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  padding: 8px;
+  padding: 10px 12px;           /* same in both PRs        */
   display: flex;
-  justify-content: center;
-  gap: 10px;
+  flex-direction: column;       /* count above buttons     */
+  align-items: center;
+  text-align: center;
+  gap: .35rem;
+  background: #fafafa;
+  border-top: 1px solid #ececec;
 }
 
 .voteCount {
   font-size: 14px;
-  margin-bottom: 4px;
   font-weight: 500;
+  white-space: nowrap;
 }
 
-.voteButton {
+/* ---------- buttons ---------- */
+.voteButton,
+.shareButton {
+  background: none;
+  border: none;
   display: flex;
   align-items: center;
   gap: 6px;
-  justify-content: center;
   font-size: 14px;
-  background: none;
-  border: none;
   cursor: pointer;
   color: #444;
-  transition: color 0.2s ease;
+  transition: color .2s ease;
+}
+
+.voteButton:not(:disabled):hover,
+.shareButton:hover {
+  color: #e63946;
 }
 
 .voteButton.voted {
@@ -55,39 +68,25 @@
   cursor: default;
 }
 
-.shareButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: #444;
-  cursor: pointer;
-}
-
+/* keep share-icon crisp */
 .shareButton > img {
   width: 18px;
   height: 15px;
   object-fit: cover;
+  pointer-events: none;
 }
 
-.voteButton,
-.shareButton {
-  background: none;
-  border: none;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-}
-
+/* ---------- optional pill wrapper ---------- */
 .buttonGroupWrapper {
   display: flex;
   justify-content: space-around;
   align-items: center;
   gap: 12px;
   border-radius: 30px;
-  background: rgba(255, 255, 255, 0.8); /* Slight white opacity */
-  padding: 6px 30px;
+  background: rgba(255 255 255 / .8);
+  padding: 6px
+    /* choose your pill width: */
+    /* 30px;  /* ← PR-50 wider */ 
+      12px;   /* ← PR-53 slimmer */
   margin-top: 8px;
 }

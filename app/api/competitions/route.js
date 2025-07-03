@@ -2,10 +2,12 @@ import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
 import { getUserFromCookie } from '@/utils/server/auth';
 import { verifyToken } from '@/utils/jwt.js';
+import mongoose from 'mongoose';
 
 export async function GET() {
   await dbConnect();
   try {
+    //there is an issue sometimes where the mongoose connection is too slow that we need a work around
     const competitions = await Competition.find().sort({ createdAt: -1 });
     if (competitions) {
       return Response.json(

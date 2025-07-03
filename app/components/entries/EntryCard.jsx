@@ -84,7 +84,7 @@ export default function EntryCard({
         setHasVoted(false);
         setVoteRecordId(null);
       }
-      refresh(); // update auth context (in case other UIs depend on it)
+      // refresh(); // update auth context (in case other UIs depend on it)
     } catch (err) {
       /* 409 means we already have a vote → sync UI */
       if (err.response?.status === 409) {
@@ -97,13 +97,23 @@ export default function EntryCard({
     }
   };
 
+  /* share → copy URL */
+  const share = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert('Link kopieret 📋');
+    } catch {
+      /* no-op */
+    }
+  };
+
   return (
     <div className={styles.card}>
       {/* ENTRY IMAGE */}
 
       {entryId ? (
         /* real entry → click goes to its own page */
-        <Link href={`/entry/${entryId}`}>
+        <Link href={`/entry/${entryId ?? ''}`} className={styles.imageWrapper}>
           <img src={image} alt="Entry image" className={styles.image} />
         </Link>
       ) : (
@@ -127,6 +137,13 @@ export default function EntryCard({
             className={`${styles.voteButton} ${hasVoted ? styles.voted : ''}`}
           >
             {hasVoted ? <FaHeart /> : <FaRegHeart />} Stem
+          </button>
+        )}
+        {/*  share button — only when we also render actions _and_ have a real entry */}
+        {showActions && entryId && (
+          <button onClick={share} className={styles.shareButton}>
+            <img src="/del.png" alt="Del" className={styles.shareIcon} />
+            Del
           </button>
         )}
       </div>
