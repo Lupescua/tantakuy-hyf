@@ -7,18 +7,19 @@ export default function Sidebar({ open, setOpen }) {
       {/* Sidebar */}
       <aside className={`${styles.sidebar} ${open ? styles.open : ''}`}>
         <nav>
-          <ul>
+          <h2 className={styles.sidebarTitle}>Overview</h2>
+          <ul className={styles.sidebarList}>
             <li>
-              <a href="/company/profile">Profile</a>
+              <a className={styles.sidebarButton} href="/company/profile">Virksomhedsoplysninger</a>
             </li>
             <li>
-              <a href="/company/competitions">Competitions</a>
+              <a className={styles.sidebarButton} href="/company/competitions">Mine konkurrencer</a>
             </li>
             <li>
-              <a href="/company/dashboard">Dashboard</a>
+              <a className={styles.sidebarButton} href="/company/dashboard">Kontrolpanel</a>
             </li>
             <li>
-              <a href="/company/settings">Settings</a>
+              <a className={styles.sidebarButton} href="/company/settings">Indstillinger</a>
             </li>
           </ul>
         </nav>
