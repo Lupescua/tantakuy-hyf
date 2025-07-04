@@ -14,114 +14,156 @@
 }
 
 .profileContainer {
-  background: #fafbfa;
-  padding: 32px 32px 48px 32px;
+  background: #fff;
   border-radius: 12px;
+  padding: 32px;
   max-width: 1100px;
   margin: 0 auto;
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.headerSection {
+.headerRow {
   display: flex;
   align-items: center;
-  gap: 32px;
+  justify-content: space-between;
   margin-bottom: 32px;
 }
 
 .title {
-  font-size: 2.1rem;
+  font-size: 2rem;
   font-weight: 700;
-  color: #222;
   margin: 0;
 }
 
 .logoCircle {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background: #e5e5e5;
+  background: #eee;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
   font-weight: 600;
+  font-size: 18px;
+}
+
+.logoCircle--editable {
+  cursor: pointer;
+  position: relative;
+}
+
+.editPencil {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 12px;
   color: #888;
 }
 
 .infoGrid {
   display: flex;
-  gap: 32px;
+  gap: 40px;
   margin-bottom: 24px;
 }
 
-.infoLeft, .infoRight {
+.infoCol {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
 }
 
-.label {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #222;
-  margin-bottom: 4px;
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .input {
-  padding: 10px 14px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafbfc;
   font-size: 1rem;
-  background: #fff;
-  margin-bottom: 8px;
+}
+
+.editIcon {
+  width: 18px;
+  height: 18px;
+  background: url('data:image/svg+xml;utf8,<svg fill="%23888" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M17.414 2.586a2 2 0 0 0-2.828 0l-9.9 9.9A2 2 0 0 0 4 14v2a1 1 0 0 0 1 1h2a2 2 0 0 0 1.414-.586l9.9-9.9a2 2 0 0 0 0-2.828l-1-1zM5 16v-2l9.9-9.9 2 2L7 16H5z"/></svg>') no-repeat center/contain;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.section {
+  margin-bottom: 32px;
 }
 
 .textarea {
   width: 100%;
-  min-height: 60px;
-  padding: 10px 14px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fafbfc;
   font-size: 1rem;
-  background: #fff;
-  margin-bottom: 8px;
-}
-
-.section {
-  margin-bottom: 28px;
+  resize: vertical;
+  color: #222;
 }
 
 .uploadBox {
-  border: 2px dashed #e0e0e0;
+  border: 1px solid #eee;
   border-radius: 12px;
-  background: #fcfcfc;
-  padding: 32px 0;
-  text-align: center;
-  color: #888;
-  font-size: 1rem;
+  padding: 24px;
+  background: #fafbfc;
+  max-width: 400px;
   margin-top: 8px;
 }
 
-.uploadBox span {
-  display: block;
-  font-size: 0.95rem;
-  color: #bbb;
-  margin-top: 4px;
+.uploadText {
+  margin-bottom: 12px;
+  color: #222;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.uploadActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.uploadBtn {
+  background: #f5f6f7;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  color: #222;
+}
+
+.uploadBtn:hover {
+  background: #e0e4e8;
 }
 
 @media (max-width: 900px) {
   .profileContainer {
-    padding: 12px 2vw 32px 2vw;
+    padding: 12px;
   }
-  .headerSection {
+  .headerRow {
     flex-direction: column;
-    gap: 12px;
     align-items: flex-start;
+    gap: 12px;
   }
   .infoGrid {
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+  }
+  .uploadBox {
+    max-width: 100%;
   }
 }
