@@ -12,7 +12,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
 
   useEffect(() => {
     if (open && competitionId) {
-      console.log("Fetching competition with ID:", competitionId);
+      console.log('Fetching competition with ID:', competitionId);
       setLoading(true);
       getCompetitionById(competitionId)
         .then(setCompetition)
@@ -32,9 +32,12 @@ export default function CompetitionDetailsModal({ competitionId }) {
           <p>om</p>
         </span>
       ) : (
-        <div >
+        <div>
           <div className={`${style.modalContainer}`}>
-            <button className={style.modalCloseBtn} onClick={() => setOpen(false)}>
+            <button
+              className={style.modalCloseBtn}
+              onClick={() => setOpen(false)}
+            >
               ✕
             </button>
 
@@ -52,7 +55,9 @@ export default function CompetitionDetailsModal({ competitionId }) {
                   {competition.winnerSelectionDate && (
                     <p>
                       <strong>Winner Announced:</strong>{' '}
-                      {new Date(competition.winnerSelectionDate).toLocaleDateString()}
+                      {new Date(
+                        competition.winnerSelectionDate,
+                      ).toLocaleDateString()}
                     </p>
                   )}
                   <p>

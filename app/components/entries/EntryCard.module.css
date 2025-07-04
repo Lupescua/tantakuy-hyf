@@ -2,7 +2,7 @@
   background: #fff;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0 0 0 / .1);
+  box-shadow: 0 1px 3px rgba(0 0 0 / 0.1);
   display: flex;
   flex-direction: column;
 }
@@ -10,7 +10,7 @@
 /* optional wrapper if you ever need overlays */
 .imageContainer {
   width: 100%;
-  aspect-ratio: 1 / 1;          /* perfect square          */
+  aspect-ratio: 1 / 1; /* perfect square          */
   position: relative;
 }
 
@@ -24,12 +24,12 @@
 
 /* ---------- footer (vote count + buttons) ---------- */
 .bottom {
-  padding: 10px 12px;           /* same in both PRs        */
+  padding: 10px 12px; /* same in both PRs        */
   display: flex;
-  flex-direction: column;       /* count above buttons     */
+  flex-direction: column; /* count above buttons     */
   align-items: center;
   text-align: center;
-  gap: .35rem;
+  gap: 0.35rem;
   background: #fafafa;
   border-top: 1px solid #ececec;
 }
@@ -51,7 +51,7 @@
   font-size: 14px;
   cursor: pointer;
   color: #444;
-  transition: color .2s ease;
+  transition: color 0.2s ease;
 }
 
 .voteButton:not(:disabled):hover,
@@ -83,10 +83,7 @@
   align-items: center;
   gap: 12px;
   border-radius: 30px;
-  background: rgba(255 255 255 / .8);
-  padding: 6px
-    /* choose your pill width: */
-    /* 30px;  /* ← PR-50 wider */ 
-      12px;   /* ← PR-53 slimmer */
+  background: rgba(255 255 255 / 0.8);
+  padding: 6px /* choose your pill width: */ /* 30px;  /* ← PR-50 wider */ 12px; /* ← PR-53 slimmer */
   margin-top: 8px;
 }

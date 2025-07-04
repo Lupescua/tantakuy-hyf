@@ -36,7 +36,15 @@
   font-size: 1rem;
 }
 
-.voteBtn { background:#000; color:#fff; }
-.voteBtn.voted { background:#d62828; }
+.voteBtn {
+  background: #000;
+  color: #fff;
+}
+.voteBtn.voted {
+  background: #d62828;
+}
 
-.shareBtn { background:#868483; color:white; }
+.shareBtn {
+  background: #868483;
+  color: white;
+}
