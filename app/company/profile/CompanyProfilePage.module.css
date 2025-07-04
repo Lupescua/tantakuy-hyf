@@ -12,3 +12,116 @@
     max-width: 100vw;
   }
 }
+
+.profileContainer {
+  background: #fafbfa;
+  padding: 32px 32px 48px 32px;
+  border-radius: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.headerSection {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+
+.logoCircle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #e5e5e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #888;
+}
+
+.infoGrid {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+
+.infoLeft, .infoRight {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 4px;
+}
+
+.input {
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  margin-bottom: 8px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 60px;
+  padding: 10px 14px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  margin-bottom: 8px;
+}
+
+.section {
+  margin-bottom: 28px;
+}
+
+.uploadBox {
+  border: 2px dashed #e0e0e0;
+  border-radius: 12px;
+  background: #fcfcfc;
+  padding: 32px 0;
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.uploadBox span {
+  display: block;
+  font-size: 0.95rem;
+  color: #bbb;
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .profileContainer {
+    padding: 12px 2vw 32px 2vw;
+  }
+  .headerSection {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .infoGrid {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
