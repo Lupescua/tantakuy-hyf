@@ -6,7 +6,7 @@
   color: white;
   padding: 0;
   height: 56px;
-  position: relative;
+  position: static;
   z-index: 1200;
   font-family: 'Montserrat', 'Inter', Arial, sans-serif;
   overflow: hidden;

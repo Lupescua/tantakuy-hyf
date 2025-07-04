@@ -152,6 +152,28 @@
   background: #e0e4e8;
 }
 
+.nextButtonContainer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.nextButton {
+  background: #17635D;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.nextButton:hover {
+  background: #104d46;
+}
+
 @media (max-width: 900px) {
   .profileContainer {
     padding: 12px;

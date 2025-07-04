@@ -4,6 +4,7 @@ import CompanyProfileNavbar from '../../components/layouts/CompanyProfileNavbar'
 import Sidebar from '../../components/layouts/Sidebar';
 import styles from './CompanyProfilePage.module.css';
 import UploadImageModal from '../../components/modals/uploadImageModal';
+import Link from 'next/link';
 
 export default function CompanyProfilePage() {
   // This page is for editing company profile information
@@ -209,6 +210,11 @@ export default function CompanyProfilePage() {
         onClose={() => setModalOpen(false)}
         onImageUpload={handleImageUpload}
       />
+      <div className={styles.nextButtonContainer}>
+        <Link href="/company/profile/next">
+          <button className={styles.nextButton} type="button">Next</button>
+        </Link>
+      </div>
     </div>
   );
 }
