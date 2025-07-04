@@ -7,8 +7,7 @@ export async function GET(_req, { params }) {
   try {
     await dbConnect();
     const id = params.id;
-    console.log('params is:', params);
-    console.log('typeof params.id:', typeof params.id);
+
     if (!id) {
       throw new AppError('Participant ID is required', 400);
     }
