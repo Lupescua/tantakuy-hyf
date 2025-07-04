@@ -317,3 +317,32 @@ Before merging any new PR:
 3. **Format** ---> Run `npm run format`
 
 After merging, kick off a quick smoke test of login, competition list, voting, and entry-upload.
+
+## 🔐 Authentication UPDATE 04-07-2025
+
+**The login flow now includes role-based redirection:**
+
+- If the user has a role of `"company"`, they will be redirected to `/company/profile`
+- If the user is a `"participant"` (or any other role), they are redirected to the home page `/`
+
+Login uses:
+
+- `POST /api/login` for authentication
+- A `Set-Cookie` header to persist a JWT token
+- Role is determined server-side and passed to the client for redirect logic
+
+Ensure `.env.local` includes:
+
+```env
+DOMAIN_API=http://localhost:3000/api
+```
+
+Anywhere you need role check, you can for example the following:
+
+```js
+const { user } = useAuth();
+
+if (user?.role === 'company') {
+  // show/hide company-specific UI
+}
+```
