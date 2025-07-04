@@ -208,7 +208,98 @@ Layout uses simple grid / flex – see entryPage.module.css.
 Happy testing & let us know if you hit any edge cases 🙌
 
 
+-------------
 
+# 🛠 Integration Branch (integration/03072025)
+This branch is our “staging ground” for all merged work prior to cutting a release. It already includes:
+
+AuthContext (login/logout & current user)
+
+Competitions list & detail views
+
+Entries gallery, detail page, and participant upload flow
+
+Voting API & EntryCard UI
+
+Image-upload modal (Cloudinary) + new create-new-entry endpoint
+
+1. Getting started
+Check out the branch
+
+
+git fetch origin integration/03072025
+git checkout integration/03072025
+Install & env setup
+
+
+npm install
+Create a .env.local with at least:
+
+ENV:
+MONGODB_URI=…
+JWT_SECRET=…
+CLOUDINARY_CLOUD_NAME=…
+CLOUDINARY_UPLOAD_PRESET=…
+Run the dev server
+
+
+npm run dev
+Browse to http://localhost:3000
+
+2. AuthContext
+Lives in app/context/AuthContext.jsx
+
+Wraps your app (in RootLayout) and exposes:
+
+const { user, loading, refresh } = useAuth();
+On login/logout it manages the token cookie and refetches /api/auth/me.
+
+#🔑 All client‐side calls guard on loading || !user and redirect to /login when needed.
+
+3. API Routes Overview
+Route	Method	Purpose
+/api/auth/login	POST	Issue JWT cookie
+/api/auth/logout	POST	Clear cookie
+/api/auth/me	GET	Who am I?
+/api/competitions	GET	List all competitions
+/api/competitions/[id]	GET	One competition by ID
+/api/entries?competitionId=	GET	Entries in a competition
+/api/entries/[id]	GET	One entry (populates participant)
+/api/entries/create-new-entry	POST	Participant uploads new entry
+/api/votes/me?entryId=	GET	Count + whether current user voted
+/api/votes	POST	Cast a vote
+/api/votes/[id]	DELETE	Remove a vote
+
+Note: All write routes require auth cookie + JWT.
+
+4. Key Components & Pages
+<CompetitionList /> & <CompetitionCard />
+Shows active competitions, hiding voting UI.
+
+<CompetitionGalleryPage /> (/competition/[id])
+Grid of <EntryCard />, plus Join button.
+
+<EntryCard />
+Fetches votes + hasVoted, toggles vote on click, links to /entry/[id].
+
+<EntryPage /> (/entry/[id])
+Big image, caption, vote & share buttons, participant name.
+
+<JoinButton />
+Uses useAuth() to send guests to /login or users to /participant-entry.
+
+<UploadImageModal /> + <EntryForm /> (/participant-entry/[competitionId])
+Cloudinary picker + POST to create-new-entry, then redirect to the new /entry/… page.
+
+5. Branch hygiene
+Before merging any new PR:
+
+Rebase on integration/03072025
+
+Important ---> Run npm run lint && npm test
+
+
+After merging, kick off a quick smoke test of login, competition list, voting, and entry-upload.
 
 
 
