@@ -312,6 +312,8 @@ Before merging any new PR:
 
 1. **Rebase** on `integration/03072025`
 
-2. **Important** ---> `Run npm run lint && npm test`
+2. **Important** ---> Run `npm run lint && npm test`
+
+3. **Format** ---> Run `npm run format`
 
 After merging, kick off a quick smoke test of login, competition list, voting, and entry-upload.
