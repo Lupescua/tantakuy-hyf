@@ -7,13 +7,13 @@ import UploadImageModal from '../../components/modals/uploadImageModal';
 
 export default function CompanyProfilePage() {
   // This page is for editing company profile information
-  const [cvr, setCvr] = useState('XX-XXXXXXX');
-  const [hq, setHq] = useState('XX-XXXXXXX');
-  const [website, setWebsite] = useState('XXX-XXX');
-  const [linkedin, setLinkedin] = useState('XXX-XXX');
-  const [facebook, setFacebook] = useState('XXX-XXX');
-  const [instagram, setInstagram] = useState('XXX-XXX');
-  const [about, setAbout] = useState('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.');
+  const [cvr, setCvr] = useState('');
+  const [hq, setHq] = useState('');
+  const [website, setWebsite] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [facebook, setFacebook] = useState('');
+  const [instagram, setInstagram] = useState('');
+  const [about, setAbout] = useState('');
   const [logo, setLogo] = useState(null);
   const [bgImage, setBgImage] = useState(null);
 //open modal state
@@ -82,29 +82,76 @@ export default function CompanyProfilePage() {
         <div className={styles.infoCol}>
           <label>CVR nummer</label>
           <div className={styles.inputRow}>
-            <input className={styles.input} value="xx-xxxxxxx" readOnly />
+            <input
+              className={styles.input}
+              value={cvr}
+              onChange={e => setCvr(e.target.value)}
+              placeholder="XX-XXXXXXX"
+            />
             <span className={styles.editIcon} />
           </div>
           <label>Hovedkontor</label>
           <div className={styles.inputRow}>
-            <input className={styles.input} value="xx-xxxxxxx" readOnly />
+            <input
+              className={styles.input}
+              value={hq}
+              onChange={e => setHq(e.target.value)}
+              placeholder="XX-XXXXXXX"
+            />
             <span className={styles.editIcon} />
           </div>
         </div>
         <div className={styles.infoCol}>
-          <label>Website: XXX-XXX</label>
-          <span className={styles.editIcon} />
-          <label>LinkedIn: XXX-XXX</label>
-          <span className={styles.editIcon} />
-          <label>Facebook: XXX-XXX</label>
-          <span className={styles.editIcon} />
-          <label>Instagram: XXX-XXX</label>
-          <span className={styles.editIcon} />
+          <label>Website</label>
+          <div className={styles.inputRow}>
+            <input
+              className={styles.input}
+              value={website}
+              onChange={e => setWebsite(e.target.value)}
+              placeholder="XXX-XXX"
+            />
+            <span className={styles.editIcon} />
+          </div>
+          <label>LinkedIn</label>
+          <div className={styles.inputRow}>
+            <input
+              className={styles.input}
+              value={linkedin}
+              onChange={e => setLinkedin(e.target.value)}
+              placeholder="XXX-XXX"
+            />
+            <span className={styles.editIcon} />
+          </div>
+          <label>Facebook</label>
+          <div className={styles.inputRow}>
+            <input
+              className={styles.input}
+              value={facebook}
+              onChange={e => setFacebook(e.target.value)}
+              placeholder="XXX-XXX"
+            />
+            <span className={styles.editIcon} />
+          </div>
+          <label>Instagram</label>
+          <div className={styles.inputRow}>
+            <input
+              className={styles.input}
+              value={instagram}
+              onChange={e => setInstagram(e.target.value)}
+              placeholder="XXX-XXX"
+            />
+            <span className={styles.editIcon} />
+          </div>
         </div>
       </div>
       <div className={styles.section}>
         <label>Om:</label>
-        <textarea className={styles.textarea} value="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus." readOnly />
+        <textarea
+          className={styles.textarea}
+          value={about}
+          onChange={e => setAbout(e.target.value)}
+          placeholder="Om virksomheden..."
+        />
       </div>
       <div className={styles.section}>
         <label>Logo</label>
