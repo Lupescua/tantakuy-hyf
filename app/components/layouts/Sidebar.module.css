@@ -24,8 +24,8 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -240px;
-  width: 220px;
+  left: -290px;
+  width: 290px;
   height: 100vh;
   background: #fff;
   border-right: 1px solid #eee;
@@ -51,6 +51,43 @@
   color: #333;
   text-decoration: none;
   font-weight: 500;
+}
+
+.sidebarTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 18px 0 20px 0;
+  color: #222;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarButton {
+  display: block;
+  width: 90%;
+  margin: 0 auto 12px auto;
+  padding: 8px 12px;
+  background: #f5f6f7;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebarButton:hover, .sidebarButton:focus {
+  background: #e0e4e8;
+  outline: none;
 }
 
 .overlay {
