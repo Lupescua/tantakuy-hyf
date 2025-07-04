@@ -31,3 +31,14 @@ export async function createParticipant(user = {}) {
 
   return { user: newParticipant, token };
 }
+
+export async function fetchParticipantById(id) {
+  try {
+    const response = await axios.get(`/api/participants/${id}`);
+    return response.data.participant;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || 'Failed to fetch participant',
+    );
+  }
+}
