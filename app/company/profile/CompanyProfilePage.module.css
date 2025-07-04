@@ -25,7 +25,8 @@
 .headerRow {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
+  justify-content: flex-start;
   margin-bottom: 32px;
 }
 
@@ -87,6 +88,7 @@
   border-radius: 6px;
   background: #fafbfc;
   font-size: 1rem;
+  color: #222;
 }
 
 .editIcon {

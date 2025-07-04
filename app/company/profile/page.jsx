@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import CompanyProfileNavbar from '../../components/layouts/CompanyProfileNavbar';
 import Sidebar from '../../components/layouts/Sidebar';
 import styles from './CompanyProfilePage.module.css';
@@ -32,13 +32,39 @@ export default function CompanyProfilePage() {
     setModalOpen(false);
   };
 
+  const fileInputRef = useRef();
+
+  const handleAttachFile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setLogo(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const bgFileInputRef = useRef();
+
+  const handleAttachBgFile = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        setBgImage(event.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className={styles.profileContainer}>
       <div className={styles.headerRow}>
         <h1 className={styles.title}>Virksomhedsoplysninger</h1>
         <div
           className={`${styles.logoCircle} ${styles['logoCircle--editable']}`}
-          onClick={() => setModalOpen(true)}
+          onClick={() => fileInputRef.current && fileInputRef.current.click()}
         >
           {logo ? (
             <img
@@ -85,7 +111,20 @@ export default function CompanyProfilePage() {
         <div className={styles.uploadBox}>
           <div className={styles.uploadText}>Upload or drag and drop your files<br/>PDF, PNG, JPG (Max 10MB)</div>
           <div className={styles.uploadActions}>
-            <button className={styles.uploadBtn}>Attach file</button>
+            <button
+              className={styles.uploadBtn}
+              type="button"
+              onClick={() => fileInputRef.current && fileInputRef.current.click()}
+            >
+              Attach file
+            </button>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleAttachFile}
+            />
             <button className={styles.uploadBtn}>Insert link</button>
           </div>
         </div>
@@ -95,9 +134,27 @@ export default function CompanyProfilePage() {
         <div className={styles.uploadBox}>
           <div className={styles.uploadText}>Upload or drag and drop your files<br/>PDF, PNG, JPG (Max 10MB)</div>
           <div className={styles.uploadActions}>
-            <button className={styles.uploadBtn}>Attach file</button>
+            <button
+              className={styles.uploadBtn}
+              type="button"
+              onClick={() => bgFileInputRef.current && bgFileInputRef.current.click()}
+            >
+              Attach file
+            </button>
+            <input
+              type="file"
+              accept="image/*"
+              ref={bgFileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleAttachBgFile}
+            />
             <button className={styles.uploadBtn}>Insert link</button>
           </div>
+          {bgImage && (
+            <div style={{ marginTop: 12 }}>
+              <img src={bgImage} alt="Background preview" style={{ maxWidth: 200, maxHeight: 80, borderRadius: 8 }} />
+            </div>
+          )}
         </div>
       </div>
       <UploadImageModal
