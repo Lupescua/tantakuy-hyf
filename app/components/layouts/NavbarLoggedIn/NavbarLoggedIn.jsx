@@ -3,16 +3,18 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import styles from './NavbarLoggedIn.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 export default function NavbarLoggedIn() {
   const pathname = usePathname();
   const router = useRouter();
+  const { refresh } = useAuth();
 
   const handleLogout = async () => {
     try {
       await API.post('/logout');
+      refresh();
       router.push('/');
-      router.refresh();
     } catch (err) {
       console.error('Logout failed', err);
     }

@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import Link from 'next/link';
 import styles from './page.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 function LoginForm() {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
+  const { refresh } = useAuth();
 
   const [data, setData] = useState({
     email: '',
@@ -33,7 +35,6 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
-    console.log('🏃‍♀️ handleSubmit fired with', data);
     try {
       const res = await API.post('/login', {
         email: data.email,
@@ -43,12 +44,15 @@ function LoginForm() {
       const user = res.data?.user;
       if (res.data?.success && user) {
         console.log('✅ Login success:', user);
+
+        // update your AuthContext
+        refresh();
+
         if (user.role === 'company') {
           router.push('/company/profile');
         } else {
           router.push('/');
         }
-        router.refresh();
       } else {
         throw new Error(res.data?.message || 'Login failed');
       }

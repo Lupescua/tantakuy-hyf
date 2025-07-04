@@ -1,10 +1,11 @@
-import FooterLoggedIn from './components/layouts/FooterLoggedIn/FooterLoggedIn';
-import FooterLoggedOut from './components/layouts/FooterLoggedOut/FooterLoggedOut';
+import { redirect } from 'next/navigation';
 import { getUserFromCookie } from '@/utils/server/auth';
 
 export default async function Home() {
   const user = await getUserFromCookie();
-  const isLoggedIn = !!user;
+  if (user?.role === 'company') {
+    redirect('/company/profile');
+  }
   return (
     <>
       <main className="home">
