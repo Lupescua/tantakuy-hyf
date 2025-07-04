@@ -33,18 +33,29 @@ function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMsg('');
+    console.log('🏃‍♀️ handleSubmit fired with', data);
     try {
-      const response = await API.post('/login', {
+      const res = await API.post('/login', {
         email: data.email,
         password: data.password,
       });
 
-      console.log('Login success:', response.data);
-      router.push('/');
-      router.refresh();
+      const user = res.data?.user;
+      if (res.data?.success && user) {
+        console.log('✅ Login success:', user);
+        if (user.role === 'company') {
+          router.push('/company/profile');
+        } else {
+          router.push('/');
+        }
+        router.refresh();
+      } else {
+        throw new Error(res.data?.message || 'Login failed');
+      }
     } catch (error) {
-      const msg = error.response?.data?.message || 'Login failed';
-      console.error('Login failed:', msg);
+      const msg =
+        error.response?.data?.message || error.message || 'Login failed';
+      console.error('❌ Login failed:', msg);
       setErrorMsg(msg);
     }
   };

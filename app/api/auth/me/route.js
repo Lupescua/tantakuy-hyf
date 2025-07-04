@@ -13,9 +13,17 @@ export async function GET() {
   }
   try {
     //verify & load lightweight user info
-    const { id } = verifyToken(token);
+    const { id, role } = verifyToken(token);
     await dbConnect();
-    const user = await Participant.findById(id).select('userName email');
+    // const user = await Participant.findById(id).select('userName email');
+    let user;
+    if (role === 'participant') {
+      user = await Participant.findById(id).select('userName email');
+    } else {
+      // company model:
+      const Company = (await import('../../models/Company')).default;
+      user = await Company.findById(id).select('companyName email');
+    }
 
     //user might have been deleted
     if (!user) {
@@ -29,7 +37,18 @@ export async function GET() {
         },
       );
     }
-    return Response.json({ success: true, user }, { status: 200 });
+    return Response.json(
+      {
+        success: true,
+        user: {
+          id: user._id,
+          email: user.email,
+          userName: user.userName ?? user.companyName,
+          role,
+        },
+      },
+      { status: 200 },
+    );
   } catch {
     return Response.json({ success: false }, { status: 200 });
   }
