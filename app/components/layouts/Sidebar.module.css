@@ -70,9 +70,9 @@
 
 .sidebarButton {
   display: block;
-  width: 90%;
-  margin: 0 auto 12px auto;
-  padding: 8px 12px;
+  width: 100%;
+  margin: 0 0 12px 0;
+  padding: 8px 18px;
   background: #f5f6f7;
   color: #222;
   border: none;
@@ -82,12 +82,14 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, color 0.2s;
+  white-space: normal;
 }
 
 .sidebarButton:hover, .sidebarButton:focus {
-  background: #e0e4e8;
-  outline: none;
+  background: #17635D;
+  color: #fff;
+  cursor: pointer;
 }
 
 .overlay {
