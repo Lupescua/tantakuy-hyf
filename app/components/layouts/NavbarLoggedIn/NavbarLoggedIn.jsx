@@ -1,21 +1,27 @@
 'use client';
 import Link from 'next/link';
-import styles from './NavbarLoggedIn.module.css';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import API from '@/utils/axios';
+import styles from './NavbarLoggedIn.module.css';
 
 export default function NavbarLoggedIn() {
+  const pathname = usePathname();
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await API.post('/logout');
       router.push('/');
-      router.refresh(); // re-run server props / layout auth check
+      router.refresh();
     } catch (err) {
       console.error('Logout failed', err);
     }
   };
+  //disable this navbar for company profile so that the layout there handles it
+  if (pathname.startsWith('/company/profile')) {
+    return null;
+  }
+
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-container']}>
