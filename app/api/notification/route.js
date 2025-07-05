@@ -1,6 +1,7 @@
 import dbConnect from '@/utils/dbConnects';
 import Notification from '../models/Notifications';
 import { NextResponse } from 'next/server';
+import Participant from '../models/Participant';
 
 export async function GET(req) {
   await dbConnect();
@@ -33,4 +34,23 @@ export async function GET(req) {
 
   // Return the normalized notification list
   return NextResponse.json({ success: true, notifications: cleaned });
+}
+
+export async function DELETE(req) {
+  await dbConnect();
+  const userId = req.nextUrl.searchParams.get('userId');
+
+  if (!userId) {
+    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
+  }
+
+  try {
+    await Notification.deleteMany({ recipient: userId });
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    return NextResponse.json(
+      { success: false, message: err.message },
+      { status: 500 },
+    );
+  }
 }

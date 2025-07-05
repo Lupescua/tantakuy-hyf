@@ -46,13 +46,12 @@ function CompetitionForm() {
     try {
       const res = await fetch('/api/competitions', {
         method: 'POST',
-        body: formData
+        body: formData,
       });
 
       const data = await res.json();
 
       if (data.success) {
-        
         router.push(`/competition`);
       } else {
         alert('Noget gik galt. Prøv igen.');
@@ -70,22 +69,41 @@ function CompetitionForm() {
         <h2> Opret ny konkurrence</h2>
 
         <label>Titel:</label>
-        <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
 
         <label>Præmie:</label>
-        <input type="text" value={prize} onChange={e => setPrize(e.target.value)} />
+        <input
+          type="text"
+          value={prize}
+          onChange={(e) => setPrize(e.target.value)}
+        />
 
         <label>Dato for slut:</label>
-        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} />
+        <input
+          type="date"
+          value={endDate}
+          onChange={(e) => setEndDate(e.target.value)}
+        />
 
         <label>Dato for udvælgelse af vinder:</label>
-        <input type="date" value={prizeDate} onChange={e => setPrizeDate(e.target.value)} />
+        <input
+          type="date"
+          value={prizeDate}
+          onChange={(e) => setPrizeDate(e.target.value)}
+        />
 
         <label>Beskrivelse:</label>
-        <textarea value={description} onChange={e => setDescription(e.target.value)} />
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
 
         <label>Konkurrencevilkår:</label>
-        <textarea value={terms} onChange={e => setTerms(e.target.value)} />
+        <textarea value={terms} onChange={(e) => setTerms(e.target.value)} />
 
         <label>Tilføj billeder</label>
         <input type="file" multiple onChange={handlePhotoUpload} />
@@ -94,9 +112,16 @@ function CompetitionForm() {
         <input type="file" onChange={handleFileUpload} />
 
         <label>Tilføj fil titel (f.eks. katalog, shopping, andet)</label>
-        <input type="text" value={fileTitle} onChange={e => setFileTitle(e.target.value)} />
+        <input
+          type="text"
+          value={fileTitle}
+          onChange={(e) => setFileTitle(e.target.value)}
+        />
 
-        <button className="submit-btn" onClick={handleSubmit}> Opret konkurrence</button>
+        <button className="submit-btn" onClick={handleSubmit}>
+          {' '}
+          Opret konkurrence
+        </button>
       </div>
     </div>
   );

@@ -15,13 +15,11 @@ export default function NotificationsPanel() {
 
   useEffect(() => {
     if (!user?.id) return;
-    console.log('Sending notification request with user.id:', user.id);
     const fetchNotifications = async () => {
       try {
         const res = await API.get('/notification', {
           params: { userId: user.id },
         });
-        console.log('Response from /notification API:', res.data);
         setNotifications(res.data.notifications || []);
       } catch (err) {
         console.error('Failed to fetch notifications:', err);
@@ -30,6 +28,28 @@ export default function NotificationsPanel() {
 
     fetchNotifications();
   }, [user]);
+
+  // Remove clicked notification
+  const handleNotificationClick = async (id) => {
+    try {
+      await API.delete(`/notification/${id}`);
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    } catch (err) {
+      console.error('Failed to delete notification:', err);
+    }
+  };
+
+  // Clear all notifications from panel
+  const handleClearAll = async () => {
+    try {
+      await API.delete(`/notification`, {
+        params: { userId: user.id },
+      });
+      setNotifications([]);
+    } catch (err) {
+      console.error('Failed to clear notifications:', err);
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -40,7 +60,14 @@ export default function NotificationsPanel() {
 
       {(open || !styles.isMobile) && (
         <div className={`${styles.panel} ${open ? styles.show : ''}`}>
-          <h3>Notifications</h3>
+          <div className={styles.header}>
+            <h3>Notifications</h3>
+            {notifications.length > 0 && (
+              <button onClick={handleClearAll} className={styles.clearButton}>
+                Clear all
+              </button>
+            )}
+          </div>
 
           {notifications.length === 0 ? (
             <p className={styles.empty}>No notifications</p>
@@ -55,6 +82,7 @@ export default function NotificationsPanel() {
                 <Link
                   href={`/entry/${n.entry.id}`}
                   className={styles.naviToEntry}
+                  onClick={() => handleNotificationClick(n.id)}
                 >
                   {'>'}
                 </Link>

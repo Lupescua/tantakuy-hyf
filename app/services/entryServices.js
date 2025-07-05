@@ -3,8 +3,10 @@ import Vote from '../api/models/Vote';
 import Competition from '../api/models/Competition';
 import Company from '../api/models/Company';
 import mongoose from 'mongoose';
+import dbConnect from '@/utils/dbConnects';
 
 export async function getUserCompetitionStats(userId) {
+  await dbConnect();
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     throw new Error('Invalid user ID');
   }
