@@ -1,4 +1,5 @@
 import { getUserFromCookie } from '@/utils/server/auth';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
   const user = await getUserFromCookie();
