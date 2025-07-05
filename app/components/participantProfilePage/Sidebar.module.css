@@ -35,7 +35,7 @@
     left: 0;
     right: 0;
     background-color: white;
-    /* z-index: 999;  */
+    z-index: 999; 
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #ddd;
   }
@@ -70,7 +70,7 @@
     left: 0;
     right: 0;
     background-color: white;
-    /* z-index: 999; */
+    z-index: 999;
     padding: 0.5rem 1rem;
     border-bottom: 1px solid #ddd;
   }

@@ -1,4 +1,4 @@
-import { createNotification } from '@/lib/services/notificationService';
+import { createNotification } from '@/app/services/notificationServices';
 
 export async function POST(req) {
   const { entryId, userId } = await req.json();

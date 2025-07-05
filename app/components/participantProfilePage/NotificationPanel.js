@@ -14,13 +14,14 @@ export default function NotificationsPanel() {
   const togglePanel = () => setOpen(!open);
 
   useEffect(() => {
-    if (!user?._id) return;
-
+    if (!user?.id) return;
+    console.log('Sending notification request with user.id:', user.id);
     const fetchNotifications = async () => {
       try {
         const res = await API.get('/notification', {
-          params: { userId: user._id },
+          params: { userId: user.id },
         });
+        console.log('Response from /notification API:', res.data);
         setNotifications(res.data.notifications || []);
       } catch (err) {
         console.error('Failed to fetch notifications:', err);
@@ -45,14 +46,14 @@ export default function NotificationsPanel() {
             <p className={styles.empty}>No notifications</p>
           ) : (
             notifications.map((n) => (
-              <div key={n._id} className={styles.notification}>
+              <div key={n.id} className={styles.notification}>
                 <div className={styles.dot}></div>
                 <p>
                   <strong>{n.actor.userName}</strong>{' '}
                   {n.type === 'like' ? 'liked' : 'shared'} your entry
                 </p>
                 <Link
-                  href={`/entry/${n.entry._id}`}
+                  href={`/entry/${n.entry.id}`}
                   className={styles.naviToEntry}
                 >
                   {'>'}

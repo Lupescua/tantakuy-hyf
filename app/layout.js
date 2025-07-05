@@ -14,9 +14,6 @@ const montserrat = Montserrat({
 });
 
 export default async function RootLayout({ children }) {
-  const user = await getUserFromCookie();
-  const isLoggedIn = !!user;
-
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>

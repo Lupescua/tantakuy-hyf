@@ -30,7 +30,7 @@ export default function NavbarLoggedIn({ user }) {
     try {
       await API.post('/logout');
       refresh();
-      router.push('/');
+      router.replace('/');
       router.refresh();
     } catch (err) {
       console.error('Logout failed', err);
