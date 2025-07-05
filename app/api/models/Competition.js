@@ -79,6 +79,11 @@ const CompetitionSchema = new mongoose.Schema(
     },
   },
 
+  image: {
+  type: String,
+  required: false,
+},
+
     website: String,
     facebook: String,
     instagram: String,
