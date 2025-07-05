@@ -11,6 +11,26 @@ const CompetitionForm = () => {
     e.preventDefault();
 
     const form = e.target;
+    const imageFile = form.image.files[0];
+    let imageUrl = '';
+
+    if (imageFile) {
+      const data = new FormData();
+      data.append('file', imageFile);
+      data.append('upload_preset', 'Yuusuf');
+
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/dj2bxlvr2/image/upload',
+        {
+          method: 'POST',
+          body: data,
+        },
+      );
+
+      const result = await res.json();
+      console.log('Cloudinary upload result:', result);
+      imageUrl = result.secure_url; // This is the actual image URL
+    }
 
     const formData = {
       title: form.title.value,
@@ -35,6 +55,7 @@ const CompetitionForm = () => {
       winnerAnnouncingDate: form.winnerAnnouncingDate.value
         ? new Date(form.winnerAnnouncingDate.value).toISOString()
         : null,
+      image: imageUrl,
       website: form.website.value,
       facebook: form.facebook.value,
       instagram: form.instagram.value,
@@ -83,7 +104,7 @@ const CompetitionForm = () => {
               <label> Tilføj billede </label>
               <label className={styles.uploadBox}>
                 +
-                <input type="file" style={{ display: 'none' }} />
+                <input type="file" name="image" style={{ display: 'none' }} />
               </label>
             </div>
 
