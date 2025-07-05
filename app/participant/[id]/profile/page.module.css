@@ -8,7 +8,7 @@
   top: 0;
   height: 100vh; */
   /* width: 100vw; */
-  z-index: 9999; /* might hide navbar/footer */
+  /* z-index: 9999; might hide navbar/footer */
 }
 
 .sidebar {
