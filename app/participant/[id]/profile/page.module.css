@@ -1,0 +1,140 @@
+.container {
+  display: flex;
+  padding-top: 60px;
+  height: 100%;
+}
+.container {
+  /* position: fixed;
+  top: 0;
+  height: 100vh; */
+  /* width: 100vw; */
+  z-index: 9999; /* might hide navbar/footer */
+}
+
+.sidebar {
+  width: 304px;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+.main {
+  flex: 1;
+  padding: 2rem;
+  min-width: 600px;
+}
+
+.notifications {
+  width: 300px;
+  padding: 1rem;
+  border-left: 1px solid #ddd;
+  background-color: #fafafa;
+  overflow-y: auto;
+}
+@media (max-width: 480px) {
+  .container {
+    padding: 0;
+    flex-direction: column;
+    justify-content: start;
+
+  }
+
+  
+  .sidebar {
+    order: 1;
+    width: 100%;
+    padding: 10px;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    height: 80px;
+    position: relative;
+  }
+  .main {
+    order: 2;
+    min-width: 20%;
+    padding: 1rem;
+  }
+  
+  .notifications {
+    order: 0;
+    width: 100%;
+    border: none;
+    background: none;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    height: 220px;
+    top: 0;
+  }
+
+  .notifications .bell {
+    font-size: 24px;
+    position: relative;
+  }
+ 
+  .notifications .dot {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background-color: orange;
+    border-radius: 50%;
+  }
+
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .container {
+    padding: 0;
+    flex-direction: column;
+    justify-content: start;
+
+  }
+
+  
+  .sidebar {
+    order: 1;
+    width: 100%;
+    padding: 10px;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    height: 80px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  }
+  .main {
+    order: 2;
+    min-width: 20%;
+    padding: 1rem;
+  }
+  
+  .notifications {
+    order: 0;
+    width: 100%;
+    border: none;
+    background: none;
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    height: 220px;
+    top: 0;
+  }
+
+  .notifications .bell {
+    font-size: 24px;
+    position: relative;
+  }
+ 
+  .notifications .dot {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -2px;
+    width: 10px;
+    height: 10px;
+    background-color: orange;
+    border-radius: 50%;
+  }
+}

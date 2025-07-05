@@ -1,0 +1,35 @@
+.competitionItem {
+  border: 1px solid none;
+  border-radius: 8px;
+  padding: 1.2rem;
+  transition: box-shadow 0.2s ease;
+  margin-bottom: 1.5rem;
+  background-color: #f8f9fa;
+}
+
+.competitionItem:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.organizer {
+  color: #666;
+  margin: 0 0 0.8rem;
+  font-size: 0.9rem;
+}
+
+.stats {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.icon {
+  font-size: 0.9rem;
+}

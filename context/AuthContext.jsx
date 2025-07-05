@@ -9,7 +9,7 @@ const AuthContext = createContext({
   refresh: () => {},
 });
 
-export function AuthProvider({ children }) {
+export function AuthProvider({ children, initialUser }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();

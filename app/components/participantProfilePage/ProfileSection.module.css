@@ -1,0 +1,97 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.region {
+  color: gray;
+}
+
+.about,
+.competitions {
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.competitions h3 {
+  margin: 1rem 0;
+}
+
+.competitionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (max-width: 480px) {
+  .container {
+    display: flex;
+    flex-direction: column;
+
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: calc(100% - 1rem);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+  
+  .region {
+    color: gray;
+  }
+  
+  .about,
+  .competitions {
+    background-color: #ffffff;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+  .about h3 , .about p{
+    margin: 1rem 0;
+  }
+  
+  .competitions h3 {
+    margin: 1rem 0;
+  }
+  
+  .competitionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+}
