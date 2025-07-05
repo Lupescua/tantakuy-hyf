@@ -1,4 +1,10 @@
+import { getUserFromCookie } from '@/utils/server/auth';
+
 export default async function Home() {
+  const user = await getUserFromCookie();
+  if (user?.role === 'company') {
+    redirect('/company/profile');
+  }
   return (
     <>
       <main className="home">

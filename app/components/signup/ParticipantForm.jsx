@@ -3,11 +3,12 @@ import styles from '../../../style/forms.module.css';
 import Modal from '../terms-conditions/Modal';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
+import { useAuth } from '@/context/AuthContext';
 
 export default function RegistrationForm() {
   const router = useRouter();
   const [error, setError] = useState(null);
-
+  const { refresh } = useAuth();
   const [formData, setFormData] = useState({
     userName: '',
     email: '',
@@ -41,7 +42,13 @@ export default function RegistrationForm() {
     setError(null);
 
     try {
+      // 1. Register user
       await API.post('/participants', formData);
+
+      // // we are forcing AUthContext to reload the user, this was causing a bug in the UI (it was both logged in and logged out after creating a participant)
+      // await refresh(); // still not working for some reason, I'm just disabling auto login when you create a user.
+
+      // 2. Redirect and let AuthContext rehydrate
       router.push('/');
     } catch (error) {
       const message =

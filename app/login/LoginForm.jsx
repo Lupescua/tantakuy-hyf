@@ -5,10 +5,12 @@ import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import Link from 'next/link';
 import styles from './page.module.css';
+import { useAuth } from '@/context/AuthContext';
 
 function LoginForm() {
   const router = useRouter();
   const [errorMsg, setErrorMsg] = useState('');
+  const { refresh } = useAuth();
 
   const [data, setData] = useState({
     email: '',
@@ -34,20 +36,30 @@ function LoginForm() {
     e.preventDefault();
     setErrorMsg('');
     try {
-      const response = await API.post('/login', {
+      const res = await API.post('/login', {
         email: data.email,
         password: data.password,
       });
-      if (response.data.success) {
-        console.log('Login success:', response.data.user);
-        router.push('/');
+
+      const user = res.data?.user;
+      if (res.data?.success && user) {
+        console.log('✅ Login success:', user);
+
+        // update your AuthContext
+        refresh();
+
+        if (user.role === 'company') {
+          router.push('/company/profile');
+        } else {
+          router.push('/');
+        }
       } else {
-        console.error('Login failed:', response.data.message);
-        setErrorMsg(response.data.message);
+        throw new Error(res.data?.message || 'Login failed');
       }
     } catch (error) {
-      const msg = error.response?.data?.message || 'Login failed';
-      console.error('Login failed:', msg);
+      const msg =
+        error.response?.data?.message || error.message || 'Login failed';
+      console.error('❌ Login failed:', msg);
       setErrorMsg(msg);
     }
   };

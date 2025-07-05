@@ -1,16 +1,47 @@
+// app/api/competitions/[id]/route.js
+import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
+import { isValidObjectId } from 'mongoose';
 
-export async function GET(_, { params }) {
+export async function GET(request /* ← only one arg now */) {
+  /* ---------------------------------------------------------- *
+   * 1) Extract :id from the URL manually to avoid Next bug      *
+   * ---------------------------------------------------------- */
+  const pathname = new URL(request.url).pathname; // e.g. /api/competitions/64f…
+  const id = pathname.split('/').pop(); // "64f…"
+
+  // 1-bis) Validate ID format
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: 'Invalid competition ID' },
+      { status: 400 },
+    );
+  }
+
+  /* ---------------------------------------------------------- *
+   * 2) Connect BEFORE any model access                         *
+   * ---------------------------------------------------------- */
+  await dbConnect();
+
   try {
-    await dbConnect();
-
-    const comp = await Competition.findById(params.id);
+    /* -------------------------------------------------------- *
+     * 3) Fetch the document                                    *
+     * -------------------------------------------------------- */
+    const comp = await Competition.findById(id);
     if (!comp) {
-      return Response.json({ error: 'Not found' }, { status: 404 });
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
     }
-    return Response.json(comp);
+
+    /* -------------------------------------------------------- *
+     * 4) Return                                                *
+     * -------------------------------------------------------- */
+    return NextResponse.json(comp);
   } catch (err) {
-    return Response.json({ error: err.message }, { status: 500 });
+    console.error('Error fetching competition:', err);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 },
+    );
   }
 }

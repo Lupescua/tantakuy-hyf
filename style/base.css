@@ -11,11 +11,17 @@
 * {
   margin: 0;
   padding: 0;
+}
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html,
 body {
+  margin: 0;
+  padding: 0;
   height: 100%;
   width: 100%;
 }
@@ -27,11 +33,22 @@ body {
   font-family: var(--font-montserrat);
   background-color: var(--background-color);
   color: var(--text-color);
+  justify-content: start;
 }
 
 main {
   flex: 1;
   width: 63%;
+  margin: 0 auto;
+}
+@media (max-width: 480px) {
+  main {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    justify-content: start;
+    align-items: center;
+  }
 }
 
 .home {
@@ -94,4 +111,9 @@ main {
   border-radius: var(--radius);
   height: 100px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  main {
+    width: 100%;
+  }
 }

@@ -25,7 +25,6 @@
 }
 
 .loginHeader > p {
-  
   font-size: 16px;
   color: #00000066;
 }
@@ -39,12 +38,11 @@
 }
 
 .formFields {
-  padding: 0  18px;
+  padding: 0 18px;
   margin-bottom: 24px;
 }
 
 .formFields > label {
-  
   font-weight: 400;
   font-size: 16px;
   color: #000000;
