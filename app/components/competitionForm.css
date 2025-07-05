@@ -1,145 +1,125 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding-bottom: 30px;
-    font-family: 'Arial', sans-serif;
-  }
-  
-  
-  body {
-    background-color: rgb(244, 244, 244);
-    border: none;
-    display: flex;
-    min-height: 100vh;
-    justify-content: center;
-    align-items: flex-start;
-  };
-  
-  
-  .backButton {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
-  }
-  
-  .backButton button {
-    background-color: #000;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-  }
-  
-  
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f3f3f3;
+}
+
+.formContainer {
+  max-width: 1200px;
+  margin-top: 50vh;
+  padding: 60px;
+  background-color: #f8f8f8;
+  border-radius: 16px;
+}
+
+.formHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.formLogo {
+  height: 40px;
+}
+
+.formHeader h2 {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.formInput {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formInput label {
+  font-size: 15px;
+  font-weight: 500;
+  color: #444;
+}
+
+.formInput input,
+.formInput textarea {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  background-color: #fff;
+  width: 100%;
+  resize: none;
+
+}
+
+.formInput textarea {
+  width: 50vw;
+}
+
+.gridTwo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.socialRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.uploadBox {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  width: 120px;
+  height: 120px;
+  background: #fff;
+  font-size: 32px;
+  font-weight: bold;
+  color: #888;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.uploadBox:hover {
+  background-color: #eee;
+}
+
+button {
+  width: fit-content;
+  padding: 12px 24px;
+  background: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #222;
+}
+
+@media (max-width: 768px) {
+
   .formContainer {
-    background-color: #f9f9f9;
-    padding: 30px;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 900px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 100%;
+    margin-top: 50vh;
   }
-  
-  
-  .formContainer h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    font-weight: 600;
-  
-  }
-  
-  
-  .formInput {
-    margin-bottom: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .formInput label {
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #333;
-  }
-  
-  .formInput input,
-  .formInput textarea {
-    border: 1px solid #000;
-    border-radius: 8px;
-    padding: 10px;
-    font-size: 14px;
-    background-color: #fff;
-  }
-  
-  
-  .formInput input[type="text"],
-  .formInput input[type="date"],
-  .formInput input[type="file"],
-  .formInput textarea {
-    width: 90%;
-  }
-  
-  
-  .uploadBox {
-    border: 2px dashed #000;
-    border-radius: 8px;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    background-color: #fff;
-    font-size: 36px;
-    color: #000;
-  }
-  
-  .uploadBox:hover {
-    background-color: #eaeaea;
-  }
-  
-  
-  .formInput button {
-    background-color: #000;
-    color: #fff;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  
-  .formInput button:hover {
-    background-color: #333;
-  }
-  
-  
-  .gridTwo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-  }
-  
-  
-  .socialRow {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .socialRow input {
-    flex: 1;
-  }
-  
- 
-  @media (max-width: 600px) {
-    .gridTwo {
-      grid-template-columns: 1fr;
-    }
-  
-    .socialRow {
-      flex-direction: column;
-    }
-  }
-  
-  
+}
