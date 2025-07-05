@@ -32,7 +32,7 @@ export async function POST(req) {
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    verifyToken(req);
+   // verifyToken(req); // temporarily disabled while using a hardcoded company ID.
 
     const competitionData = await req.json();
 
