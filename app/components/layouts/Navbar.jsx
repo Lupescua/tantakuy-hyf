@@ -12,5 +12,5 @@ export default function Navbar() {
   }
 
   // once loading is done, pick the right bar
-  return user ? <NavbarLoggedIn /> : <NavbarLoggedOut />;
+  return user ? <NavbarLoggedIn user={user} /> : <NavbarLoggedOut />;
 }

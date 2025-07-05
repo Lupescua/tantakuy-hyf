@@ -20,12 +20,10 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
-        <AuthProvider initialUser={user}>
-          {isLoggedIn ? <NavbarLoggedIn user={user} /> : <NavbarLoggedOut />}
-          <main>
-            {children}
-            </main>
-          {isLoggedIn ? <FooterLoggedIn /> : <FooterLoggedOut />}
+        <AuthProvider>
+          <Navbar />
+          {children}
+          <Footer />
         </AuthProvider>
       </body>
     </html>
