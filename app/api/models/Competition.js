@@ -18,7 +18,7 @@ const CompetitionSchema = new mongoose.Schema(
       type: String,
       required: [true, 'prize is required'],
     },
-     startDate: {
+    startDate: {
       type: Date,
       required: [true, 'Start date is required'],
       validate: {
@@ -48,15 +48,15 @@ const CompetitionSchema = new mongoose.Schema(
         message: 'participation deadline must be before or equal to end date',
       },
     },
-        votingDeadline: {
-          type: Date,
-          validate: {
-            validator: function (value) {
-              if (!value || !this.participationDeadline) return true;
-              return value >= this.participationDeadline;
-            },
-            message: 'Voting deadline must be after participation deadlin',
-          },
+    votingDeadline: {
+      type: Date,
+      validate: {
+        validator: function (value) {
+          if (!value || !this.participationDeadline) return true;
+          return value >= this.participationDeadline;
+        },
+        message: 'Voting deadline must be after participation deadlin',
+      },
     },
     winnerSelectionDate: {
       type: Date,
@@ -69,20 +69,20 @@ const CompetitionSchema = new mongoose.Schema(
       },
     },
     winnerAnnouncingDate: {
-    type: Date,
-    validate: {
-      validator: function (value) {
-        if (!value || !this.winnerSelectionDate) return true;
-        return value >= this.winnerSelectionDate;
+      type: Date,
+      validate: {
+        validator: function (value) {
+          if (!value || !this.winnerSelectionDate) return true;
+          return value >= this.winnerSelectionDate;
+        },
+        message: 'Winner announcing date must be after winner selection date',
       },
-      message: 'Winner announcing date must be after winner selection date',
     },
-  },
 
-  image: {
-  type: String,
-  required: false,
-},
+    image: {
+      type: String,
+      required: false,
+    },
 
     website: String,
     facebook: String,
@@ -95,7 +95,7 @@ const CompetitionSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { timestamps: true }, 
+  { timestamps: true },
 );
 
 const Competition =

@@ -1,42 +1,59 @@
 'use client';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
 import { FaRegBuilding, FaBars, FaThLarge, FaRegUser } from 'react-icons/fa';
 
-export default function Sidebar({ open, setOpen }) {
+export default function CompanyProfileSidebar({ companyId, open, setOpen }) {
+  const pathname = usePathname();
+
+  const navItems = [
+    {
+      href: `/company/${companyId}/profile`,
+      icon: <FaRegBuilding style={{ marginRight: '8px' }} />,
+      label: 'Virksomhedsoplysninger',
+    },
+    {
+      href: `/company/${companyId}/competitions`,
+      icon: <FaBars style={{ marginRight: '8px' }} />,
+      label: 'Mine konkurrencer',
+    },
+    {
+      href: `/company/${companyId}/dashboard`,
+      icon: <FaThLarge style={{ marginRight: '8px' }} />,
+      label: 'Dashboard',
+    },
+    {
+      href: `/company/${companyId}/settings`,
+      icon: <FaRegUser style={{ marginRight: '8px' }} />,
+      label: 'Indstillinger',
+    },
+  ];
+
   return (
     <>
-      {/* Sidebar */}
       <aside className={`${styles.sidebar} ${open ? styles.open : ''}`}>
         <nav>
           <h2 className={styles.sidebarTitle}>Overview</h2>
           <ul className={styles.sidebarList}>
-            <li>
-              <a className={styles.sidebarButton} href="/company/profile">
-                Virksomhedsoplysninger
-              </a>
-            </li>
-            <li>
-              <a className={styles.sidebarButton} href="/company/competitions">
-                <FaBars style={{ marginRight: '8px' }} />
-                Mine konkurrencer
-              </a>
-            </li>
-            <li>
-              <a className={styles.sidebarButton} href="/company/dashboard">
-                <FaThLarge style={{ marginRight: '8px' }} />
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a className={styles.sidebarButton} href="/company/settings">
-                <FaRegUser style={{ marginRight: '8px' }} />
-                Indstillinger
-              </a>
-            </li>
+            {navItems.map((item) => (
+              <li
+                key={item.href}
+                className={pathname === item.href ? styles.active : ''}
+              >
+                <Link
+                  href={item.href}
+                  className={styles.sidebarButton}
+                  onClick={() => setOpen(false)}
+                >
+                  {item.icon}
+                  {item.label}
+                </Link>
+              </li>
+            ))}
           </ul>
         </nav>
       </aside>
-      {/* Overlay for closing sidebar on click */}
       {open && (
         <div className={styles.overlay} onClick={() => setOpen(false)} />
       )}

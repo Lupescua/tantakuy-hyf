@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ModalSuccess from '../components/modals/successCreationModal';
+import ModalSuccess from '../components/modals/SuccessCreationModal';
 import styles from '../competition/competition.module.css';
 
 export default function competition() {

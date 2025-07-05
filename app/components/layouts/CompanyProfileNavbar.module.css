@@ -133,6 +133,49 @@
   height: 100%;
 }
 
+.profile-menu-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 900;
+}
+
+.profile-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 12rem;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+}
+
+.logout-btn {
+  all: unset;
+  display: block;
+  padding: 0.25rem 0;
+  color: black;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background-color: #eee;
+}
+
+.iconButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
 /* RESPONSIVE STYLES */
 @media (max-width: 700px) {
   .navbar {
