@@ -1,6 +1,7 @@
 import Vote from '@/app/api/models/Vote';
 import dbConnect from '@/utils/dbConnects';
 import { AppError } from '@/utils/errorHandler';
+import { createNotification } from './notificationServices';
 
 export async function countVotesForEntry({ entryId }) {
   if (!entryId) {
@@ -26,9 +27,11 @@ export async function getUserVoteForEntry({ entryId, participantId }) {
 }
 
 export async function saveVote({ entryId, participantId, voteType }) {
+
   if (!entryId || !participantId || !voteType) {
     throw new AppError('Missing required fields', 400);
   }
+
   await dbConnect();
   try {
     const vote = await Vote.create({
@@ -36,13 +39,16 @@ export async function saveVote({ entryId, participantId, voteType }) {
       participant: participantId,
       voteType,
     });
+    await createNotification(entryId, participantId, 'like');
+   
     return { ok: true, vote };
   } catch (error) {
-    /* E11000 = duplicate key → user already voted */
+    console.error('Vote creation error:', error);
+  
     if (error.code === 11000) {
       return { ok: false, reason: 'duplicate' };
     }
-
+  
     throw new AppError("Couldn't save the vote", 500);
   }
 }
@@ -57,4 +63,5 @@ export async function deleteVoteById({ voteId, participantId }) {
   if (vote.participant.toString() !== participantId)
     throw new AppError('Forbidden', 403);
   await Vote.deleteOne({ _id: voteId });
+  await createNotification(entryId, userId, 'dislike');
 }

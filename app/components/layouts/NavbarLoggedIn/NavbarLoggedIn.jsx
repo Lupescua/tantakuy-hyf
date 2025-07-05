@@ -2,19 +2,33 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import API from '@/utils/axios';
-import styles from './NavbarLoggedIn.module.css';
-import { useAuth } from '@/context/AuthContext';
+import { useState, useEffect, useRef } from 'react';
 
-export default function NavbarLoggedIn() {
-  const pathname = usePathname();
+export default function NavbarLoggedIn({ user }) {
+  const userId = user.id
   const router = useRouter();
-  const { refresh } = useAuth();
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target)
+      ) {
+        setProfileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleLogout = async () => {
     try {
       await API.post('/logout');
       refresh();
       router.push('/');
+      router.refresh();
     } catch (err) {
       console.error('Logout failed', err);
     }
@@ -32,13 +46,34 @@ export default function NavbarLoggedIn() {
             <h1 className={styles['site-title']}>Tantakuy</h1>
           </Link>
           <div className={styles['auth-buttons']}>
-            <span>Welcome! </span>
-            <button
-              onClick={handleLogout}
-              className={`${styles['nav-btn']} ${styles.primary}`}
-            >
-              Log out
-            </button>
+           
+          <div className={styles['profile-menu-container']} ref={dropdownRef}>              <button
+                className={styles['nav-btn']}
+                onClick={() => setProfileMenuOpen((open) => !open)}
+              >
+                {user.userName[0].toUpperCase()}
+              </button>
+              {profileMenuOpen && (
+               <div className={styles['profile-menu-dropdown']}>
+               <Link
+                 href={`/participant/${userId}/profile`}
+                 onClick={() => setProfileMenuOpen(false)}
+                 className={styles['dropdown-link']}
+               >
+                 My Profile
+               </Link>
+               <button
+                 onClick={() => {
+                   setProfileMenuOpen(false);
+                   handleLogout();
+                 }}
+                 className={`${styles['logout-btn']}`}
+               >
+                 Log out
+               </button>
+             </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
