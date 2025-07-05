@@ -21,7 +21,6 @@ export default function FooterLoggedOut() {
             Sign up
           </Link>
         </div>
-
       </div>
     </footer>
   );

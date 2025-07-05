@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import CompanyProfileNavbar from '../../components/layouts/CompanyProfileNavbar';
-import Sidebar from '../../components/layouts/Sidebar';
+import CompanyProfileNavbar from '@/app/components/layouts/CompanyProfileNavbar';
+import Sidebar from '@/app/components/layouts/Sidebar';
 import styles from './CompanyProfilePage.module.css';
 import { useAuth } from '@/context/AuthContext';
 
@@ -15,18 +15,19 @@ export default function CompanyProfileLayout({ children }) {
     if (!loading && user?.role !== 'company') {
       router.replace('/');
     }
-  }, [user, loading, router]);
+  }, [loading, user, router]);
 
   if (loading) return null;
-
-  if (user?.role !== 'company') {
-    return <p>🚫 You are not authorized to view this page.</p>;
-  }
+  if (!user || user.role !== 'company') return null;
 
   return (
     <>
       <CompanyProfileNavbar onHamburgerClick={() => setSidebarOpen(true)} />
-      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      <Sidebar
+        open={sidebarOpen}
+        setOpen={setSidebarOpen}
+        companyId={user.id}
+      />
       <main className={styles.mainContent}>{children}</main>
     </>
   );

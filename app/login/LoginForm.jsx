@@ -45,11 +45,11 @@ function LoginForm() {
       if (res.data?.success && user) {
         console.log('✅ Login success:', user);
 
-        // update your AuthContext
+        // update the AuthContext
         refresh();
 
         if (user.role === 'company') {
-          router.push('/company/profile');
+          router.push(`/company/${user.id}/profile`);
         } else {
           router.push('/');
         }

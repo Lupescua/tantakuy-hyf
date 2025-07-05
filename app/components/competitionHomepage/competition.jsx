@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import ModalSuccess from '../modals/successCreationModal';
+import ModalSuccess from '../modals/SuccessCreationModal';
 
 export default function competition() {
   const [isOpen, setIsOpen] = useState(false);
