@@ -6,6 +6,7 @@ export default function FooterLoggedOut() {
     <footer className={styles.footer}>
       <div className={styles['footer-content']}>
         <p className={styles['footer-text']}>Do you have an account?</p>
+
         <div className={styles['footer-auth-buttons']}>
           <Link
             href="/login"
@@ -20,6 +21,7 @@ export default function FooterLoggedOut() {
             Sign up
           </Link>
         </div>
+
       </div>
     </footer>
   );
