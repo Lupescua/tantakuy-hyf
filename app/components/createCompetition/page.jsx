@@ -16,10 +16,29 @@ const CompetitionForm = () => {
       title: form.title.value,
       description: form.description.value,
       competitionTerms: form.terms.value,
-      endDate: new Date(form.endDate.value).toISOString(),
+      prize: form.prize.value,
+      startDate: form.startDate.value
+        ? new Date(form.startDate.value).toISOString()
+        : null,
+      endDate: form.endDate.value
+        ? new Date(form.endDate.value).toISOString()
+        : null,
+      participationDeadline: form.participationDeadline.value
+        ? new Date(form.participationDeadline.value).toISOString()
+        : null,
+      votingDeadline: form.votingDeadline.value
+        ? new Date(form.votingDeadline.value).toISOString()
+        : null,
       winnerSelectionDate: form.winnerSelectionDate.value
         ? new Date(form.winnerSelectionDate.value).toISOString()
         : null,
+      winnerAnnouncingDate: form.winnerAnnouncingDate.value
+        ? new Date(form.winnerAnnouncingDate.value).toISOString()
+        : null,
+      website: form.website.value,
+      facebook: form.facebook.value,
+      instagram: form.instagram.value,
+      linkedin: form.linkedin.value,
       company: '6867f128b3b1d5c9f87baa98', // The company id is hardcoded for now
     };
 
@@ -54,7 +73,6 @@ const CompetitionForm = () => {
         </div>
 
         <div className={styles.formContainer}>
-        
           <form onSubmit={handleSubmit} className={styles.formOverride}>
             <div className={styles.formInput}>
               <label> Konkurrence Titel </label>
@@ -65,17 +83,14 @@ const CompetitionForm = () => {
               <label> Tilføj billede </label>
               <label className={styles.uploadBox}>
                 +
-                <input
-                  type="file"
-                  style={{ display: "none" }}
-                />
+                <input type="file" style={{ display: 'none' }} />
               </label>
             </div>
 
             <div className={styles.gridTwo}>
               <div className={styles.formInput}>
                 <label> Konkurrence startdato </label>
-                <input type="date" name="startDate"  />
+                <input type="date" name="startDate" />
               </div>
               <div className={styles.formInput}>
                 <label>Konkurrence slutDato </label>
@@ -86,7 +101,7 @@ const CompetitionForm = () => {
             <div className={styles.gridTwo}>
               <div className={styles.formInput}>
                 <label> Deadline for deltagelse </label>
-                <input type="date" name="participationDeadline"  />
+                <input type="date" name="participationDeadline" />
               </div>
               <div className={styles.formInput}>
                 <label> Deadline for afstemning </label>
@@ -94,14 +109,14 @@ const CompetitionForm = () => {
               </div>
             </div>
 
-             <div className={styles.gridTwo}>
+            <div className={styles.gridTwo}>
               <div className={styles.formInput}>
                 <label> Dato vinderudvælgelse </label>
                 <input type="date" name="winnerSelectionDate" required />
               </div>
               <div className={styles.formInput}>
                 <label> Dato vinderannoncering </label>
-                <input type="date" name="winnerAnnouncingDate"  />
+                <input type="date" name="winnerAnnouncingDate" />
               </div>
             </div>
 
