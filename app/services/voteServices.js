@@ -27,7 +27,6 @@ export async function getUserVoteForEntry({ entryId, participantId }) {
 }
 
 export async function saveVote({ entryId, participantId, voteType }) {
-
   if (!entryId || !participantId || !voteType) {
     throw new AppError('Missing required fields', 400);
   }
@@ -40,15 +39,15 @@ export async function saveVote({ entryId, participantId, voteType }) {
       voteType,
     });
     await createNotification(entryId, participantId, 'like');
-   
+
     return { ok: true, vote };
   } catch (error) {
     console.error('Vote creation error:', error);
-  
+
     if (error.code === 11000) {
       return { ok: false, reason: 'duplicate' };
     }
-  
+
     throw new AppError("Couldn't save the vote", 500);
   }
 }

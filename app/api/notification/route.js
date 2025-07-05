@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(req) {
   await dbConnect();
-  console.log("this is user id", req.nextUrl.searchParams.get('userId'))
+  console.log('this is user id', req.nextUrl.searchParams.get('userId'));
   const userId = req.nextUrl.searchParams.get('userId');
 
   if (!userId) {

@@ -51,7 +51,10 @@ export default function NotificationsPanel() {
                   <strong>{n.actor.userName}</strong>{' '}
                   {n.type === 'like' ? 'liked' : 'shared'} your entry
                 </p>
-                <Link href={`/entry/${n.entry._id}`} className={styles.naviToEntry}>
+                <Link
+                  href={`/entry/${n.entry._id}`}
+                  className={styles.naviToEntry}
+                >
                   {'>'}
                 </Link>
               </div>

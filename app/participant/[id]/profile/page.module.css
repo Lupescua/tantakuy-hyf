@@ -35,10 +35,8 @@
     padding: 0;
     flex-direction: column;
     justify-content: start;
-
   }
 
-  
   .sidebar {
     order: 1;
     width: 100%;
@@ -53,7 +51,7 @@
     min-width: 20%;
     padding: 1rem;
   }
-  
+
   .notifications {
     order: 0;
     width: 100%;
@@ -70,7 +68,7 @@
     font-size: 24px;
     position: relative;
   }
- 
+
   .notifications .dot {
     content: '';
     position: absolute;
@@ -81,7 +79,6 @@
     background-color: orange;
     border-radius: 50%;
   }
-
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -89,10 +86,8 @@
     padding: 0;
     flex-direction: column;
     justify-content: start;
-
   }
 
-  
   .sidebar {
     order: 1;
     width: 100%;
@@ -109,7 +104,7 @@
     min-width: 20%;
     padding: 1rem;
   }
-  
+
   .notifications {
     order: 0;
     width: 100%;
@@ -126,7 +121,7 @@
     font-size: 24px;
     position: relative;
   }
- 
+
   .notifications .dot {
     content: '';
     position: absolute;

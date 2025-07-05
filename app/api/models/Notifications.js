@@ -27,10 +27,11 @@ const NotificationSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Notification =
-  mongoose.models.Notification || mongoose.model('Notification', NotificationSchema);
+  mongoose.models.Notification ||
+  mongoose.model('Notification', NotificationSchema);
 
 export default Notification;

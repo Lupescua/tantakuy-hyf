@@ -11,16 +11,27 @@ export default function Sidebar({ open, setOpen }) {
           <h2 className={styles.sidebarTitle}>Overview</h2>
           <ul className={styles.sidebarList}>
             <li>
-              <a className={styles.sidebarButton} href="/company/profile">Virksomhedsoplysninger</a>
+              <a className={styles.sidebarButton} href="/company/profile">
+                Virksomhedsoplysninger
+              </a>
             </li>
             <li>
-              <a className={styles.sidebarButton} href="/company/competitions"><FaBars style={{marginRight: '8px'}} />Mine konkurrencer</a>
+              <a className={styles.sidebarButton} href="/company/competitions">
+                <FaBars style={{ marginRight: '8px' }} />
+                Mine konkurrencer
+              </a>
             </li>
             <li>
-              <a className={styles.sidebarButton} href="/company/dashboard"><FaThLarge style={{marginRight: '8px'}} />Dashboard</a>
+              <a className={styles.sidebarButton} href="/company/dashboard">
+                <FaThLarge style={{ marginRight: '8px' }} />
+                Dashboard
+              </a>
             </li>
             <li>
-              <a className={styles.sidebarButton} href="/company/settings"><FaRegUser style={{marginRight: '8px'}} />Indstillinger</a>
+              <a className={styles.sidebarButton} href="/company/settings">
+                <FaRegUser style={{ marginRight: '8px' }} />
+                Indstillinger
+              </a>
             </li>
           </ul>
         </nav>

@@ -1,5 +1,3 @@
-
-
 .nav {
   display: flex;
   flex-direction: column;
@@ -10,7 +8,6 @@
 .nav ul {
   list-style: none;
   padding: 0;
-
 }
 
 .nav li {
@@ -54,14 +51,14 @@
     padding: 0.5rem;
   }
 
-.nav li:hover {
-  background-color: #e0e0e0;
-}
+  .nav li:hover {
+    background-color: #e0e0e0;
+  }
 
-.active {
-  background-color: #cce0ff;
-  font-weight: bold;
-}
+  .active {
+    background-color: #cce0ff;
+    font-weight: bold;
+  }
 }
 
 @media (min-width: 481px) and (max-width: 768px) {
@@ -89,13 +86,12 @@
     padding: 0.5rem;
   }
 
-.nav li:hover {
-  background-color: #e0e0e0;
-}
+  .nav li:hover {
+    background-color: #e0e0e0;
+  }
 
-.active {
-  background-color: #cce0ff;
-  font-weight: bold;
-}
-
+  .active {
+    background-color: #cce0ff;
+    font-weight: bold;
+  }
 }

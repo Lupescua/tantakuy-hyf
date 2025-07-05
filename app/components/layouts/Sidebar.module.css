@@ -82,12 +82,15 @@
   text-align: left;
   text-decoration: none;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  transition:
+    background 0.2s,
+    color 0.2s;
   white-space: normal;
 }
 
-.sidebarButton:hover, .sidebarButton:focus {
-  background: #17635D;
+.sidebarButton:hover,
+.sidebarButton:focus {
+  background: #17635d;
   color: #fff;
   cursor: pointer;
 }

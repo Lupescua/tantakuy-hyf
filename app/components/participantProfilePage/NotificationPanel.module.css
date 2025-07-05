@@ -40,13 +40,11 @@
   display: block;
 }
 
-
 .notification {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 
 .bell {
   position: relative;
@@ -54,7 +52,6 @@
   cursor: pointer;
   display: none;
 }
-
 
 .dot {
   position: absolute;
@@ -66,7 +63,6 @@
   border-radius: 50%;
 }
 
-
 @media (min-width: 481px) {
   .panel {
     display: block;
@@ -77,7 +73,6 @@
     display: none;
   }
 }
-
 
 @media (max-width: 480px) {
   .bell {
@@ -95,24 +90,21 @@
     display: block;
     width: 300px;
   }
- 
-.naviToEntry {
-  background-color: #0070f3;
-  color: white;
-  padding:3px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  display: inline-block;
-}
-  
+
+  .naviToEntry {
+    background-color: #0070f3;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+  }
 }
 @media (min-width: 481px) and (max-width: 768px) {
-
   .bell {
     display: flex;
     justify-content: right;
     margin-bottom: 10px;
-
   }
 
   .panel {
@@ -126,19 +118,18 @@
     display: block;
     width: 300px;
   }
-  .wrapper{
-   display: flex;
-   flex-direction: column;
-   justify-content: right;
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
   }
- 
-.naviToEntry {
-  background-color: #0070f3;
-  color: white;
-  padding:3px 12px;
-  border-radius: 6px;
-  text-decoration: none;
-  display: inline-block;
-}
 
+  .naviToEntry {
+    background-color: #0070f3;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+  }
 }
