@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import styles from './CreatecompetitionForm.module.css';
-import SuccessCreationModal from '@/app/components/modals/SuccessCreationModal';
+import styles from './CreateCompetitionForm.module.css';
+import SuccessCreationModal from '@/app/components/modals/successCreationModal';
 import { useRouter } from 'next/navigation';
 import { useParams } from 'next/navigation';
 import API from '@/utils/axios';

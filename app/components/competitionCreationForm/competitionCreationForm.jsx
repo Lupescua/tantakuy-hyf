@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import './CompetitionForm.css';
+import './competitionForm.css';
 import NavbarLoggedIn from '../layouts/NavbarLoggedIn/NavbarLoggedIn';
 
 function CompetitionForm() {
