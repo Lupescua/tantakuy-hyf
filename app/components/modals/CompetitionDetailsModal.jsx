@@ -58,17 +58,17 @@ export default function CompetitionDetailsModal({ competitionId }) {
                 <div className={style.modalDetail}>
                   <div className={style.card}>
                     <p>
-                      <strong>Antal deltagere indtil videre:</strong>{' '}
+                      Antal deltagere indtil videre:{' '}
                       {entryCount}
                     </p>
                     <p>
-                      <strong>Deadline:</strong>{' '}
+                      Deadline:{' '}
                       {new Date(
                         competition.participationDeadline,
                       ).toLocaleDateString()}
                     </p>
                     <p>
-                      <strong>Præmie:</strong> {competition.prize}
+                      Præmie: {competition.prize}
                     </p>
                   </div>
 
