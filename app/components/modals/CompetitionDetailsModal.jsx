@@ -9,6 +9,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
   const [competition, setCompetition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [entryCount, setEntryCount] = useState(0);
 
   useEffect(() => {
     if (open && competitionId) {
@@ -20,6 +21,15 @@ export default function CompetitionDetailsModal({ competitionId }) {
           console.error('Failed to fetch competition:', err);
         })
         .finally(() => setLoading(false));
+
+      fetch(`/api/entries?competitionId=${competitionId}`)
+        .then((res) => res.json())
+        .then((data) => {
+        setEntryCount(data.length);
+        })
+        .catch((err) => {
+          console.error('Failed to fetch etry count:', err);
+        });
     }
   }, [open, competitionId]);
 
@@ -45,9 +55,10 @@ export default function CompetitionDetailsModal({ competitionId }) {
               <Loader></Loader>
             ) : competition ? (
               <>
-                <h2 className={style.modalTitle}>{competition.title}</h2>
-
                 <div>
+                  <p>
+                    <strong>Antal deltagere:</strong> {entryCount}
+                  </p>
                   <p>
                     <strong>Deadline:</strong>{' '}
                     {new Date(
