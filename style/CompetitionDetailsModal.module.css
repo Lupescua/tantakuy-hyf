@@ -17,6 +17,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid black;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .modalCloseBtn {
   width: 23px;
