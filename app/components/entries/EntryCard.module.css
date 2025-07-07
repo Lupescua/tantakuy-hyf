@@ -1,3 +1,4 @@
+
 .card {
   background: #fff;
   border-radius: 8px;
@@ -9,9 +10,11 @@
 
 /* optional wrapper if you ever need overlays */
 .imageContainer {
+  display: block;
   width: 100%;
-  aspect-ratio: 1 / 1; /* perfect square          */
+  aspect-ratio: 1 / 1;
   position: relative;
+  overflow: hidden; /* helps with cropping */
 }
 
 /* ---------- the image itself ---------- */

@@ -113,7 +113,7 @@ export default function EntryCard({
 
       {entryId ? (
         /* real entry → click goes to its own page */
-        <Link href={`/entry/${entryId ?? ''}`} className={styles.imageWrapper}>
+        <Link href={`/entry/${entryId ?? ''}`} className={styles.imageContainer}>
           <img src={image} alt="Entry image" className={styles.image} />
         </Link>
       ) : (
@@ -122,6 +122,7 @@ export default function EntryCard({
       )}
 
       {/* FOOTER: vote count + button */}
+      {(showVoteCount || showActions) && (
       <div className={styles.bottom}>
         {showVoteCount && (
           <div className={styles.voteCount}>
@@ -147,6 +148,7 @@ export default function EntryCard({
           </button>
         )}
       </div>
+          )}
     </div>
   );
 }
