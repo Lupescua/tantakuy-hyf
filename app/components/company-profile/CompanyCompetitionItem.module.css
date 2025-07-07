@@ -1,0 +1,84 @@
+.competitionItem {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.2rem;
+  background-color: #f8f9fa;
+  transition: box-shadow 0.2s ease;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.competitionItem:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  flex: 1;
+  min-width: 250px;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.date {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 0.8rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.editBtn {
+  background-color: #0070f3;
+  color: white;
+}
+.editBtn:hover {
+  background-color: #0055c7;
+}
+
+.deleteBtn {
+  background-color: #e63946;
+  color: white;
+}
+.deleteBtn:hover {
+  background-color: #c72533;
+}
+
+.suspendBtn {
+  background-color: #f4a261;
+  color: white;
+}
+.suspendBtn:hover {
+  background-color: #d4884e;
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .competitionItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .actions {
+    justify-content: flex-start;
+  }
+}

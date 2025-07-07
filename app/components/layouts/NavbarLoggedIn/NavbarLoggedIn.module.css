@@ -2,10 +2,11 @@
   background-color: black;
   color: white;
   width: 100%;
-  padding: 16px 0;
+  padding: 0 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   position: relative;
   z-index: 10;
+  height: 4rem;
 }
 
 .navbar-container {
@@ -14,13 +15,16 @@
   padding: 0 16px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  width: 100%;
+  height: 100%;
 }
 
 .navbar-top {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  aspect-ratio: 1;
 }
 
 .site-title {
@@ -33,31 +37,48 @@
 
 .auth-buttons {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 8px;
+  height: 100%;
+  width: 105px;
+  aspect-ratio: 1;
+  border-radius: 50%;
 }
 
 .nav-btn {
-  padding: 6px 12px;
-  font-size: 13px;
-  border-radius: 8px;
-  font-weight: 500;
-  border: 1px solid white;
-  cursor: pointer;
-  background-color: transparent;
-  color: white;
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
-  text-decoration: none;
-  display: inline-flex;
+  all: unset;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  padding-bottom: 8px;
+  background-color: transparent;
+  color: black;
+  cursor: pointer;
+}
+.nav-btn:hover {
+  font-size: 25px;
+  transition: ease-out 0.5s;
 }
 
-.nav-btn.primary {
-  background-color: white;
+.logout-btn {
+  all: unset;
+  display: block;
+  padding: 0.25rem 0;
   color: black;
-  border: none;
+  width: 100%;
+  text-decoration: none;
+}
+.logout-btn:hover {
+  background-color: lightgray;
+  width: 100%;
 }
 
 .nav-btn:hover {
@@ -107,4 +128,50 @@
   .navbar-top {
     justify-content: center;
   }
+}
+
+.profile-menu-container {
+  position: relative;
+  background-color: white;
+  height: calc(100% - 1rem);
+  display: flex;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.profile-menu-container:hover {
+  transform: scale(0.8);
+  transition: 0.5s;
+}
+
+.profile-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 12rem;
+  background: white;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.profile-menu-dropdown a {
+  display: block;
+  padding: 0.25rem 0;
+  color: black;
+  width: 100%;
+  text-decoration: none;
+}
+
+.profile-menu-dropdown a:hover {
+  background-color: #eee;
+  width: 100%;
+}
+.nav-btn:hover {
+  background-color: transparent;
+  transform: scale(1.2);
+  transition: ease-in-out 0.5s;
 }

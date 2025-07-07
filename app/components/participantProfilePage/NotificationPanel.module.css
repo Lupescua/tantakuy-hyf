@@ -1,0 +1,156 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.clearButton {
+  background: none;
+  border: none;
+  color: #0070f3;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.clearButton:hover {
+  color: #005bb5;
+}
+
+.wrapper {
+  position: relative;
+  z-index: 1000;
+  height: 100%;
+}
+.bell svg {
+  color: white;
+}
+.empty {
+  padding: 1rem;
+  text-align: center;
+  color: #888;
+}
+
+.bell {
+  position: relative;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: block;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+.bell {
+  filter: drop-shadow(0 0 2px black);
+}
+
+.panel {
+  width: 300px;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  background-color: #fafafa;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  display: none;
+  z-index: 1000;
+}
+
+.show {
+  display: block;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bell {
+  position: relative;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+}
+
+.dot {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 10px;
+  height: 10px;
+  background-color: orange;
+  border-radius: 50%;
+}
+
+@media (min-width: 481px) {
+  .panel {
+    display: block;
+    position: static;
+  }
+
+  .bell {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .bell {
+    display: block;
+  }
+
+  .panel {
+    width: 100vw;
+    right: 0;
+    top: 60px;
+    display: none;
+  }
+
+  .show {
+    display: block;
+    width: 300px;
+  }
+
+  .naviToEntry {
+    background-color: #0070f3;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+  }
+}
+@media (min-width: 481px) and (max-width: 768px) {
+  .bell {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 10px;
+  }
+
+  .panel {
+    width: 100vw;
+    right: 0;
+    top: 60px;
+    display: none;
+  }
+
+  .show {
+    display: block;
+    width: 300px;
+  }
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+  }
+
+  .naviToEntry {
+    background-color: #0070f3;
+    color: white;
+    padding: 3px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-block;
+  }
+}

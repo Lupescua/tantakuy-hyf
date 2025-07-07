@@ -8,11 +8,18 @@
 }
 
 .main {
+  /* common props */
   padding: 2rem;
   max-width: 1000px;
   margin: auto;
-}
 
+  /* from **first** snippet: keep flexible grow & horizontal scroll */
+  width: 100%;
+  position: relative;
+  flex-grow: 1;
+  overflow-x: auto;
+  /* (second snippet didn’t conflict with these extras) */
+}
 .title {
   font-size: 2rem;
   margin-bottom: 1rem;
@@ -22,8 +29,9 @@
 .grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   margin-bottom: 2rem;
+  max-height: 78vh;
 }
 
 .joinButton {
@@ -31,9 +39,11 @@
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 20px 20px;
   font-size: 16px;
   background-color: #868483;

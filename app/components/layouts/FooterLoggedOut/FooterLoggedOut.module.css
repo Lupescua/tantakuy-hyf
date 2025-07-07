@@ -24,4 +24,12 @@
   color: #777;
 }
 
+.signup-btn {
+  background-color: var(--footer-btn-color);
+  color: white;
+  border: none;
+}
 
+.signup-btn:hover {
+  background-color: var(--footer-btn-color);
+}

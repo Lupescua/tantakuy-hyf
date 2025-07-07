@@ -36,11 +36,11 @@ export default function OrganizationForm() {
       const data = res.data;
       setError('');
       router.push('/');
-    } catch (e) {
-      const message =
-        e.response?.data?.message || 'Failed to register. Please try again.';
-      setError(message);
-      console.log(error);
+    } catch (err) {
+      const payload = err.response?.data || {};
+      const msg = payload.error || payload.message || 'Registration failed';
+      console.error('Registration error:', msg);
+      setError(msg);
     }
   };
   // Terms & conditions starts
@@ -90,6 +90,7 @@ export default function OrganizationForm() {
           onSubmit={handleSubmit}
           style={{ maxWidth: '400px', margin: 'auto' }}
         >
+          {error && <div className={styles.warningText}>{error}</div>}
           <div className={styles.formItemCompany}>
             <label htmlFor="name">Name</label>
             <br />

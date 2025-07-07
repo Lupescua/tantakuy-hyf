@@ -3,8 +3,7 @@ import bcrypt from 'bcryptjs';
 import { AppError } from '@/utils/errorHandler';
 
 export async function resetPassword(forgotObj = {}) {
-  const { email, newPassword, token} = forgotObj;
-  
+  const { email, newPassword, token } = forgotObj;
   if (!email || !newPassword || !token) {
     throw new AppError('Missing required fields.', 400);
   }

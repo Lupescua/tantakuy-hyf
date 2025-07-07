@@ -11,7 +11,7 @@
   gap: 4px;
   padding: 8px;
   border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .bar {
@@ -24,8 +24,8 @@
 .sidebar {
   position: fixed;
   top: 0;
-  left: -240px;
-  width: 220px;
+  left: -290px;
+  width: 290px;
   height: 100vh;
   background: #fff;
   border-right: 1px solid #eee;
@@ -53,12 +53,54 @@
   font-weight: 500;
 }
 
+.sidebarTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 18px 0 20px 0;
+  color: #222;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+.sidebarList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebarButton {
+  display: block;
+  width: 100%;
+  margin: 0 0 12px 0;
+  padding: 8px 18px;
+  background: #f5f6f7;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    color 0.2s;
+  white-space: normal;
+}
+
+.sidebarButton:hover,
+.sidebarButton:focus {
+  background: #17635d;
+  color: #fff;
+  cursor: pointer;
+}
+
 .overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0,0,0,0.15);
+  background: rgba(0, 0, 0, 0.15);
   z-index: 1099;
-} 
+}

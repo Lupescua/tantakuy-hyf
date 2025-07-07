@@ -1,8 +1,18 @@
 .mainContent {
+  position: relative;
   margin-left: 220px;
   padding: 32px;
   max-width: 900px;
   width: 100%;
+  z-index: auto;
+}
+
+.navbar {
+  z-index: 1200;
+}
+
+.profile-menu-dropdown {
+  z-index: 6000;
 }
 
 @media (max-width: 900px) {
@@ -11,4 +21,4 @@
     padding: 16px 8px;
     max-width: 100vw;
   }
-} 
+}
