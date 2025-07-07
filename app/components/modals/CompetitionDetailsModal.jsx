@@ -46,22 +46,23 @@ export default function CompetitionDetailsModal({ competitionId }) {
             ) : competition ? (
               <>
                 <h2 className={style.modalTitle}>{competition.title}</h2>
-                <p>{competition.description}</p>
+
                 <div>
                   <p>
-                    <strong>Ends:</strong>{' '}
-                    {new Date(competition.endDate).toLocaleDateString()}
+                    <strong>Deadline:</strong>{' '}
+                    {new Date(
+                      competition.participationDeadline,
+                    ).toLocaleDateString()}
                   </p>
-                  {competition.winnerSelectionDate && (
-                    <p>
-                      <strong>Winner Announced:</strong>{' '}
-                      {new Date(
-                        competition.winnerSelectionDate,
-                      ).toLocaleDateString()}
-                    </p>
-                  )}
                   <p>
-                    <strong>Terms:</strong> {competition.competitionTerms}
+                    <strong>Præmie:</strong> {competition.prize}
+                  </p>
+
+                  <p>
+                    <strong>Beskrivelse:</strong> {competition.description}
+                  </p>
+                  <p>
+                    <strong>Vilkår:</strong> {competition.competitionTerms}
                   </p>
                 </div>
               </>
