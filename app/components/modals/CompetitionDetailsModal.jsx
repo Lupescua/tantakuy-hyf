@@ -25,7 +25,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
       fetch(`/api/entries?competitionId=${competitionId}`)
         .then((res) => res.json())
         .then((data) => {
-        setEntryCount(data.length);
+          setEntryCount(data.length);
         })
         .catch((err) => {
           console.error('Failed to fetch etry count:', err);
@@ -55,26 +55,35 @@ export default function CompetitionDetailsModal({ competitionId }) {
               <Loader></Loader>
             ) : competition ? (
               <>
-                <div>
-                  <p>
-                    <strong>Antal deltagere:</strong> {entryCount}
-                  </p>
-                  <p>
-                    <strong>Deadline:</strong>{' '}
-                    {new Date(
-                      competition.participationDeadline,
-                    ).toLocaleDateString()}
-                  </p>
-                  <p>
-                    <strong>Præmie:</strong> {competition.prize}
-                  </p>
+                <div className={style.modalDetail}>
+                  <div className={style.card}>
+                    <p>
+                      <strong>Antal deltagere indtil videre:</strong>{' '}
+                      {entryCount}
+                    </p>
+                    <p>
+                      <strong>Deadline:</strong>{' '}
+                      {new Date(
+                        competition.participationDeadline,
+                      ).toLocaleDateString()}
+                    </p>
+                    <p>
+                      <strong>Præmie:</strong> {competition.prize}
+                    </p>
+                  </div>
 
-                  <p>
-                    <strong>Beskrivelse:</strong> {competition.description}
-                  </p>
-                  <p>
-                    <strong>Vilkår:</strong> {competition.competitionTerms}
-                  </p>
+                  <div className={style.description}>
+                    <p>
+                      <strong>Beskrivelse:</strong>
+                    </p>
+                    <p>{competition.description}</p>
+                  </div>
+                  <div className={style.competitionTerms}>
+                    <p>
+                      <strong>Vilkår:</strong>
+                    </p>
+                    <p>{competition.competitionTerms}</p>
+                  </div>
                 </div>
               </>
             ) : (
