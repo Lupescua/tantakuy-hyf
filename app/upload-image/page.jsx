@@ -1,64 +1,76 @@
 'use client';
+
 import styles from './page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronRight,
   faCamera,
   faForward,
+  faClose,
 } from '@fortawesome/free-solid-svg-icons';
-import { faCircleXmark, faClose } from '@fortawesome/free-solid-svg-icons';
 import { faImage, faImages } from '@fortawesome/free-regular-svg-icons';
-import React, { useState, useEffect } from 'react';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
 import ImageTemplate from '../components/image-container-template/ImageTemplate';
-import { CldImage } from 'next-cloudinary';
-import API from '@/utils/axios';
 
 export default function UploadImage() {
-  const CLOUD_NAME = 'dahasdpeh';
-  const UPLOAD_PRESET = 'l3sypto1';
-
   const [imageUrl, setImageUrl] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const uploadToCloudinary = async (file) => {
+  const uploadToS3 = async (file) => {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
+    formData.append('image', file);
 
-    const response = await API.post(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      { formData },
-    );
+    const response = await fetch('/api/upload', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to upload image');
+    }
 
     const data = await response.json();
-    return data.secure_url;
+    return data.url;
   };
 
   const handleComputerUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const uploadedUrl = await uploadToCloudinary(file);
-      setImageUrl(uploadedUrl);
-      console.log('Uploaded from computer:', uploadedUrl);
+      setLoading(true);
+      try {
+        const uploadedUrl = await uploadToS3(file);
+        setImageUrl(uploadedUrl);
+        console.log('Uploaded from computer:', uploadedUrl);
+      } catch (err) {
+        console.error(err);
+        alert('Could not upload image from computer');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   const handleCameraUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const uploadedUrl = await uploadToCloudinary(file);
-      setImageUrl(uploadedUrl);
-      console.log('Uploaded from camera:', uploadedUrl);
+      setLoading(true);
+      try {
+        const uploadedUrl = await uploadToS3(file);
+        setImageUrl(uploadedUrl);
+        console.log('Uploaded from camera:', uploadedUrl);
+      } catch (err) {
+        console.error(err);
+        alert('Could not upload image from camera');
+      } finally {
+        setLoading(false);
+      }
     }
   };
-  const handleImageChange = () => {
-    const file = e.target.files[0];
-    if (file) {
-      const url = URL.createObjectURL(file);
-      setImageUrl(url);
-    }
-  };
+
   const imageArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12];
+
   return (
     <div className={styles.uploadContainer}>
       <div className={styles.titleBar}>
@@ -78,9 +90,9 @@ export default function UploadImage() {
           )}
         </Link>
       </div>
+
       <div
         className={styles.imageContainer}
-        onChange={handleImageChange}
         style={{
           backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
           backgroundSize: 'cover',
@@ -94,20 +106,22 @@ export default function UploadImage() {
             className={styles.imageIcon}
           />
         )}
+        {loading && <p>Loading...</p>}
       </div>
+
       <div className={styles.uploadFunctionContainer}>
         <div className={styles.uploadFuncBar}>
           <div className={styles.UploadTextIconContain}>
             <h3 className={styles.uploadLatestTitle}>Seneste</h3>
             <Link href={'/'}>
-              {' '}
               <FontAwesomeIcon
                 icon={faChevronRight}
                 size="5xs"
                 className={styles.uploadImageRight}
-              />{' '}
+              />
             </Link>
           </div>
+
           <div className={styles.uploadButtons}>
             <label className={styles.uploadImagesIcon}>
               <FontAwesomeIcon
@@ -122,6 +136,7 @@ export default function UploadImage() {
                 onChange={handleComputerUpload}
               />
             </label>
+
             <label className={styles.uploaCamera}>
               <FontAwesomeIcon
                 icon={faCamera}
@@ -138,6 +153,7 @@ export default function UploadImage() {
             </label>
           </div>
         </div>
+
         <div className={styles.lastestUploadedPics}>
           {imageArr.slice(0, 12).map((image, index) => (
             <div key={`${index}+${index + 10}`} className={styles.imageHoler}>
