@@ -82,5 +82,6 @@ export default function NavbarLoggedIn({ user }) {
         </div>
       </div>
     </header>
+
   );
 }
