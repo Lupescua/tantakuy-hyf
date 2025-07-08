@@ -34,6 +34,24 @@ export default function CompetitionDetailsModal({ competitionId }) {
     }
   }, [open, competitionId]);
 
+  useEffect(() => {
+    if (!open) return;
+
+    function onKeyDown(event) {
+      if (
+        ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' '].includes(event.key)
+      ) {
+        event.preventDefault();
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
+
   if (!competitionId) return null;
 
   return (
@@ -44,47 +62,49 @@ export default function CompetitionDetailsModal({ competitionId }) {
         </span>
       ) : (
         <div>
-          <div className={`${style.modalContainer}`}>
-            <button
-              className={style.modalCloseBtn}
-              onClick={() => setOpen(false)}
-            >
-              ✕
-            </button>
+          <div className={style.overlay}>
+            <div className={`${style.modalContainer}`}>
+              <button
+                className={style.modalCloseBtn}
+                onClick={() => setOpen(false)}
+              >
+                ✕
+              </button>
 
-            {loading ? (
-              <Loader></Loader>
-            ) : competition ? (
-              <>
-                <div className={style.modalDetail}>
-                  <div className={style.card}>
-                    <p>Antal deltagere indtil videre: {entryCount}</p>
-                    <p>
-                      Deadline:{' '}
-                      {new Date(
-                        competition.participationDeadline,
-                      ).toLocaleDateString()}
-                    </p>
-                    <p>Præmie: {competition.prize}</p>
-                  </div>
+              {loading ? (
+                <Loader></Loader>
+              ) : competition ? (
+                <>
+                  <div className={style.modalDetail}>
+                    <div className={style.card}>
+                      <p>Antal deltagere indtil videre: {entryCount}</p>
+                      <p>
+                        Deadline:{' '}
+                        {new Date(
+                          competition.participationDeadline,
+                        ).toLocaleDateString()}
+                      </p>
+                      <p>Præmie: {competition.prize}</p>
+                    </div>
 
-                  <div className={style.description}>
-                    <p>
-                      <strong>Beskrivelse:</strong>
-                    </p>
-                    <p>{competition.description}</p>
+                    <div className={style.description}>
+                      <p>
+                        <strong>Beskrivelse:</strong>
+                      </p>
+                      <p>{competition.description}</p>
+                    </div>
+                    <div className={style.competitionTerms}>
+                      <p>
+                        <strong>Vilkår:</strong>
+                      </p>
+                      <p>{competition.competitionTerms}</p>
+                    </div>
                   </div>
-                  <div className={style.competitionTerms}>
-                    <p>
-                      <strong>Vilkår:</strong>
-                    </p>
-                    <p>{competition.competitionTerms}</p>
-                  </div>
-                </div>
-              </>
-            ) : (
-              <p>Competition not found.</p>
-            )}
+                </>
+              ) : (
+                <p>Competition not found.</p>
+              )}
+            </div>
           </div>
         </div>
       )}
