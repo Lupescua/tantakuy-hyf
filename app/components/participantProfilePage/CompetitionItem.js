@@ -11,12 +11,22 @@ export default function CompetitionItem({
 }) {
   return (
     <Link href={`/competition/${id}`} className={styles.competitionItem}>
-      <h4>{title}</h4>
-      <p className={styles.organizer}>{organizer}</p>
+      <div className={styles.infoLeft}>
+        <h4 className={styles.title}>{title}</h4>
+        <span className={styles.organizer}>{organizer}</span>
+      </div>
       <div className={styles.stats}>
-        <span>{likes}</span>
-        {shares && <span>↗{shares}</span>}
-        <span>{saved}</span>
+        <span className={`${styles.statItem} ${styles.like}`}>
+          {likes} Likes
+        </span>
+        {shares !== undefined && (
+          <span className={`${styles.statItem} ${styles.share}`}>
+            {shares} Shares
+          </span>
+        )}
+        <span className={`${styles.statItem} ${styles.save}`}>
+          {saved} Saved
+        </span>
       </div>
     </Link>
   );
