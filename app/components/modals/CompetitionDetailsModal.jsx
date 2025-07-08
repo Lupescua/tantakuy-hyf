@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getCompetitionById } from '@/app/services/competitionService';
 import style from '@/style/CompetitionDetailsModal.module.css';
 import Loader from '../loader/Loader';
+import axios from 'axios';
 
 export default function CompetitionDetailsModal({ competitionId }) {
   const [competition, setCompetition] = useState(null);
@@ -22,10 +23,10 @@ export default function CompetitionDetailsModal({ competitionId }) {
         })
         .finally(() => setLoading(false));
 
-      fetch(`/api/entries?competitionId=${competitionId}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setEntryCount(data.length);
+      axios
+        .get(`/api/entries?competitionId=${competitionId}`)
+        .then((response) => {
+          setEntryCount(response.data.length);
         })
         .catch((err) => {
           console.error('Failed to fetch etry count:', err);
