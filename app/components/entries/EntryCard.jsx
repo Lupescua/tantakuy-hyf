@@ -113,7 +113,7 @@ export default function EntryCard({
 
       {entryId ? (
         /* real entry → click goes to its own page */
-        <Link href={`/entry/${entryId ?? ''}`} className={styles.imageWrapper}>
+        <Link href={`/entry/${entryId ?? ''}`} className={styles.imageContainer}>
           <img src={image} alt="Entry image" className={styles.image} />
         </Link>
       ) : (
@@ -122,31 +122,37 @@ export default function EntryCard({
       )}
 
       {/* FOOTER: vote count + button */}
-      <div className={styles.bottom}>
-        {showVoteCount && (
-          <div className={styles.voteCount}>
-            {/* show loader while fetching votes */}
-            {loadingVotes ? <Loader /> : `${votes} stemmer`}
-          </div>
-        )}
+      {(showVoteCount || showActions) && (
+        <div className={styles.bottom}>
+          {showVoteCount && (
+            <div className={styles.voteCount}>
+              {/* show loader while fetching votes */}
+              {loadingVotes ? <Loader /> : `${votes} stemmer`}
+            </div>
+          )}
 
-        {showActions && (
-          <button
-            onClick={handleVote}
-            disabled={authLoading || loadingVotes || !entryId}
-            className={`${styles.voteButton} ${hasVoted ? styles.voted : ''}`}
-          >
-            {hasVoted ? <FaHeart /> : <FaRegHeart />} Stem
-          </button>
-        )}
-        {/*  share button — only when we also render actions _and_ have a real entry */}
-        {showActions && entryId && (
-          <button onClick={share} className={styles.shareButton}>
-            <img src="/del.png" alt="Del" className={styles.shareIcon} />
-            Del
-          </button>
-        )}
-      </div>
+          {/* grouped action buttons (vote + share) */}
+          {showActions && (
+            <div className={styles.buttonGroupWrapper}>
+              <button
+                onClick={handleVote}
+                disabled={authLoading || loadingVotes || !entryId}
+                className={`${styles.voteButton} ${hasVoted ? styles.voted : ''}`}
+              >
+                {hasVoted ? <FaHeart /> : <FaRegHeart />} Stem
+              </button>
+
+              {/* share button — only when we also render actions _and_ have a real entry */}
+              {entryId && (
+                <button onClick={share} className={styles.shareButton}>
+                  <img src="/del.png" alt="Del" className={styles.shareIcon} />
+                  Del
+                </button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
