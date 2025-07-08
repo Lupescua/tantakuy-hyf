@@ -21,6 +21,12 @@ export default function OrganizationForm() {
     }));
   };
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add form validation and submission logic here
@@ -91,26 +97,42 @@ export default function OrganizationForm() {
 
       <div className={styles.formItemOrg}>
         <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+          <img
+            src="/eye.png"
+            alt="Toggle password visibility"
+            onClick={togglePasswordVisibility}
+            className={styles.passwordToggleIcon}
+          />
+        </div>
       </div>
 
       <div className={styles.formItemOrg}>
         <label htmlFor="confirmPassword">Confirm Password</label>
-        <input
-          type="password"
-          id="confirmPassword"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
+        <div className={styles.passwordWrapper}>
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            id="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+          />
+          <img
+            src="/eye.png"
+            alt="Toggle confirm password visibility"
+            onClick={toggleConfirmPasswordVisibility}
+            className={styles.passwordToggleIcon}
+          />
+        </div>
       </div>
 
       <div className={styles.formItemOrg}>
