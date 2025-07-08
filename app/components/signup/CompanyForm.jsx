@@ -20,6 +20,13 @@ export default function OrganizationForm() {
     acceptTerms: false,
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -176,28 +183,42 @@ Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden var
           </div>
           <div className={styles.formItemCompany}>
             <label htmlFor="password">Password</label>
-            <br />
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              <img
+                src="/eye.png"
+                alt="Toggle password visibility"
+                onClick={togglePasswordVisibility}
+                className={styles.passwordToggleIcon}
+              />
+            </div>
           </div>
 
           <div className={styles.formItemCompany}>
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <br />
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              <img
+                src="/eye.png"
+                alt="Toggle confirm password visibility"
+                onClick={toggleConfirmPasswordVisibility}
+                className={styles.passwordToggleIcon}
+              />
+            </div>
           </div>
           <div className={styles.formItemCompany}>
             <input
