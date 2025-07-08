@@ -42,7 +42,7 @@ export default function EntryPage() {
         const all = Array.isArray(listRes.data) ? listRes.data : [];
         // 4) filter out the clicked one
         const rest = all.filter((e) => e._id !== id);
-        // 5) build and set your feed
+        // 5) build and set the feed
         const initial = [clicked, ...rest];
         setFeed(initial);
 
@@ -109,7 +109,6 @@ export default function EntryPage() {
       } else {
         // remove existing vote
         const recordId = recordIdMap[entryId]; // ← grab the right one
-        console.log('⚠️ Deleting vote with id:', recordId);
         await API.delete(`/votes/${recordId}`);
         setVotedMap((m) => ({ ...m, [entryId]: false }));
         setVotesMap((m) => ({ ...m, [entryId]: Math.max(m[entryId] - 1, 0) }));
