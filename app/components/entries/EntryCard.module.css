@@ -1,3 +1,4 @@
+
 .card {
   background: #fff;
   border-radius: 8px;
@@ -9,9 +10,11 @@
 
 /* optional wrapper if you ever need overlays */
 .imageContainer {
+  display: block;
   width: 100%;
-  aspect-ratio: 1 / 1; /* perfect square          */
+  aspect-ratio: 1 / 1;
   position: relative;
+  overflow: hidden; /* helps with cropping */
 }
 
 /* ---------- the image itself ---------- */
@@ -84,6 +87,6 @@
   gap: 12px;
   border-radius: 30px;
   background: rgba(255 255 255 / 0.8);
-  padding: 6px /* choose your pill width: */ /* 30px;  /* ← PR-50 wider */ 12px; /* ← PR-53 slimmer */
+  padding: 6px 30px;
   margin-top: 8px;
 }
