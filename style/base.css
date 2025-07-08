@@ -34,6 +34,8 @@ body {
   background-color: var(--background-color);
   color: var(--text-color);
   justify-content: start;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 main {

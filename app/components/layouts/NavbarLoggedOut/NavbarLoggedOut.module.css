@@ -11,6 +11,7 @@
   z-index: 999;
   display: flex;
   justify-content: center;
+  height: 4rem;
 }
 
 .navbar-container {

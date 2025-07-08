@@ -1,12 +1,18 @@
 .footer {
   background-color: white;
   border-top: 1px solid #eee;
-  padding: 20px 0;
+  padding: 0;
   width: 100%;
   box-shadow: 0 -1px 4px rgba(0, 0, 0, 0.05);
-  z-index: 10;
-  position: relative;
+  z-index: 999;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
   margin-top: auto;
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .footer-content {
@@ -16,7 +22,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap;
+  width: 100%;
 }
 
 .footer-text {
@@ -24,12 +30,41 @@
   color: #777;
 }
 
-.signup-btn {
-  background-color: var(--footer-btn-color);
-  color: white;
-  border: none;
+.footer-auth-buttons {
+  display: flex;
+  gap: 12px;
 }
 
+.footer-btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.login-btn {
+  background: #fff;
+  color: var(--footer-btn-color);
+  border: 1.5px solid var(--footer-btn-color);
+}
+.login-btn:hover {
+  background: #f2f2f2;
+  color: #111;
+}
+
+.signup-btn {
+  background: var(--footer-btn-color);
+  color: #fff;
+  border: 1.5px solid var(--footer-btn-color);
+}
 .signup-btn:hover {
-  background-color: var(--footer-btn-color);
+  background: #222;
+  color: #fff;
 }
