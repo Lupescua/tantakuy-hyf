@@ -261,3 +261,24 @@
 .termsContent strong {
   font-weight: 600;
 }
+
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordToggleIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-40%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 0.6;
+}
+
+.passwordToggleIcon:hover {
+  opacity: 1;
+}
