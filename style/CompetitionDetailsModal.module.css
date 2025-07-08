@@ -2,9 +2,10 @@
   background-color: white;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start; /* This fixes the awkward centering */
   align-items: center;
-  width: calc(500px - 2rem);
+  padding: 2rem;
+  width: 500px;
   max-width: 90vw;
   height: calc(600px - 4rem);
   z-index: 1;
@@ -16,6 +17,8 @@
   left: 50%;
   transform: translate(-50%, -50%);
   border: 1px solid black;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .modalCloseBtn {
   width: 23px;
@@ -37,10 +40,7 @@
   transition: 0.5s;
   cursor: pointer;
 }
-.modalTitle {
-  margin-top: 50px;
-  font-size: 25px;
-}
+
 .backIn {
   width: 100%;
   text-align: center;
@@ -70,4 +70,58 @@
   border-radius: 50%; /* Makes it a circle */
   box-shadow: 0 0 0 10px green;
   animation: zoomIn 1s forwards;
+}
+.modalDetail {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 20px;
+  justify-content: flex-start;
+  min-width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.modalDetail p {
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+.modalDetail strong {
+  font-weight: 600;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
+  padding: 1rem;
+  height: auto;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  margin-top: 20px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+}
+
+.competitionTerms,
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
