@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import { getCompetitionById } from '@/app/services/competitionService';
 import style from '@/style/CompetitionDetailsModal.module.css';
 import Loader from '../loader/Loader';
+import axios from 'axios';
 
 export default function CompetitionDetailsModal({ competitionId }) {
   const [competition, setCompetition] = useState(null);
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [entryCount, setEntryCount] = useState(0);
 
   useEffect(() => {
     if (open && competitionId) {
@@ -20,8 +22,35 @@ export default function CompetitionDetailsModal({ competitionId }) {
           console.error('Failed to fetch competition:', err);
         })
         .finally(() => setLoading(false));
+
+      axios
+        .get(`/api/entries?competitionId=${competitionId}`)
+        .then((response) => {
+          setEntryCount(response.data.length);
+        })
+        .catch((err) => {
+          console.error('Failed to fetch etry count:', err);
+        });
     }
   }, [open, competitionId]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    function onKeyDown(event) {
+      if (
+        ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' '].includes(event.key)
+      ) {
+        event.preventDefault();
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [open]);
 
   if (!competitionId) return null;
 
@@ -33,41 +62,49 @@ export default function CompetitionDetailsModal({ competitionId }) {
         </span>
       ) : (
         <div>
-          <div className={`${style.modalContainer}`}>
-            <button
-              className={style.modalCloseBtn}
-              onClick={() => setOpen(false)}
-            >
-              ✕
-            </button>
+          <div className={style.overlay}>
+            <div className={`${style.modalContainer}`}>
+              <button
+                className={style.modalCloseBtn}
+                onClick={() => setOpen(false)}
+              >
+                ✕
+              </button>
 
-            {loading ? (
-              <Loader></Loader>
-            ) : competition ? (
-              <>
-                <h2 className={style.modalTitle}>{competition.title}</h2>
-                <p>{competition.description}</p>
-                <div>
-                  <p>
-                    <strong>Ends:</strong>{' '}
-                    {new Date(competition.endDate).toLocaleDateString()}
-                  </p>
-                  {competition.winnerSelectionDate && (
-                    <p>
-                      <strong>Winner Announced:</strong>{' '}
-                      {new Date(
-                        competition.winnerSelectionDate,
-                      ).toLocaleDateString()}
-                    </p>
-                  )}
-                  <p>
-                    <strong>Terms:</strong> {competition.competitionTerms}
-                  </p>
-                </div>
-              </>
-            ) : (
-              <p>Competition not found.</p>
-            )}
+              {loading ? (
+                <Loader></Loader>
+              ) : competition ? (
+                <>
+                  <div className={style.modalDetail}>
+                    <div className={style.card}>
+                      <p>Antal deltagere indtil videre: {entryCount}</p>
+                      <p>
+                        Deadline:{' '}
+                        {new Date(
+                          competition.participationDeadline,
+                        ).toLocaleDateString()}
+                      </p>
+                      <p>Præmie: {competition.prize}</p>
+                    </div>
+
+                    <div className={style.description}>
+                      <p>
+                        <strong>Beskrivelse:</strong>
+                      </p>
+                      <p>{competition.description}</p>
+                    </div>
+                    <div className={style.competitionTerms}>
+                      <p>
+                        <strong>Vilkår:</strong>
+                      </p>
+                      <p>{competition.competitionTerms}</p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <p>Competition not found.</p>
+              )}
+            </div>
           </div>
         </div>
       )}
