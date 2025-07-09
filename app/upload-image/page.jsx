@@ -13,19 +13,22 @@ import { faImage, faImages } from '@fortawesome/free-regular-svg-icons';
 import React, { useState } from 'react';
 import Link from 'next/link';
 import ImageTemplate from '../components/image-container-template/ImageTemplate';
+import Loader from '../components/loader/Loader';
+import API from '@/utils/axios';
 
 export default function UploadImage() {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  if (loading) {
+    return <Loader />;
+  }
+
   const uploadToS3 = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
 
-    const response = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
+    const response = await API.post('/api/upload', formData);
 
     if (!response.ok) {
       throw new Error('Failed to upload image');
@@ -35,34 +38,18 @@ export default function UploadImage() {
     return data.url;
   };
 
-  const handleComputerUpload = async (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       setLoading(true);
       try {
         const uploadedUrl = await uploadToS3(file);
         setImageUrl(uploadedUrl);
-        console.log('Uploaded from computer:', uploadedUrl);
+        console.log('Uploaded:', uploadedUrl);
       } catch (err) {
         console.error(err);
-        alert('Could not upload image from computer');
-      } finally {
         setLoading(false);
-      }
-    }
-  };
-
-  const handleCameraUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setLoading(true);
-      try {
-        const uploadedUrl = await uploadToS3(file);
-        setImageUrl(uploadedUrl);
-        console.log('Uploaded from camera:', uploadedUrl);
-      } catch (err) {
-        console.error(err);
-        alert('Could not upload image from camera');
+        alert('Could not upload image. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -106,7 +93,6 @@ export default function UploadImage() {
             className={styles.imageIcon}
           />
         )}
-        {loading && <p>Loading...</p>}
       </div>
 
       <div className={styles.uploadFunctionContainer}>
@@ -133,7 +119,7 @@ export default function UploadImage() {
                 type="file"
                 accept="image/*"
                 style={{ display: 'none' }}
-                onChange={handleComputerUpload}
+                onChange={handleImageUpload}
               />
             </label>
 
@@ -148,7 +134,7 @@ export default function UploadImage() {
                 accept="image/*"
                 capture="environment"
                 style={{ display: 'none' }}
-                onChange={handleCameraUpload}
+                onChange={handleImageUpload}
               />
             </label>
           </div>
