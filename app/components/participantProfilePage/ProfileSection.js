@@ -72,6 +72,7 @@ export default function ProfileSection() {
                 likes={item.likes}
                 shares={item.shares}
                 saved={item.saved}
+                imageUrl={item.imageUrl}
               />
             ))
           ) : (

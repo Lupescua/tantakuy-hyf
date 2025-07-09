@@ -35,6 +35,7 @@ export async function getUserCompetitionStats(userId) {
             likes,
             shares: 0,
             saved: 0,
+            imageUrl: entry.imageUrl,
           };
         } catch (err) {
           console.error('Vote count failed for entry:', entry._id, err);
