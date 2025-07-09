@@ -5,20 +5,20 @@ import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/jwt';
 
-const s3 = new S3Client({
-  region: process.env.AWS_REGION,
-  credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  },
-});
+export async function GET() {
+  return NextResponse.json({ ok: true });
+}
 
 export async function POST(req) {
   try {
     const token = cookies().get('token')?.value;
     if (!token) {
+    const token = cookies().get('token')?.value;
+    if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const user = verifyToken(token); 
 
     const user = verifyToken(token); 
 
@@ -65,4 +65,5 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 }
+// This code handles file uploads to AWS S3, ensuring the user is authenticated and the file meets size and type requirements.
 // This code handles file uploads to AWS S3, ensuring the user is authenticated and the file meets size and type requirements.
