@@ -24,12 +24,13 @@
   color: #777;
 }
 
-.signup-btn {
-  background-color: var(--footer-btn-color);
-  color: white;
-  border: none;
+.login-link {
+  color: #0070f3;
+  text-decoration: underline;
+  font-weight: 500;
 }
 
-.signup-btn:hover {
-  background-color: var(--footer-btn-color);
+.login-link:hover {
+  color: #0051a3;
 }
+
