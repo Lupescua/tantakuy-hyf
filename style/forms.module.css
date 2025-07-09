@@ -95,6 +95,13 @@
   color: black;
 }
 
+.formItemCompany input {
+  color: black;
+}
+.formItemOrg input {
+  color: black;
+}
+
 .formItemCompany,
 .formItemOrg {
   color: black;
