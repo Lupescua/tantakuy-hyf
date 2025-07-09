@@ -63,15 +63,23 @@
   align-items: flex-start;
   max-width: 70%;
 }
-
-.title {
-  margin: 0 0 0.5rem 0;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
 .header {
   display: flex;
-  flex-direction: row;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1;
+  display: inline;
+}
+
+.separator,
+.organizer {
+  margin: 0;
 }
 
 @media (max-width: 600px) {
@@ -80,6 +88,14 @@
     align-items: flex-start;
   }
 
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .separator {
+    display: none;
+  }
   .stats {
     margin-top: 1rem;
     justify-content: flex-start;
