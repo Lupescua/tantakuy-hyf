@@ -37,7 +37,7 @@ export default function NavbarLoggedIn({ user }) {
     }
   };
   //disable this navbar for company profile so that the layout there handles it
-  if (pathname.match(/^\/company\/[^/]+\/profile/)) {
+  if (pathname.startsWith('/company')) {
     return null;
   }
 
