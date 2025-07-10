@@ -36,6 +36,8 @@ z-index: 9999;
     padding: 0;
     flex-direction: column;
     justify-content: start;
+    max-width: 100%;
+    width: 100%;
   }
 
   .sidebar {
@@ -55,7 +57,7 @@ z-index: 9999;
 
   .notifications {
     order: 0;
-    width: 100%;
+    width: 85%;
     border: none;
     background: none;
     display: flex;
@@ -87,6 +89,8 @@ z-index: 9999;
     padding: 0;
     flex-direction: column;
     justify-content: start;
+    max-width: 100%;
+    width: 100%;
   }
 
   .sidebar {

@@ -10,22 +10,23 @@ export default function NavbarLoggedIn({ user }) {
   const { refresh } = useAuth();
   const userId = user?.id;
   const router = useRouter();
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-  const dropdownRef = useRef(null);
   const pathname = usePathname();
 
-  // 📦 Close dropdown on outside click
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setProfileMenuOpen(false);
+        setMobileMenuOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // 🚪 Handle logout and refresh UI
   const handleLogout = async () => {
     try {
       await API.post('/logout');
@@ -36,7 +37,7 @@ export default function NavbarLoggedIn({ user }) {
       console.error('Logout failed', err);
     }
   };
-  //disable this navbar for company profile so that the layout there handles it
+
   if (pathname.match(/^\/company\/[^/]+\/profile/)) {
     return null;
   }
@@ -48,9 +49,9 @@ export default function NavbarLoggedIn({ user }) {
           <Link href={'/'}>
             <h1 className={styles['site-title']}>Tantakuy</h1>
           </Link>
+
           <div className={styles['auth-buttons']}>
             <div className={styles['profile-menu-container']} ref={dropdownRef}>
-              {' '}
               <button
                 className={styles['nav-btn']}
                 onClick={() => setProfileMenuOpen((open) => !open)}
@@ -71,7 +72,7 @@ export default function NavbarLoggedIn({ user }) {
                       setProfileMenuOpen(false);
                       handleLogout();
                     }}
-                    className={`${styles['logout-btn']}`}
+                    className={styles['logout-btn']}
                   >
                     Log out
                   </button>
@@ -79,7 +80,35 @@ export default function NavbarLoggedIn({ user }) {
               )}
             </div>
           </div>
+
+          <button
+            className={styles.hamburger}
+            onClick={() => setMobileMenuOpen((prev) => !prev)}
+          >
+            ☰
+          </button>
         </div>
+
+        {mobileMenuOpen && (
+          <div className={styles['mobile-dropdown']} ref={dropdownRef}>
+            <Link
+              href={`/participant/${userId}/profile`}
+              onClick={() => setMobileMenuOpen(false)}
+              className={styles['dropdown-link']}
+            >
+              My Profile
+            </Link>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                handleLogout();
+              }}
+              className={styles['logout-btn']}
+            >
+              Log out
+            </button>
+          </div>
+        )}
       </div>
     </header>
 

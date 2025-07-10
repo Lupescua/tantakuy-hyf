@@ -8,7 +8,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 999;
+  z-index: 1000;
   height: 4rem;
 }
 
@@ -177,4 +177,55 @@
   background-color: transparent;
   transform: scale(1.2);
   transition: ease-in-out 0.5s;
+}
+
+.hamburger {
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 16px;
+    top: 10px;
+    z-index: 1000;
+  }
+
+  .mobile-dropdown {
+    background: white;
+    width: 100%;
+    position: absolute;
+    top: 4rem;
+    right: 0;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .mobile-dropdown a,
+  .mobile-dropdown button {
+    margin-bottom: 0.5rem;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .mobile-dropdown button:hover,
+  .mobile-dropdown a:hover {
+    background-color: #eee;
+    width: 100%;
+  }
 }

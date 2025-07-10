@@ -3,6 +3,7 @@
   position: absolute;
 }
 
+
 .wrapper {
   max-width: 90%;
   margin: 0 auto;
@@ -13,7 +14,7 @@
 }
 
 .backButton {
-  margin-bottom: 100px;
+  margin-bottom: 20px;
   text-align: right;
   position: fixed;
   font-weight: 500;
