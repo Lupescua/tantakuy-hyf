@@ -3,8 +3,10 @@ import dbConnect from '@/utils/dbConnects';
 import Entry from '@/app/api/models/Entry';
 import { Types, isValidObjectId } from 'mongoose';
 
-export async function GET(req, { params }) {
-  const competitionId = params.id;
+export async function GET(request) {
+  const pathname = new URL(request.url).pathname;
+  const competitionId = pathname.split('/').pop();
+
   if (!isValidObjectId(competitionId)) {
     return NextResponse.json(
       { success: false, message: 'Invalid competitionId' },
@@ -13,7 +15,7 @@ export async function GET(req, { params }) {
   }
 
   // parse ?limit= & ?skip=
-  const url = new URL(req.url);
+  const url = new URL(request.url);
   const limit = parseInt(url.searchParams.get('limit') || '20', 10);
   const skip = parseInt(url.searchParams.get('skip') || '0', 10);
 
@@ -24,6 +26,29 @@ export async function GET(req, { params }) {
     const now = new Date();
     const pipeline = [
       { $match: { competition: new Types.ObjectId(competitionId) } },
+
+      // 2) join on Participant collection
+      {
+        $lookup: {
+          from: 'participants', // your MongoDB collection name
+          localField: 'participant', // Entry.participant
+          foreignField: '_id', // Participant._id
+          as: 'participantArr',
+        },
+      },
+
+      // 3) unwind that array to a single object
+      { $unwind: '$participantArr' },
+
+      // 4) copy just the fields we need onto `participant`
+      {
+        $addFields: {
+          'participant.userName': '$participantArr.userName',
+          'participant.avatarUrl': '$participantArr.avatarUrl',
+        },
+      },
+
+      // 5) the existing trending‐score calculation
       {
         $addFields: {
           hoursOld: {
@@ -42,17 +67,20 @@ export async function GET(req, { params }) {
           },
         },
       },
+
+      // 6) sort, skip and limit
       { $sort: { trendingScore: -1 } },
       { $skip: skip },
       { $limit: limit },
-      // project only the fields your client needs:
+
+      // 7) project only the fields your client needs:
       {
         $project: {
           imageUrl: 1,
           caption: 1,
-          participant: 1,
           votes: 1,
           createdAt: 1,
+          participant: 1,
         },
       },
     ];
