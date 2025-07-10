@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import CompanyProfileNavbar from '@/app/components/layouts/CompanyProfileNavbar';
 import Sidebar from '@/app/components/layouts/Sidebar';
-import styles from './CompanyProfilePage.module.css';
+import styles from './profile/CompanyProfilePage.module.css';
 import { useAuth } from '@/context/AuthContext';
 
 export default function CompanyProfileLayout({ children }) {
