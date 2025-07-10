@@ -7,91 +7,173 @@ import API from '@/utils/axios';
 import Loader from '@/app/components/loader/Loader';
 import { useAuth } from '@/context/AuthContext';
 import styles from '../entryPage.module.css';
-
-const PLACEHOLDER_IMG = 'https://picsum.photos/600/400?grayscale&blur=1';
+import { DEFAULT_AVATAR, PLACEHOLDER_IMG } from '@/utils/constants';
 
 export default function EntryPage() {
-  const { id } = useParams();
+  const { id } = useParams(); //  clicked entry ID
   const { user, loading: authLoading } = useAuth();
 
-  const [entry, setEntry] = useState(null);
-  const [votes, setVotes] = useState(0);
-  const [hasVoted, setHasVoted] = useState(false);
-  const [voteRecId, setVoteRecId] = useState(null);
+  // feed state + pagination
+  const [feed, setFeed] = useState([]);
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [voting, setVoting] = useState(false);
 
-  /* ------------- 1. load entry + vote info ---------------- */
+  // per-entry maps for loading & vote state
+  const [votingMap, setVotingMap] = useState({});
+  const [votedMap, setVotedMap] = useState({});
+  const [votesMap, setVotesMap] = useState({});
+  const [recordIdMap, setRecordIdMap] = useState({});
+
+  /* ------------- 1. load entry + feed page 0 ---------------- */
   useEffect(() => {
-    async function load() {
+    async function loadFeed() {
       setLoading(true);
       try {
-        // entry doc
-        const { data: e } = await API.get(`/entries/${id}`);
-        // votes + my vote
-        const { data: v } = await API.get('/votes/me', {
-          params: { entryId: id },
-        });
+        // 1) fetch the clicked entry
+        const { data: clicked } = await API.get(`/entries/${id}`);
+        // 2) pull competition ID off it
+        const compId = clicked.competition;
+        // 3) fetch first 20 trending in same comp
+        const { data: listRes } = await API.get(
+          `/entries/by-competition/${compId}`,
+          { params: { limit: 20, skip: 0, sort: 'trending' } },
+        );
+        const all = Array.isArray(listRes.data) ? listRes.data : [];
+        // 4) filter out the clicked one
+        const rest = all.filter((e) => e._id !== id);
+        // 5) build and set the feed
+        const initial = [clicked, ...rest];
+        setFeed(initial);
 
-        setEntry(e);
-        if (v.success) {
-          setVotes(v.votes);
-          setHasVoted(v.hasVoted);
-          setVoteRecId(v.recordId);
-        }
+        // initialize vote maps
+        const voting = {},
+          voted = {},
+          votes = {},
+          records = {};
+        await Promise.all(
+          initial.map(async (e) => {
+            const { data: v } = await API.get('/votes/me', {
+              params: { entryId: e._id },
+            });
+            voting[e._id] = false;
+            if (v.success) {
+              voted[e._id] = v.hasVoted;
+              votes[e._id] = v.votes;
+              records[e._id] = v.recordId; // ← store record ID
+            } else {
+              voted[e._id] = false;
+              votes[e._id] = e.votes || 0;
+              records[e._id] = null;
+            }
+          }),
+        );
+        setVotingMap(voting);
+        setVotedMap(voted);
+        setVotesMap(votes);
+        setRecordIdMap(records);
+
+        // prep next page
+        setPage(1);
+        setHasMore(all.length === 20);
       } catch (err) {
-        console.error('Failed to load entry page:', err);
+        console.error('Failed to load feed:', err);
       } finally {
         setLoading(false);
       }
     }
-    load();
+    loadFeed();
   }, [id]);
 
   /* ------------- 2. toggle vote --------------------------- */
-  const toggleVote = async () => {
-    if (authLoading || voting) return;
-
+  const toggleVote = async (entryId) => {
+    if (authLoading || votingMap[entryId]) return;
     if (!user) {
-      // not logged-in → redirect to /login
       window.location.href = '/login';
       return;
     }
-
-    setVoting(true);
+    setVotingMap((m) => ({ ...m, [entryId]: true }));
     try {
-      if (!hasVoted) {
-        // add like
+      if (!votedMap[entryId]) {
+        // cast new vote
         const { data } = await API.post('/votes', {
-          entry: id,
+          entry: entryId,
           voteType: 'like',
         });
         if (data.success) {
-          setVotes((v) => v + 1);
-          setHasVoted(true);
-          setVoteRecId(data.vote._id);
+          setVotedMap((m) => ({ ...m, [entryId]: true }));
+          setVotesMap((m) => ({ ...m, [entryId]: m[entryId] + 1 }));
+          // also store the new recordId so we can delete it next time
+          setRecordIdMap((m) => ({ ...m, [entryId]: data.vote._id }));
         }
       } else {
-        // remove like
-        await API.delete(`/votes/${voteRecId}`);
-        setVotes((v) => Math.max(v - 1, 0));
-        setHasVoted(false);
-        setVoteRecId(null);
+        // remove existing vote
+        const recordId = recordIdMap[entryId]; // ← grab the right one
+        await API.delete(`/votes/${recordId}`);
+        setVotedMap((m) => ({ ...m, [entryId]: false }));
+        setVotesMap((m) => ({ ...m, [entryId]: Math.max(m[entryId] - 1, 0) }));
+        // clear it out
+        setRecordIdMap((m) => ({ ...m, [entryId]: null }));
       }
     } catch (err) {
       console.error('Vote error:', err);
     } finally {
-      setVoting(false);
+      setVotingMap((m) => ({ ...m, [entryId]: false }));
     }
   };
 
   /* ------------- 3. share (simple clipboard copy) --------- */
-  const share = async () => {
+  const shareEntry = (entryId) => {
+    const url = `${window.location.origin}/entry/${entryId}`;
+    navigator.clipboard
+      .writeText(url)
+      .then(() => alert('Link copied to clipboard 📋'))
+      .catch(() => alert('Could not copy link'));
+  };
+
+  /* ------------- 4. Load more handler --------- */
+  const loadMore = async () => {
+    if (!hasMore) return;
+    setLoading(true);
     try {
-      await navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard 📋');
-    } catch {
-      alert('Could not copy link');
+      // competition lives on feed[0].competition
+      const compId = feed[0].competition;
+      const skip = page * 20;
+      const { data: listRes } = await API.get(
+        `/entries/by-competition/${compId}`,
+        { params: { limit: 20, skip, sort: 'trending' } },
+      );
+      const next = Array.isArray(listRes.data) ? listRes.data : [];
+      // append
+      setFeed((f) => [...f, ...next]);
+      // init vote maps for new items
+      setVotingMap((m) => {
+        const copy = { ...m };
+        next.forEach((e) => {
+          copy[e._1d] = false;
+        });
+        return copy;
+      });
+      setVotedMap((m) => {
+        const copy = { ...m };
+        next.forEach((e) => {
+          copy[e._id] = false;
+        });
+        return copy;
+      });
+      setVotesMap((m) => {
+        const copy = { ...m };
+        next.forEach((e) => {
+          copy[e._id] = e.votes || 0;
+        });
+        return copy;
+      });
+      setPage((p) => p + 1);
+      setHasMore(next.length === 20);
+    } catch (err) {
+      console.error('Load more failed:', err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -100,35 +182,58 @@ export default function EntryPage() {
 
   return (
     <main className={styles.main}>
-      {/* ── 1. username ── */}
-      <h3 className={styles.title}>
-        {entry?.participant?.userName ?? 'Ukendt deltager'}
-      </h3>
+      {feed.map((entryDoc) => (
+        <section key={entryDoc._id} className={styles.entryWrapper}>
+          {/* ── 1. username & avatar ── */}
+          <div className={styles.header}>
+            <img
+              src={entryDoc.participant?.avatarUrl || DEFAULT_AVATAR}
+              alt={entryDoc.participant?.userName || 'Deltager'}
+              className={styles.avatar}
+            />
+            <span className={styles.title}>
+              {entryDoc.participant?.userName ?? 'Ukendt deltager'}
+            </span>
+          </div>
 
-      {/* ── 2. image ── */}
-      <img
-        className={styles.image}
-        src={entry.imageUrl || PLACEHOLDER_IMG}
-        alt="Entry"
-      />
+          {/* ── 2. image ── */}
+          <img
+            className={styles.image}
+            src={entryDoc.imageUrl ?? PLACEHOLDER_IMG}
+            alt="Entry"
+          />
 
-      {/* ── 3. vote count + buttons ── */}
-      <div className={styles.actions}>
-        <button
-          onClick={toggleVote}
-          disabled={authLoading || voting}
-          className={`${styles.voteBtn} ${hasVoted ? styles.voted : ''}`}
-        >
-          {hasVoted ? <FaHeart /> : <FaRegHeart />} {votes}
+          {/* ── 3. vote count + buttons ── */}
+          <div className={styles.actions}>
+            <button
+              onClick={() => toggleVote(entryDoc._id)}
+              disabled={authLoading || votingMap[entryDoc._id]}
+              className={`${styles.voteBtn} ${votedMap[entryDoc._id] ? styles.voted : ''}`}
+            >
+              {votedMap[entryDoc._id] ? <FaHeart /> : <FaRegHeart />}{' '}
+              {votesMap[entryDoc._id] ?? 0}
+            </button>
+            <button
+              onClick={() => shareEntry(entryDoc._id)}
+              className={styles.shareBtn}
+            >
+              <FaShareAlt /> Del
+            </button>
+          </div>
+
+          {/* ── 4. description / caption ── */}
+          {entryDoc.caption && (
+            <p className={styles.caption}>{entryDoc.caption}</p>
+          )}
+        </section>
+      ))}
+
+      {/* ── 5. load more ── */}
+      {hasMore && !loading && (
+        <button className={styles.loadMore} onClick={loadMore}>
+          Load more
         </button>
-
-        <button onClick={share} className={styles.shareBtn}>
-          <FaShareAlt /> Del
-        </button>
-      </div>
-
-      {/* ── 4. description / caption ── */}
-      {entry.caption && <p className={styles.caption}>{entry.caption}</p>}
+      )}
     </main>
   );
 }
