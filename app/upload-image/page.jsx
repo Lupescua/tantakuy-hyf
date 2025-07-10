@@ -10,20 +10,47 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { faImage, faImages } from '@fortawesome/free-regular-svg-icons';
 
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import Link from 'next/link';
 import ImageTemplate from '../components/image-container-template/ImageTemplate';
 import Loader from '../components/loader/Loader';
 import API from '@/utils/axios';
+import { useParams } from 'next/navigation';
 
 export default function UploadImage() {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const params = useParams();
+  const competitionId = params.id || null;
+  if (!competitionId || competitionId.length < 10) {
+    alert('Invalid competition ID');
+    return;
+  }
+
   if (loading) {
     return <Loader />;
   }
+const saveEntryToDB = async (imageUrl) => {
+  try {
+    const response = await API.post('/api/entries', {
+      competition: competitionId,
+      imageUrl,
+      caption: '', 
+    });
 
+    if (!response.ok) {
+      throw new Error('Failed to save entry to DB');
+    }
+
+    const data = await response.json();
+    console.log('Entry saved:', data);
+    return data;
+  } catch (err) {
+    console.error('DB Save Error:', err);
+    throw err;
+  }
+};
   const uploadToS3 = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
@@ -46,6 +73,7 @@ export default function UploadImage() {
         const uploadedUrl = await uploadToS3(file);
         setImageUrl(uploadedUrl);
         console.log('Uploaded:', uploadedUrl);
+        await saveEntryToDB(uploadedUrl);
       } catch (err) {
         console.error(err);
         setLoading(false);

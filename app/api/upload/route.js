@@ -2,19 +2,15 @@ import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { v4 as uuidv4 } from 'uuid';
 import mime from 'mime-types';
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
 import s3 from '@/utils/s3Client';
-
+import { getUserFromCookie } from '@/utils/server/auth';
 
 export async function POST(req) {
   try {
-    const token = cookies().get('token')?.value;
-    if (!token) {
+    const user = await getUserFromCookie();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
-    const user = verifyToken(token);
 
     const formData = await req.formData();
     const file = formData.get('image');
@@ -46,7 +42,6 @@ export async function POST(req) {
       Key: key,
       Body: buffer,
       ContentType: file.type,
-      ACL: 'public-read',
     };
 
     await s3.send(new PutObjectCommand(params));
