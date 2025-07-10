@@ -29,7 +29,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
           setEntryCount(response.data.length);
         })
         .catch((err) => {
-          console.error('Failed to fetch etry count:', err);
+          console.error('Failed to fetch entry count:', err);
         });
     }
   }, [open, competitionId]);
@@ -102,7 +102,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
                   </div>
                 </>
               ) : (
-                <p>Competition not found.</p>
+                <p>Konkurrence ikke fundet.</p>
               )}
             </div>
           </div>

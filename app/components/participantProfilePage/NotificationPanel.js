@@ -61,23 +61,23 @@ export default function NotificationsPanel() {
       {(open || !styles.isMobile) && (
         <div className={`${styles.panel} ${open ? styles.show : ''}`}>
           <div className={styles.header}>
-            <h3>Notifications</h3>
+            <h3>Notifikationer</h3>
             {notifications.length > 0 && (
               <button onClick={handleClearAll} className={styles.clearButton}>
-                Clear all
+                Ryd alle
               </button>
             )}
           </div>
 
           {notifications.length === 0 ? (
-            <p className={styles.empty}>No notifications</p>
+            <p className={styles.empty}>Ingen notifikationer</p>
           ) : (
             notifications.map((n) => (
               <div key={n.id} className={styles.notification}>
                 <div className={styles.dot}></div>
                 <p>
                   <strong>{n.actor.userName}</strong>{' '}
-                  {n.type === 'like' ? 'liked' : 'shared'} your entry
+                  {n.type === 'like' ? 'syntes godt om' : 'delte'} dit bidrag
                 </p>
                 <Link
                   href={`/entry/${n.entry.id}`}

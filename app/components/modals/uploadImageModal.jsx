@@ -136,6 +136,7 @@ export default function UploadImageModal({
             </div>
           </div>
 
+<<<<<<< HEAD
           {showGallery && (
             <div className={styles.lastestUploadedPics}>
               {gallery.length > 0 ? (
@@ -157,6 +158,27 @@ export default function UploadImageModal({
               )}
             </div>
           )}
+=======
+          <div className={styles.lastestUploadedPics}>
+            {userImages.length > 0 ? (
+              userImages.map((entry, index) => (
+                <div
+                  key={index}
+                  className={styles.imageHoler}
+                  style={{
+                    backgroundImage: `url(${entry.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    cursor: 'pointer', // show pointer to hint clickable
+                  }}
+                  onClick={() => handleSelectImage(entry.imageUrl)} // click handler here
+                />
+              ))
+            ) : (
+              <p>Ingen billeder fundet</p>
+            )}
+          </div>
+>>>>>>> e3d931f (Translated from english to danish all pages part 2)
         </div>
       </div>
     </div>

@@ -38,7 +38,7 @@ export default function OrganizationForm() {
   return (
     <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
       <div className={styles.formItemOrg}>
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">Navn</label>
         <input
           type="text"
           id="name"
@@ -50,7 +50,7 @@ export default function OrganizationForm() {
       </div>
 
       <div className={styles.formItemOrg}>
-        <label htmlFor="position">Position</label>
+        <label htmlFor="position">Stilling</label>
         <input
           type="text"
           id="position"
@@ -62,7 +62,7 @@ export default function OrganizationForm() {
       </div>
 
       <div className={styles.formItemOrg}>
-        <label htmlFor="organizationName">Organization Name</label>
+        <label htmlFor="organizationName">Organisationsnavn</label>
         <input
           type="text"
           id="organizationName"
@@ -74,7 +74,7 @@ export default function OrganizationForm() {
       </div>
 
       <div className={styles.formItemOrg}>
-        <label htmlFor="workNumber">Work Number</label>
+        <label htmlFor="workNumber">Arbejdsnummer</label>
         <input
           type="text"
           id="workNumber"
@@ -86,7 +86,7 @@ export default function OrganizationForm() {
       </div>
 
       <div className={styles.formItemOrg}>
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">E-mail</label>
         <input
           type="email"
           id="email"
@@ -98,6 +98,7 @@ export default function OrganizationForm() {
       </div>
 
       <div className={styles.formItemOrg}>
+<<<<<<< HEAD
         <label htmlFor="password">Password</label>
         <div className={styles.passwordWrapper}>
           <input
@@ -145,6 +146,29 @@ export default function OrganizationForm() {
             />
           )}
         </div>
+=======
+        <label htmlFor="password">Adgangskode</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        />
+      </div>
+
+      <div className={styles.formItemOrg}>
+        <label htmlFor="confirmPassword">Bekræft adgangskode</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
+        />
+>>>>>>> e3d931f (Translated from english to danish all pages part 2)
       </div>
 
       <div className={styles.formItemOrg}>
@@ -155,15 +179,15 @@ export default function OrganizationForm() {
           onChange={handleChange}
           required
         />
-        <label> I accept the terms and conditions</label>
+        <label> Jeg accepterer vilkår og betingelser</label>
 
         <p className="hero-subtitle">
-          You agree to our Terms of Service and Privacy Policy.
+          Du accepterer vores Vilkår for brug og Privatlivspolitik.
         </p>
       </div>
 
       <button className={styles.buttonBlack} type="submit">
-        Registration
+        Opret organisation
       </button>
     </form>
   );

@@ -41,7 +41,7 @@ export default function RegistrationForm() {
 
     //check for password matching
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Adgangskoderne matcher ikke.');
       return;
     }
 
@@ -61,7 +61,7 @@ export default function RegistrationForm() {
     } catch (error) {
       const message =
         error.response?.data?.message ||
-        'Failed to register. Please try again.';
+        'Kunne ikke oprette bruger. Prøv venligst igen.';
       setError(message);
       console.error('Registration error:', error);
     } finally {
@@ -115,7 +115,7 @@ export default function RegistrationForm() {
           style={{ maxWidth: '400px', margin: 'auto' }}
         >
           <div className={styles.formItem}>
-            <label htmlFor="userName">Username</label>
+            <label htmlFor="userName">Brugernavn</label>
             <br />
             <input
               type="text"
@@ -128,7 +128,7 @@ export default function RegistrationForm() {
           </div>
 
           <div className={styles.formItem}>
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">E-mail</label>
             <br />
             <input
               type="email"
@@ -141,6 +141,7 @@ export default function RegistrationForm() {
           </div>
 
           <div className={styles.formItem}>
+<<<<<<< HEAD
             <label htmlFor="password">Password</label>
             <div className={styles.passwordWrapper}>
               <input
@@ -163,9 +164,22 @@ export default function RegistrationForm() {
                 />
               )}
             </div>
+=======
+            <label htmlFor="password">Adgangskode</label>
+            <br />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+>>>>>>> e3d931f (Translated from english to danish all pages part 2)
           </div>
 
           <div className={styles.formItem}>
+<<<<<<< HEAD
             <label htmlFor="confirmPassword">Confirm Password</label>
             <div className={styles.passwordWrapper}>
               <input
@@ -188,6 +202,18 @@ export default function RegistrationForm() {
                 />
               )}
             </div>
+=======
+            <label htmlFor="confirmPassword">Bekræft adgangskode</label>
+            <br />
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+>>>>>>> e3d931f (Translated from english to danish all pages part 2)
           </div>
 
           <div className={styles.formItem}>
@@ -199,9 +225,9 @@ export default function RegistrationForm() {
               onChange={handleChange}
               required
             />{' '}
-            <label>I accept the terms and conditions</label>
+            <label>Jeg accepterer vilkår og betingelser</label>
             <p className="hero-subtitle">
-              You agree to our{' '}
+              Du accepterer vores{' '}
               <span
                 style={{
                   color: 'blue',
@@ -210,9 +236,9 @@ export default function RegistrationForm() {
                 }}
                 onClick={openModal}
               >
-                Terms and Conditions
+                Vilkår og betingelser
               </span>{' '}
-              and{' '}
+              og{' '}
               <span
                 style={{
                   color: 'blue',
@@ -221,7 +247,7 @@ export default function RegistrationForm() {
                 }}
                 onClick={openPrivacyModal}
               >
-                Privacy Policy
+                Privatlivspolitik
               </span>
               .
             </p>
@@ -236,11 +262,11 @@ export default function RegistrationForm() {
             type="submit"
             disabled={loading}
           >
-            {loading ? 'Registering...' : 'Registration →'}
+            {loading ? 'Opretter...' : 'Opret bruger'}
           </button>
         </form>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <h2 className={styles.termsModalTitle}>Terms and conditions</h2>
+          <h2 className={styles.termsModalTitle}>Vilkår og betingelser</h2>
           {isEditing ? (
             <>
               <textarea
@@ -252,9 +278,9 @@ export default function RegistrationForm() {
                 style={{ width: '100%' }}
               />
               <div style={{ marginTop: 10 }}>
-                <button onClick={saveTerms}>Save</button>
+                <button onClick={saveTerms}>Gem</button>
                 <button onClick={closeModal} style={{ marginLeft: 10 }}>
-                  Cancel
+                  Annuller
                 </button>
               </div>
             </>
@@ -262,28 +288,28 @@ export default function RegistrationForm() {
             <p>{terms}</p>
           )}
         </Modal>
+        <Modal isOpen={isPrivacyOpen} onClose={closePrivacyModal}>
+          <h2>Privatlivspolitik</h2>
+          {isPrivacyEditing ? (
+            <>
+              <textarea
+                value={tempPrivacy}
+                onChange={(e) => setTempPrivacy(e.target.value)}
+                rows={10}
+                style={{ width: '100%' }}
+              />
+              <div style={{ marginTop: 10 }}>
+                <button onClick={savePrivacy}>Gem</button>
+                <button onClick={closePrivacyModal} style={{ marginLeft: 10 }}>
+                  Annuller
+                </button>
+              </div>
+            </>
+          ) : (
+            <p>{privacy}</p>
+          )}
+        </Modal>
       </>
-      <Modal isOpen={isPrivacyOpen} onClose={closePrivacyModal}>
-        <h2>Privacy Policy</h2>
-        {isPrivacyEditing ? (
-          <>
-            <textarea
-              value={tempPrivacy}
-              onChange={(e) => setTempPrivacy(e.target.value)}
-              rows={10}
-              style={{ width: '100%' }}
-            />
-            <div style={{ marginTop: 10 }}>
-              <button onClick={savePrivacy}>Save</button>
-              <button onClick={closePrivacyModal} style={{ marginLeft: 10 }}>
-                Cancel
-              </button>
-            </div>
-          </>
-        ) : (
-          <p>{privacy}</p>
-        )}
-      </Modal>
     </>
   );
 }
