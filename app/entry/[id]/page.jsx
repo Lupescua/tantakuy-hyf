@@ -127,6 +127,7 @@ export default function EntryPage() {
   /* ------------- 3. share (increment shares + copy link) --- */
   const shareEntry = async (entryId) => {
     const url = `${window.location.origin}/entry/${entryId}`;
+<<<<<<< HEAD
     try {
       // 1) Tell the server: increment `shares` on that entry
       await API.patch(`/entries/${entryId}`);
@@ -144,6 +145,12 @@ export default function EntryPage() {
         alert('Could not copy link');
       }
     }
+=======
+    navigator.clipboard
+      .writeText(url)
+      .then(() => alert('Link kopieret til udklipsholder 📋'))
+      .catch(() => alert('Kunne ikke kopiere link'));
+>>>>>>> adaf37e (Translated from english to danish all pages part 1)
   };
 
   /* ------------- 4. Load more handler --------- */
@@ -215,7 +222,7 @@ export default function EntryPage() {
           <img
             className={styles.image}
             src={entryDoc.imageUrl ?? PLACEHOLDER_IMG}
-            alt="Entry"
+            alt="Bidrag"
           />
 
           {/* ── 3. vote count + buttons ── */}
@@ -225,7 +232,7 @@ export default function EntryPage() {
               disabled={authLoading || votingMap[entryDoc._id]}
               className={`${styles.voteBtn} ${votedMap[entryDoc._id] ? styles.voted : ''}`}
             >
-              {votedMap[entryDoc._id] ? <FaHeart /> : <FaRegHeart />}{' '}
+              {votedMap[entryDoc._id] ? <FaHeart /> : <FaRegHeart />} {' '}
               {votesMap[entryDoc._id] ?? 0}
             </button>
             <button
@@ -246,7 +253,7 @@ export default function EntryPage() {
       {/* ── 5. load more ── */}
       {hasMore && !loading && (
         <button className={styles.loadMore} onClick={loadMore}>
-          Load more
+          Indlæs flere
         </button>
       )}
     </main>

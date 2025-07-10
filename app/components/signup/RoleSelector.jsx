@@ -33,7 +33,7 @@ export default function RoleSelector({ onSend }) {
             {' '}
             <FontAwesomeIcon icon={faAngleLeft} />
           </span>
-          Back
+          Tilbage
         </button>
       )}
       {!selectedRole && (
@@ -42,30 +42,26 @@ export default function RoleSelector({ onSend }) {
             className={styles.itemContainer}
             onClick={() => handleUserChoise('user')}
           >
-            <p className={styles.signUpItems}>USER</p>
+            <p className={styles.signUpItems}>BRUGER</p>
             <p className={styles.signUpItemsDescription}>
-              Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in
-              magna lacus.
+             
             </p>
           </div>
           <div
             className={styles.itemContainer}
             onClick={() => handleUserChoise('company')}
           >
-            <p className={styles.signUpItems}>COMPANY</p>
+            <p className={styles.signUpItems}>VIRKSOMHED</p>
             <p className={styles.signUpItemsDescription}>
-              Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in
-              magna lacus.
+       
             </p>
           </div>
           <div
             className={styles.itemContainer}
             onClick={() => handleUserChoise('organization')}
           >
-            <p className={styles.signUpItems}>ORGANIZATION</p>
+            <p className={styles.signUpItems}>ORGANISATION</p>
             <p className={styles.signUpItemsDescription}>
-              Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in
-              magna lacus.
             </p>
           </div>
         </div>

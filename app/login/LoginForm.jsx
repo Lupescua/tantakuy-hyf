@@ -68,10 +68,9 @@ function LoginForm() {
     <>
       <div className={styles.loginPage}>
         <div className={styles.loginHeader}>
-          <h1>Log in</h1>
+          <h1>Log ind</h1>
           <p>
-            Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
-            lacus.
+            Velkommen tilbage! Log ind for at fortsætte.
           </p>
         </div>
 
@@ -80,7 +79,7 @@ function LoginForm() {
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formFields}>
               <label htmlFor="email" className={styles.formLabel}>
-                Email
+                E-mail
               </label>
               <input
                 type="email"
@@ -93,7 +92,7 @@ function LoginForm() {
               />
 
               <label htmlFor="password" className={styles.formLabel}>
-                Password
+                Adgangskode
               </label>
               <div className={styles.passwordWrapper}>
                 <input
@@ -105,6 +104,7 @@ function LoginForm() {
                   required
                   className={styles.formInput}
                 />
+<<<<<<< HEAD
                 {showPassword ? (
                   <AiOutlineEye
                     onClick={togglePasswordVisibility}
@@ -116,6 +116,14 @@ function LoginForm() {
                     className={styles.passwordToggleIcon}
                   />
                 )}
+=======
+                <img
+                  src="/eye.png"
+                  alt="Skift adgangskode synlighed"
+                  className={styles.passwordToggleIcon}
+                  onClick={togglePasswordVisibility}
+                />
+>>>>>>> adaf37e (Translated from english to danish all pages part 1)
               </div>
 
               <div className={styles.formOptions}>
@@ -129,27 +137,27 @@ function LoginForm() {
                     className={styles.rememberMecheckbox}
                   />
                   <label htmlFor="remember-me" className={styles.formLabel}>
-                    Remember me
+                    Husk mig
                   </label>
                 </div>
                 <Link
                   href="/forgot-password"
                   className={styles.forgotPasswordLink}
                 >
-                  Forgot password?
+                  Glemt adgangskode?
                 </Link>
               </div>
             </div>
 
             <div className={styles.formButton}>
               <button type="submit" className={styles.button}>
-                Log in
-                <img src="/Arrow icon.png" alt="arrow icon" />
+                Log ind
+                <img src="/Arrow icon.png" alt="pil ikon" />
               </button>
               <p>
-                Don’t have an account?{' '}
+                Har du ikke en konto?{' '}
                 <Link href="/signup" className={styles.signUpLink}>
-                  Sign up
+                  Opret bruger
                 </Link>
               </p>
             </div>

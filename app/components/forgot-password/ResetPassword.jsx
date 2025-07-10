@@ -46,7 +46,7 @@ export default function ResetPasswordForm() {
     e.preventDefault();
 
     if (newPassword !== confirmPassword) {
-      alert('Passwords do not match');
+      alert('Adgangskoderne matcher ikke');
       return;
     }
 
@@ -64,23 +64,23 @@ export default function ResetPasswordForm() {
       }
 
       alert(
-        'Password reset successful! You can now log in with your new password.',
+        'Adgangskode nulstillet! Du kan nu logge ind med din nye adgangskode.'
       );
       router.push('/login');
     } catch (error) {
       console.error('Reset error:', error);
-      alert('Failed to reset password. Please try again.');
+      alert('Kunne ikke nulstille adgangskode. Prøv venligst igen.');
     }
   };
 
   return (
     <div className={styles.formContainer}>
       <h1 className={styles.title}>
-        Email verified, please reset your password
+        E-mail bekræftet, nulstil venligst din adgangskode
       </h1>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Email</label>
+          <label className={styles.label}>E-mail</label>
           <input
             type="email"
             className={styles.input}
@@ -91,7 +91,7 @@ export default function ResetPasswordForm() {
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>New Password</label>
+          <label className={styles.label}>Ny adgangskode</label>
           <input
             type="password"
             className={styles.input}
@@ -102,7 +102,7 @@ export default function ResetPasswordForm() {
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Confirm Password</label>
+          <label className={styles.label}>Bekræft adgangskode</label>
           <input
             type="password"
             className={styles.input}
@@ -120,12 +120,12 @@ export default function ResetPasswordForm() {
               onChange={() => setRememberMe(!rememberMe)}
               style={{ marginRight: '8px' }}
             />
-            Remember me
+            Husk mig
           </label>
         </div>
 
         <button type="submit" className={styles.submitButton}>
-          Reset Password →
+          Nulstil adgangskode →
         </button>
       </form>
     </div>

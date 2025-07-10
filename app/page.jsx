@@ -21,6 +21,15 @@ export default async function Page() {
       // invalid or expired token → render public home
     }
   }
+<<<<<<< HEAD
+=======
+  return (
+    <>
+      <main className="home">
+        <header className="header">
+          <h1 className="logo">FORSIDE</h1>
+        </header>
+>>>>>>> adaf37e (Translated from english to danish all pages part 1)
 
   // No valid company token → render the client component
   return <HomeClient />;

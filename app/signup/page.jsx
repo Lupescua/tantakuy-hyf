@@ -14,16 +14,15 @@ export default function SignupPage() {
     <>
       <main className={styles.container}>
         <div className={styles.wrapper}>
-          <h1 className={styles.title}>Get started</h1>
+          <h1 className={styles.title}>Kom i gang</h1>
           <p className={styles.subtitle}>
-            Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
-            lacus.
+            Opret en konto for at deltage i konkurrencer og udfordringer.
           </p>
 
           <div className={styles.card}>
             <RoleSelector onSend={handleButtonVibility} />
           </div>
-          {buttonSignup && <button className={styles.button}>Sign up →</button>}
+          {buttonSignup && <button className={styles.button}>Opret bruger →</button>}
         </div>
       </main>
     </>
