@@ -11,7 +11,7 @@ export default function CompetitionItem({
   imageUrl,
 }) {
   return (
-    <Link href={`/competition/${id}`} className={styles.competitionItem}>
+    <Link href={`/competitions/${id}`} className={styles.competitionItem}>
       <div className={styles.infoLeft}>
         <div className={styles.header}>
           <h4 className={styles.title}>{title}</h4>
