@@ -44,7 +44,7 @@ export default function RoleSelector({ onSend }) {
           >
             <p className={styles.signUpItems}>USER</p>
             <p className={styles.signUpItemsDescription}>
-              // TODO: Replace with Danish translation
+              {/* Danish text */}
             </p>
           </div>
           <div
@@ -53,7 +53,7 @@ export default function RoleSelector({ onSend }) {
           >
             <p className={styles.signUpItems}>COMPANY</p>
             <p className={styles.signUpItemsDescription}>
-              // TODO: Replace with Danish translation
+              {/* Danish text */}
             </p>
           </div>
           <div
@@ -62,7 +62,7 @@ export default function RoleSelector({ onSend }) {
           >
             <p className={styles.signUpItems}>ORGANIZATION</p>
             <p className={styles.signUpItemsDescription}>
-              // TODO: Replace with Danish translation
+              {/* Danish text */}
             </p>
           </div>
         </div>

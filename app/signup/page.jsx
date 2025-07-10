@@ -17,8 +17,7 @@ export default function SignupPage() {
           <h1 className={styles.title}>Get started</h1>
           {/* TODO: Replace with Danish translation */}
           <p className={styles.subtitle}>
-            Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
-            lacus.
+            {/* TODO: Replace with Danish translation */}
           </p>
 
           <div className={styles.card}>
