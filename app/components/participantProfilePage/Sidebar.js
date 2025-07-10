@@ -3,12 +3,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.css';
 
-export default function UserProfileSidebar() {
+export default function UserProfileSidebar({ participantId }) {
   const pathname = usePathname();
-
-  // Extract id from pathname by splitting
-  const parts = pathname.split('/');
-  const participantId = parts[2] || '';
 
   // To check active item, see if pathname ends with each section
   const isProfileActive = pathname.endsWith('/profile');
