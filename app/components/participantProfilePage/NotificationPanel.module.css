@@ -46,7 +46,7 @@
 }
 
 .panel {
-  width: 300px;
+  max-width: 300px;
   padding: 1rem;
   border: 1px solid #ddd;
   background-color: #fafafa;
