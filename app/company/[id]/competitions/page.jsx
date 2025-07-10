@@ -32,9 +32,12 @@ export default function CompanyCompetitionsPage() {
 
     const fetchCompetitions = async () => {
       try {
-        const res = await API.get(
-          `/competitions/by-company?companyId=${companyId}`,
-        );
+        const res = await API.get('/competitions', {
+          params: {
+            companyId: companyId,
+            sort: 'date', // optional, or 'popularity' if needed
+          },
+        });
         if (res.data.success) {
           setCompetitions(res.data.data);
         }

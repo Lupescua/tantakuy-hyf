@@ -1,10 +1,15 @@
 .competitionItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   border: 1px solid none;
   border-radius: 8px;
   padding: 1.2rem;
   transition: box-shadow 0.2s ease;
   margin-bottom: 1.5rem;
   background-color: #f8f9fa;
+  text-decoration: none;
+  color: inherit;
 }
 
 .competitionItem:hover {
@@ -12,24 +17,94 @@
 }
 
 .organizer {
-  color: #666;
-  margin: 0 0 0.8rem;
+  color: #000000;
+  margin: 0 0 0.8rem 0;
   font-size: 0.9rem;
+}
+
+.competitionItem h4 {
+  margin: 0 0 0.5rem 0;
+  font-weight: 600;
 }
 
 .stats {
   display: flex;
-  gap: 1.2rem;
+  gap: 0.5rem;
+  align-items: center;
 }
 
 .statItem {
   display: flex;
   align-items: center;
-  gap: 0.3rem;
-  color: #666;
+  color: #000000;
   font-size: 0.9rem;
+  padding: 6px 10px;
+  border-radius: 10px;
+  white-space: nowrap;
 }
 
-.icon {
-  font-size: 0.9rem;
+.like,
+.share,
+.save {
+  background-color: #d9d9d9;
+}
+
+.userImage {
+  width: 93px;
+  height: 57px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-top: 1rem;
+}
+
+.infoLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 70%;
+}
+.header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+}
+
+.title {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  line-height: 1;
+  display: inline;
+}
+
+.separator,
+.organizer {
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .competitionItem {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .separator {
+    display: none;
+  }
+  .stats {
+    margin-top: 1rem;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+
+  .userImage {
+    width: 100%;
+    height: auto;
+    margin-top: 1rem;
+  }
 }

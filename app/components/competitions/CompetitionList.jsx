@@ -9,9 +9,7 @@ import styles from './CompetitionList.module.css';
 /* ------------------------------------------------------------------ *
 |  <CompetitionList />                                                |
 |  – If parent passes a `competitions` prop, we render that data.     |
-|  – Otherwise we fetch /api/competitions ourselves.                  |
-|  – For every competition that has a `company` field we fire         |
-|    /api/companies/get-company-name?companyId=… (once per ID).       |
+|  – Otherwise we fetch /api/competitions ourselves.                  |     |
 * ------------------------------------------------------------------ */
 
 export default function CompetitionList({ competitions: propData }) {
@@ -35,37 +33,7 @@ export default function CompetitionList({ competitions: propData }) {
     })();
   }, [propData]);
 
-  /* ---------- 2. company-name map -------------------------------- */
-  const [companyNames, setCompanyNames] = useState({});
-  const hasFetchedNames = useRef(false);
-
-  useEffect(() => {
-    if (!competitions.length || hasFetchedNames.current) return;
-    hasFetchedNames.current = true;
-    (async () => {
-      try {
-        const ids = [
-          ...new Set(competitions.map((c) => c.company).filter(Boolean)),
-        ];
-
-        const results = await Promise.all(
-          ids.map(async (id) => {
-            const { data } = await API.get('/companies/get-company-name', {
-              params: { companyId: id },
-            });
-            return { id, name: data?.success ? data.name : 'Unknown company' };
-          }),
-        );
-
-        const map = Object.fromEntries(results.map((r) => [r.id, r.name]));
-        setCompanyNames(map);
-      } catch (e) {
-        console.error('Failed to fetch company names:', e);
-      }
-    })();
-  }, [competitions]);
-
-  /* ---------- 3. UI ---------------------------------------------- */
+  /* ---------- 2. UI ---------------------------------------------- */
   if (loadingComps) return <Loader />;
   if (error) return <p className={styles.error}>{error}</p>;
   if (!competitions.length) return <p>No competitions found.</p>;
@@ -77,7 +45,7 @@ export default function CompetitionList({ competitions: propData }) {
           {/* company name (if present) – optional heading */}
           {c.company && (
             <p className={styles.companyName}>
-              {companyNames[c.company] ?? '…'}
+              {c.company.companyName ?? 'Ukendt firma'}
             </p>
           )}
 

@@ -64,21 +64,22 @@ export default function CompetitionCard({
 
   return (
     <div className={styles.card}>
-      {/* clicking the header navigates to the gallery page */}
-      <Link href={`/competition/${_id}`} className={styles.header}>
-        <div className={styles.logoWrapper}>
-          <img
-            src={logo || PLACEHOLDER_IMG}
-            alt={`${title} logo`}
-            className={styles.logo}
-          />
-        </div>
-        <h2 className={styles.title}>{title}</h2>
-      </Link>
+      <div className={styles.cardTop}>
+        {/* clicking the header navigates to the gallery page */}
+        <Link href={`/competitions/${_id}`} className={styles.header}>
+          <div className={styles.logoWrapper}>
+            <img
+              src={logo || PLACEHOLDER_IMG}
+              alt={`${title} logo`}
+              className={styles.logo}
+            />
+          </div>
+          <h2 className={styles.title}>{title}</h2>
+        </Link>
 
-      {/* “Om”-modal trigger */}
-      <CompetitionDetailsModal competitionId={_id} />
-
+        {/* “Om”-modal trigger */}
+        <CompetitionDetailsModal competitionId={_id} />
+      </div>
       {/* six EntryCards — placeholders have id === null */}
       <div className={styles.grid}>
         {slots.map(({ id, src }, idx) => (

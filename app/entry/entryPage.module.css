@@ -1,3 +1,9 @@
+/* container for each entry in the feed */
+.entryWrapper {
+  margin-bottom: 2.5rem;
+}
+
+/* main page wrapper */
 .main {
   padding: 2rem;
   max-width: 800px;
@@ -5,11 +11,29 @@
   text-align: center;
 }
 
-.title {
+/* header: avatar + username */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   margin-bottom: 1rem;
-  font-size: 2rem;
 }
 
+/* avatar image */
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* username/title */
+.title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+/* entry image */
 .image {
   width: 100%;
   max-height: 500px;
@@ -18,12 +42,15 @@
   margin-bottom: 1rem;
 }
 
+/* actions row: vote + share */
 .actions {
   display: flex;
   justify-content: center;
   gap: 1rem;
+  margin-bottom: 1rem;
 }
 
+/* vote & share buttons */
 .voteBtn,
 .shareBtn {
   display: flex;
@@ -31,11 +58,13 @@
   gap: 0.4rem;
   border: none;
   cursor: pointer;
-  padding: 0.6rem 1.2rem;
+  padding: 0.5rem 1rem;
   border-radius: 30px;
-  font-size: 1rem;
+  font-size: 0.95rem;
+  transition: background 0.2s;
 }
 
+/* vote button default & “voted” state */
 .voteBtn {
   background: #000;
   color: #fff;
@@ -44,7 +73,46 @@
   background: #d62828;
 }
 
+/* share button */
 .shareBtn {
   background: #868483;
-  color: white;
+  color: #fff;
+}
+
+/* caption / description */
+.caption {
+  font-size: 1rem;
+  line-height: 1.4;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+/* “Load more” button */
+.loadMore {
+  display: block;
+  margin: 1.5rem auto;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  background: #0055ff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.loadMore:hover {
+  opacity: 0.9;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .voteBtn,
+  .shareBtn {
+    width: 100%;
+    justify-content: center;
+  }
 }

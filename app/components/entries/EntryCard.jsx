@@ -113,7 +113,10 @@ export default function EntryCard({
 
       {entryId ? (
         /* real entry → click goes to its own page */
-        <Link href={`/entry/${entryId ?? ''}`} className={styles.imageContainer}>
+        <Link
+          href={`/entry/${entryId ?? ''}`}
+          className={styles.imageContainer}
+        >
           <img src={image} alt="Entry image" className={styles.image} />
         </Link>
       ) : (
