@@ -1,3 +1,6 @@
+// force this page to be server-rendered on every request
+export const dynamic = 'force-dynamic';
+
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { verifyToken } from '@/utils/jwt';
