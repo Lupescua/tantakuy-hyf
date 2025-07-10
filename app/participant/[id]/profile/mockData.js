@@ -2,7 +2,7 @@ export const mockUser = {
   firstName: 'Peter',
   lastName: 'Plys',
   region: 'Midtjylland',
-  about: `// TODO: Replace with Danish translation`,
+  about: ``,
 };
 
 export const mockCompetitions = [
