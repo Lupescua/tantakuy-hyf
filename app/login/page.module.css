@@ -1,32 +1,34 @@
 .loginPage {
-  min-height: 100vh;
-  width: 90%;           
-  max-width: 1200px;        
-  padding: 44px 20px 20px 20px;
-  background-color: rgb(244, 244, 244);
+  height: 100vh;
+  width: 100%;
+  max-width: 700px;
   margin: 0 auto;
+  padding: 96px 30px 30px;
+  background-color: min-rgb(244, 244, 244);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  font-family: 'Inter', sans-serif;
 }
 
 .loginHeader {
-  margin-bottom: 40px;
-  padding: 0 16px;
-}
-
-.loginHeader > h1 {
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 42px;
-  line-height: 1.2;
-  color: #000000;
+  padding-top: 50px;
   margin-bottom: 30px;
 }
 
-.loginHeader > p {
+.loginHeader h1 {
+  font-size: 42px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0;
+  color: #000000;
+  font-family: 'Inter', sans-serif;
+}
+
+.loginHeader p {
   font-size: 16px;
   color: #00000066;
+  margin: 0;
 }
 
 .loginFormWrapper {
@@ -49,17 +51,18 @@
 }
 
 .email {
-  width: 95%;
+  width: 100%;
   height: 52px;
   border-radius: 10px;
   background-color: #f8f9fa;
   border: none;
   margin-bottom: 15px;
+  padding: 0 10px;
 }
 
 .passwordWrapper {
   position: relative;
-  width: 95%;
+  width: 100%;
   margin-bottom: 15px;
 }
 
@@ -69,6 +72,7 @@
   border-radius: 10px;
   background-color: #f8f9fa;
   border: none;
+  padding: 0 10px;
   padding-right: 40px;
 }
 
@@ -84,7 +88,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 95%;
+  width: 100%;
 }
 
 .rememberMe {
@@ -93,45 +97,21 @@
   gap: 10px;
 }
 
-.rememberMecheckbox {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 1px solid #00000033;
-}
-
 .rememberMe > label {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
   font-size: 16px;
   color: #000000;
 }
 
 .forgotPasswordLink {
-  font-family: 'Inter', sans-serif;
-  font-weight: 400;
   font-size: 16px;
   color: #0e152566;
   text-decoration: none;
 }
+
 .errorText {
   color: red;
   font-size: 14px;
   margin-bottom: 1rem;
-}
-
-.formLabel {
-  font-size: 16px;
-  font-weight: bold;
-  display: block;
-  padding: 15px 0;
-}
-
-.formInput {
-  font-size: 20px;
-  display: block;
-  color: black;
-  padding: 0 10px;
 }
 
 .formButton {
@@ -141,31 +121,35 @@
   width: 100%;
 }
 
+.formButton > p {
+  font-size: 16px;
+  color: #0e152566;
+}
+
 .button {
-  width: 70%;
+  width: 40%;
   height: 54px;
   padding: 16px 32px;
   border-radius: 10px;
   color: white;
   background: #0e1525;
   font-family: 'Inter', sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 25px;
+  border: none;
+  cursor: pointer;
 }
 
-.formButton > p {
-  font-family: 'Inter', sans-serif;
-  font-size: 20px;
-  color: #0e152566;
+.button:hover {
+  background-color: #222;
 }
 
 .signUpLink {
   margin-left: 20px;
-  font-family: 'Inter', sans-serif;
-  font-size: 20px;
+  font-size: 16px;
   text-decoration: underline;
   color: #0e1525;
 }

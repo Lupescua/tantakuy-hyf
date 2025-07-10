@@ -67,7 +67,7 @@ function LoginForm() {
     <>
       <div className={styles.loginPage}>
         <div className={styles.loginHeader}>
-          <h1>Log in</h1>
+          <h1> Log in</h1>
           <p>
             Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in magna
             lacus.
