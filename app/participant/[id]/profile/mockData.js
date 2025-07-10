@@ -2,8 +2,7 @@ export const mockUser = {
   firstName: 'Peter',
   lastName: 'Plys',
   region: 'Midtjylland',
-  about: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean commodo ligula eget dolor. 
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+  about: `// TODO: Replace with Danish translation`,
 };
 
 export const mockCompetitions = [

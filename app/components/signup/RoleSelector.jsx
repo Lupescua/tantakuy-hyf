@@ -44,8 +44,7 @@ export default function RoleSelector({ onSend }) {
           >
             <p className={styles.signUpItems}>USER</p>
             <p className={styles.signUpItemsDescription}>
-              Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in
-              magna lacus.
+              // TODO: Replace with Danish translation
             </p>
           </div>
           <div
@@ -54,8 +53,7 @@ export default function RoleSelector({ onSend }) {
           >
             <p className={styles.signUpItems}>COMPANY</p>
             <p className={styles.signUpItemsDescription}>
-              Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in
-              magna lacus.
+              // TODO: Replace with Danish translation
             </p>
           </div>
           <div
@@ -64,8 +62,7 @@ export default function RoleSelector({ onSend }) {
           >
             <p className={styles.signUpItems}>ORGANIZATION</p>
             <p className={styles.signUpItemsDescription}>
-              Lorem ipsum dolor sit amet consectetur. Diam amet sed eget in
-              magna lacus.
+              // TODO: Replace with Danish translation
             </p>
           </div>
         </div>
