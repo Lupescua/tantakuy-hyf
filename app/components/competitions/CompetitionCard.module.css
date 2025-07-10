@@ -4,6 +4,19 @@
   border-radius: 12px;
   background-color: #e0e0e0;
 }
+.cardTop {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header{
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  gap: 1rem;
+}
 
 .logoWrapper {
   display: flex;
@@ -23,6 +36,8 @@
   font-weight: 700;
   font-size: 18px;
 }
+
+
 
 .grid {
   display: grid;

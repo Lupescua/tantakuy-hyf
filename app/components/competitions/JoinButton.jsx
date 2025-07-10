@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import styles from '../../competition/competition.module.css';
+import styles from '../../competitions/competition.module.css';
 import { useAuth } from '@/context/AuthContext';
 import Loader from '../loader/Loader';
 

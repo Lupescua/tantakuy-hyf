@@ -1,25 +1,75 @@
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
-import { getUserFromCookie } from '@/utils/server/auth';
+import Entry from '../models/Entry';
+import { NextResponse } from 'next/server';
 import { verifyToken } from '@/utils/jwt.js';
-import mongoose from 'mongoose';
 
-export async function GET() {
+export async function GET(req) {
   await dbConnect();
+
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get('search')?.toLowerCase();
+  const companyId = searchParams.get('companyId');
+  const sort = searchParams.get('sort') || 'popularity';
+
   try {
-    //there is an issue sometimes where the mongoose connection is too slow that we need a work around
-    const competitions = await Competition.find().sort({ createdAt: -1 });
-    if (competitions) {
-      return Response.json(
-        { data: competitions, success: true },
-        { status: 200 },
+    // Fetch competitions + populate company to allow searching by name
+    let competitions = await Competition.find()
+      .populate('company', 'companyName') // get company name only
+      .sort({ createdAt: -1 }) // temp fallback; re-sort below
+      .lean(); // for easier filtering
+
+    // Filter by company ID
+    if (companyId) {
+      competitions = competitions.filter(
+        (c) => c.company?._id?.toString() === companyId,
       );
     }
+
+    // Filter by search (title or company name)
+    if (search) {
+      competitions = competitions.filter((c) => {
+        const titleMatch = c.title?.toLowerCase().includes(search);
+        const companyMatch = c.company?.companyName
+          ?.toLowerCase()
+          .includes(search);
+        return titleMatch || companyMatch;
+      });
+    }
+
+    // Count votes or entries for popularity (simplified)
+    if (sort === 'popularity') {
+      const compIds = competitions.map((c) => c._id);
+      const counts = await Entry.aggregate([
+        { $match: { competition: { $in: compIds } } },
+        { $group: { _id: '$competition', count: { $sum: 1 } } },
+      ]);
+
+      const countMap = {};
+      counts.forEach((item) => {
+        countMap[item._id.toString()] = item.count;
+      });
+
+      competitions.forEach((c) => {
+        c.entryCount = countMap[c._id.toString()] || 0;
+      });
+
+      competitions.sort((a, b) => b.entryCount - a.entryCount);
+    } else if (sort === 'date') {
+      competitions.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
+      );
+    }
+
+    return NextResponse.json(
+      { data: competitions, success: true },
+      { status: 200 },
+    );
   } catch (error) {
-    console.error('Error fetch competitions:', error);
-    return Response.json(
-      { error: `Failed to fetch competition ${error.messsage}` },
-      { status: 401 },
+    console.error('Error fetching competitions:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch competitions' },
+      { status: 500 },
     );
   }
 }
@@ -32,7 +82,7 @@ export async function POST(req) {
     if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    // verifyToken(req); // temporarily disabled while using a hardcoded company ID.
+    verifyToken(req);
 
     const competitionData = await req.json();
 
