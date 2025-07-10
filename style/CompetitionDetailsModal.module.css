@@ -1,26 +1,38 @@
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; 
+}
+
 .modalContainer {
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: calc(500px - 2rem);
+  width: 500px;
   max-width: 90vw;
-  height: calc(600px - 4rem);
-  z-index: 1;
-  margin: auto;
-  background: white;
+  height: 600px;
   border-radius: 8px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
+  z-index: 1001;
+  padding: 2rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
   border: 1px solid black;
 }
+
+
 .modalCloseBtn {
   width: 23px;
   height: 23px;
-  aspect-ratio: 4/3;
+  aspect-ratio: 1;
   border-radius: 50%;
   border: 2px solid black;
   font-size: 16px;
@@ -29,34 +41,36 @@
   position: absolute;
   top: 10px;
   right: 10px;
+  transition: 0.5s;
+  cursor: pointer;
 }
+
 .modalCloseBtn:hover {
   background: black;
   color: white;
   transform: scale(2);
-  transition: 0.5s;
-  cursor: pointer;
 }
+
 .modalTitle {
   margin-top: 50px;
   font-size: 25px;
 }
+
 .backIn {
   width: 100%;
   text-align: center;
   margin-bottom: 10px;
   font-size: 15px;
 }
+
 .modalIconsContainer {
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
   width: 90%;
   height: 70%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: auto;
+  position: relative;
 }
 
 .modalCheckIcon {
@@ -66,8 +80,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(150px - 1rem);
-  border-radius: 50%; /* Makes it a circle */
+  font-size: 140px;
+  border-radius: 50%;
   box-shadow: 0 0 0 10px green;
   animation: zoomIn 1s forwards;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
