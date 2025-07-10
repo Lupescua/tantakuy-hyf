@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  padding-top: 60px;
+  padding-top: 90px;
   height: 100%;
 }
 .container {
@@ -50,6 +50,8 @@ z-index: 9999;
     position: relative;
   }
   .main {
+    margin-top: 30px;
+
     order: 2;
     min-width: 20%;
     padding: 1rem;
