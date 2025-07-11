@@ -1,17 +1,10 @@
 .container {
   display: flex;
-  padding-top: 60px;
   height: 100%;
 }
-/* .container {
-  /* position: fixed;
-  top: 0;
-  height: 100vh; */
-/* width: 100vw; */
-/* z-index: 9999; might hide navbar/footer */
 
 .sidebar {
-  width: 304px;
+  max-width: 304px;
   padding: 1rem;
   border-right: 1px solid #ddd;
 }
@@ -19,11 +12,10 @@
 .main {
   flex: 1;
   padding: 2rem;
-  min-width: 780px;
+  max-width: 780px;
 }
 
 .notifications {
-  width: 300px;
   padding: 1rem;
   border-left: 1px solid #ddd;
   background-color: #fafafa;
@@ -130,5 +122,18 @@
     height: 10px;
     background-color: orange;
     border-radius: 50%;
+  }
+}
+/* Lock fixed widths for layout columns on large screens to maintain design consistency */
+@media (min-width: 1450px) {
+  .main {
+    width: 780px;
+  }
+
+  .sidebar {
+    width: 304px;
+  }
+  .notifications {
+    width: 300px;
   }
 }
