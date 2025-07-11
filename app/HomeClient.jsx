@@ -57,9 +57,6 @@ export default function HomeClient() {
 
   return (
     <main className="home">
-      <header className="header">
-        <h1 className="logo">HOME</h1>
-      </header>
 
       <section className="hero">
         <h2 className="hero-title">Konkurrencer</h2>
