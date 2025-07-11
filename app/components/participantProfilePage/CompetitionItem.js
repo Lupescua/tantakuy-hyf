@@ -18,6 +18,7 @@ export default function CompetitionItem({
   // Delete this entry
   const handleDelete = async (e) => {
     e.preventDefault(); // don’t follow the link
+    console.log('Deleting entry with id:', id);
     if (!confirm('Er du sikker på, at du vil slette dit indlæg?')) return;
     try {
       await API.delete(`/entries/${id}`);
