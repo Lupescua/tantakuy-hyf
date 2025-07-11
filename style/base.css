@@ -132,6 +132,10 @@ main {
   display: none;
 }
 
+.mobile-search-wrapper {
+  display: none;
+}
+
 @media(max-width: 768px){
 
   
