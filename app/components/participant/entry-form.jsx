@@ -107,7 +107,7 @@ export default function EntryForm({ userId, competitionId }) {
         </Link>
 
         <span className="uploadtitle">Valgte billede</span>
-        <Link className="nextbtn" href={`/`}>
+        <Link className="nextbtn" href={`/competitions/${competitionId}`}>
           Tilbage
         </Link>
       </div>
