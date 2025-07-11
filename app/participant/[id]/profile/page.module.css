@@ -5,7 +5,7 @@
 }
 
 .sidebar {
-  width: 304px;
+  max-width: 304px;
   padding: 1rem;
   border-right: 1px solid #ddd;
 }
@@ -13,16 +13,16 @@
 .main {
   flex: 1;
   padding: 2rem;
-  min-width: 780px;
+  max-width: 780px;
 }
 
 .notifications {
-  width: 300px;
   padding: 1rem;
   border-left: 1px solid #ddd;
   background-color: #fafafa;
   overflow-y: auto;
 }
+
 @media (max-width: 480px) {
   .container {
     padding: 0;
@@ -41,9 +41,9 @@
     height: 80px;
     position: relative;
   }
+
   .main {
     margin-top: 30px;
-
     order: 2;
     min-width: 20%;
     padding: 1rem;
@@ -98,6 +98,7 @@
     display: flex;
     flex-direction: row;
   }
+
   .main {
     order: 2;
     min-width: 20%;
@@ -130,5 +131,20 @@
     height: 10px;
     background-color: orange;
     border-radius: 50%;
+  }
+}
+
+/* Lock fixed widths for layout columns on large screens to maintain design consistency */
+@media (min-width: 1450px) {
+  .main {
+    width: 780px;
+  }
+
+  .sidebar {
+    width: 304px;
+  }
+
+  .notifications {
+    width: 300px;
   }
 }

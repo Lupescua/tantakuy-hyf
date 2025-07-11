@@ -3,6 +3,7 @@ import styles from '../../../style/forms.module.css';
 import Modal from '../terms-conditions/Modal';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export default function OrganizationForm() {
   const router = useRouter();
@@ -19,6 +20,13 @@ export default function OrganizationForm() {
     confirmPassword: '',
     acceptTerms: false,
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -166,28 +174,52 @@ export default function OrganizationForm() {
           </div>
           <div className={styles.formItemCompany}>
             <label htmlFor="password">Password</label>
-            <br />
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+              {showPassword ? (
+                <AiOutlineEye
+                  onClick={togglePasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={togglePasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              )}
+            </div>
           </div>
 
           <div className={styles.formItemCompany}>
             <label htmlFor="confirmPassword">Confirm Password</label>
-            <br />
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
+            <div className={styles.passwordWrapper}>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+              {showConfirmPassword ? (
+                <AiOutlineEye
+                  onClick={toggleConfirmPasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={toggleConfirmPasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              )}
+            </div>
           </div>
           <div className={styles.formItemCompany}>
             <input

@@ -6,6 +6,7 @@ import API from '@/utils/axios';
 import Link from 'next/link';
 import styles from './page.module.css';
 import { useAuth } from '@/context/AuthContext';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 function LoginForm() {
   const router = useRouter();
@@ -104,12 +105,17 @@ function LoginForm() {
                   required
                   className={styles.formInput}
                 />
-                <img
-                  src="/eye.png"
-                  alt="Toggle password visibility"
-                  className={styles.passwordToggleIcon}
-                  onClick={togglePasswordVisibility}
-                />
+                {showPassword ? (
+                  <AiOutlineEye
+                    onClick={togglePasswordVisibility}
+                    className={styles.passwordToggleIcon}
+                  />
+                ) : (
+                  <AiOutlineEyeInvisible
+                    onClick={togglePasswordVisibility}
+                    className={styles.passwordToggleIcon}
+                  />
+                )}
               </div>
 
               <div className={styles.formOptions}>

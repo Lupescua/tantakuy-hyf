@@ -38,7 +38,8 @@ export default function NavbarLoggedIn({ user }) {
     }
   };
 
-  if (pathname.match(/^\/company\/[^/]+\/profile/)) {
+  // Hide navbar on company pages
+  if (pathname.startsWith('/company')) {
     return null;
   }
 
@@ -83,6 +84,5 @@ export default function NavbarLoggedIn({ user }) {
         </div>
       </div>
     </header>
-
   );
 }
