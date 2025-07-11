@@ -3,6 +3,7 @@ import styles from '../../../style/forms.module.css';
 import Modal from '../terms-conditions/Modal';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export default function OrganizationForm() {
   const router = useRouter();
@@ -182,12 +183,17 @@ export default function OrganizationForm() {
                 onChange={handleChange}
                 required
               />
-              <img
-                src="/eye.png"
-                alt="Toggle password visibility"
-                onClick={togglePasswordVisibility}
-                className={styles.passwordToggleIcon}
-              />
+              {showPassword ? (
+                <AiOutlineEye
+                  onClick={togglePasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={togglePasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              )}
             </div>
           </div>
 
@@ -202,12 +208,17 @@ export default function OrganizationForm() {
                 onChange={handleChange}
                 required
               />
-              <img
-                src="/eye.png"
-                alt="Toggle confirm password visibility"
-                onClick={toggleConfirmPasswordVisibility}
-                className={styles.passwordToggleIcon}
-              />
+              {showConfirmPassword ? (
+                <AiOutlineEye
+                  onClick={toggleConfirmPasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={toggleConfirmPasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              )}
             </div>
           </div>
           <div className={styles.formItemCompany}>
