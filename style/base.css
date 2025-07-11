@@ -31,7 +31,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: var(--font-montserrat);
-  background-color: var(--background-color);
+  background-color: white;
   color: var(--text-color);
   justify-content: start;
 }
@@ -88,10 +88,20 @@ main {
   flex-wrap: wrap;
 }
 
+.filters input {
+  height: 58px; 
+  padding: 0 12px; 
+  border: 1px solid hsl(0, 0%, 80%); 
+  font-size: 14px;
+  background-color: white;
+  width: 49%; 
+}
+
 .filters select {
-  padding: 8px;
-  border-radius: var(--radius);
-  border: 1px solid #ccc;
+  width: 23%;
+  height: 58px;
+  background: #F9F9F9;
+  border: 1px solid #E6E6E6
 }
 
 .competition-preview h3 {
@@ -116,4 +126,25 @@ main {
   main {
     width: 100%;
   }
+  
+  
+
+}
+
+@media(max-width: 768px){
+
+  
+.filters {
+  align-items: center;
+  justify-content: space-between;
+  
+}
+
+  .filters input{
+    display:none;
+  }
+
+  .filters select {
+  width: 40%;
+}
 }
