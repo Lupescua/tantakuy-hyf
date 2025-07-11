@@ -155,7 +155,7 @@
   border: 1px solid #ddd;
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  z-index: 100;
+  z-index: 9999; /* Ensures dropdown is above all other elements */
 }
 
 .profile-menu-dropdown a {
