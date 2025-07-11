@@ -128,11 +128,16 @@ export default function CreateCompetitionForm() {
     }
   };
 
+  //the go back button was just decorative :D
+  const goBack = () => {
+    router.push(`/company/${companyId}/competitions`);
+  };
+
   return (
     <div className={styles.layoutWrapper}>
       <div className={styles.pageWrapper}>
         <div className={styles.backButton}>
-          <button>Back</button>
+          <button onClick={goBack}>Back</button>
         </div>
 
         <div className={styles.formContainer}>
