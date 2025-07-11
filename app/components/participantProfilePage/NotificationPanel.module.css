@@ -40,8 +40,6 @@
   display: none;
   align-items: center;
   z-index: 10001;
-}
-.bell {
   filter: drop-shadow(0 0 2px black);
 }
 
@@ -65,13 +63,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-}
-
-.bell {
-  position: relative;
-  font-size: 1.5rem;
-  cursor: pointer;
-  display: none;
 }
 
 .dot {
