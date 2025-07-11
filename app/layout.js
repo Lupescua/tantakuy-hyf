@@ -6,6 +6,7 @@ import Navbar from './components/layouts/Navbar';
 import Footer from './components/layouts/Footer';
 import { getUserFromCookie } from '@/utils/server/auth';
 import { AuthProvider } from '../context/AuthContext';
+import { MobileSearchProvider } from '../context/MobileSearchContext';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -18,9 +19,11 @@ export default async function RootLayout({ children }) {
     <html lang="en" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
         <AuthProvider>
-          <Navbar />
-          {children}
-          <Footer />
+          <MobileSearchProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </MobileSearchProvider>
         </AuthProvider>
       </body>
     </html>

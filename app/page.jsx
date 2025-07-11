@@ -1,14 +1,15 @@
-// force this page to be server-rendered on every request
-export const dynamic = 'force-dynamic';
+'use client';
 
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import { verifyToken } from '@/utils/jwt';
-import HomeClient from './HomeClient';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
+import CompetitionList from '@/app/components/competitions/CompetitionList';
+import Loader from './components/loader/Loader';
+import { useMobileSearch } from '../context/MobileSearchContext';
 
 export default function Home() {
   const router = useRouter();
-
+  const { showMobileSearch } = useMobileSearch();
   const [competitions, setCompetitions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -53,7 +54,6 @@ export default function Home() {
 
   return (
     <main className="home">
-
       <section className="hero">
         <h2 className="hero-title">Konkurrencer</h2>
         <p className="hero-subtitle">
@@ -91,6 +91,18 @@ export default function Home() {
       <section className="competition-preview">
         {loading ? <Loader /> : <CompetitionList competitions={competitions} />}
       </section>
+
+      {showMobileSearch && (
+        <div className="mobile-search-wrapper">
+          <input
+            type="text"
+            placeholder="Søg..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mobile-search-input"
+          />
+        </div>
+      )}
     </main>
   );
 }
