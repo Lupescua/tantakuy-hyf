@@ -1,8 +1,10 @@
 import Link from 'next/link';
 import { FiInstagram, FiHome, FiSearch, FiHeart, FiUser } from 'react-icons/fi';
 import styles from './FooterLoggedIn.module.css';
+import { useMobileSearch } from '../../../../context/MobileSearchContext';
 
 export default function Footer() {
+  const { toggleMobileSearch } = useMobileSearch();
   return (
     <footer className={styles.footer}>
       {/* footer desktop */}
@@ -27,7 +29,7 @@ export default function Footer() {
         <Link href="/" aria-label="Home" className={styles['footer-icon']}>
           <FiHome />
         </Link>
-        <button className={styles['footer-icon']} aria-label="Search">
+        <button className={styles['footer-icon']} aria-label="Search" onClick={toggleMobileSearch}>
           <FiSearch />
         </button>
         <button className={styles['footer-icon']} aria-label="Likes">
