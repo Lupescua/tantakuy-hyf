@@ -108,8 +108,8 @@
   background: #e6efef;
   color: #222;
   border-radius: 50%;
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -179,16 +179,12 @@
 }
 
 /* RESPONSIVE STYLES */
-@media (max-width: 700px) {
+@media (max-width: 768px) {
   .navbar {
     padding: 0;
-    height: 48px;
   }
   .navbar-inner {
     padding: 0 6px;
-  }
-  .logo {
-    font-size: 1rem;
   }
   .center {
     display: none;
@@ -197,13 +193,13 @@
     gap: 8px;
     height: 48px;
   }
-  .idCircle {
-    width: 26px;
-    height: 26px;
-    font-size: 0.9rem;
+
+  .profile-menu-container{
+    display: none;
   }
-  .icon {
-    font-size: 1.1rem;
-    margin-left: 4px;
+
+  .idCircle{
+    display: none;
   }
+  
 }
