@@ -25,6 +25,7 @@ export default function ProfileSection() {
       const fetchData = async () => {
         try {
           const res = await API.get(`/profile/${user.id}`);
+          console.log('PROFILE DATA:', res.data.data);
           const result = res.data;
 
           if (result.success && Array.isArray(result.data)) {
@@ -63,18 +64,21 @@ export default function ProfileSection() {
         <h3>Konkurrencer deltaget i</h3>
         <div className={styles.competitionsList}>
           {competitions.length > 0 ? (
-            competitions.map((item, index) => (
-              <CompetitionItem
-                key={index}
-                id={item.id}
-                title={item.title}
-                organizer={item.organizer}
-                likes={item.likes}
-                shares={item.shares}
-                saved={item.saved}
-                imageUrl={item.imageUrl}
-              />
-            ))
+            competitions.map((item, index) => {
+              console.log('PROFILE ITEM:', item);
+              return (
+                <CompetitionItem
+                  key={index}
+                  id={item.id}
+                  title={item.title}
+                  organizer={item.organizer}
+                  likes={item.likes}
+                  shares={item.shares}
+                  saved={item.saved}
+                  imageUrl={item.imageUrl}
+                />
+              );
+            })
           ) : (
             <p>Ingen konkurrencer fundet.</p>
           )}
