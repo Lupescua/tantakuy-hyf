@@ -1,9 +1,12 @@
 import dbConnect from '@/utils/dbConnects';
 import Entry from '@/app/api/models/Entry';
-import '@/app/api/models/Participant'; // registers schema
+import '@/app/api/models/Participant';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
+import s3 from '@/utils/s3Client';
+import { NextResponse } from 'next/server';
+import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 
 /* helper – pull :id safely from the URL string */
 function extractId(request) {
@@ -41,35 +44,58 @@ export async function GET(request) {
 /* ──────────── DELETE /api/entries/[id] (auth) ─────────── */
 export async function DELETE(request) {
   const id = extractId(request);
-  if (!id) return Response.json({ error: 'Bad id' }, { status: 400 });
+  if (!id) {
+    return NextResponse.json({ error: 'Bad id' }, { status: 400 });
+  }
 
-  // auth
+  // ↳ Auth flow
   const store = await cookies();
   const token = store.get('token')?.value;
-  if (!token) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!token)
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   let userId;
   try {
     userId = verifyToken(token).id;
   } catch {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   await dbConnect();
 
+  const entry = await Entry.findById(id).lean();
+  if (!entry)
+    return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
+  if (entry.participant.toString() !== userId) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+  }
+
   try {
-    const entry = await Entry.findById(id);
-    if (!entry)
-      return Response.json({ error: 'Entry not found' }, { status: 404 });
+    // Only delete from S3 if the URL fits
+    const bucketDomain = `${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
+    if (entry.imageUrl.includes(bucketDomain)) {
+      const key = entry.imageUrl.split(`/${bucketDomain}/`)[1];
+      if (key) {
+        await s3.send(
+          new DeleteObjectCommand({
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key: key,
+          }),
+        );
+      }
+    }
 
-    if (entry.participant.toString() !== userId)
-      return Response.json({ error: 'Forbidden' }, { status: 403 });
-
+    // delete the Mongo record
     await Entry.deleteOne({ _id: id });
-    return Response.json(null, { status: 204 });
+
+    // Return a clean 204 No Content
+    return new NextResponse(null, { status: 204 });
   } catch (err) {
     console.error('Error deleting entry:', err);
-    return Response.json({ error: 'Failed to delete entry' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Failed to delete entry' },
+      { status: 500 },
+    );
   }
 }
 
