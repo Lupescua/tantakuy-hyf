@@ -97,13 +97,24 @@ export default function EntryCard({
     }
   };
 
-  /* share → copy URL */
+  /* share → copy URL and increments the stats about sharing */
   const share = async () => {
     try {
+      // 1) Increment the server-side shares counter
+      await API.patch(`/entries/${entryId}`);
+
+      // 2) Copy the link to clipboard
       await navigator.clipboard.writeText(window.location.href);
       alert('Link kopieret 📋');
-    } catch {
-      /* no-op */
+    } catch (err) {
+      console.error('Share failed:', err);
+      // Still try to copy even if the PATCH fails
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link kopieret 📋');
+      } catch {
+        /* no-op */
+      }
     }
   };
 

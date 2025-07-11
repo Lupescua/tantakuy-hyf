@@ -1,6 +1,9 @@
 import styles from './CompetitionItem.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import API from '@/utils/axios';
+
 export default function CompetitionItem({
   id,
   title,
@@ -10,8 +13,22 @@ export default function CompetitionItem({
   saved,
   imageUrl,
 }) {
+  const router = useRouter();
+
+  // Delete this entry
+  const handleDelete = async (e) => {
+    e.preventDefault(); // don’t follow the link
+    if (!confirm('Er du sikker på, at du vil slette dit indlæg?')) return;
+    try {
+      await API.delete(`/entries/${id}`);
+      router.refresh(); // re‐fetch the parent page data
+    } catch (err) {
+      console.error('Sletning mislykkedes:', err);
+      alert('Kunne ikke slette indlægget. Prøv igen.');
+    }
+  };
   return (
-    <Link href={`/competitions/${id}`} className={styles.competitionItem}>
+    <div className={styles.competitionItem}>
       <div className={styles.infoLeft}>
         <div className={styles.header}>
           <h4 className={styles.title}>{title}</h4>
@@ -39,6 +56,13 @@ export default function CompetitionItem({
           {saved} Saved
         </span>
       </div>
-    </Link>
+      {/* Delete‐button */}
+      <button
+        className={`${styles.statItem} ${styles.deleteBtn}`}
+        onClick={handleDelete}
+      >
+        Slet
+      </button>
+    </div>
   );
 }
