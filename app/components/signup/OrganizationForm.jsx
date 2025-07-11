@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Modal from '../terms-conditions/Modal';
 
 export default function OrganizationForm() {
@@ -71,6 +72,8 @@ Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden var
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
   const toggleConfirmPasswordVisibility = () =>
     setShowConfirmPassword((prev) => !prev);
 
@@ -164,6 +167,17 @@ Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden var
               className={styles.passwordToggleIcon}
             />
           )}
+          {showPassword ? (
+            <AiOutlineEye
+              onClick={togglePasswordVisibility}
+              className={styles.passwordToggleIcon}
+            />
+          ) : (
+            <AiOutlineEyeInvisible
+              onClick={togglePasswordVisibility}
+              className={styles.passwordToggleIcon}
+            />
+          )}
         </div>
       </div>
 
@@ -178,6 +192,17 @@ Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden var
             onChange={handleChange}
             required
           />
+          {showConfirmPassword ? (
+            <AiOutlineEye
+              onClick={toggleConfirmPasswordVisibility}
+              className={styles.passwordToggleIcon}
+            />
+          ) : (
+            <AiOutlineEyeInvisible
+              onClick={toggleConfirmPasswordVisibility}
+              className={styles.passwordToggleIcon}
+            />
+          )}
           {showConfirmPassword ? (
             <AiOutlineEye
               onClick={toggleConfirmPasswordVisibility}
