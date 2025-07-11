@@ -1,101 +1,73 @@
-'use client';
-import styles from './UploadImageModal.module.css';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronRight,
   faCamera,
-  faForward,
-  faCircleXmark,
-  faImage,
-  faImages,
+  faClose,
 } from '@fortawesome/free-solid-svg-icons';
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import ImageTemplate from '../image-container-template/ImageTemplate';
-import API from '@/utils/axios';
+import { faImage, faImages } from '@fortawesome/free-regular-svg-icons';
 import Loader from '../loader/Loader';
+import API from '@/utils/axios';
+import styles from './UploadImageModal.module.css';
 
 export default function UploadImageModal({
   isOpen,
   onClose,
   onImageUpload,
-  uId,
+  userId,
+  title = 'Upload dit billede',
+  showGallery = true,
 }) {
-  const userId = uId;
-
-  const CLOUD_NAME = 'dahasdpeh';
-  const UPLOAD_PRESET = 'l3sypto1';
-
   const [imageUrl, setImageUrl] = useState(null);
-  const [userImages, setUserImages] = useState([]);
   const [selectedImageUrl, setSelectedImageUrl] = useState(null);
+  const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // const imageArr = Array.from({ length: 12 }, (_, i) => i);
+  useEffect(() => {
+    if (showGallery && userId) {
+      API.get('/entries/get-entries-images', { params: { userId } })
+        .then((resp) => {
+          if (resp.data.success) {
+            setGallery(resp.data.data.map((item) => item.imageUrl));
+          } else {
+            console.error('Gallery fetch failed:', resp.data.message);
+          }
+        })
+        .catch((err) => console.error('Gallery fetch error:', err));
+    }
+  }, [showGallery, userId]);
 
-  const uploadToCloudinary = async (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', UPLOAD_PRESET);
+  const handleFileChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-    const response = await fetch(
-      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-      {
-        method: 'POST',
-        body: formData,
-      },
-    );
-
-    const data = await response.json();
-    return data.secure_url;
+    setLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('image', file);
+      const resp = await API.post('/upload', formData);
+      const url = resp.data.url;
+      setImageUrl(url);
+    } catch (err) {
+      console.error('Upload error:', err);
+    } finally {
+      setLoading(false);
+    }
   };
-  const handleSelectImage = (url) => {
+
+  const handleSelectGallery = (url) => {
     setSelectedImageUrl(url);
   };
-  const getAllUserEntriesImages = async () => {
-    try {
-      const response = await API.get(`/entries/get-entries-images/`, {
-        params: { userId },
-      });
 
-      if (response.data.success) {
-        console.log(response.data.data);
-        setUserImages(response.data.data);
-      } else {
-        console.error('Failed to fetch entries:', response.data.message);
-      }
-    } catch (error) {
-      console.error('Error fetching user entries:', error);
-    }
-  };
-
-  useEffect(() => {
-    getAllUserEntriesImages();
-  }, []);
-
-  const handleUpload = async (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setLoading(true);
-      try {
-        const uploadedUrl = await uploadToCloudinary(file);
-        setImageUrl(uploadedUrl);
-        console.log('Uploaded:', uploadedUrl);
-        if (onImageUpload && uploadedUrl) {
-          onImageUpload(uploadedUrl);
-        }
-      } catch (err) {
-        console.error('Upload failed:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
+  const handleConfirm = () => {
+    const finalUrl = selectedImageUrl || imageUrl;
+    if (finalUrl) onImageUpload(finalUrl);
   };
 
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay}>
+    <div className={styles.modalOverlay} onClick={onClose}>
       {loading && (
         <div className={styles.loaderWrapper}>
           <Loader />
@@ -104,14 +76,14 @@ export default function UploadImageModal({
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.titleBar}>
           <button onClick={onClose} className={styles.closeButton}>
-            <FontAwesomeIcon icon={faCircleXmark} />
+            <FontAwesomeIcon icon={faClose} />
           </button>
-          <h2 className={styles.barTitle}>Upload dit billede</h2>
-          {/* {imageUrl && (
-                        <Link className={styles.nextButton} href="/image-upload-info">
-                            <FontAwesomeIcon icon={faForward} />
-                        </Link>
-                    )} */}
+          <h2 className={styles.barTitle}>{title}</h2>
+          {(imageUrl || selectedImageUrl) && (
+            <button onClick={handleConfirm} className={styles.nextButton}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          )}
         </div>
 
         <div
@@ -148,7 +120,7 @@ export default function UploadImageModal({
                   type="file"
                   accept="image/*"
                   style={{ display: 'none' }}
-                  onChange={handleUpload}
+                  onChange={handleFileChange}
                 />
               </label>
               <label>
@@ -158,31 +130,33 @@ export default function UploadImageModal({
                   accept="image/*"
                   capture="environment"
                   style={{ display: 'none' }}
-                  onChange={handleUpload}
+                  onChange={handleFileChange}
                 />
               </label>
             </div>
           </div>
 
-          <div className={styles.lastestUploadedPics}>
-            {userImages.length > 0 ? (
-              userImages.map((entry, index) => (
-                <div
-                  key={index}
-                  className={styles.imageHoler}
-                  style={{
-                    backgroundImage: `url(${entry.imageUrl})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    cursor: 'pointer', // show pointer to hint clickable
-                  }}
-                  onClick={() => handleSelectImage(entry.imageUrl)} // click handler here
-                />
-              ))
-            ) : (
-              <p>No images found</p>
-            )}
-          </div>
+          {showGallery && (
+            <div className={styles.lastestUploadedPics}>
+              {gallery.length > 0 ? (
+                gallery.map((url, idx) => (
+                  <div
+                    key={idx}
+                    className={styles.imageHoler}
+                    style={{
+                      backgroundImage: `url(${url})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => handleSelectGallery(url)}
+                  />
+                ))
+              ) : (
+                <p>No images found</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
