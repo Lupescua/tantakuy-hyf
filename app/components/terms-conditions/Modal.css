@@ -46,3 +46,21 @@
 .modal-close:hover {
   color: #000;
 }
+
+.termsContent ol {
+  padding-left: 1.5em;
+}
+.termsContent ol li {
+  margin-bottom: 1em;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+.termsContent ol li::marker {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.termsContent .termTitle {
+  font-weight: bold;
+  font-size: 1.1em;
+  margin-right: 0.5em;
+}

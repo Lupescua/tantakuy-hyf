@@ -45,9 +45,19 @@ export default function OrganizationForm() {
   };
   // Terms & conditions starts
   const [isModalOpen, setModalOpen] = useState(false);
-  const [terms, setTerms] = useState(
-    'By registering, you agree to the collection and use of your information as described in our Terms of Service.',
-  );
+  const [terms, setTerms] = useState(`Betingelser for deltagelse i konkurrencen
+1. Deltagelse
+Ved at deltage i konkurrencen accepterer deltageren disse betingelser. Deltagelse er frivillig og ikke købsbetinget.
+2. Opbevaring af oplysninger
+Vi gemmer oplysninger om deltagernes navn, e-mail og deltagelsesdato med det formål at kunne administrere konkurrencen og kontakte vinderen. Oplysningerne behandles fortroligt og slettes efter konkurrencens afslutning, medmindre andet er aftalt.
+3. Udvælgelse og kontakt
+Vinderen trækkes lod blandt deltagerne og får direkte besked via e-mail eller anden kontaktform oplyst ved deltagelsen. Hvis vi ikke får svar fra vinderen inden for 7 dage, forbeholder vi os retten til at udpege en ny vinder.
+4. Præmie
+Præmien kan ikke ombyttes til kontanter eller andre varer og kan ikke overdrages til andre.
+5. Offentliggørelse
+Ved deltagelse giver deltageren samtykke til, at Tantakuy må offentliggøre fornavn og by på vinderen i forbindelse med annoncering af konkurrencens resultat, fx på sociale medier og/eller vores hjemmeside.
+6. Ændringer og forbehold
+Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden varsel, hvis nødvendigt.`);
   const [isEditing, setIsEditing] = useState(false);
   const [tempTerms, setTempTerms] = useState(terms);
 
@@ -247,7 +257,17 @@ export default function OrganizationForm() {
               </div>
             </>
           ) : (
-            <p>{terms}</p>
+            <div className="termsContent">
+              <strong>Betingelser for deltagelse i konkurrencen</strong>
+              <ol>
+                <li><span className="termTitle">Deltagelse</span>&nbsp;Ved at deltage i konkurrencen accepterer deltageren disse betingelser. Deltagelse er frivillig og ikke købsbetinget.</li>
+                <li><span className="termTitle">Opbevaring af oplysninger</span>&nbsp;Vi gemmer oplysninger om deltagernes navn, e-mail og deltagelsesdato med det formål at kunne administrere konkurrencen og kontakte vinderen. Oplysningerne behandles fortroligt og slettes efter konkurrencens afslutning, medmindre andet er aftalt.</li>
+                <li><span className="termTitle">Udvælgelse og kontakt</span>&nbsp;Vinderen trækkes lod blandt deltagerne og får direkte besked via e-mail eller anden kontaktform oplyst ved deltagelsen. Hvis vi ikke får svar fra vinderen inden for 7 dage, forbeholder vi os retten til at udpege en ny vinder.</li>
+                <li><span className="termTitle">Præmie</span>&nbsp;Præmien kan ikke ombyttes til kontanter eller andre varer og kan ikke overdrages til andre.</li>
+                <li><span className="termTitle">Offentliggørelse</span>&nbsp;Ved deltagelse giver deltageren samtykke til, at Tantakuy må offentliggøre fornavn og by på vinderen i forbindelse med annoncering af konkurrencens resultat, fx på sociale medier og/eller vores hjemmeside.</li>
+                <li><span className="termTitle">Ændringer og forbehold</span>&nbsp;Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden varsel, hvis nødvendigt.</li>
+              </ol>
+            </div>
           )}
         </Modal>
       </>

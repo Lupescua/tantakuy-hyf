@@ -218,3 +218,22 @@
   padding: 50px 0;
   cursor: pointer;
 }
+.termsContent {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #222;
+  padding: 16px 8px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin: 0 0 16px 0;
+}
+.termsContent ol {
+  padding-left: 1.2em;
+  margin: 0 0 0 0.5em;
+}
+.termsContent li {
+  margin-bottom: 0.7em;
+}
+.termsContent strong {
+  font-weight: 600;
+}
