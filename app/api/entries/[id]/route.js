@@ -72,3 +72,38 @@ export async function DELETE(request) {
     return Response.json({ error: 'Failed to delete entry' }, { status: 500 });
   }
 }
+
+/* ─────────── PATCH /api/entries/[id] ──────────── */
+export async function PATCH(request) {
+  const id = extractId(request);
+  if (!id) {
+    return Response.json({ error: 'Bad id' }, { status: 400 });
+  }
+
+  await dbConnect();
+
+  try {
+    // increment the shares counter
+    const updated = await Entry.findByIdAndUpdate(
+      id,
+      { $inc: { shares: 1 } },
+      { new: true },
+    );
+
+    if (!updated) {
+      return Response.json({ error: 'Entry not found' }, { status: 404 });
+    }
+
+    // return the new share count (optional)
+    return Response.json(
+      { success: true, shares: updated.shares },
+      { status: 200 },
+    );
+  } catch (err) {
+    console.error('Error incrementing shares:', err);
+    return Response.json(
+      { error: 'Failed to increment shares' },
+      { status: 500 },
+    );
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import API from '@/utils/axios';
 import styles from './CompetitionCard.module.css';
@@ -29,6 +30,8 @@ export default function CompetitionCard({
   const [slots, setSlots] = useState(
     Array(6).fill({ id: null, src: PLACEHOLDER_IMG }),
   );
+
+  const router = useRouter();
 
   /* ───────────────── fetch first six entries ───────────────── */
   useEffect(() => {
@@ -66,6 +69,7 @@ export default function CompetitionCard({
     <div className={styles.card}>
       <div className={styles.cardTop}>
         {/* clicking the header navigates to the gallery page */}
+        {/* additionally now we are saving the clicks, everytime the competition is checked. for the stats part */}
         <Link href={`/competitions/${_id}`} className={styles.header}>
           <div className={styles.logoWrapper}>
             <img
@@ -85,6 +89,7 @@ export default function CompetitionCard({
         {slots.map(({ id, src }, idx) => (
           <EntryCard
             key={id ?? `ph-${idx}`}
+            competitionId={_id}
             image={src}
             entryId={
               id

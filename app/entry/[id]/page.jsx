@@ -32,6 +32,8 @@ export default function EntryPage() {
       try {
         // 1) fetch the clicked entry
         const { data: clicked } = await API.get(`/entries/${id}`);
+        // 1a) record a competition click
+        API.patch(`/competitions/${clicked.competition}`).catch(console.error);
         // 2) pull competition ID off it
         const compId = clicked.competition;
         // 3) fetch first 20 trending in same comp
@@ -122,13 +124,26 @@ export default function EntryPage() {
     }
   };
 
-  /* ------------- 3. share (simple clipboard copy) --------- */
-  const shareEntry = (entryId) => {
+  /* ------------- 3. share (increment shares + copy link) --- */
+  const shareEntry = async (entryId) => {
     const url = `${window.location.origin}/entry/${entryId}`;
-    navigator.clipboard
-      .writeText(url)
-      .then(() => alert('Link copied to clipboard 📋'))
-      .catch(() => alert('Could not copy link'));
+    try {
+      // 1) Tell the server: increment `shares` on that entry
+      await API.patch(`/entries/${entryId}`);
+
+      // 2) Copy the URL to the clipboard
+      await navigator.clipboard.writeText(url);
+      alert('Link copied to clipboard 📋');
+    } catch (err) {
+      console.error('Share failed:', err);
+      // Even if the PATCH fails, still try to copy
+      try {
+        await navigator.clipboard.writeText(url);
+        alert('Link copied to clipboard 📋');
+      } catch {
+        alert('Could not copy link');
+      }
+    }
   };
 
   /* ------------- 4. Load more handler --------- */
