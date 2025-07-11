@@ -132,6 +132,10 @@ main {
   display: none;
 }
 
+.mobile-search-wrapper {
+  display: none;
+}
+
 @media(max-width: 768px){
 
   
@@ -166,18 +170,5 @@ main {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    color: black;
-    background-color: white;
   }
-
-  @keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 }
