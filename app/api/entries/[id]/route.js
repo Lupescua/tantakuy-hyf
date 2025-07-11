@@ -71,7 +71,7 @@ export async function DELETE(request) {
   }
 
   try {
-    // Only delete from S3 if the URL fits
+    // Only delete from S3 if the URL is for your bucket
     const bucketDomain = `${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
     if (entry.imageUrl.includes(bucketDomain)) {
       const key = entry.imageUrl.split(`/${bucketDomain}/`)[1];
