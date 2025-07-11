@@ -18,10 +18,10 @@ export default function EntryPage() {
         if (res.ok) {
           setEntries(data);
         } else {
-          setError(data.error || 'Fejl ved indlæsning af bidrag');
+          setError(data.error || 'Fejl ved indlæsning af indlæg');
         }
       } catch (error) {
-        setError('Fejl ved indlæsning af bidrag');
+        setError('Fejl ved indlæsning af indlæg');
       }
     }
 
@@ -37,7 +37,7 @@ export default function EntryPage() {
         <div className={styles.logo}>TANTAKUY</div>
       </header>
 
-      <h1 className={styles.title}>Bidrag til konkurrence {id}</h1>
+      <h1 className={styles.title}>Indlæg til konkurrence {id}</h1>
 
       {entries.map((entry, index) => (
         <div key={entry._id || index} className={styles.entry}>
@@ -47,7 +47,7 @@ export default function EntryPage() {
           <div className={styles.imageWrapper}>
             <img
               src={entry.imageUrl}
-              alt="Bidragsbillede"
+              alt="Indlægsbillede"
               className={styles.image}
             />
             <span className={styles.votes}>{entry.votes} stemmer</span>
@@ -81,7 +81,7 @@ export default function EntryPage() {
             <button className={styles.share}>📤 Del</button>
           </div>
 
-          <p className={styles.entryId}>Bidrags-ID: {entry._id}</p>
+          <p className={styles.entryId}>Indlægs-ID: {entry._id}</p>
         </div>
       ))}
     </main>

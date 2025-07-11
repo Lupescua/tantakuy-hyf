@@ -222,7 +222,7 @@ export default function EntryPage() {
           <img
             className={styles.image}
             src={entryDoc.imageUrl ?? PLACEHOLDER_IMG}
-            alt="Bidrag"
+            alt="Indlæg"
           />
 
           {/* ── 3. vote count + buttons ── */}

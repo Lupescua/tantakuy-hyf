@@ -136,7 +136,7 @@ export default function OrganizationForm() {
             />
           </div>
           <div className={styles.formItemCompany}>
-            <label htmlFor="businessNumber">CVR-nummer</label>
+            <label htmlFor="businessNumber">Mobilnummer</label>
             <br />
             <input
               type="text"

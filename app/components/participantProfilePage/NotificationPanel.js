@@ -77,7 +77,7 @@ export default function NotificationsPanel() {
                 <div className={styles.dot}></div>
                 <p>
                   <strong>{n.actor.userName}</strong>{' '}
-                  {n.type === 'like' ? 'syntes godt om' : 'delte'} dit bidrag
+                  {n.type === 'like' ? 'syntes godt om' : 'delte'} dit indlæg
                 </p>
                 <Link
                   href={`/entry/${n.entry.id}`}
