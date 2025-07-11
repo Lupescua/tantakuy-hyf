@@ -84,7 +84,7 @@ export default function EntryForm({ userId, competitionId }) {
           <FontAwesomeIcon icon={faXmark} className="closeicon" />
         </div>
         <span className="uploadtitle">Valgte billede</span>
-        <Link className="nextbtn" href="/competitions">
+        <Link className="nextbtn" href={`/competitions/${competitionId}`}>
           Tilbage
         </Link>
       </div>
