@@ -5,6 +5,10 @@ import { NextResponse } from 'next/server';
 import s3 from '@/utils/s3Client';
 import { getUserFromCookie } from '@/utils/server/auth';
 
+export async function GET() {
+  return NextResponse.json({ ok: true });
+}
+
 export async function POST(req) {
   try {
     const user = await getUserFromCookie();
@@ -42,6 +46,7 @@ export async function POST(req) {
       Key: key,
       Body: buffer,
       ContentType: file.type,
+      // ACL: 'public-read',
     };
 
     await s3.send(new PutObjectCommand(params));
@@ -54,4 +59,3 @@ export async function POST(req) {
     return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
   }
 }
-// This code handles file uploads to AWS S3, ensuring the user is authenticated and the file meets size and type requirements.
