@@ -27,6 +27,26 @@ export default function EntryForm({ userId, competitionId }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  // ─── Handlers for the generic modal ─────────────────
+  const uploadHandler = async (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    const resp = await API.post('/upload', formData);
+    // our /api/upload returns { url }
+    return resp.data.url;
+  };
+
+  const fetchHandler = async () => {
+    const resp = await API.get('/entries/get-entries-images', {
+      params: { userId },
+    });
+    if (resp.data.success) {
+      // expect an array of { imageUrl: string, … }
+      return resp.data.data;
+    }
+    throw new Error('Kunne ikke hente tidligere billeder');
+  };
+
   /* ───────── callback from modal ───────── */
   const handleImageUpload = (url) => {
     setImageUrl(url); // save URL we get from Cloudinary
@@ -102,7 +122,10 @@ export default function EntryForm({ userId, competitionId }) {
             isOpen={modalOpen}
             onClose={() => setModalOpen(false)}
             onImageUpload={handleImageUpload}
-            uId={userId}
+            uploadHandler={uploadHandler}
+            // we don’t save here—that happens on form submit—so omit saveHandler
+            fetchHandler={fetchHandler}
+            /* leave title & showGallery at their defaults */
           />
 
           <img
