@@ -11,10 +11,10 @@
   align-items: center;
 }
 
-.header{
+.header {
   display: flex;
   flex-direction: row;
-  align-items:center;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -36,8 +36,6 @@
   font-weight: 700;
   font-size: 18px;
 }
-
-
 
 .grid {
   display: grid;

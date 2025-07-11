@@ -90,3 +90,43 @@ export async function DELETE(request) {
     );
   }
 }
+
+/* ─────────── PATCH /api/competitions/[id] ─────────── */
+export async function PATCH(request) {
+  // 1) Extract :id
+  const pathname = new URL(request.url).pathname;
+  const id = pathname.split('/').pop();
+  if (!isValidObjectId(id)) {
+    return NextResponse.json(
+      { error: 'Invalid competition ID' },
+      { status: 400 },
+    );
+  }
+
+  // 2) Connect
+  await dbConnect();
+
+  try {
+    // 3) Increment the clicks counter
+    const updated = await Competition.findByIdAndUpdate(
+      id,
+      { $inc: { clicks: 1 } },
+      { new: true },
+    );
+    if (!updated) {
+      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    }
+
+    // 4) Return the new count
+    return NextResponse.json(
+      { success: true, clicks: updated.clicks },
+      { status: 200 },
+    );
+  } catch (err) {
+    console.error('Error incrementing clicks:', err);
+    return NextResponse.json(
+      { error: 'Failed to increment clicks' },
+      { status: 500 },
+    );
+  }
+}

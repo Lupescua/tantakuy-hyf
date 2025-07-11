@@ -89,6 +89,11 @@ const CompetitionSchema = new mongoose.Schema(
     instagram: String,
     linkedin: String,
 
+    clicks: {
+      type: Number,
+      default: 0,
+    },
+
     company: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Company',
