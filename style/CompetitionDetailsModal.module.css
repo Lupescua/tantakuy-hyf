@@ -8,7 +8,7 @@
   width: 500px;
   max-width: 90vw;
   height: calc(600px - 4rem);
-  z-index: 1;
+  z-index: 9999;
   margin: auto;
   background: white;
   border-radius: 8px;
@@ -120,6 +120,7 @@
   left: 0;
   width: 100vw;
   height: 100vh;
+  z-index: 9999;
   background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
