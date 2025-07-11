@@ -94,4 +94,62 @@
   .footer-icon:focus {
     outline: none;
   }
+
+  .footer-profile-menu-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-profile-menu-dropdown {
+    position: absolute;
+    bottom: 48px;
+    right: 0;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.13), 0 1.5px 4px rgba(0,0,0,0.07);
+    padding: 8px 0;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    animation: fadeInDropdown 0.18s ease;
+  }
+
+  @keyframes fadeInDropdown {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .footer-profile-menu-dropdown .dropdown-link,
+  .footer-profile-menu-dropdown .logout-btn {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    padding: 10px 18px;
+    font-size: 16px;
+    color: #222;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    border-radius: 8px;
+    font-family: var(--font-montserrat);
+  }
+
+  .footer-profile-menu-dropdown .dropdown-link:hover {
+    background: #f2f2f2;
+    color: #0070f3;
+  }
+
+  .footer-profile-menu-dropdown .logout-btn {
+    color: #e74c3c;
+    font-weight: 500;
+  }
+
+  .footer-profile-menu-dropdown .logout-btn:hover {
+    background: #ffeaea;
+    color: #c0392b;
+  }
 }

@@ -80,35 +80,7 @@ export default function NavbarLoggedIn({ user }) {
               )}
             </div>
           </div>
-
-          <button
-            className={styles.hamburger}
-            onClick={() => setMobileMenuOpen((prev) => !prev)}
-          >
-            ☰
-          </button>
         </div>
-
-        {mobileMenuOpen && (
-          <div className={styles['mobile-dropdown']} ref={dropdownRef}>
-            <Link
-              href={`/participant/${userId}/profile`}
-              onClick={() => setMobileMenuOpen(false)}
-              className={styles['dropdown-link']}
-            >
-              My Profile
-            </Link>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                handleLogout();
-              }}
-              className={styles['logout-btn']}
-            >
-              Log out
-            </button>
-          </div>
-        )}
       </div>
     </header>
 

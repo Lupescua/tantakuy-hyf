@@ -33,7 +33,7 @@ body {
   font-family: var(--font-montserrat);
   background-color: var(--background-color);
   color: var(--text-color);
-  justify-content: start;
+  justify-content: flex-start;
   padding-top: 4rem;
   padding-bottom: 4rem;
 }
