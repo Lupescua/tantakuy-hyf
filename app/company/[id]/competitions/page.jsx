@@ -79,6 +79,8 @@ export default function CompanyCompetitionsPage() {
                 id={comp._id}
                 title={comp.title}
                 createdAt={comp.createdAt}
+                startDate={comp.startDate}
+                endDate={comp.endDate}
                 onDelete={handleDelete}
               />
             ))
