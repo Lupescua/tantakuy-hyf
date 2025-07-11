@@ -100,11 +100,14 @@ export default function EntryForm({ userId, competitionId }) {
       </header>
 
       <div className="uploadbar">
-        <div className="closecircle">
-          <FontAwesomeIcon icon={faXmark} className="closeicon" />
-        </div>
+        <Link href={`/competitions/${competitionId}`}>
+          <div className="closecircle">
+            <FontAwesomeIcon icon={faXmark} className="closeicon" />
+          </div>
+        </Link>
+
         <span className="uploadtitle">Valgte billede</span>
-        <Link className="nextbtn" href="/competitions">
+        <Link className="nextbtn" href={`/`}>
           Tilbage
         </Link>
       </div>
