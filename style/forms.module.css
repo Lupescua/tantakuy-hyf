@@ -257,9 +257,5 @@
   cursor: pointer;
   width: 24px;
   height: 24px;
-  opacity: 0.6;
 }
 
-.passwordToggleIcon:hover {
-  opacity: 1;
-}
