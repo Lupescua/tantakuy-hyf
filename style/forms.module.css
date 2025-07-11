@@ -36,8 +36,7 @@
   color: grey;
   text-align: left;
 }
-.signUpItem {
-}
+
 .signUpItem form label {
   font-size: 12px;
   font-family: var(--font-family);
@@ -53,7 +52,7 @@
   width: 100%;
 }
 .signUpItem form input[type='checkbox']:checked {
-  background-color: #666;
+  background-color: black;
 }
 .signUpItem form {
   display: flex;
@@ -69,12 +68,37 @@
   border: 1px solid grey;
   border-radius: 4px;
   cursor: pointer;
+  position: relative;
+  background-color: #fff;
+  transition: background-color 0.2s;
 }
+
+.signUpItem form input[type='checkbox']:checked {
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+.signUpItem form input[type='checkbox']:checked::after {
+  content: '✔';
+  font-size: 12px;
+  color: black;
+  position: absolute;
+  left: 2px;
+  top: -1px;
+}
+
 .formItem {
   width: 100%;
   margin: 10px 0;
 }
 .formItem input {
+  color: black;
+}
+
+.formItemCompany input {
+  color: black;
+}
+.formItemOrg input {
   color: black;
 }
 
@@ -218,3 +242,20 @@
   padding: 50px 0;
   cursor: pointer;
 }
+
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.passwordToggleIcon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-40%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
+
