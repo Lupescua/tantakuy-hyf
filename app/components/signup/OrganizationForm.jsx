@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styles from '../../../style/forms.module.css';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Modal from '../terms-conditions/Modal';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 import Modal from '../terms-conditions/Modal';
 
 export default function OrganizationForm() {
