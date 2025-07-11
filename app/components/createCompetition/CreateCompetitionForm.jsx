@@ -52,23 +52,14 @@ export default function CreateCompetitionForm() {
     let imageUrl = '';
 
     try {
-      // Upload image to Cloudinary
+      // Upload image to S3
       if (imageFile) {
         const data = new FormData();
-        data.append('file', imageFile);
-        data.append('upload_preset', 'Yuusuf');
+        data.append('image', imageFile);
 
-        const res = await fetch(
-          'https://api.cloudinary.com/v1_1/dj2bxlvr2/image/upload',
-          {
-            method: 'POST',
-            body: data,
-          },
-        );
-
-        const result = await res.json();
-        console.log('Cloudinary upload result:', result);
-        imageUrl = result.secure_url;
+        const uploadResp = await API.post('/upload', data);
+        console.log('S3 upload result:', uploadResp.data);
+        imageUrl = uploadResp.data.url;
       }
 
       // Prepare form data
