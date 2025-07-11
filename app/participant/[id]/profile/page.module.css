@@ -1,5 +1,6 @@
 .container {
   display: flex;
+  padding-top: 90px;
   height: 100%;
 }
 
@@ -21,11 +22,14 @@
   background-color: #fafafa;
   overflow-y: auto;
 }
+
 @media (max-width: 480px) {
   .container {
     padding: 0;
     flex-direction: column;
     justify-content: start;
+    max-width: 100%;
+    width: 100%;
   }
 
   .sidebar {
@@ -37,7 +41,9 @@
     height: 80px;
     position: relative;
   }
+
   .main {
+    margin-top: 30px;
     order: 2;
     min-width: 20%;
     padding: 1rem;
@@ -45,7 +51,7 @@
 
   .notifications {
     order: 0;
-    width: 100%;
+    width: 85%;
     border: none;
     background: none;
     display: flex;
@@ -77,6 +83,8 @@
     padding: 0;
     flex-direction: column;
     justify-content: start;
+    max-width: 100%;
+    width: 100%;
   }
 
   .sidebar {
@@ -90,6 +98,7 @@
     display: flex;
     flex-direction: row;
   }
+
   .main {
     order: 2;
     min-width: 20%;
@@ -124,6 +133,7 @@
     border-radius: 50%;
   }
 }
+
 /* Lock fixed widths for layout columns on large screens to maintain design consistency */
 @media (min-width: 1450px) {
   .main {
@@ -133,6 +143,7 @@
   .sidebar {
     width: 304px;
   }
+
   .notifications {
     width: 300px;
   }
