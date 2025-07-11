@@ -12,6 +12,7 @@ export default function CompetitionItem({
   shares,
   saved,
   imageUrl,
+  onDelete,
 }) {
   const router = useRouter();
 
@@ -22,7 +23,7 @@ export default function CompetitionItem({
     if (!confirm('Er du sikker på, at du vil slette dit indlæg?')) return;
     try {
       await API.delete(`/entries/${id}`);
-      router.refresh(); // re‐fetch the parent page data
+      onDelete?.(id); // re‐fetch the parent page data
     } catch (err) {
       console.error('Sletning mislykkedes:', err);
       alert('Kunne ikke slette indlægget. Prøv igen.');

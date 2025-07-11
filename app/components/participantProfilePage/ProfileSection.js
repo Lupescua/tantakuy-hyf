@@ -76,6 +76,11 @@ export default function ProfileSection() {
                   shares={item.shares}
                   saved={item.saved}
                   imageUrl={item.imageUrl}
+                  onDelete={(deleteId) => {
+                    setCompetitions((prev) =>
+                      prev.filter((c) => c.id !== deleteId),
+                    );
+                  }}
                 />
               );
             })
