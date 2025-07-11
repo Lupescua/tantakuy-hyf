@@ -88,15 +88,17 @@ main {
   padding: 0 12px; 
   border: 1px solid hsl(0, 0%, 80%); 
   font-size: 14px;
-  background-color: white;
+  background: #F9F9F9;
   width: 49%; 
+  color: black;
 }
 
 .filters select {
   width: 23%;
   height: 58px;
   background: #F9F9F9;
-  border: 1px solid #E6E6E6
+  border: 1px solid #E6E6E6;
+  color: black;
 }
 
 .competition-preview h3 {
@@ -164,5 +166,18 @@ main {
     font-size: 16px;
     border: 1px solid #ccc;
     border-radius: 8px;
+    color: black;
+    background-color: white;
   }
+
+  @keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 }
