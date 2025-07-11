@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import CompetitionList from '@/app/components/competitions/CompetitionList';
 import Loader from './components/loader/Loader';
+import { useMobileSearch } from '../context/MobileSearchContext';
 
 export default function HomeClient() {
   const { user } = useAuth(); // assuming your context gives you the logged-in user
@@ -16,6 +17,7 @@ export default function HomeClient() {
   const [companyId, setCompanyId] = useState('');
   const [sort, setSort] = useState('popularity');
   const [companies, setCompanies] = useState([]);
+  const { showMobileSearch } = useMobileSearch();
 
   //redirect if user is a company
   useEffect(() => {
@@ -57,9 +59,6 @@ export default function HomeClient() {
 
   return (
     <main className="home">
-      <header className="header">
-        <h1 className="logo">HOME</h1>
-      </header>
 
       <section className="hero">
         <h2 className="hero-title">Konkurrencer</h2>
@@ -98,6 +97,18 @@ export default function HomeClient() {
       <section className="competition-preview">
         {loading ? <Loader /> : <CompetitionList competitions={competitions} />}
       </section>
+
+      {showMobileSearch && (
+        <div className="mobile-search-wrapper">
+          <input
+            type="text"
+            placeholder="Søg..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="mobile-search-input"
+          />
+        </div>
+      )}
     </main>
   );
 }

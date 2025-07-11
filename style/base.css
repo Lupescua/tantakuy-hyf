@@ -31,7 +31,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
   font-family: var(--font-montserrat);
-  background-color: var(--background-color);
+  background-color: white;
   color: var(--text-color);
   justify-content: start;
 }
@@ -53,11 +53,6 @@ main {
 
 .home {
   padding: 20px;
-}
-
-.header {
-  text-align: center;
-  margin-bottom: 20px;
 }
 
 .logo {
@@ -88,10 +83,22 @@ main {
   flex-wrap: wrap;
 }
 
+.filters input {
+  height: 58px; 
+  padding: 0 12px; 
+  border: 1px solid hsl(0, 0%, 80%); 
+  font-size: 14px;
+  background: #F9F9F9;
+  width: 49%; 
+  color: black;
+}
+
 .filters select {
-  padding: 8px;
-  border-radius: var(--radius);
-  border: 1px solid #ccc;
+  width: 23%;
+  height: 58px;
+  background: #F9F9F9;
+  border: 1px solid #E6E6E6;
+  color: black;
 }
 
 .competition-preview h3 {
@@ -116,4 +123,61 @@ main {
   main {
     width: 100%;
   }
+  
+  
+
+}
+
+.mobile-search-wrapper {
+  display: none;
+}
+
+@media(max-width: 768px){
+
+  
+.filters {
+  align-items: center;
+  justify-content: space-between;
+  
+}
+
+  .filters input{
+    display:none;
+  }
+
+  .filters select {
+  width: 40%;
+}
+
+.mobile-search-wrapper {
+    display: block;
+    position: fixed;
+    bottom: 70px;
+    left: 0;
+    width: 100%;
+    padding: 8px 16px;
+    animation: slideUp 0.3s ease-out forwards;
+  }
+
+  .mobile-search-input {
+    width: 100%;
+    height: 50px;
+    padding: 0 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: black;
+    background-color: white;
+  }
+
+  @keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
 }
