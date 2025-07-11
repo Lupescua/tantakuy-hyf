@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import API from '@/utils/axios';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function CompanyProfileNavbar({ onHamburgerClick }) {
   const { user, refresh } = useAuth();
@@ -34,6 +35,8 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
     }
   };
 
+  console.log(user)
+
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-inner']}>
@@ -54,8 +57,8 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
         </div>
 
         <div className={styles.right}>
-          <span className={styles.idCircle}>ID</span>
-          <span className={styles.user}>User</span>
+          <span className={styles.idCircle}>{user.userName[0].toUpperCase()}</span>
+          <span className={styles.user}></span>
           <FaBell className={styles.icon} />
 
           {/* Dropdown Trigger and Container - still has a bug of not being in the foreground*/}
@@ -71,6 +74,21 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
             {menuOpen && (
               <div className={styles['profile-menu-dropdown']}>
                 {/* Add other links here if needed */}
+                <Link
+                  href={`/company/${user.id}/settings`}
+                  onClick={() => setProfileMenuOpen(false)}
+                  className={styles['dropdown-link']}
+                >
+                  Settings
+                </Link>
+                <br />
+                <Link
+                  href={`/company/${user.id}/profile`}
+                  onClick={() => setProfileMenuOpen(false)}
+                  className={styles['dropdown-link']}
+                >
+                  My Profile
+                </Link>
                 <button
                   onClick={() => {
                     setMenuOpen(false);
