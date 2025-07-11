@@ -4,6 +4,7 @@ import Modal from '../terms-conditions/Modal';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import { useAuth } from '@/context/AuthContext';
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export default function RegistrationForm() {
   const router = useRouter();
@@ -21,7 +22,8 @@ export default function RegistrationForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-  const toggleConfirmPasswordVisibility = () => setShowConfirmPassword((prev) => !prev);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword((prev) => !prev);
 
   //I added this loader to disable the form while loading
   const [loading, setLoading] = useState(false);
@@ -159,12 +161,17 @@ Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden var
                 onChange={handleChange}
                 required
               />
-              <img
-                src="/eye.png"
-                alt="Toggle password visibility"
-                onClick={togglePasswordVisibility}
-                className={styles.passwordToggleIcon}
-              />
+              {showPassword ? (
+                <AiOutlineEye
+                  onClick={togglePasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={togglePasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              )}
             </div>
           </div>
 
@@ -179,12 +186,17 @@ Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden var
                 onChange={handleChange}
                 required
               />
-              <img
-                src="/eye.png"
-                alt="Toggle confirm password visibility"
-                onClick={toggleConfirmPasswordVisibility}
-                className={styles.passwordToggleIcon}
-              />
+              {showConfirmPassword ? (
+                <AiOutlineEye
+                  onClick={toggleConfirmPasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              ) : (
+                <AiOutlineEyeInvisible
+                  onClick={toggleConfirmPasswordVisibility}
+                  className={styles.passwordToggleIcon}
+                />
+              )}
             </div>
           </div>
 
