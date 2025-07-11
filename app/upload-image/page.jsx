@@ -23,7 +23,26 @@ export default function UploadImage() {
   if (loading) {
     return <Loader />;
   }
+  const saveEntryToDB = async (imageUrl) => {
+    try {
+      const response = await API.post('/api/entries', {
+        competition: competitionId,
+        imageUrl,
+        caption: '',
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to save entry to DB');
+      }
+
+      const data = await response.json();
+      console.log('Entry saved:', data);
+      return data;
+    } catch (err) {
+      console.error('DB Save Error:', err);
+      throw err;
+    }
+  };
   const uploadToS3 = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
