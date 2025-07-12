@@ -53,9 +53,27 @@ export default function OrganizationForm() {
   };
   // Terms & conditions starts
   const [isModalOpen, setModalOpen] = useState(false);
-  const [terms, setTerms] = useState(
-    'By registering, you agree to the collection and use of your information as described in our Terms of Service.',
-  );
+  const [terms, setTerms] = useState(`
+    <div style="line-height: 1.6; font-size: 14px;">
+      <p><strong>1. Deltagelse</strong></p>
+      <p>Ved at deltage i konkurrencen accepterer deltageren disse betingelser. Deltagelse er frivillig og ikke købsbetinget.</p>
+      
+      <p><strong>2. Opbevaring af oplysninger</strong></p>
+      <p>Vi gemmer oplysninger om deltagernes navn, e-mail og deltagelsesdato med det formål at kunne administrere konkurrencen og kontakte vinderen. Oplysningerne behandles fortroligt og slettes efter konkurrencens afslutning, medmindre andet er aftalt.</p>
+      
+      <p><strong>3. Udvælgelse og kontakt</strong></p>
+      <p>Vinderen trækkes lod blandt deltagerne og får direkte besked via e-mail eller anden kontaktform oplyst ved deltagelsen. Hvis vi ikke får svar fra vinderen inden for 7 dage, forbeholder vi os retten til at udpege en ny vinder.</p>
+      
+      <p><strong>4. Præmie</strong></p>
+      <p>Præmien kan ikke ombyttes til kontanter eller andre varer og kan ikke overdrages til andre.</p>
+      
+      <p><strong>5. Offentliggørelse</strong></p>
+      <p>Ved deltagelse giver deltageren samtykke til, at Tantakuy må offentliggøre fornavn og by på vinderen i forbindelse med annoncering af konkurrencens resultat, fx på sociale medier og/eller vores hjemmeside.</p>
+      
+      <p><strong>6. Ændringer og forbehold</strong></p>
+      <p>Tantakuy forbeholder sig retten til at ændre eller aflyse konkurrencen uden varsel, hvis nødvendigt.</p>
+    </div>
+  `);
   const [isEditing, setIsEditing] = useState(false);
   const [tempTerms, setTempTerms] = useState(terms);
 
@@ -262,7 +280,7 @@ export default function OrganizationForm() {
           </button>
         </form>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
-          <h2>Terms and conditions</h2>
+          <h2>Vilkår og betingelser</h2>
           {isEditing ? (
             <>
               <textarea
@@ -279,7 +297,7 @@ export default function OrganizationForm() {
               </div>
             </>
           ) : (
-            <p>{terms}</p>
+            <div dangerouslySetInnerHTML={{ __html: terms }} />
           )}
         </Modal>
       </>
