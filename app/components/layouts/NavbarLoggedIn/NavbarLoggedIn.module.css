@@ -5,7 +5,7 @@
   padding: 0 0;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   position: relative;
-  z-index: 10;
+  z-index: 1100;
   height: 4rem;
 }
 
@@ -155,7 +155,7 @@
   border: 1px solid #ddd;
   padding: 0.5rem 1rem;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  z-index: 100;
+  z-index: 1200;
 }
 
 .profile-menu-dropdown a {
