@@ -60,7 +60,13 @@ export default function NavbarLoggedIn({ user }) {
               {profileMenuOpen && (
                 <div className={styles['profile-menu-dropdown']}>
                   <Link
-                    href={`/participant/${userId}/profile`}
+                    href={
+                      user.role === 'company' 
+                        ? `/company/${userId}/profile` 
+                        : user.role === 'organization'
+                        ? `/participant/${userId}/profile` // Temporalmente usa la ruta de participant
+                        : `/participant/${userId}/profile`
+                    }
                     onClick={() => setProfileMenuOpen(false)}
                     className={styles['dropdown-link']}
                   >

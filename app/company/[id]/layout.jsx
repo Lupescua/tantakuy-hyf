@@ -5,6 +5,7 @@ import CompanyProfileNavbar from '@/app/components/layouts/CompanyProfileNavbar'
 import Sidebar from '@/app/components/layouts/Sidebar';
 import styles from './profile/CompanyProfilePage.module.css';
 import { useAuth } from '@/context/AuthContext';
+import Loader from '@/app/components/loader/Loader';
 
 export default function CompanyProfileLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,7 +21,11 @@ export default function CompanyProfileLayout({ children }) {
   }, [loading, user, id, router]);
 
   if (loading || !user || user.role !== 'company' || user.id !== id) {
-    return null;
+    return (
+      <div className="loader-container">
+        <Loader />
+      </div>
+    );
   }
 
   return (
