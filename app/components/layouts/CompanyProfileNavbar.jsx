@@ -13,11 +13,6 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Early return if no user to prevent hydration issues
-  if (!user) {
-    return null;
-  }
-
   // 📦 Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -40,8 +35,6 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
     }
   };
 
-
-
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-inner']}>
@@ -57,9 +50,9 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
         </div>
 
         <div className={styles.center}>
-          <button className={styles.companyDropdown}>{user?.userName || 'Usuario'}▼</button>
+          <button className={styles.companyDropdown}>{user.userName}▼</button>
           <Link
-            href={`/company/${user?.id || ''}/competitions`}
+            href={`/company/${user.id}/competitions`}
             onClick={() => setMenuOpen(false)}
             className={styles.competitions}
           >
@@ -76,7 +69,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
               onClick={() => setMenuOpen((prev) => !prev)}
               aria-label="Open profile menu"
             >
-              {user?.userName?.[0]?.toUpperCase() || 'U'}
+              {user.userName[0].toUpperCase()}
             </button>
 
             {menuOpen && (
@@ -85,7 +78,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
 
                 <br />
                 <Link
-                  href={`/company/${user?.id || ''}/profile`}
+                  href={`/company/${user.id}/profile`}
                   onClick={() => setMenuOpen(false)}
                   className={styles['dropdown-link']}
                 >
@@ -105,7 +98,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
           </div>
           <FaBell className={styles.icon} />
           <Link
-            href={`/company/${user?.id || ''}/settings`}
+            href={`/company/${user.id}/settings`}
             onClick={() => setMenuOpen(false)}
             className={styles['dropdown-link']}
           >
