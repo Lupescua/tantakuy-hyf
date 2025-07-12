@@ -20,9 +20,10 @@ export default function ForgotPasswordForm() {
     try {
       const res = await API.post('/request-reset', { email });
 
-
       if (res.data.success) {
-        setStatus('Hvis din email er registreret, er der sendt et link til nulstilling.');
+        router.push(
+          `/forgot-password?step=verify&email=${encodeURIComponent(email)}`,
+        );
       } else {
         setStatus('Noget gik galt. Prøv venligst igen.');
       }
@@ -37,8 +38,8 @@ export default function ForgotPasswordForm() {
       <form onSubmit={handleSubmit} className={styles.form}>
         <h2>Glemt adgangskode?</h2>
         <p>
-          Indtast din emailadresse, så sender vi dig et link til at nulstille din
-          adgangskode. Linket udløber om 15 minutter af sikkerhedshensyn.
+          Indtast din emailadresse, så sender vi dig et link til at nulstille
+          din adgangskode. Linket udløber om 15 minutter af sikkerhedshensyn.
         </p>
         <label className={styles.label}>Indtast din emailadresse</label>
         <input

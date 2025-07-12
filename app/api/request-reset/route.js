@@ -9,9 +9,8 @@ export async function POST(req) {
       to: email,
       subject: 'Reset your password - Tantakuy',
       html: `
-        <p>Click the link below to reset your password:</p>
-        <a href="${resetLink}">${resetLink}</a>
-        <p>This link will expire in 15 minutes.</p>
+        <p>Klik på <a href="${resetLink}">[ linket ] </a>for at nulstille din adgangskode:</p>
+        <p>Linket udløber om 15 minutter.</p>
       `,
     });
     return Response.json({ success: true, message: 'Reset link sent' });

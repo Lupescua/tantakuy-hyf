@@ -1,92 +1,95 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
-import styles from '../../../style/ForgotPassword.module.css';
 import { useRouter, useSearchParams } from 'next/navigation';
 import API from '@/utils/axios';
-import InvalidToken from './InvalidToken';
-import { AppError } from '@/utils/errorHandler';
+import styles from '../../../style/ForgotPassword.module.css';
 
 export default function ResetPasswordForm() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const searchParams = useSearchParams();
+  const emailParam = searchParams.get('email');
+  const token = searchParams.get('token');
+  const [email, setEmail] = useState(emailParam || '');
+  const [status, setStatus] = useState('loading');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
-  const searchParams = useSearchParams();
-  const token = searchParams.get('token');
-  const emailParam = searchParams.get('email');
-  const [status, setStatus] = useState('loading');
 
   useEffect(() => {
-    const validatingToken = async () => {
+    if (emailParam) setEmail(emailParam);
+  }, [emailParam]);
+
+  // 1) validate token...
+  useEffect(() => {
+    if (!emailParam || !token) {
+      setStatus('invalid');
+      return;
+    }
+    async function validate() {
       try {
         const res = await API.post('/validate-token', {
           email: emailParam,
-          token: token,
+          token,
         });
-        if (res.status) {
-          setStatus('valid');
-        } else {
-          setStatus('invalid');
-        }
-      } catch (error) {
+        setStatus(res.data.success ? 'valid' : 'invalid');
+      } catch {
         setStatus('invalid');
       }
-    };
-    if (emailParam && token) {
-      validatingToken();
-    } else {
-      setStatus('invalid'); // Invalid if params are missing
     }
+    validate();
   }, [emailParam, token]);
 
-  if (status === 'invalid') return <InvalidToken message={status} />;
+  if (status === 'invalid') {
+    return (
+      <div className={styles.centeredContainer}>
+        <p>Dit link er ugyldigt eller udløbet. Du bliver sendt til login.</p>
+      </div>
+    );
+  }
+  if (status === 'loading') {
+    return (
+      <div className={styles.centeredContainer}>
+        <div className={styles.spinner} />
+      </div>
+    );
+  }
 
+  // 2) submit new password
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     if (newPassword !== confirmPassword) {
-      alert('Passwords do not match');
+      alert('Adgangskoderne matcher ikke');
       return;
     }
-
     try {
-      const res = await API.post('/forgotPassword', {
-        email,
+      await API.post('/forgotPassword', {
+        email: emailParam,
         newPassword,
         token,
       });
-
-      const { user } = res.data.user;
-
-      if (!user.userName || !user.email) {
-        throw new AppError('Missing user data', 400);
-      }
-
       alert(
-        'Password reset successful! You can now log in with your new password.',
+        'Adgangskode nulstillet! Du kan nu logge ind med din nye adgangskode.',
       );
       router.push('/login');
-    } catch (error) {
-      console.error('Reset error:', error);
-      alert('Failed to reset password. Please try again.');
+    } catch (err) {
+      console.error(err);
+      alert('Noget gik galt. Prøv igen.');
     }
   };
 
   return (
     <div className={styles.formContainer}>
-      <h1 className={styles.title}>
-        Email verified, please reset your password
-      </h1>
+      <h1 className={styles.title}>Nulstil adgangskode</h1>
+
       <form onSubmit={handleSubmit} className={styles.form}>
+        {/* show which email we’re resetting for */}
         <div className={styles.inputGroup}>
           <label className={styles.label}>Email</label>
           <input
             type="email"
-            className={styles.input}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
+            value={emailParam}
+            disabled
+            className={styles.disabledInput}
           />
         </div>
 
@@ -110,18 +113,6 @@ export default function ResetPasswordForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </div>
-
-        <div className={styles.checkboxGroup}>
-          <label>
-            <input
-              type="checkbox"
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              style={{ marginRight: '8px' }}
-            />
-            Husk mig
-          </label>
         </div>
 
         <button type="submit" className={styles.submitButton}>
