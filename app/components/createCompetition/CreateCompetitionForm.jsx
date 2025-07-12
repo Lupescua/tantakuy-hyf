@@ -94,7 +94,6 @@ export default function CreateCompetitionForm() {
         company: companyId,
       };
 
-      // I'm using axios instead of just fetch
       const res = await API.post('/competitions', formData);
 
       if (res.status === 201) {
@@ -111,9 +110,7 @@ export default function CreateCompetitionForm() {
       }
     } catch (error) {
       console.error('Unexpected error:', error);
-      setErrorMsg(
-        error.response?.data?.error || 'En uventet fejl opstod.',
-      );
+      setErrorMsg(error.response?.data?.error || 'En uventet fejl opstod.');
     } finally {
       setIsSubmitting(false);
     }
