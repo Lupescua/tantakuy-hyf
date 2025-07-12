@@ -73,6 +73,7 @@
   align-items: center;
   gap: 24px;
   height: 56px;
+  transform: translateX(80px);
 }
 
 .companyDropdown {
@@ -116,6 +117,7 @@
   font-weight: bold;
   font-family: inherit;
    border: 1px solid rgba(0,0,0,0.1);
+   margin-right: 20px;
 }
 
 .user {

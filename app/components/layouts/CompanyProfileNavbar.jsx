@@ -63,7 +63,6 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
         </div>
 
         <div className={styles.right}>
-          <span className={styles.user}></span>
 
           {/* Dropdown Trigger and Container - still has a bug of not being in the foreground*/}
           <div className={styles['profile-menu-container']} ref={dropdownRef}>
