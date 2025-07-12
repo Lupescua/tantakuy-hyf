@@ -35,8 +35,6 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
     }
   };
 
-  console.log(user);
-
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-inner']}>

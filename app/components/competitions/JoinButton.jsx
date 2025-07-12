@@ -26,13 +26,10 @@ export default function JoinButton({ competitionId }) {
   // if logged in, point at the dynamic route
   const href = user ? `/participant-entry/${competitionId}` : '/login';
 
-  console.log('JoinButton → linking to:', href);
-
   return (
     <div className={styles.buttonWrapper}>
       <Link href={href} className={styles.joinButton}>
         DELTAG&nbsp;HER
-        {/* if you are confused like me, "&nbsp" Keeps the two words stuck together so they can’t break at a newline.*/}
       </Link>
     </div>
   );

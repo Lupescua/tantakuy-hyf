@@ -62,11 +62,6 @@ export default function EntryForm({ userId, competitionId }) {
       setError('Mangler konkurrence-id');
       return;
     }
-    console.log('🛰️ POST payload:', {
-      imageUrl,
-      caption,
-      competition: competitionId,
-    });
 
     try {
       setLoading(true);
@@ -75,7 +70,6 @@ export default function EntryForm({ userId, competitionId }) {
         caption,
         competition: competitionId,
       });
-      console.log('🛠️ POST /entries response:', resp.data);
       const { data } = resp;
 
       if (data.success) {

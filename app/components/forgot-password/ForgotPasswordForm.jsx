@@ -19,15 +19,8 @@ export default function ForgotPasswordForm() {
     }
     try {
       const res = await API.post('/request-reset', { email });
-      console.log('Response: is this ', res);
-      console.log(
-        'this is req.data.sucecss and data an succes',
-        res.data.success,
-        res.data,
-        res.success,
-      );
+
       if (res.data.success) {
-        console.log(res.data.success);
         setStatus('Hvis din email er registreret, er der sendt et link til nulstilling.');
       } else {
         setStatus('Noget gik galt. Prøv venligst igen.');
