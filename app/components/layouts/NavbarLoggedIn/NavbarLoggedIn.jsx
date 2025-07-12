@@ -66,8 +66,8 @@ export default function NavbarLoggedIn({ user }) {
                 <div className={styles['profile-menu-dropdown']}>
                   <Link
                     href={
-                      user.role === 'company' 
-                        ? `/company/${userId}/profile` 
+                      user.role === 'company'
+                        ? `/company/${userId}/profile`
                         : `/participant/${userId}/profile`
                     }
                     onClick={() => setProfileMenuOpen(false)}

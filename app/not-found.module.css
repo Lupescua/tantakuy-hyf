@@ -52,20 +52,20 @@
     padding: 1rem;
     min-height: 50vh;
   }
-  
+
   .title {
     font-size: 3rem;
   }
-  
+
   .subtitle {
     font-size: 1.25rem;
   }
-  
+
   .description {
     font-size: 0.875rem;
     max-width: 400px;
   }
-  
+
   .backButton {
     padding: 0.625rem 1.25rem;
     font-size: 0.875rem;
@@ -77,17 +77,17 @@
     padding: 0.75rem;
     gap: 0.75rem;
   }
-  
+
   .title {
     font-size: 2.5rem;
   }
-  
+
   .subtitle {
     font-size: 1.125rem;
   }
-  
+
   .description {
     font-size: 0.8125rem;
     max-width: 300px;
   }
-} 
+}

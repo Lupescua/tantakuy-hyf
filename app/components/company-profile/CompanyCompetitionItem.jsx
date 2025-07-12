@@ -72,7 +72,8 @@ export default function CompanyCompetitionItem({
 
   //Delete a competition
   const handleDelete = async () => {
-    if (!confirm('Er du sikker på, at du vil slette denne konkurrence?')) return;
+    if (!confirm('Er du sikker på, at du vil slette denne konkurrence?'))
+      return;
     try {
       await API.delete(`/competitions/${id}`);
       router.refresh();
