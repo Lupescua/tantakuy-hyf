@@ -7,7 +7,7 @@ import API from '@/utils/axios';
 export default function CompetitionItem({
   id,
   title,
-  organizer,
+  companyName,
   likes,
   shares,
   saved,
@@ -35,15 +35,17 @@ export default function CompetitionItem({
         <div className={styles.header}>
           <h4 className={styles.title}>{title}</h4>
           <span className={styles.separator}> - </span>
-          <span className={styles.organizer}>{organizer}</span>
+          <span className={styles.companyName}>{companyName}</span>
         </div>
-        <Image
-          src={imageUrl}
-          alt="Your submission"
-          width={93}
-          height={57}
-          className={styles.userImage}
-        />
+        <Link href={`/entry/${id}`}>
+          <Image
+            src={imageUrl}
+            alt="Your submission"
+            width={93}
+            height={57}
+            className={styles.userImage}
+          />
+        </Link>
       </div>
       <div className={styles.stats}>
         <span className={`${styles.statItem} ${styles.like}`}>
