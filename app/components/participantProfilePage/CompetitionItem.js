@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
+import { FaTrashAlt } from 'react-icons/fa';
 
 export default function CompetitionItem({
   id,
@@ -31,42 +32,46 @@ export default function CompetitionItem({
   };
   return (
     <div className={styles.competitionItem}>
+      {/* header + body */}
       <div className={styles.infoLeft}>
         <div className={styles.header}>
           <h4 className={styles.title}>{title}</h4>
           <span className={styles.separator}> - </span>
           <span className={styles.companyName}>{companyName}</span>
         </div>
-        <Link href={`/entry/${id}`}>
-          <Image
-            src={imageUrl}
-            alt="Dit indlæg"
-            width={93}
-            height={57}
-            className={styles.userImage}
-          />
-        </Link>
+        <div className={styles.body}>
+          <Link href={`/entry/${id}`}>
+            <Image
+              src={imageUrl}
+              alt="Dit indlæg"
+              width={93}
+              height={57}
+              className={styles.userImage}
+            />
+          </Link>
+          <div className={styles.stats}>
+            <span className={`${styles.statItem} ${styles.like}`}>
+              {likes} Synes godt om
+            </span>
+            {shares !== undefined && (
+              <span className={`${styles.statItem} ${styles.share}`}>
+                {shares} Delinger
+              </span>
+            )}
+            <span className={`${styles.statItem} ${styles.save}`}>
+              {saved} Gemt
+            </span>
+          </div>
+        </div>
       </div>
-      <div className={styles.stats}>
-        <span className={`${styles.statItem} ${styles.like}`}>
-          {likes} Synes godt om
-        </span>
-        {shares !== undefined && (
-          <span className={`${styles.statItem} ${styles.share}`}>
-            {shares} Delinger
-          </span>
-        )}
-        <span className={`${styles.statItem} ${styles.save}`}>
-          {saved} Gemt
-        </span>
-      </div>
-      {/* Delete‐button */}
+
+      {/* vertically‐centered delete */}
       <div className={styles.deleteBtnContainer}>
         <button
-          className={`${styles.statItem} ${styles.deleteBtn}`}
+          className={`${styles.button} ${styles.deleteBtn}`}
           onClick={handleDelete}
         >
-          Slet
+          <FaTrashAlt style={{ marginRight: '4px' }} />
         </button>
       </div>
     </div>

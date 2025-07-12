@@ -11,6 +11,7 @@
   text-decoration: none;
   color: inherit;
   flex-wrap: wrap; 
+  min-width: 500px;
 }
 
 .competitionItem:hover {
@@ -51,17 +52,28 @@
   background-color: #d9d9d9;
 }
 
-.deleteBtn {
-  background-color: #e53e3e;
-  color: black;
+.button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
   border: none;
-  outline: none;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background 0.3s ease;
+  color: white;
+}
+
+.deleteBtn {
+  background-color: #e63946;
+}
+
+.deleteBtn:hover {
+  background-color: #c72533;
 }
 
 .userImage {
-  width: 93px;
-  height: 57px;
+  max-width: 15rem;
+  min-width: 12rem;
+  height: auto;
   border-radius: 10px;
   object-fit: cover;
   margin-top: 1rem;
@@ -96,17 +108,28 @@
   margin: 0;
 }
 
-@media (max-width: 723px) {
+
+@media (max-width: 700px) {
   .competitionItem {
     flex-direction: column;
     align-items: center;
     text-align: center;
   }
+.body {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 
   .infoLeft {
     width: 100%;
     align-items: center;
     text-align: center;
+     display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1; 
   }
 
   .header {
@@ -129,17 +152,25 @@
   }
 
   .deleteBtn {
-    width: 60%;
+    /* width: 60%; */
     justify-content: center;
   }
 
   .userImage {
     display: block;
-    margin: 1rem auto 0 auto;
+    margin: auto;
     width: auto;
     height: auto;
     max-width: 100%;
-    width: 120px;
-    height: 120px;
+    min-width: 10rem;
+    
+  }
+  .competitionItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .deleteBtnContainer {
+    justify-content: flex-end;
+    margin-top: 1rem;
   }
 }
