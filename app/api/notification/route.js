@@ -1,5 +1,6 @@
 import dbConnect from '@/utils/dbConnects';
 import Notification from '../models/Notifications';
+import Entry from '../models/Entry';
 import { NextResponse } from 'next/server';
 import Participant from '../models/Participant';
 

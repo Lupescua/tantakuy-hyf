@@ -1,78 +1,52 @@
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.5rem;
-}
-
-.clearButton {
-  background: none;
-  border: none;
-  color: #0070f3;
-  cursor: pointer;
-  font-size: 0.9rem;
-  padding: 0;
-  text-decoration: underline;
-}
-
-.clearButton:hover {
-  color: #005bb5;
-}
+/* ==========================================================================
+   NOTIFICATION PANEL - SIMPLE FIGMA STYLE
+   ========================================================================== */
 
 .wrapper {
   position: relative;
   z-index: 1000;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 1rem;
 }
-.bell svg {
-  color: white;
-}
-.empty {
-  padding: 1rem;
-  text-align: center;
-  color: #888;
-}
+
+/* ==========================================================================
+   BELL ICON
+   ========================================================================== */
 
 .bell {
   position: relative;
-  font-size: 1.5rem;
+  font-size: 1rem;
   cursor: pointer;
-  display: block;
-  color: white;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
-}
-.bell {
-  filter: drop-shadow(0 0 2px black);
-}
-
-.panel {
-  max-width: 300px;
-  padding: 1rem;
+  color: #333;
+  background-color: white;
+  padding: 0.3rem;
+  border-radius: 50%;
   border: 1px solid #ddd;
-  background-color: #fafafa;
-  position: absolute;
-  top: 0px;
-  right: 0;
-  display: none;
-  z-index: 1000;
-}
-
-.show {
-  display: block;
-}
-
-.notification {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
 }
 
-.bell {
-  position: relative;
-  font-size: 1.5rem;
-  cursor: pointer;
-  display: none;
+.bell:hover {
+  transform: scale(1.1);
+  background-color: #f0f0f0;
+  border-color: #ccc;
 }
+
+.bell svg {
+  color: #333;
+}
+
+/* ==========================================================================
+   NOTIFICATION DOT (BADGE)
+   ========================================================================== */
 
 .dot {
   position: absolute;
@@ -80,77 +54,241 @@
   right: -4px;
   width: 10px;
   height: 10px;
-  background-color: orange;
+  background-color: #ff6b35;
   border-radius: 50%;
+  border: 2px solid white;
+  animation: notificationPulse 2s infinite;
 }
 
-@media (min-width: 481px) {
-  .panel {
-    display: block;
+/* ==========================================================================
+   NOTIFICATION PANEL
+   ========================================================================== */
+
+.panel {
+  max-width: 320px;
+  padding: 0;
+  border: 1px solid #ddd;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  z-index: 1000;
+  animation: notificationSlideIn 0.3s ease-out;
+}
+
+.show {
+  display: block;
+}
+
+/* ==========================================================================
+   PANEL HEADER
+   ========================================================================== */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #eee;
+  background-color: white;
+  border-radius: 8px 8px 0 0;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #000;
+}
+
+/* ==========================================================================
+   PANEL FOOTER
+   ========================================================================== */
+
+.footer {
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+}
+
+.clearAllButton {
+  width: 100%;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.clearAllButton:hover {
+  background-color: #333;
+  transform: translateY(-1px);
+}
+
+.clearAllButton:active {
+  transform: translateY(0);
+}
+
+/* ==========================================================================
+   NOTIFICATIONS CONTAINER
+   ========================================================================== */
+
+.notificationsContainer {
+  padding: 0.5rem 0;
+}
+
+/* ==========================================================================
+   INDIVIDUAL NOTIFICATIONS
+   ========================================================================== */
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.notification:last-child {
+  border-bottom: none;
+}
+
+.notification:hover {
+  background-color: rgba(0, 112, 243, 0.05);
+}
+
+.notification .dot {
     position: static;
-  }
-
-  .bell {
-    display: none;
-  }
+  width: 8px;
+  height: 8px;
+  margin-right: 4px;
+  border: none;
+  background-color: #0070f3;
+  flex-shrink: 0;
+  animation: none;
 }
 
+.notification p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.notification strong {
+  color: #000;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   NAVIGATION TO ENTRY
+   ========================================================================== */
+
+.naviToEntry {
+  background-color: #0070f3;
+  color: white;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.naviToEntry:hover {
+  background-color: #0051a2;
+  transform: translateX(2px);
+}
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+
+.empty {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN
+   ========================================================================== */
+
+/* Mobile - Hide notification panel since it's in navbar */
 @media (max-width: 480px) {
-  .bell {
-    display: block;
-  }
-
-  .panel {
-    width: 100vw;
-    right: 0;
-    top: 60px;
+  .wrapper {
     display: none;
-  }
-
-  .show {
-    display: block;
-    width: 300px;
-  }
-
-  .naviToEntry {
-    background-color: #0070f3;
-    color: white;
-    padding: 3px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-block;
   }
 }
-@media (min-width: 481px) and (max-width: 768px) {
-  .bell {
-    display: flex;
-    justify-content: right;
-    margin-bottom: 10px;
-  }
 
-  .panel {
-    width: 100vw;
-    right: 0;
-    top: 60px;
+/* Tablet - Hide notification panel since it's in navbar */
+@media (min-width: 481px) and (max-width: 768px) {
+  .wrapper {
     display: none;
   }
+}
 
-  .show {
-    display: block;
-    width: 300px;
-  }
+/* Desktop - Show notification panel centered */
+@media (min-width: 769px) {
   .wrapper {
     display: flex;
-    flex-direction: column;
-    justify-content: right;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+  
+  .bell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
   }
 
-  .naviToEntry {
-    background-color: #0070f3;
-    color: white;
-    padding: 3px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    display: inline-block;
+  .panel {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 320px;
+    border-radius: 8px;
+    max-height: 500px;
+    overflow-y: auto;
+    display: none;
   }
+
+  .show {
+    display: block;
+  }
+}
+
+/* ==========================================================================
+   ACCESSIBILITY
+   ========================================================================== */
+
+.bell:focus,
+.clearAllButton:focus,
+.naviToEntry:focus {
+  outline: 2px solid var(--notification-primary);
+  outline-offset: 2px;
 }

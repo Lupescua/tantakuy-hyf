@@ -4,6 +4,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import NotificationsPanel from '@/app/components/participantProfilePage/NotificationPanel';
 import styles from './NavbarLoggedIn.module.css';
 
 export default function NavbarLoggedIn({ user }) {
@@ -54,6 +55,9 @@ export default function NavbarLoggedIn({ user }) {
             <h1 className={styles['site-title']}>Tantakuy</h1>
           </Link>
           <div className={styles['auth-buttons']}>
+            <div className={styles['notification-wrapper']}>
+              <NotificationsPanel />
+            </div>
             <div className={styles['profile-menu-container']} ref={dropdownRef}>
               {' '}
               <button

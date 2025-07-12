@@ -11,15 +11,20 @@ export default function NotificationsPanel() {
   const [notifications, setNotifications] = useState([]);
   const { user } = useAuth();
 
-  const togglePanel = () => setOpen(!open);
+  const togglePanel = () => {
+    console.log('Toggle panel clicked, current open state:', open);
+    setOpen(!open);
+  };
 
   useEffect(() => {
     if (!user?.id) return;
+    console.log('Fetching notifications for user:', user.id);
     const fetchNotifications = async () => {
       try {
         const res = await API.get('/notification', {
           params: { userId: user.id },
         });
+        console.log('Notifications response:', res.data);
         setNotifications(res.data.notifications || []);
       } catch (err) {
         console.error('Failed to fetch notifications:', err);
@@ -58,36 +63,41 @@ export default function NotificationsPanel() {
         {notifications.length > 0 && <span className={styles.dot}></span>}
       </div>
 
-      {(open || !styles.isMobile) && (
+      {open && (
         <div className={`${styles.panel} ${open ? styles.show : ''}`}>
           <div className={styles.header}>
             <h3>Notifikationer</h3>
-            {notifications.length > 0 && (
-              <button onClick={handleClearAll} className={styles.clearButton}>
-                Ryd alle
-              </button>
+          </div>
+
+          <div className={styles.notificationsContainer}>
+            {notifications.length === 0 ? (
+              <p className={styles.empty}>Ingen notifikationer</p>
+            ) : (
+              notifications.map((n) => (
+                <div key={n.id} className={styles.notification}>
+                  <div className={styles.dot}></div>
+                  <p>
+                    <strong>{n.actor.userName}</strong>{' '}
+                    {n.type === 'like' ? 'synes godt om' : 'delte'} dit indlæg
+                  </p>
+                  <Link
+                    href={`/entry/${n.entry.id}`}
+                    className={styles.naviToEntry}
+                    onClick={() => handleNotificationClick(n.id)}
+                  >
+                    {'>'}
+                  </Link>
+                </div>
+              ))
             )}
           </div>
 
-          {notifications.length === 0 ? (
-            <p className={styles.empty}>Ingen notifikationer</p>
-          ) : (
-            notifications.map((n) => (
-              <div key={n.id} className={styles.notification}>
-                <div className={styles.dot}></div>
-                <p>
-                  <strong>{n.actor.userName}</strong>{' '}
-                  {n.type === 'like' ? 'synes godt om' : 'delte'} dit indlæg
-                </p>
-                <Link
-                  href={`/entry/${n.entry.id}`}
-                  className={styles.naviToEntry}
-                  onClick={() => handleNotificationClick(n.id)}
-                >
-                  {'>'}
-                </Link>
-              </div>
-            ))
+          {notifications.length > 0 && (
+            <div className={styles.footer}>
+              <button onClick={handleClearAll} className={styles.clearAllButton}>
+                Ryd alle
+              </button>
+            </div>
           )}
         </div>
       )}
