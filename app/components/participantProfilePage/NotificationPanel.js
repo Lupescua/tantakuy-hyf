@@ -92,16 +92,16 @@ export default function NotificationsPanel() {
             )}
           </div>
 
-          {notifications.length > 0 && (
-            <div className={styles.footer}>
+          <div className={styles.footer}>
+            {notifications.length > 0 && (
               <button
                 onClick={handleClearAll}
                 className={styles.clearAllButton}
               >
                 Ryd alle
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       )}
     </div>
