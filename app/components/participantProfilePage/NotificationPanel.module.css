@@ -137,7 +137,7 @@
 }
 
 .notification .dot {
-    position: static;
+  position: static;
   width: 8px;
   height: 8px;
   margin-right: 4px;
@@ -189,8 +189,6 @@
   font-style: italic;
 }
 
-
-
 /* Desktop - Show notification panel centered */
 @media (min-width: 769px) {
   .wrapper {
@@ -199,7 +197,7 @@
     align-items: flex-start;
     padding-top: 1rem;
   }
-  
+
   .bell {
     display: flex;
     align-items: center;
