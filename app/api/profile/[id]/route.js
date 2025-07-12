@@ -23,7 +23,7 @@ export async function GET(request, context) {
         select: 'title company', // only these two fields from Competition
         populate: {
           path: 'company',
-          select: 'name', // grab only the company’s name
+          select: 'companyName', // grab only the company’s name
         },
       })
       .lean();
@@ -35,7 +35,7 @@ export async function GET(request, context) {
     const data = good.map((e) => ({
       id: e._id,
       title: e.competition.title,
-      company: e.competition.company?.name || 'Ukendt',
+      company: e.competition.company?.companyName || 'Ukendt',
       likes: e.votes,
       shares: e.shares,
       saved: 0,
