@@ -73,7 +73,7 @@ export default function ProfileSection() {
                   title={item.title}
                   companyName={item.company}
                   likes={item.likes}
-                  shares={item.shares}
+                  shares={item.shares ?? 0}
                   saved={item.saved}
                   imageUrl={item.imageUrl}
                   onDelete={(deleteId) => {
