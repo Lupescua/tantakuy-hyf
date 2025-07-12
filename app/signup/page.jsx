@@ -16,13 +16,16 @@ export default function SignupPage() {
         <div className={styles.wrapper}>
           <h1 className={styles.title}>Kom i gang</h1>
           <p className={styles.subtitle}>
-            Vælg din rolle for at tilmelde dig Tantakuy og deltage i spændende konkurrencer
+            Vælg din rolle for at tilmelde dig Tantakuy og deltage i spændende
+            konkurrencer
           </p>
 
           <div className={styles.card}>
             <RoleSelector onSend={handleButtonVibility} />
           </div>
-          {buttonSignup && <button className={styles.button}>Tilmeld dig →</button>}
+          {buttonSignup && (
+            <button className={styles.button}>Tilmeld dig →</button>
+          )}
         </div>
       </main>
     </>

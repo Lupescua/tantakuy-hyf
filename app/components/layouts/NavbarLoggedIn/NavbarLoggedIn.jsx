@@ -14,6 +14,11 @@ export default function NavbarLoggedIn({ user }) {
   const dropdownRef = useRef(null);
   const pathname = usePathname();
 
+  // Early return if no user to prevent hydration issues
+  if (!user) {
+    return null;
+  }
+
   // 📦 Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -55,12 +60,16 @@ export default function NavbarLoggedIn({ user }) {
                 className={styles['nav-btn']}
                 onClick={() => setProfileMenuOpen((open) => !open)}
               >
-                {user.userName[0].toUpperCase()}
+                {user?.userName?.[0]?.toUpperCase() || 'U'}
               </button>
               {profileMenuOpen && (
                 <div className={styles['profile-menu-dropdown']}>
                   <Link
-                    href={`/participant/${userId}/profile`}
+                    href={
+                      user.role === 'company'
+                        ? `/company/${userId}/profile`
+                        : `/participant/${userId}/profile`
+                    }
                     onClick={() => setProfileMenuOpen(false)}
                     className={styles['dropdown-link']}
                   >
