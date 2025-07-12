@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnects';
 import Participant from '@/app/api/models/Participant';
 import { AppError } from '@/utils/errorHandler';
+import Company from '../models/Company';
 
 export async function POST(request) {
   await dbConnect();
@@ -17,6 +18,13 @@ export async function POST(request) {
     resetToken: token,
     resetTokenExpiry: { $gt: Date.now() },
   });
+  if (!user) {
+    user = await Company.findOne({
+      email,
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() },
+    });
+  }
   if (!user) {
     return NextResponse.json(
       { success: false, message: 'Invalid or expired token' },

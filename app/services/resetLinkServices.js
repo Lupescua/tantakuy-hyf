@@ -1,5 +1,6 @@
 import dbConnect from '@/utils/dbConnects';
 import Participant from '../api/models/Participant';
+import Company from '../api/models/Company';
 import crypto from 'crypto';
 import { AppError } from '@/utils/errorHandler';
 
@@ -20,8 +21,14 @@ export async function sendResetLink(email) {
   }
 
   try {
-    const user = await Participant.findOne({ email });
-    console.log(user);
+    let user = await Participant.findOne({ email });
+    let userType = 'participant';
+
+    if (!user) {
+      user = await Company.findOne({ email });
+      userType = 'company';
+    }
+
     if (!user) {
       throw new AppError('No user found with that email.', 404);
     }
