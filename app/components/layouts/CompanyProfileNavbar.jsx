@@ -5,6 +5,7 @@ import { useAuth } from '@/context/AuthContext';
 import API from '@/utils/axios';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 export default function CompanyProfileNavbar({ onHamburgerClick }) {
   const { user, refresh } = useAuth();
@@ -34,6 +35,8 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
     }
   };
 
+  console.log(user);
+
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-inner']}>
@@ -50,27 +53,39 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
 
         <div className={styles.center}>
           <button className={styles.companyDropdown}>{user.userName}▼</button>
-          <span className={styles.competitions}>Competitions</span>
+          <Link
+            href={`/company/${user.id}/competitions`}
+            onClick={() => setProfileMenuOpen(false)}
+            className={styles.competitions}
+          >
+            Competitions
+          </Link>
         </div>
 
         <div className={styles.right}>
-          <span className={styles.idCircle}>ID</span>
-          <span className={styles.user}>User</span>
-          <FaBell className={styles.icon} />
 
           {/* Dropdown Trigger and Container - still has a bug of not being in the foreground*/}
           <div className={styles['profile-menu-container']} ref={dropdownRef}>
             <button
-              className={styles.iconButton}
+              className={styles.idCircle}
               onClick={() => setMenuOpen((prev) => !prev)}
-              aria-label="Settings"
+              aria-label="Open profile menu"
             >
-              <FaCog className={styles.icon} />
+              {user.userName[0].toUpperCase()}
             </button>
 
             {menuOpen && (
               <div className={styles['profile-menu-dropdown']}>
                 {/* Add other links here if needed */}
+
+                <br />
+                <Link
+                  href={`/company/${user.id}/profile`}
+                  onClick={() => setProfileMenuOpen(false)}
+                  className={styles['dropdown-link']}
+                >
+                  My Profile
+                </Link>
                 <button
                   onClick={() => {
                     setMenuOpen(false);
@@ -83,6 +98,14 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
               </div>
             )}
           </div>
+          <FaBell className={styles.icon} />
+          <Link
+            href={`/company/${user.id}/settings`}
+            onClick={() => setProfileMenuOpen(false)}
+            className={styles['dropdown-link']}
+          >
+            <FaCog className={styles.icon} />
+          </Link>
         </div>
       </div>
     </header>
