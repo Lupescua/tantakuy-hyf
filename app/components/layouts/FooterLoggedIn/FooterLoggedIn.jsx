@@ -24,12 +24,16 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* footer mobil */}
-      <nav className={styles['footer-nav']} aria-label="Mobil navigation">
-        <Link href="/" aria-label="Hjem" className={styles['footer-icon']}>
+      {/* footer mobile */}
+      <nav className={styles['footer-nav']} aria-label="Mobile navigation">
+        <Link href="/" aria-label="Home" className={styles['footer-icon']}>
           <FiHome />
         </Link>
-        <button className={styles['footer-icon']} aria-label="Søg" onClick={toggleMobileSearch}>
+        <button
+          className={styles['footer-icon']}
+          aria-label="Search"
+          onClick={toggleMobileSearch}
+        >
           <FiSearch />
         </button>
         <button className={styles['footer-icon']} aria-label="Synes godt om">

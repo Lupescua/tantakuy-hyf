@@ -22,6 +22,5 @@ export default async function dbConnect() {
   cached.conn = await cached.promise;
   global.mongoose = cached;
 
-  console.log('✅ MongoDB connected');
   return cached.conn;
 }

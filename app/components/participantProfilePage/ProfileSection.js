@@ -25,7 +25,7 @@ export default function ProfileSection() {
       const fetchData = async () => {
         try {
           const res = await API.get(`/profile/${user.id}`);
-          console.log('PROFILE DATA:', res.data.data);
+
           const result = res.data;
 
           if (result.success && Array.isArray(result.data)) {

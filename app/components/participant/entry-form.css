@@ -16,8 +16,6 @@
 
 .entryheader {
   position: relative;
-  /* top: 0;
-  left: 200px; */
   width: 100%;
   height: 81px;
   background: #ffffff;
@@ -42,8 +40,6 @@
 
 .uploadbar {
   position: relative;
-  /* top: 81px;
-  left: 0; */
   width: 100%;
   height: 63px;
   background: #aeaeae;
@@ -93,8 +89,6 @@
 
 .imagepreview {
   position: relative;
-  /* top: 200px;
-  left: 19px; */
   width: 100%;
   max-width: 662px;
   aspect-ratio: 662 / 393;
@@ -117,7 +111,6 @@
 
 .placeholderimage {
   position: relative;
-  /* top: 90px; */
   width: 100%;
   height: 400px;
   padding-top: 10px;
@@ -208,6 +201,7 @@
 }
 
 @media (max-width: 480px) {
+
   .uploadtitle,
   .nextbtn {
     font-size: 1.25rem;
