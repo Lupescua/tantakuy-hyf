@@ -1,27 +1,44 @@
-import { resetPassword } from '@/app/services/resetPassword';
+import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnects';
+import Participant from '@/app/api/models/Participant';
+import { AppError } from '@/utils/errorHandler';
+import Company from '../models/Company';
 
-export async function POST(req) {
-  try {
-    await dbConnect();
-    const body = await req.json();
-    const user = await resetPassword(body);
+export async function POST(request) {
+  await dbConnect();
+  const { email, newPassword, token } = await request.json();
 
-    return Response.json({
-      success: true,
-      message: 'Password reset successful',
-      user,
+  if (!email || !newPassword || !token) {
+    throw new AppError('Missing parameters', 400);
+  }
+
+  // 1) find the user whose resetToken matches & hasn’t expired
+  let user = await Participant.findOne({
+    email,
+    resetToken: token,
+    resetTokenExpiry: { $gt: Date.now() },
+  });
+  if (!user) {
+    user = await Company.findOne({
+      email,
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() },
     });
-  } catch (error) {
-    console.error('Error resetting password:', error);
-
-    return Response.json(
-      {
-        success: false,
-        message: 'Failed to reset password',
-        error: error.message,
-      },
-      { status: 500 },
+  }
+  if (!user) {
+    return NextResponse.json(
+      { success: false, message: 'Invalid or expired token' },
+      { status: 400 },
     );
   }
+
+  // 2) overwrite the password, clear the reset fields
+  user.password = newPassword;
+  user.resetToken = undefined;
+  user.resetTokenExpiry = undefined;
+
+  // 3) .save() so your pre('save') hashing runs
+  await user.save();
+
+  return NextResponse.json({ success: true, message: 'Password reset' });
 }

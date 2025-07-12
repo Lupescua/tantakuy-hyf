@@ -1,28 +1,14 @@
-import nodemailer from 'nodemailer';
+import { sendEmail } from '@/utils/sendEmail';
 
 export async function POST(req) {
-  const { to, subject, text, html } = await req.json();
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_APP_PASSWORD,
-    },
-  });
-
+  const { to, subject, html } = await req.json();
   try {
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to,
-      subject,
-      text,
-      html,
-    });
-    return Response.json({ success: true });
-  } catch (error) {
-    console.error(error);
-    return Response.json(
-      { success: false, message: error.message },
+    await sendEmail({ to, subject, text: stripHtml(html), html });
+    return NextResponse.json({ success: true });
+  } catch (err) {
+    console.error('Email send failed:', err);
+    return NextResponse.json(
+      { success: false, message: err.message },
       { status: 500 },
     );
   }

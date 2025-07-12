@@ -1,15 +1,28 @@
 import Participant from '../api/models/Participant';
+import Company from '@/app/api/models/Company';
 import dbConnect from '@/utils/dbConnects';
 
 export const validateToken = async (email, token) => {
   await dbConnect();
-  const loginParticipant = await Participant.findOne({ email });
-  if (!loginParticipant) {
-    return { success: false, message: 'Invalid' };
+
+  // look for a Participant whose resetToken matches and hasn't expired
+  let user = await Participant.findOne({
+    email,
+    resetToken: token,
+    resetTokenExpiry: { $gt: Date.now() },
+  });
+
+  // if not a participant, try Company
+  if (!user) {
+    user = await Company.findOne({
+      email,
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() },
+    });
   }
-  if (loginParticipant.resetToken === token) {
-    return { success: true, message: 'Valid' };
-  } else {
-    return { success: false, message: 'Invalid' };
+
+  if (!user) {
+    return { success: false, message: 'Invalid or expired token' };
   }
+  return { success: true, message: 'Valid token' };
 };

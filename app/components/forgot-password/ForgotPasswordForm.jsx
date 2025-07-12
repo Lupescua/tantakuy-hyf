@@ -21,8 +21,8 @@ export default function ForgotPasswordForm() {
       const res = await API.post('/request-reset', { email });
 
       if (res.data.success) {
-        setStatus(
-          'Hvis din email er registreret, er der sendt et link til nulstilling.',
+        router.push(
+          `/forgot-password?step=verify&email=${encodeURIComponent(email)}`,
         );
       } else {
         setStatus('Noget gik galt. Prøv venligst igen.');

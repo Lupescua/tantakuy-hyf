@@ -1,9 +1,17 @@
 import dbConnect from '@/utils/dbConnects';
 import Participant from '../api/models/Participant';
+import Company from '../api/models/Company';
 import crypto from 'crypto';
 import { AppError } from '@/utils/errorHandler';
 
-const DOMAIN = process.env.DOMAIN;
+const rawDomain = process.env.DOMAIN;
+if (!rawDomain) {
+  throw new Error(
+    'Missing DOMAIN env var – set DOMAIN=http://localhost:3000 (and in prod to your live URL)',
+  );
+}
+// ensure we don’t accidentally drop or double up the slash:
+const DOMAIN = rawDomain.endsWith('/') ? rawDomain.slice(0, -1) : rawDomain;
 
 export async function sendResetLink(email) {
   await dbConnect();
@@ -13,8 +21,14 @@ export async function sendResetLink(email) {
   }
 
   try {
-    const user = await Participant.findOne({ email });
-    console.log(user);
+    let user = await Participant.findOne({ email });
+    let userType = 'participant';
+
+    if (!user) {
+      user = await Company.findOne({ email });
+      userType = 'company';
+    }
+
     if (!user) {
       throw new AppError('No user found with that email.', 404);
     }
@@ -23,7 +37,7 @@ export async function sendResetLink(email) {
     user.resetTokenExpiry = Date.now() + 1000 * 60 * 15;
     await user.save();
 
-    const resetLink = `${DOMAIN}forgot-password?step=reset&token=${token}&email=${email}`;
+    const resetLink = `${DOMAIN}/forgot-password?step=reset&token=${token}&email=${encodeURIComponent(email)}`;
     return resetLink;
   } catch (error) {
     throw new AppError(error.message || 'Password Reset Failed!', 500);
