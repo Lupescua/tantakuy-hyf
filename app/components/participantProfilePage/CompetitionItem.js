@@ -40,7 +40,7 @@ export default function CompetitionItem({
         <Link href={`/entry/${id}`}>
           <Image
             src={imageUrl}
-            alt="Your submission"
+            alt="Dit indlæg"
             width={93}
             height={57}
             className={styles.userImage}
@@ -49,15 +49,15 @@ export default function CompetitionItem({
       </div>
       <div className={styles.stats}>
         <span className={`${styles.statItem} ${styles.like}`}>
-          {likes} Likes
+          {likes} Synes godt om
         </span>
         {shares !== undefined && (
           <span className={`${styles.statItem} ${styles.share}`}>
-            {shares} Shares
+            {shares} Delinger
           </span>
         )}
         <span className={`${styles.statItem} ${styles.save}`}>
-          {saved} Saved
+          {saved} Gemt
         </span>
       </div>
       {/* Delete‐button */}

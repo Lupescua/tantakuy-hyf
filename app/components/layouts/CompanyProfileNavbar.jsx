@@ -55,7 +55,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
           <button className={styles.companyDropdown}>{user.userName}▼</button>
           <Link
             href={`/company/${user.id}/competitions`}
-            onClick={() => setProfileMenuOpen(false)}
+            onClick={() => setMenuOpen(false)}
             className={styles.competitions}
           >
             Konkurrencer
@@ -81,10 +81,10 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
                 <br />
                 <Link
                   href={`/company/${user.id}/profile`}
-                  onClick={() => setProfileMenuOpen(false)}
+                  onClick={() => setMenuOpen(false)}
                   className={styles['dropdown-link']}
                 >
-                  My Profile
+                  Min profil
                 </Link>
                 <button
                   onClick={() => {
@@ -93,7 +93,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
                   }}
                   className={styles['logout-btn']}
                 >
-                  Log out
+                  Log ud
                 </button>
               </div>
             )}
@@ -101,7 +101,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
           <FaBell className={styles.icon} />
           <Link
             href={`/company/${user.id}/settings`}
-            onClick={() => setProfileMenuOpen(false)}
+            onClick={() => setMenuOpen(false)}
             className={styles['dropdown-link']}
           >
             <FaCog className={styles.icon} />
