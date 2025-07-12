@@ -1,0 +1,93 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  color: #666;
+  margin: 0;
+}
+
+.description {
+  font-size: 1rem;
+  color: #888;
+  max-width: 500px;
+  margin: 0;
+}
+
+.backButton {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background-color: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.backButton:hover {
+  background-color: #333;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    min-height: 50vh;
+  }
+  
+  .title {
+    font-size: 3rem;
+  }
+  
+  .subtitle {
+    font-size: 1.25rem;
+  }
+  
+  .description {
+    font-size: 0.875rem;
+    max-width: 400px;
+  }
+  
+  .backButton {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+  
+  .title {
+    font-size: 2.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.125rem;
+  }
+  
+  .description {
+    font-size: 0.8125rem;
+    max-width: 300px;
+  }
+} 
