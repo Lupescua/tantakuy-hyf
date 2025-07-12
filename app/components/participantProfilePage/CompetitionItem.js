@@ -61,15 +61,14 @@ export default function CompetitionItem({
         </span>
       </div>
       {/* Delete‐button */}
-      <div className={ styles.deleteBtnContainer}>
+      <div className={styles.deleteBtnContainer}>
         <button
-        className={`${styles.statItem} ${styles.deleteBtn}`}
-        onClick={handleDelete}
-      >
-        Slet
-      </button>
+          className={`${styles.statItem} ${styles.deleteBtn}`}
+          onClick={handleDelete}
+        >
+          Slet
+        </button>
       </div>
-      
     </div>
   );
 }
