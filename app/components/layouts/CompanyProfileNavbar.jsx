@@ -58,7 +58,7 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
             onClick={() => setProfileMenuOpen(false)}
             className={styles.competitions}
           >
-            Competitions
+            Konkurrencer
           </Link>
         </div>
 

@@ -133,15 +133,15 @@ export default function EntryPage() {
 
       // 2) Copy the URL to the clipboard
       await navigator.clipboard.writeText(url);
-      alert('Link copied to clipboard 📋');
+      alert('Link kopieret til udklipsholder 📋');
     } catch (err) {
       console.error('Share failed:', err);
       // Even if the PATCH fails, still try to copy
       try {
         await navigator.clipboard.writeText(url);
-        alert('Link copied to clipboard 📋');
+        alert('Link kopieret til udklipsholder 📋');
       } catch {
-        alert('Could not copy link');
+        alert('Kunne ikke kopiere link');
       }
     }
   };
@@ -246,7 +246,7 @@ export default function EntryPage() {
       {/* ── 5. load more ── */}
       {hasMore && !loading && (
         <button className={styles.loadMore} onClick={loadMore}>
-          Load more
+          Indlæs mere
         </button>
       )}
     </main>

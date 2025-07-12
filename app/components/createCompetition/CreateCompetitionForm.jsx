@@ -128,7 +128,7 @@ export default function CreateCompetitionForm() {
     <div className={styles.layoutWrapper}>
       <div className={styles.pageWrapper}>
         <div className={styles.backButton}>
-          <button onClick={goBack}>Back</button>
+          <button onClick={goBack}>Tilbage</button>
         </div>
 
         <div className={styles.formContainer}>

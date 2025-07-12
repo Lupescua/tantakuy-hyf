@@ -34,7 +34,7 @@ export default function CompanyProfileSidebar({ companyId, open, setOpen }) {
     <>
       <aside className={`${styles.sidebar} ${open ? styles.open : ''}`}>
         <nav>
-          <h2 className={styles.sidebarTitle}>Overview</h2>
+          <h2 className={styles.sidebarTitle}>Oversigt</h2>
           <ul className={styles.sidebarList}>
             {navItems.map((item) => (
               <li

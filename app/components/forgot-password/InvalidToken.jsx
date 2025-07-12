@@ -27,7 +27,7 @@ export default function InvalidToken({ message }) {
       <div className={styles.leftAlignText}>
         <p className={styles.message}>{message}</p>
         <a href="/login" className={styles.backLink}>
-          Back to Log in
+          Tilbage til log ind
         </a>
         <h1 className={styles.countDown}>{countdown}</h1>
         <div className={styles.spinner}></div>

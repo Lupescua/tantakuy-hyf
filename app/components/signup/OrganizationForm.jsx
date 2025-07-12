@@ -98,7 +98,7 @@ export default function OrganizationForm() {
     <>
       <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
         <div className={styles.formItemOrg}>
-          <label htmlFor="name">Name</label>
+          <label htmlFor="name">Navn</label>
           <input
             type="text"
             id="name"
@@ -110,7 +110,7 @@ export default function OrganizationForm() {
         </div>
 
         <div className={styles.formItemOrg}>
-          <label htmlFor="position">Position</label>
+          <label htmlFor="position">Stilling</label>
           <input
             type="text"
             id="position"
@@ -122,7 +122,7 @@ export default function OrganizationForm() {
         </div>
 
         <div className={styles.formItemOrg}>
-          <label htmlFor="organizationName">Organization Name</label>
+          <label htmlFor="organizationName">Organisationsnavn</label>
           <input
             type="text"
             id="organizationName"
@@ -134,7 +134,7 @@ export default function OrganizationForm() {
         </div>
 
         <div className={styles.formItemOrg}>
-          <label htmlFor="workNumber">Work Number</label>
+          <label htmlFor="workNumber">Arbejdsnummer</label>
           <input
             type="text"
             id="workNumber"
@@ -158,7 +158,7 @@ export default function OrganizationForm() {
         </div>
 
         <div className={styles.formItemOrg}>
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Adgangskode</label>
           <div className={styles.passwordWrapper}>
             <input
               type={showPassword ? 'text' : 'password'}
@@ -183,7 +183,7 @@ export default function OrganizationForm() {
         </div>
 
         <div className={styles.formItemOrg}>
-          <label htmlFor="confirmPassword">Confirm Password</label>
+          <label htmlFor="confirmPassword">Bekræft adgangskode</label>
           <div className={styles.passwordWrapper}>
             <input
               type={showConfirmPassword ? 'text' : 'password'}
@@ -215,9 +215,9 @@ export default function OrganizationForm() {
             onChange={handleChange}
             required
           />
-          <label> I accept the terms and conditions</label>
+          <label> Jeg accepterer vilkår og betingelser</label>
           <p className="hero-subtitle">
-            You agree to our{' '}
+            Du accepterer vores{' '}
             <span
               style={{
                 color: 'blue',
@@ -226,9 +226,9 @@ export default function OrganizationForm() {
               }}
               onClick={openModal}
             >
-              Terms and Conditions
+              Vilkår og betingelser
             </span>{' '}
-            and{' '}
+            og{' '}
             <span
               style={{
                 color: 'blue',
@@ -237,14 +237,14 @@ export default function OrganizationForm() {
               }}
               onClick={openPrivacyModal}
             >
-              Privacy Policy
+              Privatlivspolitik
             </span>
             .
           </p>
         </div>
 
         <button className={styles.buttonBlack} type="submit">
-          Registration
+          Registrering
         </button>
       </form>
       
@@ -259,9 +259,9 @@ export default function OrganizationForm() {
               style={{ width: '100%' }}
             />
             <div style={{ marginTop: 10 }}>
-              <button onClick={saveTerms}>Save</button>
+              <button onClick={saveTerms}>Gem</button>
               <button onClick={closeModal} style={{ marginLeft: 10 }}>
-                Cancel
+                Annuller
               </button>
             </div>
           </>
@@ -271,7 +271,7 @@ export default function OrganizationForm() {
       </Modal>
       
       <Modal isOpen={isPrivacyOpen} onClose={closePrivacyModal}>
-        <h2>Privacy Policy</h2>
+        <h2>Privatlivspolitik</h2>
         {isPrivacyEditing ? (
           <>
             <textarea
@@ -281,9 +281,9 @@ export default function OrganizationForm() {
               style={{ width: '100%' }}
             />
             <div style={{ marginTop: 10 }}>
-              <button onClick={savePrivacy}>Save</button>
+              <button onClick={savePrivacy}>Gem</button>
               <button onClick={closePrivacyModal} style={{ marginLeft: 10 }}>
-                Cancel
+                Annuller
               </button>
             </div>
           </>

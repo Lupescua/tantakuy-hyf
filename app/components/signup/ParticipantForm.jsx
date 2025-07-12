@@ -109,7 +109,7 @@ export default function RegistrationForm() {
 
   //Privacy Policy starts
   const [isPrivacyOpen, setPrivacyOpen] = useState(false);
-  const [privacy, setPrivacy] = useState('This is the default privacy policy.');
+  const [privacy, setPrivacy] = useState('Dette er standardprivatlivspolitikken.');
   const [tempPrivacy, setTempPrivacy] = useState(privacy);
   const [isPrivacyEditing, setIsPrivacyEditing] = useState(false);
 
@@ -133,7 +133,7 @@ export default function RegistrationForm() {
           style={{ maxWidth: '400px', margin: 'auto' }}
         >
           <div className={styles.formItem}>
-            <label htmlFor="userName">Username</label>
+            <label htmlFor="userName">Brugernavn</label>
             <br />
             <input
               type="text"
@@ -159,7 +159,7 @@ export default function RegistrationForm() {
           </div>
 
           <div className={styles.formItem}>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Adgangskode</label>
             <div className={styles.passwordWrapper}>
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -184,7 +184,7 @@ export default function RegistrationForm() {
           </div>
 
           <div className={styles.formItem}>
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label htmlFor="confirmPassword">Bekræft adgangskode</label>
             <div className={styles.passwordWrapper}>
               <input
                 type={showConfirmPassword ? 'text' : 'password'}
@@ -217,9 +217,9 @@ export default function RegistrationForm() {
               onChange={handleChange}
               required
             />{' '}
-            <label>I accept the terms and conditions</label>
+            <label>Jeg accepterer vilkår og betingelser</label>
             <p className="hero-subtitle">
-              You agree to our{' '}
+              Du accepterer vores{' '}
               <span
                 style={{
                   color: 'blue',
@@ -228,9 +228,9 @@ export default function RegistrationForm() {
                 }}
                 onClick={openModal}
               >
-                Terms and Conditions
+                Vilkår og betingelser
               </span>{' '}
-              and{' '}
+              og{' '}
               <span
                 style={{
                   color: 'blue',
@@ -239,7 +239,7 @@ export default function RegistrationForm() {
                 }}
                 onClick={openPrivacyModal}
               >
-                Privacy Policy
+                Privatlivspolitik
               </span>
               .
             </p>
@@ -254,7 +254,7 @@ export default function RegistrationForm() {
             type="submit"
             disabled={loading}
           >
-            {loading ? 'Registering...' : 'Registration →'}
+            {loading ? 'Registrerer...' : 'Registrering →'}
           </button>
         </form>
         <Modal isOpen={isModalOpen} onClose={closeModal}>
@@ -269,9 +269,9 @@ export default function RegistrationForm() {
                 style={{ width: '100%' }}
               />
               <div style={{ marginTop: 10 }}>
-                <button onClick={saveTerms}>Save</button>
+                <button onClick={saveTerms}>Gem</button>
                 <button onClick={closeModal} style={{ marginLeft: 10 }}>
-                  Cancel
+                  Annuller
                 </button>
               </div>
             </>
@@ -281,7 +281,7 @@ export default function RegistrationForm() {
         </Modal>
       </>
       <Modal isOpen={isPrivacyOpen} onClose={closePrivacyModal}>
-        <h2>Privacy Policy</h2>
+        <h2>Privatlivspolitik</h2>
         {isPrivacyEditing ? (
           <>
             <textarea
@@ -291,9 +291,9 @@ export default function RegistrationForm() {
               style={{ width: '100%' }}
             />
             <div style={{ marginTop: 10 }}>
-              <button onClick={savePrivacy}>Save</button>
+              <button onClick={savePrivacy}>Gem</button>
               <button onClick={closePrivacyModal} style={{ marginLeft: 10 }}>
-                Cancel
+                Annuller
               </button>
             </div>
           </>

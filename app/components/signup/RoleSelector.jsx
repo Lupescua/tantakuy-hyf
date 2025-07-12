@@ -33,7 +33,7 @@ export default function RoleSelector({ onSend }) {
             {' '}
             <FontAwesomeIcon icon={faAngleLeft} />
           </span>
-          Back
+          Tilbage
         </button>
       )}
       {!selectedRole && (
@@ -42,27 +42,27 @@ export default function RoleSelector({ onSend }) {
             className={styles.itemContainer}
             onClick={() => handleUserChoise('user')}
           >
-            <p className={styles.signUpItems}>USER</p>
+            <p className={styles.signUpItems}>DELTAGER</p>
             <p className={styles.signUpItemsDescription}>
-              {/* Danish text */}
+              Deltag i konkurrencer og stem på dine favoritter
             </p>
           </div>
           <div
             className={styles.itemContainer}
             onClick={() => handleUserChoise('company')}
           >
-            <p className={styles.signUpItems}>COMPANY</p>
+            <p className={styles.signUpItems}>VIRKSOMHED</p>
             <p className={styles.signUpItemsDescription}>
-              {/* Danish text */}
+              Opret konkurrencer og administrer dine kampagner
             </p>
           </div>
           <div
             className={styles.itemContainer}
             onClick={() => handleUserChoise('organization')}
           >
-            <p className={styles.signUpItems}>ORGANIZATION</p>
+            <p className={styles.signUpItems}>ORGANISATION</p>
             <p className={styles.signUpItemsDescription}>
-              {/* Danish text */}
+              Samarbejd med virksomheder om konkurrencer
             </p>
           </div>
         </div>
