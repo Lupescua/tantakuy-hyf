@@ -106,13 +106,13 @@ export default function CreateCompetitionForm() {
           router.push(`/company/${companyId}/competitions`);
         }, 5000);
       } else {
-        setErrorMsg(res.data?.error || 'Failed to create competition.');
+        setErrorMsg(res.data?.error || 'Kunne ikke oprette konkurrence.');
         console.error('API error:', res.data);
       }
     } catch (error) {
       console.error('Unexpected error:', error);
       setErrorMsg(
-        error.response?.data?.error || 'An unexpected error occurred.',
+        error.response?.data?.error || 'En uventet fejl opstod.',
       );
     } finally {
       setIsSubmitting(false);
@@ -128,7 +128,7 @@ export default function CreateCompetitionForm() {
     <div className={styles.layoutWrapper}>
       <div className={styles.pageWrapper}>
         <div className={styles.backButton}>
-          <button onClick={goBack}>Back</button>
+          <button onClick={goBack}>Tilbage</button>
         </div>
 
         <div className={styles.formContainer}>
@@ -191,7 +191,7 @@ export default function CreateCompetitionForm() {
             </div>
 
             <div className={styles.formInput}>
-              <label> Vikår </label>
+              <label> Vilkår </label>
               <textarea name="terms" rows="4" />
             </div>
 

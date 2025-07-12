@@ -10,13 +10,13 @@ export default function NavbarLoggedOut() {
         </Link>
         <div className={styles['auth-buttons']}>
           <Link href="/login" className={styles['nav-btn']}>
-            Log in
+            Log ind
           </Link>
           <Link
             href="/signup"
             className={`${styles['nav-btn']} ${styles['primary']}`}
           >
-            Sign up
+            Tilmeld dig
           </Link>
         </div>
       </div>

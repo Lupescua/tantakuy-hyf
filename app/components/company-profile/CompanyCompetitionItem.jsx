@@ -72,7 +72,7 @@ export default function CompanyCompetitionItem({
 
   //Delete a competition
   const handleDelete = async () => {
-    if (!confirm('Are you sure you want to delete this competition?')) return;
+    if (!confirm('Er du sikker på, at du vil slette denne konkurrence?')) return;
     try {
       await API.delete(`/competitions/${id}`);
       router.refresh();
@@ -94,7 +94,7 @@ export default function CompanyCompetitionItem({
             <span>Deltagere: {stats.participants}</span>
             <span>Stemmer: {stats.votes}</span>
             <span>Delinger: {stats.shares}</span>
-            <span>Clicks: {stats.clicks}</span>
+            <span>Klik: {stats.clicks}</span>
           </div>
         )}
       </div>

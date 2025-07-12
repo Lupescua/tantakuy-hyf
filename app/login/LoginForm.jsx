@@ -68,7 +68,7 @@ function LoginForm() {
     <>
       <div className={styles.loginPage}>
         <div className={styles.loginHeader}>
-          <h1>Log in</h1>
+          <h1>Log ind</h1>
           {/* TODO: Replace with Danish translation */}
         </div>
 
@@ -90,7 +90,7 @@ function LoginForm() {
               />
 
               <label htmlFor="password" className={styles.formLabel}>
-                Password
+                Adgangskode
               </label>
               <div className={styles.passwordWrapper}>
                 <input
@@ -126,27 +126,27 @@ function LoginForm() {
                     className={styles.rememberMecheckbox}
                   />
                   <label htmlFor="remember-me" className={styles.formLabel}>
-                    Remember me
+                    Husk mig
                   </label>
                 </div>
                 <Link
                   href="/forgot-password"
                   className={styles.forgotPasswordLink}
                 >
-                  Forgot password?
+                  Glemt adgangskode?
                 </Link>
               </div>
             </div>
 
             <div className={styles.formButton}>
               <button type="submit" className={styles.button}>
-                Log in
+                Log ind
                 <img src="/Arrow icon.png" alt="arrow icon" />
               </button>
               <p>
-                Don’t have an account?{' '}
+                Har du ikke en konto?{' '}
                 <Link href="/signup" className={styles.signUpLink}>
-                  Sign up
+                  Tilmeld dig
                 </Link>
               </p>
             </div>

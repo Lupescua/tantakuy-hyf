@@ -64,7 +64,7 @@ export default function NavbarLoggedIn({ user }) {
                     onClick={() => setProfileMenuOpen(false)}
                     className={styles['dropdown-link']}
                   >
-                    My Profile
+                    Min profil
                   </Link>
                   <button
                     onClick={() => {
@@ -73,7 +73,7 @@ export default function NavbarLoggedIn({ user }) {
                     }}
                     className={`${styles['logout-btn']}`}
                   >
-                    Log out
+                    Log ud
                   </button>
                 </div>
               )}

@@ -9,7 +9,7 @@ export default function FooterLoggedOut() {
         <p className={styles['footer-text']}>
           Har du en konto?{' '}
           <Link href="/login" className={styles['login-link']}>
-            Se mere
+            Log ind
           </Link>
         </p>
       </div>

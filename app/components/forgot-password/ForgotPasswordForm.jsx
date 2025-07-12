@@ -14,7 +14,7 @@ export default function ForgotPasswordForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email.includes('@')) {
-      setError('Please enter a valid email address.');
+      setStatus('Indtast venligst en gyldig emailadresse.');
       return;
     }
     try {
@@ -28,25 +28,25 @@ export default function ForgotPasswordForm() {
       );
       if (res.data.success) {
         console.log(res.data.success);
-        setStatus('If your email is registered, a reset link has been sent.');
+        setStatus('Hvis din email er registreret, er der sendt et link til nulstilling.');
       } else {
-        setStatus('Something went wrong. Please try again.');
+        setStatus('Noget gik galt. Prøv venligst igen.');
       }
     } catch (error) {
       console.error(error);
-      setStatus('Server error. Please try again later.');
+      setStatus('Serverfejl. Prøv venligst igen senere.');
     }
   };
 
   return (
     <div className={styles.container}>
       <form onSubmit={handleSubmit} className={styles.form}>
-        <h2>Forgot Password?</h2>
+        <h2>Glemt adgangskode?</h2>
         <p>
-          Enter your email address and we'll send you a link to reset your
-          password. The link will expire in 15 minutes for security.
+          Indtast din emailadresse, så sender vi dig et link til at nulstille din
+          adgangskode. Linket udløber om 15 minutter af sikkerhedshensyn.
         </p>
-        <label className={styles.label}>Enter your email address</label>
+        <label className={styles.label}>Indtast din emailadresse</label>
         <input
           type="email"
           id="email"
@@ -55,10 +55,10 @@ export default function ForgotPasswordForm() {
           required
         />
         <button type="submit" className={styles.button}>
-          Next →
+          Næste →
         </button>
         <a href="/login" className={styles.link}>
-          Back to Log in
+          Tilbage til log ind
         </a>
         {status && <p>{status}</p>}
       </form>

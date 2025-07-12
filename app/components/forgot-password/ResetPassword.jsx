@@ -91,7 +91,7 @@ export default function ResetPasswordForm() {
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>New Password</label>
+          <label className={styles.label}>Ny adgangskode</label>
           <input
             type="password"
             className={styles.input}
@@ -102,7 +102,7 @@ export default function ResetPasswordForm() {
         </div>
 
         <div className={styles.inputGroup}>
-          <label className={styles.label}>Confirm Password</label>
+          <label className={styles.label}>Bekræft adgangskode</label>
           <input
             type="password"
             className={styles.input}
@@ -120,12 +120,12 @@ export default function ResetPasswordForm() {
               onChange={() => setRememberMe(!rememberMe)}
               style={{ marginRight: '8px' }}
             />
-            Remember me
+            Husk mig
           </label>
         </div>
 
         <button type="submit" className={styles.submitButton}>
-          Reset Password →
+          Nulstil adgangskode →
         </button>
       </form>
     </div>

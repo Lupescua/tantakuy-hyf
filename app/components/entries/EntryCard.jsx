@@ -128,11 +128,11 @@ export default function EntryCard({
           href={`/entry/${entryId ?? ''}`}
           className={styles.imageContainer}
         >
-          <img src={image} alt="Entry image" className={styles.image} />
+          <img src={image} alt="Indlæg billede" className={styles.image} />
         </Link>
       ) : (
         /* placeholder slot → static img, no link */
-        <img src={image} alt="Entry image" className={styles.image} />
+        <img src={image} alt="Indlæg billede" className={styles.image} />
       )}
 
       {/* FOOTER: vote count + button */}

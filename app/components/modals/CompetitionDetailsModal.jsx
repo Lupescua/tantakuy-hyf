@@ -102,7 +102,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
                   </div>
                 </>
               ) : (
-                <p>Competition not found.</p>
+                <p>Konkurrence ikke fundet.</p>
               )}
             </div>
           </div>
