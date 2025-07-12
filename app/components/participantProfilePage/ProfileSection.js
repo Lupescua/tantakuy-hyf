@@ -52,11 +52,11 @@ export default function ProfileSection() {
           {user.userName[0]}
           {user.email[0]}
         </div>
-        <p className={styles.region}>{user.region || 'No region set'}</p>
+        <p className={styles.region}>{user.region || 'Ingen region angivet'}</p>
       </div>
 
       <div className={styles.about}>
-        <h3>About:</h3>
+        <h3>Om:</h3>
         <p>{user.email}</p>
       </div>
 

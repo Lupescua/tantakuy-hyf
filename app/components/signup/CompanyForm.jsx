@@ -46,7 +46,7 @@ export default function OrganizationForm() {
       router.push('/');
     } catch (err) {
       const payload = err.response?.data || {};
-      const msg = payload.error || payload.message || 'Registration failed';
+      const msg = payload.error || payload.message || 'Registrering mislykkedes';
       console.error('Registration error:', msg);
       setError(msg);
     }

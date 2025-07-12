@@ -153,7 +153,7 @@ export default function UploadImageModal({
                   />
                 ))
               ) : (
-                <p>No images found</p>
+                <p>Ingen billeder fundet</p>
               )}
             </div>
           )}
