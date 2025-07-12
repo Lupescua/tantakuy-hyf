@@ -1,8 +1,10 @@
 import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
+import Company from '../models/Company';
 import Entry from '../models/Entry';
 import { NextResponse } from 'next/server';
 import { verifyToken } from '@/utils/jwt.js';
+import { getUserFromCookie } from '@/utils/server/auth';
 
 export async function GET(req) {
   await dbConnect();
@@ -78,21 +80,26 @@ export async function POST(req) {
   try {
     await dbConnect();
 
-    const user = await getUserFromCookie();
+    // 1) auth
+    const user = await getUserFromCookie(req);
     if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    verifyToken(req);
 
+    // 2) parse + validate payload
     const competitionData = await req.json();
+    competitionData.company = user.id;
+    // to ensure competitionData.company = user.id here
 
+    // 3) create
     const created = await Competition.create(competitionData);
 
-    return Response.json(created, { status: 201 });
-  } catch (error) {
-    console.error('Error creating competition:', error);
-    return Response.json(
-      { error: 'Failed to create competition' },
+    return NextResponse.json(created, { status: 201 });
+  } catch (err) {
+    console.error('Error creating competition:', err);
+    // return the real error message so you can debug
+    return NextResponse.json(
+      { error: err.message || 'Failed to create competition' },
       { status: 400 },
     );
   }
