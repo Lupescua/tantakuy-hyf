@@ -71,7 +71,7 @@ export default function ProfileSection() {
                   key={index}
                   id={item.id}
                   title={item.title}
-                  organizer={item.organizer}
+                  companyName={item.company}
                   likes={item.likes}
                   shares={item.shares}
                   saved={item.saved}
