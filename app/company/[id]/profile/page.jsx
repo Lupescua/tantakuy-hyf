@@ -16,7 +16,6 @@ export default async function CompanyProfilePage(context) {
         Her kan du se og redigere dine virksomhedsoplysninger og oprette din
         virksomhedsprofil.
       </p>
-      {/* Add your company profile form or info here */}
     </>
   );
 }
