@@ -3,6 +3,7 @@
 import React from 'react';
 import style from '@/style/successCreationModel.module.css';
 import { useState, useEffect } from 'react';
+
 export default function ModalSuccess({ isOpen, onClose }) {
   if (!isOpen) return null;
   const [counter, setCounter] = useState(5);

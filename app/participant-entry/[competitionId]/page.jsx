@@ -3,6 +3,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import EntryForm from '../../components/participant/entry-form';
 import Loader from '@/app/components/loader/Loader';
+
 export default function ParticipantEntryPage() {
   const { competitionId } = useParams();
   const { user, loading } = useAuth();
