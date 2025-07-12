@@ -16,7 +16,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.organizer {
+.companyName {
   color: #000000;
   margin: 0 0 0.8rem 0;
   font-size: 0.9rem;
@@ -55,6 +55,7 @@
   border-radius: 10px;
   object-fit: cover;
   margin-top: 1rem;
+  cursor: pointer;
 }
 
 .infoLeft {
