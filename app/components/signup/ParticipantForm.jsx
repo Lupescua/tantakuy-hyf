@@ -3,13 +3,11 @@ import styles from '../../../style/forms.module.css';
 import Modal from '../terms-conditions/Modal';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
-import { useAuth } from '@/context/AuthContext';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 export default function RegistrationForm() {
   const router = useRouter();
   const [error, setError] = useState(null);
-  const { refresh } = useAuth();
   const [formData, setFormData] = useState({
     userName: '',
     email: '',

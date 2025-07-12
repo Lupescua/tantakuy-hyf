@@ -6,9 +6,8 @@ import CompanyForm from './CompanyForm';
 import OrganizationForm from './OrganizationForm';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-
 import styles from '../../../style/forms.module.css';
-import { all } from 'axios';
+
 export default function RoleSelector({ onSend }) {
   const [selectedRole, setSelectedRole] = useState(null);
   const [backButton, setBackButton] = useState(false);
@@ -79,14 +78,12 @@ export default function RoleSelector({ onSend }) {
 
       {selectedRole === 'company' && (
         <div className={styles.signUpItem}>
-          {/* <h2>Company Signup Form</h2> */}
           <CompanyForm></CompanyForm>
         </div>
       )}
 
       {selectedRole === 'organization' && (
         <div className={styles.signUpItem}>
-          {/* <h2>Organization Signup Form</h2> */}
           <OrganizationForm></OrganizationForm>
         </div>
       )}

@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import ModalSuccess from '../modals/SuccessCreationModal';
 
 export default function competition() {

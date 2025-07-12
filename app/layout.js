@@ -4,7 +4,6 @@ import '../style/base.css';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import Navbar from './components/layouts/Navbar';
 import Footer from './components/layouts/Footer';
-import { getUserFromCookie } from '@/utils/server/auth';
 import { AuthProvider } from '../context/AuthContext';
 import { MobileSearchProvider } from '../context/MobileSearchContext';
 

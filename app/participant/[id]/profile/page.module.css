@@ -21,6 +21,7 @@
   background-color: #fafafa;
   overflow-y: auto;
 }
+
 @media (max-width: 480px) {
   .container {
     padding: 0;
@@ -37,6 +38,7 @@
     height: 80px;
     position: relative;
   }
+
   .main {
     order: 2;
     min-width: 20%;
@@ -90,6 +92,7 @@
     display: flex;
     flex-direction: row;
   }
+
   .main {
     order: 2;
     min-width: 20%;
@@ -124,6 +127,7 @@
     border-radius: 50%;
   }
 }
+
 /* Lock fixed widths for layout columns on large screens to maintain design consistency */
 @media (min-width: 1450px) {
   .main {
@@ -133,6 +137,7 @@
   .sidebar {
     width: 304px;
   }
+
   .notifications {
     width: 300px;
   }

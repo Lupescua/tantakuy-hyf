@@ -1,7 +1,6 @@
 'use client';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import API from '@/utils/axios';
-import { useRouter } from 'next/navigation';
 
 const AuthContext = createContext({
   user: null,
@@ -12,7 +11,6 @@ const AuthContext = createContext({
 export function AuthProvider({ children, initialUser }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   //one helper to DRY load logic
   const fetchMe = async () => {

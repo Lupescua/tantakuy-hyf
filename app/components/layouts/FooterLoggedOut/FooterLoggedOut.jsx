@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import styles from './FooterLoggedOut.module.css';
-import { usePathname } from 'next/navigation';
 
 export default function FooterLoggedOut() {
   return (

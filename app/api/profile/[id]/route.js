@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 import dbConnect from '@/utils/dbConnects';
 import Entry from '@/app/api/models/Entry';
-import Company from '@/app/api/models/Company';
-import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
 
 export async function GET(request, context) {

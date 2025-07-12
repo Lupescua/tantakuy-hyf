@@ -1,7 +1,5 @@
 import Entry from '../api/models/Entry';
 import Vote from '../api/models/Vote';
-import Competition from '../api/models/Competition';
-import Company from '../api/models/Company';
 import mongoose from 'mongoose';
 import dbConnect from '@/utils/dbConnects';
 

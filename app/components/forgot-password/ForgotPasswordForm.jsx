@@ -1,15 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import styles from '../../../style/ForgotPassword.module.css';
 import API from '@/utils/axios';
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
-
-  const router = useRouter();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,15 +16,8 @@ export default function ForgotPasswordForm() {
     }
     try {
       const res = await API.post('/request-reset', { email });
-      console.log('Response: is this ', res);
-      console.log(
-        'this is req.data.sucecss and data an succes',
-        res.data.success,
-        res.data,
-        res.success,
-      );
+
       if (res.data.success) {
-        console.log(res.data.success);
         setStatus('If your email is registered, a reset link has been sent.');
       } else {
         setStatus('Something went wrong. Please try again.');

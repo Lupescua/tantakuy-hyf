@@ -1,5 +1,4 @@
 import styles from './CompetitionItem.module.css';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
@@ -19,8 +18,9 @@ export default function CompetitionItem({
   // Delete this entry
   const handleDelete = async (e) => {
     e.preventDefault(); // don’t follow the link
-    console.log('Deleting entry with id:', id);
+
     if (!confirm('Er du sikker på, at du vil slette dit indlæg?')) return;
+
     try {
       await API.delete(`/entries/${id}`);
       onDelete?.(id); // re‐fetch the parent page data

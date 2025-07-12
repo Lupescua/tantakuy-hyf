@@ -5,9 +5,9 @@ import { cookies } from 'next/headers';
 export async function POST(req) {
   try {
     await dbConnect();
-    // console.log('[API/login] incoming body →');
+
     const body = await req.json();
-    // console.log(body); were used for debugging only
+
     const { token, user } = await loginUser(body);
     const cookieStore = await cookies();
     cookieStore.set('token', token, {
@@ -21,7 +21,7 @@ export async function POST(req) {
     return Response.json(
       {
         success: true,
-        user, //maybe we should detail that it include id, email, userName and role, if there are issues later
+        user,
         message: 'logged in',
       },
       { status: 200 },

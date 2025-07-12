@@ -1,7 +1,6 @@
 import dbConnect from '@/utils/dbConnects';
 import Notification from '../models/Notifications';
 import { NextResponse } from 'next/server';
-import Participant from '../models/Participant';
 
 export async function GET(req) {
   await dbConnect();

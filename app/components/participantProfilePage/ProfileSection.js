@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import Loader from '../loader/Loader';
 
 export default function ProfileSection() {
-  const { user, loading, refresh } = useAuth();
+  const { user, loading } = useAuth();
   const [competitions, setCompetitions] = useState([]);
   const router = useRouter();
 
@@ -25,7 +25,6 @@ export default function ProfileSection() {
       const fetchData = async () => {
         try {
           const res = await API.get(`/profile/${user.id}`);
-          console.log('PROFILE DATA:', res.data.data);
           const result = res.data;
 
           if (result.success && Array.isArray(result.data)) {

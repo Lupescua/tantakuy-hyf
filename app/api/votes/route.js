@@ -87,7 +87,7 @@ export async function GET(req) {
       userVoted = !!existing;
     }
   } catch {
-    // if no token or invalid, just leave userVoted=false
+    console.error('Token verification failed:', error);
   }
 
   return Response.json(

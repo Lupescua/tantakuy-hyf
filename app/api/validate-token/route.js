@@ -1,5 +1,4 @@
 import { validateToken } from '@/app/services/tokenValidationService';
-import { AppError } from '@/utils/errorHandler';
 
 export async function POST(req) {
   try {

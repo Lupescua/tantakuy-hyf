@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import './competitionForm.css';
-import NavbarLoggedIn from '../layouts/NavbarLoggedIn/NavbarLoggedIn';
 
 function CompetitionForm() {
   const [title, setTitle] = useState('');

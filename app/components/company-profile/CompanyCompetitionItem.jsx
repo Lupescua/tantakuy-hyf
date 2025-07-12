@@ -1,7 +1,6 @@
 'use client';
 
 import styles from './CompanyCompetitionItem.module.css';
-import { FaEdit, FaTrash, FaPause } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import API from '@/utils/axios';
@@ -12,7 +11,6 @@ export default function CompanyCompetitionItem({
   createdAt,
   startDate,
   endDate,
-  onDelete,
 }) {
   const router = useRouter();
 
