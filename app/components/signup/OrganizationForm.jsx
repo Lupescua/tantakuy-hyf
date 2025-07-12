@@ -96,7 +96,10 @@ export default function OrganizationForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} style={{ maxWidth: '400px', margin: 'auto' }}>
+      <form
+        onSubmit={handleSubmit}
+        style={{ maxWidth: '400px', margin: 'auto' }}
+      >
         <div className={styles.formItemOrg}>
           <label htmlFor="name">Navn</label>
           <input
@@ -247,7 +250,7 @@ export default function OrganizationForm() {
           Registrering
         </button>
       </form>
-      
+
       <Modal isOpen={isModalOpen} onClose={closeModal}>
         <h2>Vilkår og betingelser</h2>
         {isEditing ? (
@@ -269,7 +272,7 @@ export default function OrganizationForm() {
           <div dangerouslySetInnerHTML={{ __html: terms }} />
         )}
       </Modal>
-      
+
       <Modal isOpen={isPrivacyOpen} onClose={closePrivacyModal}>
         <h2>Privatlivspolitik</h2>
         {isPrivacyEditing ? (

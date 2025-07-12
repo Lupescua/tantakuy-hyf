@@ -51,7 +51,8 @@ export default function CompanyCompetitionsPage() {
   }, [companyId, user]);
 
   const handleDelete = async (id) => {
-    if (!confirm('Er du sikker på, at du vil slette denne konkurrence?')) return;
+    if (!confirm('Er du sikker på, at du vil slette denne konkurrence?'))
+      return;
 
     try {
       await API.delete(`/competitions/${id}`);

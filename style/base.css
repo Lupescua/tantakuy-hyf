@@ -84,20 +84,20 @@ main {
 }
 
 .filters input {
-  height: 58px; 
-  padding: 0 12px; 
-  border: 1px solid hsl(0, 0%, 80%); 
+  height: 58px;
+  padding: 0 12px;
+  border: 1px solid hsl(0, 0%, 80%);
   font-size: 14px;
-  background: #F9F9F9;
-  width: 49%; 
+  background: #f9f9f9;
+  width: 49%;
   color: black;
 }
 
 .filters select {
   width: 23%;
   height: 58px;
-  background: #F9F9F9;
-  border: 1px solid #E6E6E6;
+  background: #f9f9f9;
+  border: 1px solid #e6e6e6;
   color: black;
 }
 
@@ -123,33 +123,27 @@ main {
   main {
     width: 100%;
   }
-  
-  
-
 }
 
 .mobile-search-wrapper {
   display: none;
 }
 
-@media(max-width: 768px){
+@media (max-width: 768px) {
+  .filters {
+    align-items: center;
+    justify-content: space-between;
+  }
 
-  
-.filters {
-  align-items: center;
-  justify-content: space-between;
-  
-}
-
-  .filters input{
-    display:none;
+  .filters input {
+    display: none;
   }
 
   .filters select {
-  width: 40%;
-}
+    width: 40%;
+  }
 
-.mobile-search-wrapper {
+  .mobile-search-wrapper {
     display: block;
     position: fixed;
     bottom: 70px;
@@ -171,13 +165,13 @@ main {
   }
 
   @keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
   }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 }

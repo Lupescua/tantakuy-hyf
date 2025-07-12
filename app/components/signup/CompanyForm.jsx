@@ -46,7 +46,8 @@ export default function OrganizationForm() {
       router.push('/');
     } catch (err) {
       const payload = err.response?.data || {};
-      const msg = payload.error || payload.message || 'Registrering mislykkedes';
+      const msg =
+        payload.error || payload.message || 'Registrering mislykkedes';
       console.error('Registration error:', msg);
       setError(msg);
     }
@@ -92,7 +93,9 @@ export default function OrganizationForm() {
 
   //Privacy Policy starts
   const [isPrivacyOpen, setPrivacyOpen] = useState(false);
-  const [privacy, setPrivacy] = useState('Dette er standardprivatlivspolitikken.');
+  const [privacy, setPrivacy] = useState(
+    'Dette er standardprivatlivspolitikken.',
+  );
   const [tempPrivacy, setTempPrivacy] = useState(privacy);
   const [isPrivacyEditing, setIsPrivacyEditing] = useState(false);
 

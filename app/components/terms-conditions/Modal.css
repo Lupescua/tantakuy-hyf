@@ -106,24 +106,24 @@
   .modal-overlay {
     padding: 0.5rem;
   }
-  
+
   .modal-content {
     padding: 1.5rem;
     max-height: 95vh;
     border-radius: 8px;
   }
-  
+
   .modal-content h2 {
     font-size: 18px;
     padding: 4px 0;
   }
-  
+
   .modal-content p {
     font-size: 14px;
     line-height: 22px;
     padding: 4px 0;
   }
-  
+
   .modal-close {
     top: 8px;
     right: 12px;
@@ -135,18 +135,18 @@
   .modal-overlay {
     padding: 0.25rem;
   }
-  
+
   .modal-content {
     padding: 1rem;
     max-height: 98vh;
     border-radius: 4px;
   }
-  
+
   .modal-content h2 {
     font-size: 16px;
     padding: 3px 0;
   }
-  
+
   .modal-content p {
     font-size: 13px;
     line-height: 20px;

@@ -11,7 +11,9 @@ export function MobileSearchProvider({ children }) {
   };
 
   return (
-    <MobileSearchContext.Provider value={{ showMobileSearch, toggleMobileSearch }}>
+    <MobileSearchContext.Provider
+      value={{ showMobileSearch, toggleMobileSearch }}
+    >
       {children}
     </MobileSearchContext.Provider>
   );

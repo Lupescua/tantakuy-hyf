@@ -109,7 +109,9 @@ export default function RegistrationForm() {
 
   //Privacy Policy starts
   const [isPrivacyOpen, setPrivacyOpen] = useState(false);
-  const [privacy, setPrivacy] = useState('Dette er standardprivatlivspolitikken.');
+  const [privacy, setPrivacy] = useState(
+    'Dette er standardprivatlivspolitikken.',
+  );
   const [tempPrivacy, setTempPrivacy] = useState(privacy);
   const [isPrivacyEditing, setIsPrivacyEditing] = useState(false);
 
