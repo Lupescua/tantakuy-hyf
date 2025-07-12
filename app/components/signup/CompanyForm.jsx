@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import API from '@/utils/axios';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
-export default function OrganizationForm() {
+export default function CompanyForm() {
   const router = useRouter();
   const [error, setError] = useState(null);
 

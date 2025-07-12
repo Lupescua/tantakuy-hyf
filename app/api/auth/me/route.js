@@ -19,16 +19,10 @@ export async function GET() {
     let user;
     if (role === 'participant') {
       user = await Participant.findById(id).select('userName email');
-    } else if (role === 'company') {
+    } else {
       // company model:
       const Company = (await import('../../models/Company')).default;
       user = await Company.findById(id).select('companyName email');
-    } else if (role === 'organization') {
-   
-      user = await Participant.findById(id).select('userName email');
-    } else {
-     
-      user = await Participant.findById(id).select('userName email');
     }
 
     //user might have been deleted
