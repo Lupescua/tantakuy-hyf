@@ -57,6 +57,12 @@ const CompanySchema = new mongoose.Schema(
     website: String,
     facebook: String,
     instagram: String,
+    resetToken: {
+      type: String,
+    },
+    resetTokenExpiry: {
+      type: Date,
+    },
     competitions: [
       {
         type: mongoose.Schema.Types.ObjectId,

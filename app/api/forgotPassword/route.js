@@ -13,7 +13,7 @@ export async function POST(request) {
   }
 
   // 1) find the user whose resetToken matches & hasn’t expired
-  const user = await Participant.findOne({
+  let user = await Participant.findOne({
     email,
     resetToken: token,
     resetTokenExpiry: { $gt: Date.now() },
