@@ -10,7 +10,7 @@ export default function Footer() {
       {/* footer desktop */}
       <div className={styles['footer-content']}>
         <p className={styles['footer-text']}>
-          © 2025 Tantakuy. All rights reserved.
+          © 2025 Tantakuy. Alle rettigheder forbeholdes.
         </p>
         <div className={styles['footer-socials']}>
           <a
@@ -24,18 +24,18 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* footer móvil */}
-      <nav className={styles['footer-nav']} aria-label="Mobile navigation">
-        <Link href="/" aria-label="Home" className={styles['footer-icon']}>
+      {/* footer mobil */}
+      <nav className={styles['footer-nav']} aria-label="Mobil navigation">
+        <Link href="/" aria-label="Hjem" className={styles['footer-icon']}>
           <FiHome />
         </Link>
-        <button className={styles['footer-icon']} aria-label="Search" onClick={toggleMobileSearch}>
+        <button className={styles['footer-icon']} aria-label="Søg" onClick={toggleMobileSearch}>
           <FiSearch />
         </button>
-        <button className={styles['footer-icon']} aria-label="Likes">
+        <button className={styles['footer-icon']} aria-label="Synes godt om">
           <FiHeart />
         </button>
-        <button className={styles['footer-icon']} aria-label="Profile">
+        <button className={styles['footer-icon']} aria-label="Profil">
           <FiUser />
         </button>
       </nav>

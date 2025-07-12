@@ -16,7 +16,7 @@ const montserrat = Montserrat({
 
 export default async function RootLayout({ children }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="da" suppressHydrationWarning>
       <body className={`${montserrat.variable} antialiased`}>
         <AuthProvider>
           <MobileSearchProvider>

@@ -114,7 +114,7 @@ export default function ModalSuccess({ isOpen, onClose }) {
           <div className={style.greenEmptyLightCircle}></div>
         </div>
       </div>
-      <div className={style.backIn}>Close in {counter}</div>
+      <div className={style.backIn}>Lukker om {counter}</div>
     </div>
   );
 }

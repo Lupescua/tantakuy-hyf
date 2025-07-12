@@ -14,10 +14,10 @@ export default function competition() {
 
   return (
     <div>
-      <button onSubmit={handleSubmit}>Submit</button>
+      <button onSubmit={handleSubmit}>Send</button>
       <ModalSuccess isOpen={isOpen} onClose={() => setIsOpen(false)}>
-        <h2>Modal Title</h2>
-        <p>This is a reusable modal component.</p>
+        <h2>Modal titel</h2>
+        <p>Dette er en genbrugelig modal komponent.</p>
       </ModalSuccess>
     </div>
   );

@@ -11,10 +11,10 @@ export default async function CompanyProfilePage(context) {
 
   return (
     <>
-      <h1>Company Profile</h1>
+      <h1>Virksomhedsprofil</h1>
       <p>
-        Here you can view and edit your company information, and create your
-        company profile.
+        Her kan du se og redigere dine virksomhedsoplysninger og oprette din
+        virksomhedsprofil.
       </p>
       {/* Add your company profile form or info here */}
     </>

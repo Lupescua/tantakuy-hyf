@@ -42,7 +42,7 @@ export default function CompanyCompetitionsPage() {
           setCompetitions(res.data.data);
         }
       } catch (err) {
-        setError('Failed to load competitions');
+        setError('Kunne ikke indlæse konkurrencer');
         console.error(err);
       }
     };
@@ -51,7 +51,7 @@ export default function CompanyCompetitionsPage() {
   }, [companyId, user]);
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this competition?')) return;
+    if (!confirm('Er du sikker på, at du vil slette denne konkurrence?')) return;
 
     try {
       await API.delete(`/competitions/${id}`);

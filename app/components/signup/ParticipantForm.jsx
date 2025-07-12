@@ -41,7 +41,7 @@ export default function RegistrationForm() {
 
     //check for password matching
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match.');
+      setError('Adgangskoderne matcher ikke.');
       return;
     }
 
@@ -61,7 +61,7 @@ export default function RegistrationForm() {
     } catch (error) {
       const message =
         error.response?.data?.message ||
-        'Failed to register. Please try again.';
+        'Registrering mislykkedes. Prøv venligst igen.';
       setError(message);
       console.error('Registration error:', error);
     } finally {
