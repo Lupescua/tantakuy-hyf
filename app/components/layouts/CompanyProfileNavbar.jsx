@@ -40,6 +40,8 @@ export default function CompanyProfileNavbar({ onHamburgerClick }) {
     }
   };
 
+
+
   return (
     <header className={styles.navbar}>
       <div className={styles['navbar-inner']}>
