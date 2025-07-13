@@ -115,9 +115,7 @@ export default function CreateCompetitionForm() {
       }
     } catch (error) {
       console.error('Unexpected error:', error);
-      setErrorMsg(
-        error.response?.data?.error || 'Der opstod en uventet fejl.',
-      );
+      setErrorMsg(error.response?.data?.error || 'Der opstod en uventet fejl.');
     } finally {
       setIsSubmitting(false);
     }
@@ -160,7 +158,7 @@ export default function CreateCompetitionForm() {
                   required
                   max={endDate || undefined}
                   onChange={(e) => setStartDate(e.target.value)}
-                />  
+                />
               </div>
               <div className={styles.formInput}>
                 <label>Konkurrence slutDato </label>

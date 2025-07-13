@@ -43,14 +43,15 @@ const CompetitionSchema = new mongoose.Schema(
       validate: {
         validator: function (value) {
           if (!value) return true;
-           return (
-        this.startDate &&
-        this.endDate &&
-        value >= this.startDate &&
-        value <= this.endDate
-      );
+          return (
+            this.startDate &&
+            this.endDate &&
+            value >= this.startDate &&
+            value <= this.endDate
+          );
         },
-        message: 'participation deadline must be on or after the start date and before or equal to end date',
+        message:
+          'participation deadline must be on or after the start date and before or equal to end date',
       },
     },
     votingDeadline: {
@@ -59,13 +60,14 @@ const CompetitionSchema = new mongoose.Schema(
         validator: function (value) {
           if (!value || !this.participationDeadline) return true;
           return (
-        this.participationDeadline &&
-        this.endDate &&
-        value >= this.participationDeadline &&
-        value <= this.endDate
-      );
+            this.participationDeadline &&
+            this.endDate &&
+            value >= this.participationDeadline &&
+            value <= this.endDate
+          );
         },
-        message: 'Voting deadline must be on or after participation deadline and on or before end date',
+        message:
+          'Voting deadline must be on or after participation deadline and on or before end date',
       },
     },
     winnerSelectionDate: {
