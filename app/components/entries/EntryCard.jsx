@@ -132,7 +132,9 @@ export default function EntryCard({
         </Link>
       ) : (
         /* placeholder slot → static img, no link */
-        <img src={image} alt="Indlæg billede" className={styles.image} />
+        <div className={styles.imageContainer}>
+          <img src={image} alt="Indlæg billede" className={styles.image} />
+        </div>
       )}
 
       {/* FOOTER: vote count + button */}
