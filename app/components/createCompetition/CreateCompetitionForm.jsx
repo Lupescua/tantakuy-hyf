@@ -13,6 +13,11 @@ export default function CreateCompetitionForm() {
   const [errorMsg, setErrorMsg] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [participationDeadline, setParticipationDeadline] = useState('');
+  const [winnerSelectionDate, setWinnerSelectionDate] = useState('');
+  const [winnerAnnouncingDate, setWinnerAnnouncingDate] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -150,33 +155,69 @@ export default function CreateCompetitionForm() {
             <div className={styles.gridTwo}>
               <div className={styles.formInput}>
                 <label> Konkurrence startdato </label>
-                <input type="date" name="startDate" required />
+                <input
+                  type="date"
+                  name="startDate"
+                  required
+                  max={endDate || undefined}
+                  onChange={(e) => setStartDate(e.target.value)}
+                />
               </div>
               <div className={styles.formInput}>
                 <label>Konkurrence slutDato </label>
-                <input type="date" name="endDate" required />
+                <input
+                  type="date"
+                  name="endDate"
+                  required
+                  min={startDate || undefined}
+                  onChange={(e) => setEndDate(e.target.value)}
+                />
               </div>
             </div>
 
             <div className={styles.gridTwo}>
               <div className={styles.formInput}>
                 <label> Deadline for deltagelse </label>
-                <input type="date" name="participationDeadline" required />
+                <input
+                  type="date"
+                  name="participationDeadline"
+                  required
+                  min={startDate || undefined}
+                  max={endDate || undefined}
+                  onChange={(e) => setParticipationDeadline(e.target.value)}
+                />
               </div>
               <div className={styles.formInput}>
                 <label> Deadline for afstemning </label>
-                <input type="date" name="votingDeadline" required />
+                <input
+                  type="date"
+                  name="votingDeadline"
+                  required
+                  min={participationDeadline || undefined}
+                  max={endDate || undefined}
+                />
               </div>
             </div>
 
             <div className={styles.gridTwo}>
               <div className={styles.formInput}>
                 <label> Dato vinderudvælgelse </label>
-                <input type="date" name="winnerSelectionDate" required />
+                <input
+                  type="date"
+                  name="winnerSelectionDate"
+                  required
+                  min={endDate || undefined}
+                  onChange={(e) => setWinnerSelectionDate(e.target.value)}
+                />
               </div>
               <div className={styles.formInput}>
                 <label> Dato vinderannoncering </label>
-                <input type="date" name="winnerAnnouncingDate" />
+                <input
+                  type="date"
+                  name="winnerAnnouncingDate"
+                  min={winnerSelectionDate || undefined}
+                  onChange={(e) => setWinnerAnnouncingDate(e.target.value)}
+                />
               </div>
             </div>
 
