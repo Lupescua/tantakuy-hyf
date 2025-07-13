@@ -9,6 +9,7 @@
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
+  margin: 1rem 0;
 }
 
 .competitionItem:hover {
@@ -69,6 +70,23 @@
 }
 .suspendBtn:hover {
   background-color: #d4884e;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0.75rem 0 0; /* add a little breathing room above */
+}
+
+.stats span {
+  background-color: #e5e7eb;
+  color: #1f2937;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
 }
 
 /* RESPONSIVE */

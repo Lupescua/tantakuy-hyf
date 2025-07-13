@@ -10,6 +10,8 @@
   background-color: #f8f9fa;
   text-decoration: none;
   color: inherit;
+  flex-wrap: wrap;
+  min-width: 500px;
 }
 
 .competitionItem:hover {
@@ -29,7 +31,7 @@
 
 .stats {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   align-items: center;
 }
 
@@ -38,9 +40,10 @@
   align-items: center;
   color: #000000;
   font-size: 0.9rem;
-  padding: 6px 10px;
+  padding: 4px 8px;
   border-radius: 10px;
   white-space: nowrap;
+  height: 32px;
 }
 
 .like,
@@ -49,25 +52,47 @@
   background-color: #d9d9d9;
 }
 
+.button {
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  color: white;
+}
+
+.deleteBtn {
+  background-color: #e63946;
+}
+
+.deleteBtn:hover {
+  background-color: #c72533;
+}
+
 .userImage {
-  width: 93px;
-  height: 57px;
+  max-width: 15rem;
+  min-width: 12rem;
+  height: auto;
   border-radius: 10px;
   object-fit: cover;
   margin-top: 1rem;
   cursor: pointer;
+  margin-bottom: 16px;
 }
 
 .infoLeft {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 70%;
+  max-width: 60%;
 }
 .header {
   display: flex;
   align-items: baseline;
   gap: 0.3rem;
+  white-space: nowrap;
+  margin-top: 5px;
 }
 
 .title {
@@ -83,29 +108,76 @@
   margin: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 700px) {
   .competitionItem {
     flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  .body {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .infoLeft {
+    width: 100%;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
+    gap: 0.75rem;
+    flex: 1;
   }
 
   .header {
-    flex-direction: column;
-    align-items: flex-start;
+    gap: 10px;
   }
 
-  .separator {
-    display: none;
-  }
   .stats {
     margin-top: 1rem;
     justify-content: flex-start;
     gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .deleteBtnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 15px;
+  }
+
+  .deleteBtn {
+    justify-content: center;
   }
 
   .userImage {
-    width: 100%;
+    display: block;
+    margin: auto;
+    width: auto;
     height: auto;
+    max-width: 100%;
+    min-width: 10rem;
+  }
+  .competitionItem {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .deleteBtnContainer {
+    justify-content: flex-end;
     margin-top: 1rem;
+  }
+}
+
+@media (min-width: 1450px) {
+  .competitionItem {
+    padding-left: 14rem;
+  }
+
+  .stats {
+    margin-left: -3rem;
   }
 }

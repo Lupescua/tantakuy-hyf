@@ -4,6 +4,7 @@ import Entry from '@/app/api/models/Entry';
 import Company from '@/app/api/models/Company';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
+import Vote from '../../models/Vote';
 
 export async function GET(request, context) {
   await dbConnect();
@@ -32,15 +33,22 @@ export async function GET(request, context) {
 
     // drop any with missing competition
     const good = entries.filter((e) => e.competition);
-    const data = good.map((e) => ({
-      id: e._id,
-      title: e.competition.title,
-      company: e.competition.company?.companyName || 'Ukendt',
-      likes: e.votes,
-      shares: e.shares,
-      saved: 0,
-      imageUrl: e.imageUrl,
-    }));
+
+    // 3) For each entry, count votes and read shares
+    const data = await Promise.all(
+      good.map(async (e) => {
+        const voteCount = await Vote.countDocuments({ entry: e._id });
+        return {
+          id: e._id.toString(),
+          title: e.competition.title,
+          company: e.competition.company?.companyName || 'Ukendt',
+          likes: voteCount, // real vote total
+          shares: e.shares || 0, // 0 if undefined
+          saved: 0,
+          imageUrl: e.imageUrl,
+        };
+      }),
+    );
 
     return NextResponse.json({ success: true, data });
   } catch (err) {
