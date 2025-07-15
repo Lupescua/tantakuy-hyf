@@ -14,7 +14,8 @@
   margin: 0 auto;
   padding: 0 16px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   flex-wrap: wrap;
 }
@@ -22,6 +23,7 @@
 .footer-text {
   font-size: 14px;
   color: #777;
+  text-align: center;
 }
 
 .login-link {
@@ -32,4 +34,39 @@
 
 .login-link:hover {
   color: #0051a3;
+}
+
+.footer-btn {
+  margin: 0 4px;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 8px;
+  font-weight: 500;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: transparent;
+  color: black;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-btn.primary {
+  background-color: black;
+  color: white;
+  border: none;
+}
+
+.footer-btn:hover {
+  background-color: #e5e5e5;
+  color: black;
+}
+
+.footer-btn.primary:hover {
+  background-color: #222;
+  color: white;
 }

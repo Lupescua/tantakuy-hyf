@@ -3,23 +3,20 @@
   flex-direction: column;
   position: relative;
   max-width: 700px;
-  width: 90vw;
-  max-height: auto;
+  min-height: 82%;
   background: #ffffff;
-  margin: 5px auto 0;
   font-family: 'Inter', sans-serif;
   overflow: visible;
-  padding-top: 10px;
   border: 1px solid #ddd;
   box-sizing: border-box;
+  margin-top: 15px;
 }
 
 .entryheader {
   position: relative;
   width: 100%;
-  height: 81px;
+  height: 30px;
   background: #ffffff;
-  border-bottom: #000000 1px solid;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -113,13 +110,13 @@
   position: relative;
   width: 100%;
   height: 400px;
-  padding-top: 10px;
+  padding-top: 5px;
   background-size: contain;
 }
 
 .textlabel {
   position: absolute;
-  top: 600px;
+  top: 550px;
   left: 22px;
   font-size: 16px;
   color: #1e1e1e;
@@ -128,7 +125,7 @@
 
 .entrytextarea {
   position: absolute;
-  top: 640px;
+  top: 600px;
   left: 22px;
   width: 640px;
   height: 80px;
@@ -142,7 +139,7 @@
 
 .submitbtn {
   position: absolute;
-  top: 750px;
+  top: 690px;
   left: calc(50% - 681px / 2);
   width: 681px;
   height: 51px;
@@ -161,7 +158,7 @@
 
 .errormessage {
   position: absolute;
-  top: 765px;
+  top: 574px;
   left: 22px;
   color: red;
   font-weight: bold;
