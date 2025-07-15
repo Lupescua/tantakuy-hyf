@@ -1,51 +1,69 @@
 .competitionItem {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 1.2rem;
-  background-color: #f8f9fa;
-  transition: box-shadow 0.2s ease;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin: 1rem 0;
+  gap: 1.2rem;
+  margin: 1.2rem 0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .competitionItem:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .content {
   flex: 1;
-  min-width: 250px;
+  min-width: 260px;
 }
 
 .title {
-  font-size: 1.1rem;
-  font-weight: 600;
-  margin-bottom: 0.3rem;
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: #1f2937;
 }
 
 .date {
-  color: #666;
+  color: #6b7280;
   font-size: 0.9rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
 }
 
 .actions {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.8rem;
   flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
 .button {
-  padding: 0.4rem 0.8rem;
-  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f9fafb;
+  color: #1f2937;
+  border: 1.5px solid #d1d5db;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transform: scale(1.02);
 }
 
 .drawBtn {
@@ -57,40 +75,46 @@
 }
 
 .editBtn {
-  background-color: #0070f3;
-  color: white;
+  background-color: #2563eb;
+  color: #fff;
+  border: 1.5px solid #2563eb;
 }
 .editBtn:hover {
-  background-color: #0055c7;
+  background-color: #1d4ed8;
+  border-color: #1d4ed8;
 }
 
 .deleteBtn {
-  background-color: #e63946;
-  color: white;
+  background-color: #ef4444;
+  color: #fff;
+  border: 1.5px solid #ef4444;
 }
 .deleteBtn:hover {
-  background-color: #c72533;
+  background-color: #dc2626;
+  border-color: #dc2626;
 }
 
 .suspendBtn {
-  background-color: #f4a261;
-  color: white;
+  background-color: #f59e0b;
+  color: #fff;
+  border: 1.5px solid #f59e0b;
 }
 .suspendBtn:hover {
-  background-color: #d4884e;
+  background-color: #d97706;
+  border-color: #d97706;
 }
 
 .stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin: 0.75rem 0 0; /* add a little breathing room above */
+  gap: 0.5rem;
+  margin-top: 1rem;
 }
 
 .stats span {
-  background-color: #e5e7eb;
-  color: #1f2937;
-  padding: 0.25rem 0.6rem;
+  background-color: #f3f4f6;
+  color: #111827;
+  padding: 0.3rem 0.7rem;
   border-radius: 6px;
   font-size: 0.85rem;
   font-weight: 500;
@@ -121,7 +145,7 @@
 }
 
 /* RESPONSIVE */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .competitionItem {
     flex-direction: column;
     align-items: stretch;
