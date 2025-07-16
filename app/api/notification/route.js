@@ -6,7 +6,6 @@ import Participant from '../models/Participant';
 
 export async function GET(req) {
   await dbConnect();
-  console.log('this is user id', req.nextUrl.searchParams.get('userId'));
   const userId = req.nextUrl.searchParams.get('userId');
 
   if (!userId) {

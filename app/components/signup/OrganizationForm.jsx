@@ -33,7 +33,6 @@ export default function OrganizationForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add form validation and submission logic here
-    console.log('Organization form submitted:', formData);
   };
 
   // Terms & conditions starts

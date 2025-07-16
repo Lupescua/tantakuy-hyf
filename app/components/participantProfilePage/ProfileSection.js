@@ -65,7 +65,6 @@ export default function ProfileSection() {
         <div className={styles.competitionsList}>
           {competitions.length > 0 ? (
             competitions.map((item, index) => {
-              console.log('PROFILE ITEM:', item);
               return (
                 <CompetitionItem
                   key={index}

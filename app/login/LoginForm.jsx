@@ -44,8 +44,6 @@ function LoginForm() {
 
       const user = res.data?.user;
       if (res.data?.success && user) {
-        console.log('✅ Login success:', user);
-
         // update the AuthContext
         refresh();
 

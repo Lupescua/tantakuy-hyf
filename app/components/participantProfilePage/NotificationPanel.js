@@ -12,19 +12,16 @@ export default function NotificationsPanel() {
   const { user } = useAuth();
 
   const togglePanel = () => {
-    console.log('Toggle panel clicked, current open state:', open);
     setOpen(!open);
   };
 
   useEffect(() => {
     if (!user?.id) return;
-    console.log('Fetching notifications for user:', user.id);
     const fetchNotifications = async () => {
       try {
         const res = await API.get('/notification', {
           params: { userId: user.id },
         });
-        console.log('Notifications response:', res.data);
         setNotifications(res.data.notifications || []);
       } catch (err) {
         console.error('Failed to fetch notifications:', err);

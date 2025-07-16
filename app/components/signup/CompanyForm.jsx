@@ -40,7 +40,6 @@ export default function OrganizationForm() {
     e.preventDefault();
     try {
       const res = await API.post('/companies', formData);
-      console.log(`result: ${res}`);
       const data = res.data;
       setError('');
       router.push('/');

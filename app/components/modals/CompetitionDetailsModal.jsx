@@ -14,7 +14,6 @@ export default function CompetitionDetailsModal({ competitionId }) {
 
   useEffect(() => {
     if (open && competitionId) {
-      console.log('Fetching competition with ID:', competitionId);
       setLoading(true);
       getCompetitionById(competitionId)
         .then(setCompetition)
