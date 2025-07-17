@@ -5,6 +5,7 @@ import { FaEdit, FaTrash, FaPause } from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import API from '@/utils/axios';
+import DrawWinner from './DrawWinner';
 
 export default function CompanyCompetitionItem({
   id,
@@ -24,6 +25,7 @@ export default function CompanyCompetitionItem({
     clicks: 0,
   });
   const [loadingStats, setLoadingStats] = useState(true);
+  const [isDrawOpen, setIsDrawOpen] = useState(false);
 
   // Load stats on mount
   useEffect(() => {
@@ -101,6 +103,12 @@ export default function CompanyCompetitionItem({
       </div>
 
       <div className={styles.actions}>
+        <button
+          className={`${styles.button} ${styles.drawBtn}`}
+          onClick={() => setIsDrawOpen(true)}
+        >
+          Træk vinder
+        </button>
         <button className={`${styles.button} ${styles.editBtn}`}>
           Rediger
         </button>
@@ -114,6 +122,9 @@ export default function CompanyCompetitionItem({
           Suspendér
         </button>
       </div>
+      {isDrawOpen && (
+        <DrawWinner competitionId={id} onClose={() => setIsDrawOpen(false)} />
+      )}
     </div>
   );
 }

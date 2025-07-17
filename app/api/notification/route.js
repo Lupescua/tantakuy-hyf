@@ -14,7 +14,14 @@ export async function GET(req) {
 
   const notifications = await Notification.find({ recipient: userId })
     .populate('actor', 'userName')
-    .populate('entry', 'caption')
+    .populate({
+      path: 'entry',
+      select: 'competition',
+      populate: {
+        path: 'competition',
+        select: 'title',
+      },
+    })
     .sort({ createdAt: -1 })
     .lean();
 
@@ -28,6 +35,10 @@ export async function GET(req) {
     entry: {
       id: n.entry?._id?.toString() || '', // Fallback for missing entry
       caption: n.entry?.caption || '', // Default caption if missing
+    },
+    competition: {
+      id: n.entry?.competition?._id,
+      title: n.entry?.competition?.title,
     },
     type: n.type, // Either 'like' or 'share' (or other types if added later)
   }));

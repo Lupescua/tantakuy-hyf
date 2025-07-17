@@ -25,8 +25,11 @@ export default function NotificationDropdown() {
       <ul>
         {notifications.map((n) => (
           <li key={n._id}>
-            {n.actor.userName} {n.type === 'like' ? 'liked' : 'shared'} your
-            post
+            {n.type === 'win'
+              ? `🎉 Tillykke! Du har vundet konkurrencen “${n.competitionTitle}”`
+              : n.type === 'like'
+                ? `${n.actor} synes godt om dit indlæg`
+                : `${n.actor} delte dit indlæg`}
           </li>
         ))}
       </ul>
