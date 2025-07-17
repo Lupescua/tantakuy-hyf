@@ -18,7 +18,7 @@ export default function ParticipantEntryPage() {
 
   return (
     <>
-      <EntryForm userId={user.id} competitionId={competitionId} />;
+      <EntryForm userId={user.id} competitionId={competitionId} />
     </>
   );
 }
