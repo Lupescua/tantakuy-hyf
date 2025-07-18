@@ -59,6 +59,11 @@
   transition: all 0.2s ease;
 }
 
+.drawBtn {
+  background-color: #6b46c1;
+  color: white;
+}
+
 .button:hover {
   background-color: #f3f4f6;
   border-color: #9ca3af;
@@ -66,9 +71,10 @@
   transform: scale(1.02);
 }
 
-.drawBtn {
-  background-color: #6b46c1;
-  color: white;
+.editBtn {
+  background-color: #2563eb;
+  color: #fff;
+  border: 1.5px solid #2563eb;
 }
 .drawBtn:hover {
   background-color: #553c9a;
