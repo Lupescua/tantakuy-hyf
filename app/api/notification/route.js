@@ -4,6 +4,7 @@ import Entry from '../models/Entry';
 import { NextResponse } from 'next/server';
 import Participant from '../models/Participant';
 import Company from '../models/Company';
+import Competition from '../models/Competition';
 
 export async function GET(req) {
   await dbConnect();

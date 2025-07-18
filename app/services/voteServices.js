@@ -38,7 +38,7 @@ export async function saveVote({ entryId, participantId, voteType }) {
       participant: participantId,
       voteType,
     });
-    await createNotification(entryId, participantId, 'like');
+    await createNotification(entryId, participantId, 'like', 'Participant');
 
     return { ok: true, vote };
   } catch (error) {
