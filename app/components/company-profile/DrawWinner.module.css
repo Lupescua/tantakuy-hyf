@@ -45,9 +45,9 @@
   font-size: 0.75rem;
 }
 
-.modalCloseBtn:hover{
-background:#000;
-color:#fff
+.modalCloseBtn:hover {
+  background: #000;
+  color: #fff;
 }
 
 .options {
@@ -99,7 +99,7 @@ color:#fff
 .modalActions button {
   display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   justify-content: space-between;
   padding: 0.5rem 2rem;
   border-radius: 10px;
