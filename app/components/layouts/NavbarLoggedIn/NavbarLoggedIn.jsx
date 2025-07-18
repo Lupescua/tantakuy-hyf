@@ -9,18 +9,18 @@ import styles from './NavbarLoggedIn.module.css';
 
 export default function NavbarLoggedIn({ user }) {
   const { refresh } = useAuth();
-  const userId = user?.id;
   const router = useRouter();
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
   const pathname = usePathname();
+  const userId = user?.id;
 
   // Early return if no user to prevent hydration issues
   if (!user) {
     return null;
   }
 
-  // 📦 Close dropdown on outside click
+  // Close dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -31,7 +31,7 @@ export default function NavbarLoggedIn({ user }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // 🚪 Handle logout and refresh UI
+  // Handle logout and refresh UI
   const handleLogout = async () => {
     try {
       await API.post('/logout');
