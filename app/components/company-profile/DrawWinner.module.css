@@ -37,6 +37,17 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
+  color: #000;
+  border: solid #000 1px;
+  border-radius: 100%;
+  height: 1.2rem;
+  width: 1.2rem;
+  font-size: 0.75rem;
+}
+
+.modalCloseBtn:hover{
+background:#000;
+color:#fff
 }
 
 .options {
@@ -86,6 +97,10 @@
   color: white;
 }
 .modalActions button {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: space-between;
   padding: 0.5rem 2rem;
   border-radius: 10px;
   width: 50%;
