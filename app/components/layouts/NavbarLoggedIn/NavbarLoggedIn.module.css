@@ -224,8 +224,8 @@
     height: 28px;
     width: 28px;
     position: fixed;
-    top: 12px;
-    right: 50px;
+    top: 0px;
+    right: 130px;
     z-index: 2100;
   }
 
