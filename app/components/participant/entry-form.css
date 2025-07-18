@@ -3,13 +3,16 @@
   flex-direction: column;
   position: relative;
   max-width: 700px;
+  width: 100%;
   min-height: 82%;
   background: #ffffff;
   font-family: 'Inter', sans-serif;
   overflow: visible;
   border: 1px solid #ddd;
   box-sizing: border-box;
-  margin-top: 15px;
+  margin: auto;
+  margin-top: 2rem;
+  height: 100%;
 }
 
 .entryheader {
@@ -115,38 +118,80 @@
 }
 
 .textlabel {
-  position: absolute;
-  top: 550px;
-  left: 22px;
   font-size: 16px;
   color: #1e1e1e;
   line-height: 22px;
+  padding: 0rem 1rem;
+  font-weight: 700;
 }
+.entryform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+}
+.entrytitle {
+  font-weight: 700;
+  font-size: 1.6rem;
+  padding: 2rem 0;
+}
+@media (max-width: 640px) {
+  .placeholderimage {
+    height: 12rem;
+  }
+  .uploadbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
 
+    padding: 0;
+    margin: 0;
+  }
+  .uploadbar a,
+  .uploadbar span {
+    text-align: right;
+    font-size: 18px;
+    width: 36%;
+  }
+  .submitbtn {
+    width: 100%;
+    font-size: 15px;
+  }
+  .entrytextarea {
+    margin-left: 0;
+  }
+  .entryform {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
+.nextbtn {
+  font-size: 1.4rem;
+}
 .entrytextarea {
-  position: absolute;
-  top: 600px;
-  left: 22px;
-  width: 640px;
+  width: 100%;
   height: 80px;
   padding: 12px 16px;
   border: 1px solid #d9d9d9;
   border-radius: 8px;
   font-size: 16px;
-  color: #1e1e1e;
+  color: white;
   resize: none;
 }
 
 .submitbtn {
-  position: absolute;
-  top: 690px;
-  left: calc(50% - 681px / 2);
-  width: 681px;
-  height: 51px;
+  padding: 1rem 2rem;
   background: #868483;
   border-radius: 30px;
   border: none;
-  font-size: 30px;
+  font-size: 20px;
   font-weight: 600;
   color: #ffffff;
   cursor: pointer;

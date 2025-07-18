@@ -20,36 +20,36 @@
 
 html,
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
-  height: 100%;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
   font-family: var(--font-montserrat);
   background-color: white;
   color: var(--text-color);
-  justify-content: start;
+  justify-content: flex-start;
+  width: 100%;
 }
-
+header {
+  width: 100%;
+}
 main {
   flex: 1;
-  width: 63%;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1400px;
+  justify-content: flex-start;
+  height: 100%;
 }
-@media (max-width: 480px) {
-  main {
-    width: 100%;
-    margin: 0 auto;
-    padding: 0;
-    justify-content: start;
-    align-items: center;
-  }
-}
+/* footer {
+  display: block;
+  position: relative;
+  width: 100%;
+  margin-top: 5rem;
+} */
 
 .home {
   padding: 20px;
@@ -60,7 +60,9 @@ main {
   font-weight: bold;
   color: var(--primary-color);
 }
-
+header {
+  width: 100%;
+}
 .hero {
   margin-bottom: 30px;
 }
@@ -118,11 +120,6 @@ main {
   border-radius: var(--radius);
   height: 100px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-@media (min-width: 481px) and (max-width: 768px) {
-  main {
-    width: 100%;
-  }
 }
 
 .mobile-search-wrapper {

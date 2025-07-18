@@ -67,9 +67,19 @@ export default function DrawWinner({ competitionId, onClose }) {
             </div>
             {error && <p className={styles.error}>{error}</p>}
             <div className={styles.modalActions}>
-              <button onClick={onClose}>Annuller</button>
+              {/* <button onClick={onClose}>Annuller</button>
+              <div className={styles.loadingDrawing}>
+                <Loader />
+                <FaTrophy style={{ marginRight: 4 }} />
+              </div> */}
               <button onClick={draw} disabled={loading}>
-                {loading ? <Loader /> : <FaTrophy style={{ marginRight: 4 }} />}
+                <div className={styles.loadingDrawing}>
+                  {loading ? (
+                    <Loader />
+                  ) : (
+                    <FaTrophy style={{ marginRight: 4 }} />
+                  )}
+                </div>
                 Træk vinder
               </button>
             </div>

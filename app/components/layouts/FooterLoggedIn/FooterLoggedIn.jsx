@@ -54,7 +54,7 @@ export default function Footer() {
   }
 
   return (
-    <footer className={styles.footer}>
+    <div className={styles.footer}>
       {/* footer desktop */}
       <div className={styles['footer-content']}>
         <p className={styles['footer-text']}>
@@ -97,7 +97,11 @@ export default function Footer() {
           </button>
           {showMenu && (
             <div ref={menuRef} className={styles.profileMenu}>
-              <Link href={profileHref} className={styles.profileMenuBtn} onClick={() => setShowMenu(false)}>
+              <Link
+                href={profileHref}
+                className={styles.profileMenuBtn}
+                onClick={() => setShowMenu(false)}
+              >
                 My Profile
               </Link>
               <button className={styles.profileMenuBtn} onClick={handleLogout}>
@@ -107,6 +111,6 @@ export default function Footer() {
           )}
         </div>
       </nav>
-    </footer>
+    </div>
   );
 }

@@ -29,6 +29,7 @@
 .about,
 .competitions {
   background-color: #ffffff;
+  /* background-color: green; */
   padding: 1rem;
   border-radius: 8px;
 }
@@ -42,55 +43,46 @@
   flex-direction: column;
   gap: 1.5rem;
 }
-@media (max-width: 480px) {
+@media (max-width: 440px) {
   .container {
-    display: flex;
-    flex-direction: column;
+    padding: 4rem 0;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    /* background-color: black; */
   }
 
   .header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: calc(100% - 1rem);
-    margin: 0;
-    padding: 0;
+    flex-direction: column;
   }
 
   .avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background-color: #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 1.2rem;
+    width: 50px;
+    height: 50px;
   }
 
   .region {
-    color: gray;
   }
 
-  .about,
+  .about {
+    width: 100%;
+    padding-left: 2rem;
+  }
   .competitions {
-    background-color: #ffffff;
-    padding: 1rem;
-    border-radius: 8px;
+    width: 100%;
+    padding: 0 1rem;
+    padding: 10px;
   }
   .about h3,
   .about p {
-    margin: 1rem 0;
   }
 
   .competitions h3 {
-    margin: 1rem 0;
+    padding-left: 1rem;
   }
 
   .competitionsList {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    width: 100%;
+    flex-wrap: wrap;
   }
 }

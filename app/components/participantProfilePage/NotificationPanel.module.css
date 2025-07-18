@@ -198,6 +198,28 @@
   font-style: italic;
 }
 
+@media (max-width: 520px) {
+  .notification p {
+    font-size: 12px;
+  }
+  .notificationsContainer {
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    transform: translateX(200px);
+  }
+  .notification {
+    display: flex;
+    gap: 2px;
+    padding: 0 10px;
+    width: 600px;
+    flex-wrap: wrap;
+    margin-right: auto;
+  }
+}
 /* Desktop - Show notification panel centered */
 @media (min-width: 769px) {
   .wrapper {
