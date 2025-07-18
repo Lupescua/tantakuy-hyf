@@ -1,7 +1,19 @@
 'use client';
 
 import styles from './CompanyCompetitionItem.module.css';
-import { FaEdit, FaTrash, FaPause, FaCalendarAlt, FaPlay, FaRegClock, FaUserFriends, FaThumbsUp, FaShareAlt, FaMousePointer } from 'react-icons/fa';
+import {
+  FaEdit,
+  FaTrash,
+  FaPause,
+  FaCalendarAlt,
+  FaPlay,
+  FaRegClock,
+  FaUserFriends,
+  FaThumbsUp,
+  FaShareAlt,
+  FaMousePointer,
+  FaTrophy,
+} from 'react-icons/fa';
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import API from '@/utils/axios';
@@ -88,16 +100,37 @@ export default function CompanyCompetitionItem({
     <div className={styles.competitionItem}>
       <div className={styles.content}>
         <div className={styles.title}>{title}</div>
-        <div className={styles.date}><FaCalendarAlt style={{marginRight: '6px'}} />Oprettet: {formatDate(createdAt)}</div>
-        <div className={styles.date}><FaPlay style={{marginRight: '6px'}} />Starter på: {formatDate(startDate)}</div>
-        <div className={styles.date}><FaRegClock style={{marginRight: '6px'}} />Deadline: {formatDate(endDate)}</div>
+        <div className={styles.date}>
+          <FaCalendarAlt style={{ marginRight: '6px' }} />
+          Oprettet: {formatDate(createdAt)}
+        </div>
+        <div className={styles.date}>
+          <FaPlay style={{ marginRight: '6px' }} />
+          Starter på: {formatDate(startDate)}
+        </div>
+        <div className={styles.date}>
+          <FaRegClock style={{ marginRight: '6px' }} />
+          Deadline: {formatDate(endDate)}
+        </div>
 
         {!loadingStats && (
           <div className={styles.stats}>
-            <span><FaUserFriends style={{marginRight: '6px'}} />Deltagere: {stats.participants}</span>
-            <span><FaThumbsUp style={{marginRight: '6px'}} />Stemmer: {stats.votes}</span>
-            <span><FaShareAlt style={{marginRight: '6px'}} />Delinger: {stats.shares}</span>
-            <span><FaMousePointer style={{marginRight: '6px'}} />Klik: {stats.clicks}</span>
+            <span>
+              <FaUserFriends style={{ marginRight: '6px' }} />
+              Deltagere: {stats.participants}
+            </span>
+            <span>
+              <FaThumbsUp style={{ marginRight: '6px' }} />
+              Stemmer: {stats.votes}
+            </span>
+            <span>
+              <FaShareAlt style={{ marginRight: '6px' }} />
+              Delinger: {stats.shares}
+            </span>
+            <span>
+              <FaMousePointer style={{ marginRight: '6px' }} />
+              Klik: {stats.clicks}
+            </span>
           </div>
         )}
       </div>
@@ -107,18 +140,22 @@ export default function CompanyCompetitionItem({
           className={`${styles.button} ${styles.drawBtn}`}
           onClick={() => setIsDrawOpen(true)}
         >
+          <FaTrophy style={{ marginRight: '6px' }} />
           Træk vinder
         </button>
         <button className={`${styles.button} ${styles.editBtn}`}>
+          <FaEdit style={{ marginRight: '6px' }} />
           Rediger
         </button>
         <button
           className={`${styles.button} ${styles.deleteBtn}`}
           onClick={handleDelete}
         >
+          <FaTrash style={{ marginRight: '6px' }} />
           Slet
         </button>
         <button className={`${styles.button} ${styles.suspendBtn}`}>
+          <FaPause style={{ marginRight: '6px' }} />
           Suspendér
         </button>
       </div>

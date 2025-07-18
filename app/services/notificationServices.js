@@ -2,7 +2,7 @@ import Notification from '../api/models/Notifications';
 import Entry from '../api/models/Entry';
 import dbConnect from '@/utils/dbConnects';
 
-export async function createNotification(entryId, actorId, type) {
+export async function createNotification(entryId, actorId, type, actorType) {
   const entry = await Entry.findById(entryId).lean();
 
   if (!entry) throw new Error('Entry not found');
@@ -14,6 +14,7 @@ export async function createNotification(entryId, actorId, type) {
   const newNotification = new Notification({
     recipient: recipientId,
     actor: actorId,
+    actorType,
     entry: entryId,
     type,
   });

@@ -3,6 +3,7 @@ import Notification from '../models/Notifications';
 import Entry from '../models/Entry';
 import { NextResponse } from 'next/server';
 import Participant from '../models/Participant';
+import Company from '../models/Company';
 
 export async function GET(req) {
   await dbConnect();
@@ -13,7 +14,10 @@ export async function GET(req) {
   }
 
   const notifications = await Notification.find({ recipient: userId })
-    .populate('actor', 'userName')
+    .populate({
+      path: 'actor',
+      select: 'userName companyName',
+    })
     .populate({
       path: 'entry',
       select: 'competition',
@@ -30,7 +34,7 @@ export async function GET(req) {
     id: n._id.toString(), // Normalize main notification ID
     actor: {
       id: n.actor?._id?.toString() || '', // Fallback to empty string if actor missing
-      userName: n.actor?.userName || 'Unknown', // Default to 'Unknown' if userName missing
+      userName: n.actor?.userName ?? n.actor?.companyName,
     },
     entry: {
       id: n.entry?._id?.toString() || '', // Fallback for missing entry

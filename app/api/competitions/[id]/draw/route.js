@@ -88,7 +88,12 @@ export async function POST(request, context) {
   );
 
   // 7) Notify the winner
-  await createNotification(winnerEntry._id, actorId, 'win');
+  await createNotification(
+    winnerEntry._id,
+    actorId,
+    'win',
+    role === 'company' ? 'Company' : 'Participant',
+  );
 
   // 8) Return the winner payload
   return NextResponse.json(

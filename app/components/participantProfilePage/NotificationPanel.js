@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import styles from './NotificationPanel.module.css';
-import { FaBell } from 'react-icons/fa';
+import { FaBell, FaTrophy, FaHeart, FaShareAlt } from 'react-icons/fa';
 import { useAuth } from '@/context/AuthContext';
 import API from '@/utils/axios';
 import Link from 'next/link';
@@ -11,27 +11,15 @@ export default function NotificationsPanel() {
   const [notifications, setNotifications] = useState([]);
   const { user } = useAuth();
 
-  const togglePanel = () => {
-    setOpen(!open);
-  };
+  const togglePanel = () => setOpen((o) => !o);
 
   useEffect(() => {
     if (!user?.id) return;
-    const fetchNotifications = async () => {
-      try {
-        const res = await API.get('/notification', {
-          params: { userId: user.id },
-        });
-        setNotifications(res.data.notifications || []);
-      } catch (err) {
-        console.error('Failed to fetch notifications:', err);
-      }
-    };
-
-    fetchNotifications();
+    API.get('/notification', { params: { userId: user.id } })
+      .then((res) => setNotifications(res.data.notifications || []))
+      .catch((err) => console.error('Failed to fetch notifications:', err));
   }, [user]);
 
-  // Remove clicked notification
   const handleNotificationClick = async (id) => {
     try {
       await API.delete(`/notification/${id}`);
@@ -41,12 +29,9 @@ export default function NotificationsPanel() {
     }
   };
 
-  // Clear all notifications from panel
   const handleClearAll = async () => {
     try {
-      await API.delete(`/notification`, {
-        params: { userId: user.id },
-      });
+      await API.delete('/notification', { params: { userId: user.id } });
       setNotifications([]);
     } catch (err) {
       console.error('Failed to clear notifications:', err);
@@ -61,7 +46,7 @@ export default function NotificationsPanel() {
       </div>
 
       {open && (
-        <div className={`${styles.panel} ${open ? styles.show : ''}`}>
+        <div className={`${styles.panel} ${styles.show}`}>
           <div className={styles.header}>
             <h3>Notifikationer</h3>
           </div>
@@ -73,17 +58,51 @@ export default function NotificationsPanel() {
               notifications.map((n) => (
                 <div key={n.id} className={styles.notification}>
                   <div className={styles.dot}></div>
-                  <p>
-                    <strong>{n.actor.userName}</strong>{' '}
-                    {n.type === 'like' ? 'synes godt om' : 'delte'} dit indlæg
-                  </p>
-                  <Link
-                    href={`/entry/${n.entry.id}`}
-                    className={styles.naviToEntry}
-                    onClick={() => handleNotificationClick(n.id)}
-                  >
-                    {'>'}
-                  </Link>
+                  {n.type === 'win' ? (
+                    <>
+                      <FaTrophy className={styles.icon} />
+                      <p>
+                        Tillykke! Du har vundet konkurrencen “
+                        {n.competition.title}”!
+                      </p>
+                      <Link
+                        href={`/competition/${n.competition.id}`}
+                        className={styles.naviToEntry}
+                        onClick={() => handleNotificationClick(n.id)}
+                      >
+                        &gt;
+                      </Link>
+                    </>
+                  ) : n.type === 'like' ? (
+                    <>
+                      <FaHeart className={styles.icon} />
+                      <p>
+                        <strong>{n.actor.userName}</strong> synes godt om dit
+                        indlæg.
+                      </p>
+                      <Link
+                        href={`/entry/${n.entry.id}`}
+                        className={styles.naviToEntry}
+                        onClick={() => handleNotificationClick(n.id)}
+                      >
+                        &gt;
+                      </Link>
+                    </>
+                  ) : n.type === 'share' ? (
+                    <>
+                      <FaShareAlt className={styles.icon} />
+                      <p>
+                        <strong>{n.actor.userName}</strong> delte dit indlæg.
+                      </p>
+                      <Link
+                        href={`/entry/${n.entry.id}`}
+                        className={styles.naviToEntry}
+                        onClick={() => handleNotificationClick(n.id)}
+                      >
+                        &gt;
+                      </Link>
+                    </>
+                  ) : null}
                 </div>
               ))
             )}
