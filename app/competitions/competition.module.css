@@ -86,7 +86,7 @@
   }
   .grid {
     display: flex;
-
+    grid-template-columns: repeat(minmax(120px, 1fr));
     margin: 0;
     gap: 15px;
     flex-direction: row;
