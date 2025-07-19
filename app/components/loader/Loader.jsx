@@ -8,7 +8,7 @@ export default function Loader() {
         <span className={styles.dot}></span>
         <span className={styles.dot}></span>
       </div>
-      <p className={styles.loadingText}>Please wait...</p>
+      <p className={styles.loadingText}>Vent venligst...</p>
     </div>
   );
 }

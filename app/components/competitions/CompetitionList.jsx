@@ -36,7 +36,7 @@ export default function CompetitionList({ competitions: propData }) {
   /* ---------- 2. UI ---------------------------------------------- */
   if (loadingComps) return <Loader />;
   if (error) return <p className={styles.error}>{error}</p>;
-  if (!competitions.length) return <p>No competitions found.</p>;
+  if (!competitions.length) return <p>Ingen konkurrencer fundet</p>;
 
   return (
     <div className={styles.list}>
