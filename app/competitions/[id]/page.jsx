@@ -80,7 +80,6 @@ export default function CompetitionGalleryPage() {
   return (
     <main className={styles.main}>
       <h1 className={styles.title}>{competition.title ?? 'Konkurrence'}</h1>
-
       <div className={styles.grid}>
         {paginatedEntries.length ? (
           paginatedEntries.map((entry) => (
@@ -108,9 +107,9 @@ export default function CompetitionGalleryPage() {
           ))}
         </div>
       )}
-
       {/* Join button (handles auth internally) */}
       <JoinButton competitionId={competition._id} />
+      <div className={styles.empty}></div>{' '}
     </main>
   );
 }
