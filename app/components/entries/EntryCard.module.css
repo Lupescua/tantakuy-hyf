@@ -92,11 +92,17 @@
 @media (max-width: 480px) {
   .card {
     width: 40%;
+    flex: 1 1 40%;
   }
 }
 @media (min-width: 481px) and (max-width: 900px) {
   .card {
-    flex: 1 1 200px;
+    display: flex;
+    flex-direction: center;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    flex: 1 1 200;
     max-width: 220px;
   }
 }

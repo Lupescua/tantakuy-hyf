@@ -28,7 +28,7 @@ export default function CompetitionGalleryPage() {
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth <= 900);
+      setIsSmallScreen(window.innerWidth <= 750);
     };
     checkScreenSize(); // run on mount
     window.addEventListener('resize', checkScreenSize);
