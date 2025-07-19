@@ -27,13 +27,6 @@
   }
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  grid-row-start: 2;
-}
-
 .main ol {
   font-family: var(--font-geist-mono);
   padding-left: 0;
@@ -60,7 +53,6 @@
   display: flex;
   gap: 16px;
 }
-
 .ctas a {
   appearance: none;
   border-radius: 128px;
