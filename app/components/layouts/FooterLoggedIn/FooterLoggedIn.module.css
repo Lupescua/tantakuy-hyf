@@ -85,6 +85,11 @@
   background: #f3f4f6;
   color: #0070f3;
 }
+@media (min-width: 761px) {
+  .footer {
+    visibility: hidden;
+  }
+}
 
 @media (max-width: 768px) {
   .footer-content {

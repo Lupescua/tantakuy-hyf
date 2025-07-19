@@ -38,21 +38,12 @@ header {
   width: 100%;
 }
 main {
+  padding: 2rem;
   flex: 1;
   width: 100%;
   max-width: 1400px;
   justify-content: flex-start;
   height: 100%;
-}
-/* footer {
-  display: block;
-  position: relative;
-  width: 100%;
-  margin-top: 5rem;
-} */
-
-.home {
-  padding: 20px;
 }
 
 .logo {
