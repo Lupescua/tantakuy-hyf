@@ -6,6 +6,10 @@
   font-size: 15px;
   cursor: pointer;
 }
+.empty {
+  width: 100%;
+  height: 4rem;
+}
 .pagination {
   display: flex;
   justify-content: center;
@@ -82,16 +86,17 @@
     margin: 3px;
     gap: 1rem;
     overflow-y: auto;
-    min-height: 100svh;
-    height: 1200px;
+    height: 1400px;
+    justify-content: flex-start;
   }
+
   .grid {
     display: flex;
     margin: 0;
     gap: 15px;
     flex-direction: row;
 
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
   }
@@ -107,6 +112,8 @@
     width: 100%;
     margin: 0;
     align-self: center;
+    position: relative;
+    margin-bottom: 5rem;
   }
 }
 @media (min-width: 481px) and (max-width: 900px) {
@@ -144,19 +151,7 @@
     margin-bottom: 5rem;
   }
 }
-@media (max-width: 400px) {
-  .main {
-    gap: 1rem;
-  }
-  .grid {
-    width: 100%;
-  }
-  .pagination {
-  }
-  .joinButton {
-    margin-bottom: 10rem;
-  }
-}
+
 @media (min-width: 901px) and (max-width: 1280px) {
   .main {
     width: 100%;
