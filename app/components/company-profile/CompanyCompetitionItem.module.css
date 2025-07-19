@@ -3,7 +3,9 @@
   border-radius: 12px;
   padding: 1.5rem;
   background-color: #ffffff;
-  transition: box-shadow 0.3s ease, transform 0.2s ease;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -59,11 +61,25 @@
   transition: all 0.2s ease;
 }
 
+.drawBtn {
+  background-color: #6b46c1;
+  color: white;
+}
+
 .button:hover {
   background-color: #f3f4f6;
   border-color: #9ca3af;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transform: scale(1.02);
+}
+
+.editBtn {
+  background-color: #2563eb;
+  color: #fff;
+  border: 1.5px solid #2563eb;
+}
+.drawBtn:hover {
+  background-color: #553c9a;
 }
 
 .editBtn {
@@ -111,6 +127,29 @@
   font-size: 0.85rem;
   font-weight: 500;
   white-space: nowrap;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 90%;
+  width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  position: relative;
+  z-index: 1001;
 }
 
 /* RESPONSIVE */

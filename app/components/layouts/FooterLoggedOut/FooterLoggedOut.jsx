@@ -10,9 +10,12 @@ export default function FooterLoggedOut() {
           Har du en konto?{' '}
           <Link href="/login" className={styles['footer-btn']}>
             Log ind
-          </Link>
-          {' '}eller{' '}
-          <Link href="/signup" className={`${styles['footer-btn']} ${styles['footer-btn']} ${styles['primary']}`}>
+          </Link>{' '}
+          eller{' '}
+          <Link
+            href="/signup"
+            className={`${styles['footer-btn']} ${styles['footer-btn']} ${styles['primary']}`}
+          >
             Sign up
           </Link>
         </p>

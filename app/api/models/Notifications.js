@@ -9,8 +9,13 @@ const NotificationSchema = new mongoose.Schema(
     },
     actor: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Participant',
+      refPath: 'actorType',
       required: true,
+    },
+    actorType: {
+      type: String,
+      required: true,
+      enum: ['Participant', 'Company'],
     },
     entry: {
       type: mongoose.Schema.Types.ObjectId,
@@ -19,7 +24,7 @@ const NotificationSchema = new mongoose.Schema(
     },
     type: {
       type: String,
-      enum: ['like', 'share'],
+      enum: ['like', 'share', 'win'],
       required: true,
     },
     read: {

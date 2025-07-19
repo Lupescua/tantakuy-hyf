@@ -58,7 +58,6 @@ export default function CreateCompetitionForm() {
         data.append('image', imageFile);
 
         const uploadResp = await API.post('/upload', data);
-        console.log('S3 upload result:', uploadResp.data);
         imageUrl = uploadResp.data.url;
       }
 

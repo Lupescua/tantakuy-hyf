@@ -51,14 +51,14 @@
   display: none; /* Hidden by default on desktop */
   align-items: center;
   justify-content: center;
-  height: 32px;
+  height: 100%;
   width: 32px;
 }
 
 /* Override NotificationPanel styles for navbar */
 .notification-wrapper :global(.bell) {
-  width: 24px !important;
-  height: 24px !important;
+  width: 100% !important;
+  height: 100% !important;
   font-size: 0.7rem !important;
   background-color: black !important;
   color: white !important;
@@ -90,6 +90,10 @@
   width: 320px !important;
   max-width: 320px !important;
   position: fixed !important;
+}
+@media (max-width: 500px) {
+  .notification-wrapper {
+  }
 }
 
 .nav-btn {
@@ -212,7 +216,8 @@
     display: flex;
     gap: 8px;
     width: auto;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
   }
 
   .navbar-top {
@@ -221,11 +226,9 @@
 
   .notification-wrapper {
     display: flex !important; /* Show only on mobile */
-    height: 28px;
-    width: 28px;
     position: fixed;
     top: 0px;
-    right: 130px;
+    right: 80px;
     z-index: 2100;
   }
 

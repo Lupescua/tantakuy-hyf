@@ -44,8 +44,6 @@ function LoginForm() {
 
       const user = res.data?.user;
       if (res.data?.success && user) {
-        console.log('✅ Login success:', user);
-
         // update the AuthContext
         refresh();
 
@@ -65,14 +63,14 @@ function LoginForm() {
     }
   };
   return (
-    <>
+    <section className={styles.loginSection}>
       <div className={styles.loginPage}>
         <div className={styles.loginHeader}>
           <h1>Log ind</h1>
           {/* TODO: Replace with Danish translation */}
         </div>
 
-        <div className={styles.loginFormWrapper}>
+        <div className={`${styles.loginFormWrapper}`}>
           {errorMsg && <p className={styles.errorText}>{errorMsg}</p>}
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <div className={styles.formFields}>
@@ -153,7 +151,7 @@ function LoginForm() {
           </form>
         </div>
       </div>
-    </>
+    </section>
   );
 }
 

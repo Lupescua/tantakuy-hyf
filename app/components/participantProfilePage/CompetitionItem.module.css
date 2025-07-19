@@ -11,7 +11,28 @@
   text-decoration: none;
   color: inherit;
   flex-wrap: wrap;
-  min-width: 500px;
+  min-width: 390px;
+}
+
+@media (max-width: 440px) {
+  .competitionItem {
+    flex-direction: column;
+    padding: 1rem;
+    margin: 0 auto;
+    width: 20rem;
+
+    /* background-color: black; */
+  }
+
+  .deleteBtnContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .deleteBtnContainer .deleteBtn {
+    margin-left: auto;
+    width: 70px;
+  }
 }
 
 .competitionItem:hover {

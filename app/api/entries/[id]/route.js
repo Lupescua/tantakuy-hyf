@@ -7,6 +7,7 @@ import { isValidObjectId } from 'mongoose';
 import s3 from '@/utils/s3Client';
 import { NextResponse } from 'next/server';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { createNotification } from '@/app/services/notificationServices';
 
 /* helper – pull :id safely from the URL string */
 function extractId(request) {
@@ -108,6 +109,20 @@ export async function PATCH(request) {
 
   await dbConnect();
 
+  // Try to pull actor info if logged in, but don’t crash if not
+  let actorId, actorType;
+  try {
+    const store = await cookies();
+    const token = store.get('token')?.value;
+    if (token) {
+      const payload = verifyToken(token);
+      actorId = payload.id;
+      actorType = payload.role === 'company' ? 'Company' : 'Participant';
+    }
+  } catch {
+    // not logged in or invalid token –> no notification
+  }
+
   try {
     // increment the shares counter
     const updated = await Entry.findByIdAndUpdate(
@@ -118,6 +133,11 @@ export async function PATCH(request) {
 
     if (!updated) {
       return Response.json({ error: 'Entry not found' }, { status: 404 });
+    }
+
+    // If we have a valid actorId, fire a “share” notification:
+    if (actorId) {
+      await createNotification(updated._id, actorId, 'share', actorType);
     }
 
     // return the new share count (optional)

@@ -99,6 +99,16 @@ const CompetitionSchema = new mongoose.Schema(
       ref: 'Company',
       required: true,
     },
+    winner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Entry',
+      default: null,
+    },
+    winnerMethod: {
+      type: String,
+      enum: ['likes', 'shares', 'random'],
+      default: null,
+    },
   },
   { timestamps: true },
 );
