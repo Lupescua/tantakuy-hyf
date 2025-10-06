@@ -1,13 +1,18 @@
 import jwt from 'jsonwebtoken';
+import { env } from './env';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const ALG = 'HS256';
+const DEFAULT_EXPIRES = '2h';
 
-const JWT_EXPIRES_IN = '7d';
-
-export function generateToken(payload) {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+export function signJwt(payload, { expiresIn = DEFAULT_EXPIRES } = {}) {
+  return jwt.sign(payload, env.JWT_SECRET, { algorithm: ALG, expiresIn });
 }
 
-export function verifyToken(token) {
-  return jwt.verify(token, JWT_SECRET);
+export function verifyJwt(token) {
+  try {
+    return { ok: true, payload: jwt.verify(token, env.JWT_SECRET, { algorithms: [ALG] }) };
+  } catch (err) {
+    const code = err.name === 'TokenExpiredError' ? 'expired' : 'invalid';
+    return { ok: false, code };
+  }
 }
