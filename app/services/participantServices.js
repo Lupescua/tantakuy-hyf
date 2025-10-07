@@ -1,6 +1,6 @@
 import Participant from '../api/models/Participant';
 import { AppError } from '@/utils/errorHandler';
-import { generateToken } from '@/utils/jwt';
+import { signJwt } from '@/utils/jwt';
 
 export async function createParticipant(user = {}) {
   const { userName, email, password } = user;
@@ -23,7 +23,7 @@ export async function createParticipant(user = {}) {
   const newParticipant = new Participant({ userName, email, password });
   await newParticipant.save();
 
-  const token = generateToken({
+  const token = signJwt({
     id: newParticipant._id,
     email: newParticipant.email,
     userName: newParticipant.userName,

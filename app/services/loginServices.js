@@ -1,6 +1,6 @@
 import Participant from '../api/models/Participant';
 import Company from '../api/models/Company';
-import { generateToken } from '@/utils/jwt';
+import { signJwt } from '@/utils/jwt';
 import { AppError } from '@/utils/errorHandler';
 
 export async function loginUser(login = {}) {
@@ -31,7 +31,7 @@ export async function loginUser(login = {}) {
   }
 
   // 3️⃣ Sign JWT with role
-  const token = generateToken({
+  const token = signJwt({
     id: user._id,
     role,
   });
