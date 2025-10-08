@@ -82,22 +82,18 @@ export async function GET(req) {
 
   // 2) Check whether *this* user has voted
   let userVoted = false;
-  try {
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-    if (token) {
-      const result = verifyToken(token);
-      if (result.ok) {
-        const participantId = result.payload.id;
-        const existing = await Vote.findOne({
-          entry: entryId,
-          participant: participantId,
-        });
-        userVoted = !!existing;
-      }
+  const cookieStore = await cookies();
+  const token = cookieStore.get('token')?.value;
+  if (token) {
+    const result = verifyToken(token);
+    if (result.ok) {
+      const participantId = result.payload.id;
+      const existing = await Vote.findOne({
+        entry: entryId,
+        participant: participantId,
+      });
+      userVoted = !!existing;
     }
-  } catch {
-    // if no token or invalid, just leave userVoted=false
   }
 
   return Response.json(

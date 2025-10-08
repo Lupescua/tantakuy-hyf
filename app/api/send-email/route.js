@@ -64,9 +64,18 @@ export async function POST(request) {
         'pre',
       ],
       allowedAttributes: {
-        a: ['href', 'name', 'target'],
+        a: ['href', 'name', 'target', 'rel'],
       },
       allowedSchemes: ['http', 'https', 'mailto'],
+      transformTags: {
+        a: (tagName, attribs) => ({
+          tagName: 'a',
+          attribs: {
+            ...attribs,
+            rel: 'noopener noreferrer nofollow',
+          },
+        }),
+      },
     });
 
     await sendEmail({
