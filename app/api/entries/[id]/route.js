@@ -116,8 +116,7 @@ export async function PATCH(request) {
     const result = verifyToken(token);
     if (result.ok) {
       actorId = result.payload.id;
-      actorType =
-        result.payload.role === 'company' ? 'Company' : 'Participant';
+      actorType = result.payload.role === 'company' ? 'Company' : 'Participant';
     }
   }
 
