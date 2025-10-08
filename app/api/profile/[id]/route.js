@@ -34,21 +34,29 @@ export async function GET(request, context) {
     // drop any with missing competition
     const good = entries.filter((e) => e.competition);
 
-    // 3) For each entry, count votes and read shares
-    const data = await Promise.all(
-      good.map(async (e) => {
-        const voteCount = await Vote.countDocuments({ entry: e._id });
-        return {
-          id: e._id.toString(),
-          title: e.competition.title,
-          company: e.competition.company?.companyName || 'Ukendt',
-          likes: voteCount, // real vote total
-          shares: e.shares || 0, // 0 if undefined
-          saved: 0,
-          imageUrl: e.imageUrl,
-        };
-      }),
-    );
+    // 3) Count votes for all entries in a single aggregation query
+    const entryIds = good.map((e) => e._id);
+    const voteCounts = await Vote.aggregate([
+      { $match: { entry: { $in: entryIds } } },
+      { $group: { _id: '$entry', count: { $sum: 1 } } },
+    ]);
+
+    // Create a map for O(1) lookup
+    const voteMap = {};
+    voteCounts.forEach((v) => {
+      voteMap[v._id.toString()] = v.count;
+    });
+
+    // 4) Map entries to the shape your frontend expects
+    const data = good.map((e) => ({
+      id: e._id.toString(),
+      title: e.competition.title,
+      company: e.competition.company?.companyName || 'Ukendt',
+      likes: voteMap[e._id.toString()] || 0, // 0 if no votes
+      shares: e.shares || 0, // 0 if undefined
+      saved: 0,
+      imageUrl: e.imageUrl,
+    }));
 
     return NextResponse.json({ success: true, data });
   } catch (err) {

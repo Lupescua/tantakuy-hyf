@@ -22,27 +22,31 @@ export async function getUserCompetitionStats(userId) {
     return null;
   }
 
-  const stats = await Promise.all(
-    entries
-      .filter((entry) => entry.competition)
-      .map(async (entry) => {
-        try {
-          const likes = await Vote.countDocuments({ entry: entry._id });
-          return {
-            id: entry.competition?._id || '',
-            title: entry.competition?.title || 'Unknown',
-            organizer: entry.competition?.company?.name || 'Unknown',
-            likes,
-            shares: 0,
-            saved: 0,
-            imageUrl: entry.imageUrl,
-          };
-        } catch (err) {
-          console.error('Vote count failed for entry:', entry._id, err);
-          return null; // Prevent Promise.all from failing
-        }
-      }),
-  );
+  const filteredEntries = entries.filter((entry) => entry.competition);
 
-  return stats.filter(Boolean); // Remove nulls
+  // Count votes for all entries in a single aggregation query
+  const entryIds = filteredEntries.map((entry) => entry._id);
+  const voteCounts = await Vote.aggregate([
+    { $match: { entry: { $in: entryIds } } },
+    { $group: { _id: '$entry', count: { $sum: 1 } } },
+  ]);
+
+  // Create a map for O(1) lookup
+  const voteMap = {};
+  voteCounts.forEach((v) => {
+    voteMap[v._id.toString()] = v.count;
+  });
+
+  // Map entries to stats without additional queries
+  const stats = filteredEntries.map((entry) => ({
+    id: entry.competition?._id || '',
+    title: entry.competition?.title || 'Unknown',
+    organizer: entry.competition?.company?.name || 'Unknown',
+    likes: voteMap[entry._id.toString()] || 0,
+    shares: 0,
+    saved: 0,
+    imageUrl: entry.imageUrl,
+  }));
+
+  return stats;
 }
