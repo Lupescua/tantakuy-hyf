@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { verifyToken } from '@/utils/jwt.js';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import mongoose from 'mongoose';
 import Entry from '@/app/api/models/Entry';
 import Competition from '@/app/api/models/Competition';
@@ -9,7 +9,7 @@ import { createNotification } from '@/app/services/notificationServices';
 import { isValidObjectId } from 'mongoose';
 import { cookies } from 'next/headers';
 
-export async function POST(request, context) {
+async function drawWinner(request, context) {
   // 1) Grab and validate compId
   const { id: compId } = await context.params;
   if (!isValidObjectId(compId)) {
@@ -18,7 +18,6 @@ export async function POST(request, context) {
       { status: 400 },
     );
   }
-  await dbConnect();
 
   // 2) Authenticate via token cookie
   const store = await cookies();
@@ -107,3 +106,5 @@ export async function POST(request, context) {
     { status: 200 },
   );
 }
+
+export const POST = withDB(drawWinner);

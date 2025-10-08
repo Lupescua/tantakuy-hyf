@@ -1,11 +1,11 @@
 import { loginUser } from '@/app/services/loginServices';
-import dbConnect from '@/utils/dbConnects';
 import { cookies } from 'next/headers';
 import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
+import { withDB } from '@/utils/withDB';
 
 const ratelimit = createRateLimiter(5, '15 m');
 
-export async function POST(req) {
+async function loginHandler(req) {
   const rateLimitResponse = await checkRateLimit(
     req,
     'login',
@@ -15,7 +15,6 @@ export async function POST(req) {
   if (rateLimitResponse) return rateLimitResponse;
 
   try {
-    await dbConnect();
     const body = await req.json();
     const { token, user } = await loginUser(body);
     const cookieStore = await cookies();
@@ -45,3 +44,5 @@ export async function POST(req) {
     );
   }
 }
+
+export const POST = withDB(loginHandler);

@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import mongoose from 'mongoose';
 import Entry from '@/app/api/models/Entry';
 import Vote from '@/app/api/models/Vote';
 import Competition from '@/app/api/models/Competition';
 import { isValidObjectId } from 'mongoose';
 
-export async function GET(request, context) {
+async function getCompetitionStats(request, context) {
   // Await params to conform with Next.js dynamic API requirements
   const { id: compId } = await context.params;
   if (!isValidObjectId(compId)) {
@@ -15,8 +15,6 @@ export async function GET(request, context) {
       { status: 400 },
     );
   }
-
-  await dbConnect();
 
   // 1) Participants = number of entries
   const participants = await Entry.countDocuments({ competition: compId });
@@ -52,3 +50,5 @@ export async function GET(request, context) {
 
   return NextResponse.json({ participants, votes, shares, clicks });
 }
+
+export const GET = withDB(getCompetitionStats);

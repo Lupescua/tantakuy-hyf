@@ -1,11 +1,11 @@
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import { cookies } from 'next/headers'; // ← ADD
 import { verifyToken } from '@/utils/jwt'; // ← ADD
 import { isValidObjectId } from 'mongoose';
 
 /* ───────── GET /api/entries/get-entries-images ───────── */
-export async function GET(request) {
+async function getEntriesImages(request) {
   /* 1. who is asking?  ─────────────────────────────────── */
   const { searchParams } = new URL(request.url);
   let userId = searchParams.get('userId'); // optional
@@ -29,7 +29,6 @@ export async function GET(request) {
   }
 
   /* 2. DB – fetch entries for that user  ───────────────── */
-  await dbConnect();
   const entries = await Entry.find({ participant: userId })
     .select('imageUrl caption description votes') // leaner payload
     .lean();
@@ -45,3 +44,5 @@ export async function GET(request) {
 
   return Response.json({ success: true, data }, { status: 200 });
 }
+
+export const GET = withDB(getEntriesImages);

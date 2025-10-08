@@ -1,13 +1,12 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
 import Entry from '@/app/api/models/Entry';
 import Company from '@/app/api/models/Company';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
 import Vote from '../../models/Vote';
+import { withDB } from '@/utils/withDB';
 
-export async function GET(request, context) {
-  await dbConnect();
+async function getUserProfile(request, context) {
 
   const params = await context.params;
   const userId = params.id;
@@ -67,3 +66,5 @@ export async function GET(request, context) {
     );
   }
 }
+
+export const GET = withDB(getUserProfile);

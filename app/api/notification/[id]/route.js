@@ -1,10 +1,8 @@
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Notification from '../../models/Notifications';
 import { NextResponse } from 'next/server';
 
-export async function DELETE(request, context) {
-  await dbConnect();
-
+async function deleteNotification(request, context) {
   const { id } = await context.params;
 
   try {
@@ -17,3 +15,5 @@ export async function DELETE(request, context) {
     );
   }
 }
+
+export const DELETE = withDB(deleteNotification);

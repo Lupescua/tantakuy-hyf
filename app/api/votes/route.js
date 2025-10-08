@@ -1,11 +1,10 @@
 import { saveVote, countVotesForEntry } from '@/app/services/voteServices';
 import { cookies } from 'next/headers';
-import dbConnect from '@/utils/dbConnects';
 import { verifyToken } from '@/utils/jwt';
 import Vote from '../models/Vote';
+import { withDB } from '@/utils/withDB';
 
-export async function POST(req) {
-  await dbConnect();
+async function createVote(req) {
 
   try {
     const { entry, voteType } = await req.json();
@@ -58,8 +57,9 @@ export async function POST(req) {
   }
 }
 
-export async function GET(req) {
-  await dbConnect();
+export const POST = withDB(createVote);
+
+async function getVotes(req) {
 
   // extract entryId from query string
   const { searchParams } = new URL(req.url);
@@ -101,3 +101,5 @@ export async function GET(req) {
     { status: 200 },
   );
 }
+
+export const GET = withDB(getVotes);

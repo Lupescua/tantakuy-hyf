@@ -1,10 +1,10 @@
 // app/api/competitions/[id]/route.js
 import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
+import { withDB } from '@/utils/withDB';
 
-export async function GET(request /* ← only one arg now */) {
+async function getCompetition(request /* ← only one arg now */) {
   /* ---------------------------------------------------------- *
    * 1) Extract :id from the URL manually to avoid Next bug      *
    * ---------------------------------------------------------- */
@@ -19,15 +19,7 @@ export async function GET(request /* ← only one arg now */) {
     );
   }
 
-  /* ---------------------------------------------------------- *
-   * 2) Connect BEFORE any model access                         *
-   * ---------------------------------------------------------- */
-  await dbConnect();
-
   try {
-    /* -------------------------------------------------------- *
-     * 3) Fetch the document                                    *
-     * -------------------------------------------------------- */
     const comp = await Competition.findById(id);
     if (!comp) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -46,7 +38,9 @@ export async function GET(request /* ← only one arg now */) {
   }
 }
 
-export async function DELETE(request) {
+export const GET = withDB(getCompetition);
+
+async function deleteCompetition(request) {
   /* ---------------------------------------------------------- *
    * 1) Extract :id from the URL manually to avoid Next bug      *
    * ---------------------------------------------------------- */
@@ -61,15 +55,7 @@ export async function DELETE(request) {
     );
   }
 
-  /* ---------------------------------------------------------- *
-   * 2) Connect BEFORE any model access                         *
-   * ---------------------------------------------------------- */
-  await dbConnect();
-
   try {
-    /* -------------------------------------------------------- *
-     * 3) Delete the document                                   *
-     * -------------------------------------------------------- */
     const deleted = await Competition.findByIdAndDelete(id);
     if (!deleted) {
       return NextResponse.json({ error: 'Not found' }, { status: 404 });
@@ -91,8 +77,10 @@ export async function DELETE(request) {
   }
 }
 
+export const DELETE = withDB(deleteCompetition);
+
 /* ─────────── PATCH /api/competitions/[id] ─────────── */
-export async function PATCH(request) {
+async function patchCompetition(request) {
   // 1) Extract :id
   const pathname = new URL(request.url).pathname;
   const id = pathname.split('/').pop();
@@ -103,11 +91,7 @@ export async function PATCH(request) {
     );
   }
 
-  // 2) Connect
-  await dbConnect();
-
   try {
-    // 3) Increment the clicks counter
     const updated = await Competition.findByIdAndUpdate(
       id,
       { $inc: { clicks: 1 } },
@@ -130,3 +114,5 @@ export async function PATCH(request) {
     );
   }
 }
+
+export const PATCH = withDB(patchCompetition);

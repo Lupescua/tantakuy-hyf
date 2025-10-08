@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Participant from '@/app/api/models/Participant';
 import { AppError } from '@/utils/errorHandler';
 import Company from '../models/Company';
@@ -7,15 +7,13 @@ import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
 
 const ratelimit = createRateLimiter(5, '15 m');
 
-export async function POST(request) {
+async function forgotPasswordHandler(request) {
   const rateLimitResponse = await checkRateLimit(
     request,
     'forgotpw',
     ratelimit,
   );
   if (rateLimitResponse) return rateLimitResponse;
-
-  await dbConnect();
   const { email, newPassword, token } = await request.json();
 
   if (!email || !newPassword || !token) {
@@ -52,3 +50,5 @@ export async function POST(request) {
 
   return NextResponse.json({ success: true, message: 'Password reset' });
 }
+
+export const POST = withDB(forgotPasswordHandler);

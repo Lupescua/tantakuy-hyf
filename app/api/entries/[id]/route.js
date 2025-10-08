@@ -1,4 +1,4 @@
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import '@/app/api/models/Participant';
 import { cookies } from 'next/headers';
@@ -17,11 +17,9 @@ function extractId(request) {
 }
 
 /* ───────────── GET /api/entries/[id] ───────────── */
-export async function GET(request) {
+async function getEntry(request) {
   const id = extractId(request);
   if (!id) return Response.json({ error: 'Bad id' }, { status: 400 });
-
-  await dbConnect();
 
   try {
     const entry = await Entry.findById(id)
@@ -43,7 +41,7 @@ export async function GET(request) {
 }
 
 /* ──────────── DELETE /api/entries/[id] (auth) ─────────── */
-export async function DELETE(request) {
+async function deleteEntry(request) {
   const id = extractId(request);
   if (!id) {
     return NextResponse.json({ error: 'Bad id' }, { status: 400 });
@@ -60,8 +58,6 @@ export async function DELETE(request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
   const userId = result.payload.id;
-
-  await dbConnect();
 
   const entry = await Entry.findById(id).lean();
   if (!entry)
@@ -100,13 +96,11 @@ export async function DELETE(request) {
 }
 
 /* ─────────── PATCH /api/entries/[id] ──────────── */
-export async function PATCH(request) {
+async function patchEntry(request) {
   const id = extractId(request);
   if (!id) {
     return Response.json({ error: 'Bad id' }, { status: 400 });
   }
-
-  await dbConnect();
 
   // Try to pull actor info if logged in
   let actorId, actorType;
@@ -150,3 +144,7 @@ export async function PATCH(request) {
     );
   }
 }
+
+export const GET = withDB(getEntry);
+export const DELETE = withDB(deleteEntry);
+export const PATCH = withDB(patchEntry);

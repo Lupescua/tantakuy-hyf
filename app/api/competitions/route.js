@@ -1,14 +1,12 @@
-import dbConnect from '@/utils/dbConnects';
 import Competition from '../models/Competition';
 import Company from '../models/Company';
 import Entry from '../models/Entry';
 import { NextResponse } from 'next/server';
 import { verifyToken } from '@/utils/jwt.js';
 import { getUserFromCookie } from '@/utils/server/auth';
+import { withDB } from '@/utils/withDB';
 
-export async function GET(req) {
-  await dbConnect();
-
+async function getCompetitions(req) {
   const { searchParams } = new URL(req.url);
   const search = searchParams.get('search')?.toLowerCase();
   const companyId = searchParams.get('companyId');
@@ -76,10 +74,10 @@ export async function GET(req) {
   }
 }
 
-export async function POST(req) {
-  try {
-    await dbConnect();
+export const GET = withDB(getCompetitions);
 
+async function createCompetition(req) {
+  try {
     // 1) auth
     const user = await getUserFromCookie(req);
     if (!user) {
@@ -104,3 +102,5 @@ export async function POST(req) {
     );
   }
 }
+
+export const POST = withDB(createCompetition);

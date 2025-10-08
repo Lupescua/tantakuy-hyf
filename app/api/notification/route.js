@@ -1,13 +1,12 @@
-import dbConnect from '@/utils/dbConnects';
 import Notification from '../models/Notifications';
 import Entry from '../models/Entry';
 import { NextResponse } from 'next/server';
 import Participant from '../models/Participant';
 import Company from '../models/Company';
 import Competition from '../models/Competition';
+import { withDB } from '@/utils/withDB';
 
-export async function GET(req) {
-  await dbConnect();
+async function getNotifications(req) {
   const userId = req.nextUrl.searchParams.get('userId');
 
   if (!userId) {
@@ -52,8 +51,9 @@ export async function GET(req) {
   return NextResponse.json({ success: true, notifications: cleaned });
 }
 
-export async function DELETE(req) {
-  await dbConnect();
+export const GET = withDB(getNotifications);
+
+async function deleteNotifications(req) {
   const userId = req.nextUrl.searchParams.get('userId');
 
   if (!userId) {
@@ -70,3 +70,5 @@ export async function DELETE(req) {
     );
   }
 }
+
+export const DELETE = withDB(deleteNotifications);

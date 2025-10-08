@@ -1,10 +1,9 @@
-import dbConnect from '@/utils/dbConnects';
 import Entry from '../models/Entry';
 import mongoose from 'mongoose';
 import { withAuth } from '@/utils/authMiddleware';
+import { withDB } from '@/utils/withDB';
 
-export async function GET(req) {
-  await dbConnect();
+async function getEntries(req) {
   const { searchParams } = new URL(req.url);
   const competitionId = searchParams.get('competitionId');
 
@@ -35,8 +34,9 @@ export async function GET(req) {
   }
 }
 
+export const GET = withDB(getEntries);
+
 async function createEntry(req, { params, user }) {
-  await dbConnect();
 
   try {
     const body = await req.json();

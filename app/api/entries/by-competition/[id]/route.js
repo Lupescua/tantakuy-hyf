@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import { Types, isValidObjectId } from 'mongoose';
 
-export async function GET(request) {
+async function getEntriesByCompetition(request) {
   const pathname = new URL(request.url).pathname;
   const competitionId = pathname.split('/').pop();
 
@@ -20,7 +20,6 @@ export async function GET(request) {
   const skip = parseInt(url.searchParams.get('skip') || '0', 10);
 
   try {
-    await dbConnect();
 
     // this is an attempt at creating a trend algorithm, compute trendingScore = votes / hoursOld
     const now = new Date();
@@ -96,3 +95,5 @@ export async function GET(request) {
     );
   }
 }
+
+export const GET = withDB(getEntriesByCompetition);

@@ -1,11 +1,10 @@
-import dbConnect from '@/utils/dbConnects';
 import Company from '@/app/api/models/Company';
 import { createCompany } from '@/app/services/companyServices';
 import { NextResponse } from 'next/server';
+import { withDB } from '@/utils/withDB';
 
-export async function GET() {
+async function getCompanies() {
   try {
-    await dbConnect();
     const companies = await Company.find().select('_id companyName').lean();
     return NextResponse.json({ success: true, data: companies });
   } catch (err) {
@@ -17,9 +16,10 @@ export async function GET() {
   }
 }
 
-export async function POST(req) {
+export const GET = withDB(getCompanies);
+
+async function createCompanyHandler(req) {
   try {
-    await dbConnect();
     const body = await req.json();
     const company = await createCompany(body);
     return NextResponse.json({ success: true, data: company }, { status: 201 });
@@ -30,3 +30,5 @@ export async function POST(req) {
     );
   }
 }
+
+export const POST = withDB(createCompanyHandler);

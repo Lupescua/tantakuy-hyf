@@ -1,9 +1,9 @@
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/jwt.js';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Participant from '../../models/Participant';
 
-export async function GET() {
+async function getCurrentUser() {
   //read cookie
   const cookieStore = await cookies();
   const token = cookieStore.get('token')?.value;
@@ -19,7 +19,6 @@ export async function GET() {
     }
     const { id, role } = result.payload;
 
-    await dbConnect();
     // const user = await Participant.findById(id).select('userName email');
     let user;
     if (role === 'participant') {
@@ -58,3 +57,5 @@ export async function GET() {
     return Response.json({ success: false }, { status: 200 });
   }
 }
+
+export const GET = withDB(getCurrentUser);

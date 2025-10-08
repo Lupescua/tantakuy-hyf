@@ -1,11 +1,11 @@
 // app/api/entries/create-new-entry/route.js
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import { cookies } from 'next/headers';
 import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 
-export async function POST(req) {
+async function createNewEntry(req) {
   // ── 1) Authenticate via cookie
   const store = await cookies();
   const token = store.get('token')?.value;
@@ -45,7 +45,6 @@ export async function POST(req) {
   }
 
   // ── 3) Write to DB
-  await dbConnect();
   const entry = await Entry.create({
     competition,
     participant: participantId,
@@ -60,3 +59,5 @@ export async function POST(req) {
     headers: { 'Content-Type': 'application/json' },
   });
 }
+
+export const POST = withDB(createNewEntry);
