@@ -2,6 +2,7 @@ import Participant from '../api/models/Participant';
 import Company from '../api/models/Company';
 import { signJwt } from '@/utils/jwt';
 import { AppError } from '@/utils/errorHandler';
+import bcrypt from 'bcryptjs';
 
 export async function loginUser(login = {}) {
   const { email, password } = login;
@@ -20,14 +21,20 @@ export async function loginUser(login = {}) {
     role = 'company';
   }
 
+  // 3) Always check password - prevents timing attack
   if (!user) {
-    throw new AppError('Email or password is incorrect.', 401);
+    // Simulate password check even if user doesn't exist (same timing)
+    await bcrypt.compare(
+      password,
+      '$2a$10$dummyhashtopreventtimingattack1234567890',
+    );
+    throw new AppError('Invalid credentials', 401);
   }
 
   const isMatch = await user.comparePassword(password);
 
   if (!isMatch) {
-    throw new AppError('password is incorrect.', 401);
+    throw new AppError('Invalid credentials', 401);
   }
 
   // 3️⃣ Sign JWT with role
