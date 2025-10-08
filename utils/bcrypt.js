@@ -26,9 +26,13 @@ export async function comparePassword(password, hash) {
 }
 
 /**
- * Dummy hash for timing attack prevention
- * Pre-generated with 12 rounds to match real password hashing
+ * Generate a dummy hash on-demand for timing attack prevention
+ * Uses a random salt each time to ensure the hash is never reusable
  * This ensures consistent timing whether user exists or not
+ * @param {string} input - The input to hash (typically the password attempt)
+ * @returns {Promise<string>} A bcrypt hash that will never match
  */
-export const DUMMY_HASH =
-  '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYIRQ9TJZ1u';
+export async function generateDummyHash(input) {
+  // Hash with random salt - result is unpredictable and useless for attacks
+  return bcrypt.hash(input + Math.random().toString(36), BCRYPT_ROUNDS);
+}
