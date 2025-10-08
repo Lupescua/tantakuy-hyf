@@ -3,6 +3,7 @@ import sanitizeHtml from 'sanitize-html';
 import { Ratelimit } from '@upstash/ratelimit';
 import { Redis } from '@upstash/redis';
 import { z } from 'zod';
+import { sendEmail } from '@/utils/sendEmail';
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
@@ -68,16 +69,15 @@ export async function POST(request) {
       allowedSchemes: ['http', 'https', 'mailto'],
     });
 
-    await transporter.sendMail({
+    await sendEmail({
       to,
       subject,
       html: safeHtml,
-      from: process.env.EMAIL_FROM,
     });
 
     return NextResponse.json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error('Email send failed:', err.message);
     return NextResponse.json(
       { success: false, message: 'Email send failed' },
       { status: 500 },
