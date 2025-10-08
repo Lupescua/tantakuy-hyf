@@ -2,7 +2,7 @@ import Participant from '../api/models/Participant';
 import Company from '../api/models/Company';
 import { signJwt } from '@/utils/jwt';
 import { AppError } from '@/utils/errorHandler';
-import { generateDummyHash } from '@/utils/bcrypt';
+import { compareWithDummyHash } from '@/utils/bcrypt';
 
 export async function loginUser(login = {}) {
   const { email, password } = login;
@@ -23,9 +23,10 @@ export async function loginUser(login = {}) {
 
   // 3) Always check password - prevents timing attack
   if (!user) {
-    // Simulate password hashing even if user doesn't exist (consistent timing)
-    // Hash is never stored or reused - just burns CPU time to prevent timing attacks
-    await generateDummyHash(password);
+    // Use bcrypt.compare with dummy hash to ensure identical timing to real auth
+    // Real path: bcrypt.compare(password, user.password)
+    // Dummy path: bcrypt.compare(password, DUMMY_HASH)
+    await compareWithDummyHash(password);
     throw new AppError('Invalid credentials', 401);
   }
 
