@@ -19,12 +19,11 @@ export async function DELETE(request) {
   const token = store.get('token')?.value;
   if (!token) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-  let participantId;
-  try {
-    participantId = verifyToken(token).id;
-  } catch {
+  const result = verifyToken(token);
+  if (!result.ok) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const participantId = result.payload.id;
 
   /* 3️⃣  DB */
   await dbConnect();

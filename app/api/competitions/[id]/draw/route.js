@@ -27,12 +27,11 @@ export async function POST(request, context) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  let payload;
-  try {
-    payload = verifyToken(token);
-  } catch {
+  const result = verifyToken(token);
+  if (!result.ok) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const payload = result.payload;
 
   const { id: actorId, role } = payload;
   if (role !== 'company') {

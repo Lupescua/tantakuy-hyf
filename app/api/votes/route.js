@@ -19,7 +19,14 @@ export async function POST(req) {
       );
     }
 
-    const { id: participantId } = verifyToken(token);
+    const tokenResult = verifyToken(token);
+    if (!tokenResult.ok) {
+      return Response.json(
+        { success: false, message: 'Unauthorized' },
+        { status: 401 },
+      );
+    }
+    const participantId = tokenResult.payload.id;
 
     const result = await saveVote({
       entryId: entry,
@@ -79,12 +86,15 @@ export async function GET(req) {
     const cookieStore = await cookies();
     const token = cookieStore.get('token')?.value;
     if (token) {
-      const { id: participantId } = verifyToken(token);
-      const existing = await Vote.findOne({
-        entry: entryId,
-        participant: participantId,
-      });
-      userVoted = !!existing;
+      const result = verifyToken(token);
+      if (result.ok) {
+        const participantId = result.payload.id;
+        const existing = await Vote.findOne({
+          entry: entryId,
+          participant: participantId,
+        });
+        userVoted = !!existing;
+      }
     }
   } catch {
     // if no token or invalid, just leave userVoted=false

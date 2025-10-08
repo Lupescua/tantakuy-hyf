@@ -44,11 +44,8 @@ export async function GET(request) {
   }
 
   // decode
-  let participantId;
-  try {
-    const decoded = verifyToken(token);
-    participantId = decoded.id;
-  } catch {
+  const result = verifyToken(token);
+  if (!result.ok) {
     // invalid token: treat as guest
     return Response.json(
       {
@@ -59,6 +56,7 @@ export async function GET(request) {
       { status: 200 },
     );
   }
+  const participantId = result.payload.id;
 
   // fetch user vote
   let hasVoted = false;

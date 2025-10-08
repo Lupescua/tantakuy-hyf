@@ -16,15 +16,14 @@ export async function POST(req) {
     });
   }
 
-  let participantId;
-  try {
-    participantId = verifyToken(token).id;
-  } catch {
+  const result = verifyToken(token);
+  if (!result.ok) {
     return new Response(JSON.stringify({ error: 'Invalid token' }), {
       status: 401,
       headers: { 'Content-Type': 'application/json' },
     });
   }
+  const participantId = result.payload.id;
 
   // ── 2) Parse + validate body
   let body;

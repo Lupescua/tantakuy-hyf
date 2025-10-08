@@ -8,10 +8,9 @@ export async function getUserFromCookie() {
 
   if (!token) return null;
 
-  try {
-    return verifyToken(token);
-  } catch (error) {
-    console.error('verifyToken failed:', error);
+  const result = verifyToken(token);
+  if (!result.ok) {
     return null;
   }
+  return { id: result.payload.id, role: result.payload.role };
 }

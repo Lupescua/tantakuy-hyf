@@ -10,7 +10,10 @@ export function signJwt(payload, { expiresIn = DEFAULT_EXPIRES } = {}) {
 
 export function verifyToken(token) {
   try {
-    return { ok: true, payload: jwt.verify(token, JWT_SECRET, { algorithms: [ALG] }) };
+    return {
+      ok: true,
+      payload: jwt.verify(token, JWT_SECRET, { algorithms: [ALG] }),
+    };
   } catch (err) {
     const code = err.name === 'TokenExpiredError' ? 'expired' : 'invalid';
     return { ok: false, code };

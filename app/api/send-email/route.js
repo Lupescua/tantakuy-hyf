@@ -1,13 +1,41 @@
 import { NextResponse } from 'next/server';
 import sanitizeHtml from 'sanitize-html';
-// import your transporter or mail service as before
+import { Ratelimit } from '@upstash/ratelimit';
+import { Redis } from '@upstash/redis';
+import { z } from 'zod';
+
+const ratelimit = new Ratelimit({
+  redis: Redis.fromEnv(),
+  limiter: Ratelimit.slidingWindow(5, '1 h'),
+  analytics: true,
+});
+const emailSchema = z.object({
+  to: z.string().email(),
+  subject: z.string().min(1),
+  html: z.string().min(1),
+});
 
 export async function POST(request) {
+  const identifier = request.headers.get('x-forwarded-for') ?? 'anonymous';
+  const { success } = await ratelimit.limit(identifier);
+
+  if (!success) {
+    return NextResponse.json(
+      { success: false, message: 'Too many requests' },
+      { status: 429 },
+    );
+  }
+
   try {
     const { to, subject, html } = await request.json();
-    if (!to || !subject || !html) {
+    const validated = emailSchema.safeParse({ to, subject, html });
+    if (!validated.success) {
       return NextResponse.json(
-        { success: false, message: 'Missing to/subject/html' },
+        {
+          success: false,
+          message: 'Invalid input',
+          errors: validated.error.errors,
+        },
         { status: 400 },
       );
     }
@@ -34,11 +62,19 @@ export async function POST(request) {
         'code',
         'pre',
       ],
-      allowedAttributes: { a: ['href', 'name', 'target'], '*': ['style'] },
+      allowedAttributes: {
+        a: ['href', 'name', 'target'],
+      },
       allowedSchemes: ['http', 'https', 'mailto'],
     });
 
-    // await transporter.sendMail({ to, subject, html: safeHtml, from: process.env.EMAIL_FROM });
+    await transporter.sendMail({
+      to,
+      subject,
+      html: safeHtml,
+      from: process.env.EMAIL_FROM,
+    });
+
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error(err);

@@ -11,15 +11,15 @@ export default async function Page() {
   const token = cookieStore.get('token')?.value;
 
   if (token) {
-    try {
-      const { id, role } = await verifyToken(token);
+    const result = verifyToken(token);
+    if (result.ok) {
+      const { id, role } = result.payload;
       if (role === 'company') {
         // Server-side redirect for company users
         return redirect(`/company/${id}/profile`);
       }
-    } catch (err) {
-      // invalid or expired token → render public home
     }
+    // invalid or expired token → render public home
   }
 
   // No valid company token → render the client component
