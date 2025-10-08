@@ -13,7 +13,12 @@ export async function GET() {
   }
   try {
     //verify & load lightweight user info
-    const { id, role } = verifyToken(token);
+    const result = verifyToken(token);
+    if (!result.ok) {
+      return Response.json({ success: false, user: null }, { status: 200 });
+    }
+    const { id, role } = result.payload;
+
     await dbConnect();
     // const user = await Participant.findById(id).select('userName email');
     let user;

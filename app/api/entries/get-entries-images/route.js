@@ -17,11 +17,11 @@ export async function GET(request) {
     if (!token)
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
-    try {
-      userId = verifyToken(token).id;
-    } catch {
+    const result = verifyToken(token);
+    if (!result.ok) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    userId = result.payload.id;
   }
 
   if (!isValidObjectId(userId)) {

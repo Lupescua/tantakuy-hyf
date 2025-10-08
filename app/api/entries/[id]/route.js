@@ -55,12 +55,11 @@ export async function DELETE(request) {
   if (!token)
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  let userId;
-  try {
-    userId = verifyToken(token).id;
-  } catch {
+  const result = verifyToken(token);
+  if (!result.ok) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
+  const userId = result.payload.id;
 
   await dbConnect();
 
@@ -109,18 +108,16 @@ export async function PATCH(request) {
 
   await dbConnect();
 
-  // Try to pull actor info if logged in, but don’t crash if not
+  // Try to pull actor info if logged in
   let actorId, actorType;
-  try {
-    const store = await cookies();
-    const token = store.get('token')?.value;
-    if (token) {
-      const payload = verifyToken(token);
-      actorId = payload.id;
-      actorType = payload.role === 'company' ? 'Company' : 'Participant';
+  const store = await cookies();
+  const token = store.get('token')?.value;
+  if (token) {
+    const result = verifyToken(token);
+    if (result.ok) {
+      actorId = result.payload.id;
+      actorType = result.payload.role === 'company' ? 'Company' : 'Participant';
     }
-  } catch {
-    // not logged in or invalid token –> no notification
   }
 
   try {
