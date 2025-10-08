@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
+import { hashPassword, comparePassword } from '@/utils/bcrypt';
 
 const CompanySchema = new mongoose.Schema(
   {
@@ -79,12 +79,12 @@ const CompanySchema = new mongoose.Schema(
 
 CompanySchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 10);
+  this.password = await hashPassword(this.password);
   next();
 });
 
 CompanySchema.methods.comparePassword = function (candidatePassword) {
-  return bcrypt.compare(candidatePassword, this.password);
+  return comparePassword(candidatePassword, this.password);
 };
 
 const Company =

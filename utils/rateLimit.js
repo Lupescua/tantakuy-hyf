@@ -36,18 +36,28 @@ export async function checkRateLimit(
   rateLimiter,
   customMessage = 'Too many attempts. Please try again later.',
 ) {
-  const identifier = req.headers.get('x-forwarded-for') ?? 'anonymous';
-  const { success } = await rateLimiter.limit(`${prefix}:${identifier}`);
+  try {
+    const identifier = req.headers.get('x-forwarded-for') ?? 'anonymous';
+    const { success } = await rateLimiter.limit(`${prefix}:${identifier}`);
 
-  if (!success) {
-    return Response.json(
-      {
-        success: false,
-        message: customMessage,
-      },
-      { status: 429 },
-    );
+    if (!success) {
+      return Response.json(
+        {
+          success: false,
+          message: customMessage,
+        },
+        { status: 429 },
+      );
+    }
+
+    return null;
+  } catch (error) {
+    // Log the error for monitoring but don't block the request
+    // This prevents Redis failures from breaking the application
+    console.error(`Rate limiter error (${prefix}):`, error.message);
+
+    // Return null to allow the request to proceed
+    // Alternative: return 503 Service Unavailable if you want to block on Redis failure
+    return null;
   }
-
-  return null;
 }

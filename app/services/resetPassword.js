@@ -1,5 +1,5 @@
 import Participant from '../api/models/Participant';
-import bcrypt from 'bcryptjs';
+import { hashPassword } from '@/utils/bcrypt';
 import { AppError } from '@/utils/errorHandler';
 
 export async function resetPassword(forgotObj = {}) {
@@ -19,8 +19,7 @@ export async function resetPassword(forgotObj = {}) {
       throw new AppError('Reset token is invalid or has expired.', 410);
     }
 
-    const hashedPassword = await bcrypt.hash(newPassword, 12);
-    user.password = hashedPassword;
+    user.password = await hashPassword(newPassword);
     user.resetToken = undefined;
     user.resetTokenExpiry = undefined;
     await user.save();
