@@ -3,8 +3,18 @@ import dbConnect from '@/utils/dbConnects';
 import Participant from '@/app/api/models/Participant';
 import { AppError } from '@/utils/errorHandler';
 import Company from '../models/Company';
+import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
+
+const ratelimit = createRateLimiter(5, '15 m');
 
 export async function POST(request) {
+  const rateLimitResponse = await checkRateLimit(
+    request,
+    'forgotpw',
+    ratelimit,
+  );
+  if (rateLimitResponse) return rateLimitResponse;
+
   await dbConnect();
   const { email, newPassword, token } = await request.json();
 

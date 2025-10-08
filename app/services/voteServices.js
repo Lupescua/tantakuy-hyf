@@ -61,6 +61,8 @@ export async function deleteVoteById({ voteId, participantId }) {
   if (!vote) throw new AppError('Vote not found', 404);
   if (vote.participant.toString() !== participantId)
     throw new AppError('Forbidden', 403);
+
+  const entryId = vote.entry;
   await Vote.deleteOne({ _id: voteId });
-  await createNotification(entryId, userId, 'dislike');
+  await createNotification(entryId, participantId, 'dislike', 'Participant');
 }

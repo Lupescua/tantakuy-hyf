@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server';
 import { createNotification } from '@/app/services/notificationServices';
 
 export async function POST(req) {

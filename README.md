@@ -39,14 +39,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Environment Variables
 
-Your `.env` file should include all required secrets for the app to run. Here's an example:
+Your `.env` file should include all required secrets for the app to run. See `.env.example` for a complete template:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
+UPSTASH_REDIS_REST_URL=your_upstash_redis_url
+UPSTASH_REDIS_REST_TOKEN=your_upstash_token
 ```
 
 The `.env` file is **not committed** to version control. Only `.env.example` is.
+
+### Rate Limiting & Proxy Configuration
+
+This application uses [Upstash Redis](https://upstash.com/) for rate limiting authentication endpoints. The rate limiter extracts the client IP from the `x-forwarded-for` or `x-real-ip` headers.
+
+**Important**: The IP extraction assumes you're behind a **trusted proxy or load balancer** (Vercel, Cloudflare, nginx, etc.) that correctly sets these headers. If deploying without a trusted proxy:
+
+- The leftmost IP in `x-forwarded-for` is considered the real client IP
+- Clients can potentially spoof this header without a trusted proxy
+- For anonymous users (no IP available), a SHA-256 fingerprint of the User-Agent is used
 
 ---
 

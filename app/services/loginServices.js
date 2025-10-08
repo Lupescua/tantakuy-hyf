@@ -2,6 +2,7 @@ import Participant from '../api/models/Participant';
 import Company from '../api/models/Company';
 import { signJwt } from '@/utils/jwt';
 import { AppError } from '@/utils/errorHandler';
+import { compareWithDummyHash } from '@/utils/bcrypt';
 
 export async function loginUser(login = {}) {
   const { email, password } = login;
@@ -20,14 +21,19 @@ export async function loginUser(login = {}) {
     role = 'company';
   }
 
+  // 3) Always check password - prevents timing attack
   if (!user) {
-    throw new AppError('Email or password is incorrect.', 401);
+    // Use bcrypt.compare with dummy hash to ensure identical timing to real auth
+    // Real path: bcrypt.compare(password, user.password)
+    // Dummy path: bcrypt.compare(password, DUMMY_HASH)
+    await compareWithDummyHash(password);
+    throw new AppError('Invalid credentials', 401);
   }
 
   const isMatch = await user.comparePassword(password);
 
   if (!isMatch) {
-    throw new AppError('password is incorrect.', 401);
+    throw new AppError('Invalid credentials', 401);
   }
 
   // 3️⃣ Sign JWT with role

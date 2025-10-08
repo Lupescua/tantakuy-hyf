@@ -1,7 +1,18 @@
 import { sendResetLink } from '@/app/services/resetLinkServices';
 import { sendEmail } from '@/utils/sendEmail';
+import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
+
+const ratelimit = createRateLimiter(3, '1 h');
 
 export async function POST(req) {
+  const rateLimitResponse = await checkRateLimit(
+    req,
+    'reset',
+    ratelimit,
+    'Too many reset requests. Please try again later.',
+  );
+  if (rateLimitResponse) return rateLimitResponse;
+
   try {
     const { email } = await req.json();
     const resetLink = await sendResetLink(email);
