@@ -1,15 +1,10 @@
 import { NextResponse } from 'next/server';
 import sanitizeHtml from 'sanitize-html';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
 import { z } from 'zod';
 import { sendEmail } from '@/utils/sendEmail';
+import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.tokenBucket(10, '15 m', 3),
-  analytics: true,
-});
+const ratelimit = createRateLimiter(10, '15 m', 'tokenBucket', 3);
 const emailSchema = z.object({
   to: z.string().email(),
   subject: z.string().min(1),
@@ -17,15 +12,13 @@ const emailSchema = z.object({
 });
 
 export async function POST(request) {
-  const identifier = request.headers.get('x-forwarded-for') ?? 'anonymous';
-  const { success } = await ratelimit.limit(identifier);
-
-  if (!success) {
-    return NextResponse.json(
-      { success: false, message: 'Too many requests' },
-      { status: 429 },
-    );
-  }
+  const rateLimitResponse = await checkRateLimit(
+    request,
+    'email',
+    ratelimit,
+    'Too many requests',
+  );
+  if (rateLimitResponse) return rateLimitResponse;
 
   try {
     const { to, subject, html } = await request.json();

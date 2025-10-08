@@ -1,27 +1,17 @@
 import { sendResetLink } from '@/app/services/resetLinkServices';
 import { sendEmail } from '@/utils/sendEmail';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
+import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(3, '1 h'),
-  analytics: true,
-});
+const ratelimit = createRateLimiter(3, '1 h');
 
 export async function POST(req) {
-  const identifier = req.headers.get('x-forwarded-for') ?? 'anonymous';
-  const { success } = await ratelimit.limit(`reset:${identifier}`);
-
-  if (!success) {
-    return Response.json(
-      {
-        success: false,
-        message: 'Too many reset requests. Please try again later.',
-      },
-      { status: 429 },
-    );
-  }
+  const rateLimitResponse = await checkRateLimit(
+    req,
+    'reset',
+    ratelimit,
+    'Too many reset requests. Please try again later.',
+  );
+  if (rateLimitResponse) return rateLimitResponse;
 
   try {
     const { email } = await req.json();

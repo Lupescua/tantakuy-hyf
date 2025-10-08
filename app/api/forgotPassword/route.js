@@ -3,25 +3,17 @@ import dbConnect from '@/utils/dbConnects';
 import Participant from '@/app/api/models/Participant';
 import { AppError } from '@/utils/errorHandler';
 import Company from '../models/Company';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
+import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, '15 m'),
-  analytics: true,
-});
+const ratelimit = createRateLimiter(5, '15 m');
 
 export async function POST(request) {
-  const identifier = request.headers.get('x-forwarded-for') ?? 'anonymous';
-  const { success } = await ratelimit.limit(`forgotpw:${identifier}`);
-
-  if (!success) {
-    return NextResponse.json(
-      { success: false, message: 'Too many attempts. Please try again later.' },
-      { status: 429 },
-    );
-  }
+  const rateLimitResponse = await checkRateLimit(
+    request,
+    'forgotpw',
+    ratelimit,
+  );
+  if (rateLimitResponse) return rateLimitResponse;
 
   await dbConnect();
   const { email, newPassword, token } = await request.json();

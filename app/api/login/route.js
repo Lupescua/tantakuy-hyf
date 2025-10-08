@@ -1,28 +1,18 @@
 import { loginUser } from '@/app/services/loginServices';
 import dbConnect from '@/utils/dbConnects';
 import { cookies } from 'next/headers';
-import { Ratelimit } from '@upstash/ratelimit';
-import { Redis } from '@upstash/redis';
+import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
 
-const ratelimit = new Ratelimit({
-  redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, '15 m'),
-  analytics: true,
-});
+const ratelimit = createRateLimiter(5, '15 m');
 
 export async function POST(req) {
-  const identifier = req.headers.get('x-forwarded-for') ?? 'anonymous';
-  const { success } = await ratelimit.limit(`login:${identifier}`);
-
-  if (!success) {
-    return Response.json(
-      {
-        success: false,
-        message: 'Too many login attempts. Please try again later.',
-      },
-      { status: 429 },
-    );
-  }
+  const rateLimitResponse = await checkRateLimit(
+    req,
+    'login',
+    ratelimit,
+    'Too many login attempts. Please try again later.',
+  );
+  if (rateLimitResponse) return rateLimitResponse;
 
   try {
     await dbConnect();
