@@ -7,7 +7,7 @@ import { sendEmail } from '@/utils/sendEmail';
 
 const ratelimit = new Ratelimit({
   redis: Redis.fromEnv(),
-  limiter: Ratelimit.slidingWindow(5, '1 h'),
+  limiter: Ratelimit.tokenBucket(10, '15 m', 3),
   analytics: true,
 });
 const emailSchema = z.object({
