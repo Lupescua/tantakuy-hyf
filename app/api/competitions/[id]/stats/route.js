@@ -22,8 +22,22 @@ export async function GET(request, context) {
   const participants = await Entry.countDocuments({ competition: compId });
 
   // 2) Votes = total votes for entries in this competition
-  const entryIds = await Entry.find({ competition: compId }).distinct('_id');
-  const votes = await Vote.countDocuments({ entry: { $in: entryIds } });
+  const voteAgg = await Vote.aggregate([
+    {
+      $lookup: {
+        from: 'entries',
+        localField: 'entry',
+        foreignField: '_id',
+        as: 'entryDoc',
+      },
+    },
+    { $unwind: '$entryDoc' },
+    {
+      $match: { 'entryDoc.competition': new mongoose.Types.ObjectId(compId) },
+    },
+    { $count: 'total' },
+  ]);
+  const votes = voteAgg[0]?.total || 0;
 
   // 3) Shares = sum of the 'shares' field on each entry
   const shareAgg = await Entry.aggregate([
