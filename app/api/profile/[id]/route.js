@@ -7,7 +7,6 @@ import Vote from '../../models/Vote';
 import { withDB } from '@/utils/withDB';
 
 async function getUserProfile(request, context) {
-
   const params = await context.params;
   const userId = params.id;
 

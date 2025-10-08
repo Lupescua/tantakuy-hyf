@@ -5,7 +5,6 @@ import Vote from '../models/Vote';
 import { withDB } from '@/utils/withDB';
 
 async function createVote(req) {
-
   try {
     const { entry, voteType } = await req.json();
     const cookieStore = await cookies();
@@ -60,7 +59,6 @@ async function createVote(req) {
 export const POST = withDB(createVote);
 
 async function getVotes(req) {
-
   // extract entryId from query string
   const { searchParams } = new URL(req.url);
   const entryId = searchParams.get('entryId');

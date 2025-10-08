@@ -20,7 +20,6 @@ async function getEntriesByCompetition(request) {
   const skip = parseInt(url.searchParams.get('skip') || '0', 10);
 
   try {
-
     // this is an attempt at creating a trend algorithm, compute trendingScore = votes / hoursOld
     const now = new Date();
     const pipeline = [

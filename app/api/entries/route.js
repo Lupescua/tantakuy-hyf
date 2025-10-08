@@ -37,7 +37,6 @@ async function getEntries(req) {
 export const GET = withDB(getEntries);
 
 async function createEntry(req, { params, user }) {
-
   try {
     const body = await req.json();
     const { competition, imageUrl, caption } = body;
