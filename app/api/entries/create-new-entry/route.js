@@ -1,29 +1,11 @@
 // app/api/entries/create-new-entry/route.js
-import { withDB } from '@/utils/withDB';
+import { withAuth } from '@/utils/authMiddleware';
 import Entry from '@/app/api/models/Entry';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 
-async function createNewEntry(req) {
-  // ── 1) Authenticate via cookie
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (!token) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-
-  const result = verifyToken(token);
-  if (!result.ok) {
-    return new Response(JSON.stringify({ error: 'Invalid token' }), {
-      status: 401,
-      headers: { 'Content-Type': 'application/json' },
-    });
-  }
-  const participantId = result.payload.id;
+async function createNewEntry(req, context) {
+  // ── 1) Get user from withAuth
+  const participantId = context.user.id;
 
   // ── 2) Parse + validate body
   let body;
@@ -60,4 +42,4 @@ async function createNewEntry(req) {
   });
 }
 
-export const POST = withDB(createNewEntry);
+export const POST = withAuth(createNewEntry);

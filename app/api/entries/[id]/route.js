@@ -1,8 +1,8 @@
 import { withDB } from '@/utils/withDB';
+import { withAuth } from '@/utils/authMiddleware';
+import { getUserFromCookie } from '@/utils/server/auth';
 import Entry from '@/app/api/models/Entry';
 import '@/app/api/models/Participant';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 import s3 from '@/utils/s3Client';
 import { NextResponse } from 'next/server';
@@ -41,23 +41,14 @@ async function getEntry(request) {
 }
 
 /* ──────────── DELETE /api/entries/[id] (auth) ─────────── */
-async function deleteEntry(request) {
+async function deleteEntry(request, context) {
   const id = extractId(request);
   if (!id) {
     return NextResponse.json({ error: 'Bad id' }, { status: 400 });
   }
 
-  // ↳ Auth flow
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (!token)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const result = verifyToken(token);
-  if (!result.ok) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const userId = result.payload.id;
+  // ↳ Get user from withAuth
+  const userId = context.user.id;
 
   const entry = await Entry.findById(id).lean();
   if (!entry)
@@ -103,15 +94,11 @@ async function patchEntry(request) {
   }
 
   // Try to pull actor info if logged in
+  const user = await getUserFromCookie();
   let actorId, actorType;
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (token) {
-    const result = verifyToken(token);
-    if (result.ok) {
-      actorId = result.payload.id;
-      actorType = result.payload.role === 'company' ? 'Company' : 'Participant';
-    }
+  if (user) {
+    actorId = user.id;
+    actorType = user.role === 'company' ? 'Company' : 'Participant';
   }
 
   try {
@@ -146,5 +133,5 @@ async function patchEntry(request) {
 }
 
 export const GET = withDB(getEntry);
-export const DELETE = withDB(deleteEntry);
+export const DELETE = withAuth(deleteEntry);
 export const PATCH = withDB(patchEntry);

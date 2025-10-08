@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
-import { verifyToken } from '@/utils/jwt.js';
-import { withDB } from '@/utils/withDB';
+import { withAuth } from '@/utils/authMiddleware';
 import mongoose from 'mongoose';
 import Entry from '@/app/api/models/Entry';
 import Competition from '@/app/api/models/Competition';
 import Vote from '@/app/api/models/Vote';
 import { createNotification } from '@/app/services/notificationServices';
 import { isValidObjectId } from 'mongoose';
-import { cookies } from 'next/headers';
 
 async function drawWinner(request, context) {
   // 1) Grab and validate compId
@@ -19,20 +17,8 @@ async function drawWinner(request, context) {
     );
   }
 
-  // 2) Authenticate via token cookie
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (!token) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-
-  const result = verifyToken(token);
-  if (!result.ok) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const payload = result.payload;
-
-  const { id: actorId, role } = payload;
+  // 2) Get user from withAuth
+  const { id: actorId, role } = context.user;
   if (role !== 'company') {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -107,4 +93,4 @@ async function drawWinner(request, context) {
   );
 }
 
-export const POST = withDB(drawWinner);
+export const POST = withAuth(drawWinner);

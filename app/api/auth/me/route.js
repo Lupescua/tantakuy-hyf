@@ -1,23 +1,18 @@
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt.js';
+import { getUserFromCookie } from '@/utils/server/auth';
 import { withDB } from '@/utils/withDB';
 import Participant from '../../models/Participant';
 
 async function getCurrentUser() {
-  //read cookie
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  //no token -> guest
-  if (!token) {
+  // Get user from cookie
+  const userFromCookie = await getUserFromCookie();
+
+  // No token or invalid -> guest
+  if (!userFromCookie) {
     return Response.json({ success: false, user: null }, { status: 200 });
   }
+
   try {
-    //verify & load lightweight user info
-    const result = verifyToken(token);
-    if (!result.ok) {
-      return Response.json({ success: false, user: null }, { status: 200 });
-    }
-    const { id, role } = result.payload;
+    const { id, role } = userFromCookie;
 
     // const user = await Participant.findById(id).select('userName email');
     let user;

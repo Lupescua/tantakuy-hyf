@@ -1,30 +1,13 @@
 import { saveVote, countVotesForEntry } from '@/app/services/voteServices';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
+import { getUserFromCookie } from '@/utils/server/auth';
+import { withAuth } from '@/utils/authMiddleware';
 import Vote from '../models/Vote';
 import { withDB } from '@/utils/withDB';
 
-async function createVote(req) {
+async function createVote(req, context) {
   try {
     const { entry, voteType } = await req.json();
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-
-    if (!token) {
-      return Response.json(
-        { success: false, message: 'Unauthorized' },
-        { status: 401 },
-      );
-    }
-
-    const tokenResult = verifyToken(token);
-    if (!tokenResult.ok) {
-      return Response.json(
-        { success: false, message: 'Unauthorized' },
-        { status: 401 },
-      );
-    }
-    const participantId = tokenResult.payload.id;
+    const participantId = context.user.id;
 
     const result = await saveVote({
       entryId: entry,
@@ -56,7 +39,7 @@ async function createVote(req) {
   }
 }
 
-export const POST = withDB(createVote);
+export const POST = withAuth(createVote);
 
 async function getVotes(req) {
   // extract entryId from query string
@@ -80,18 +63,13 @@ async function getVotes(req) {
 
   // 2) Check whether *this* user has voted
   let userVoted = false;
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  if (token) {
-    const result = verifyToken(token);
-    if (result.ok) {
-      const participantId = result.payload.id;
-      const existing = await Vote.findOne({
-        entry: entryId,
-        participant: participantId,
-      });
-      userVoted = !!existing;
-    }
+  const user = await getUserFromCookie();
+  if (user) {
+    const existing = await Vote.findOne({
+      entry: entryId,
+      participant: user.id,
+    });
+    userVoted = !!existing;
   }
 
   return Response.json(

@@ -1,11 +1,9 @@
-import { withDB } from '@/utils/withDB';
+import { withAuth } from '@/utils/authMiddleware';
 import Vote from '@/app/api/models/Vote';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 
 /* ───────── DELETE  /api/votes/[id] ───────── */
-async function deleteVote(request) {
+async function deleteVote(request, context) {
   /* 1️⃣  grab :id from URL before the first await */
   const { pathname } = new URL(request.url);
   const voteId = pathname.split('/').pop();
@@ -14,16 +12,8 @@ async function deleteVote(request) {
     return Response.json({ error: 'Bad id' }, { status: 400 });
   }
 
-  /* 2️⃣  auth */
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (!token) return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const result = verifyToken(token);
-  if (!result.ok) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const participantId = result.payload.id;
+  /* 2️⃣  get user from withAuth */
+  const participantId = context.user.id;
 
   /* 3️⃣  DB */
   const vote = await Vote.findById(voteId);
@@ -36,4 +26,4 @@ async function deleteVote(request) {
   return new Response(null, { status: 204 });
 }
 
-export const DELETE = withDB(deleteVote);
+export const DELETE = withAuth(deleteVote);

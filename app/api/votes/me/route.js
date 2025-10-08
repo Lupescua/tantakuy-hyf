@@ -1,5 +1,4 @@
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
+import { getUserFromCookie } from '@/utils/server/auth';
 import {
   countVotesForEntry,
   getUserVoteForEntry,
@@ -28,10 +27,9 @@ export async function GET(request) {
     );
   }
 
-  // try to read token cookie
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  if (!token) {
+  // try to get user from cookie
+  const user = await getUserFromCookie();
+  if (!user) {
     // guest: total votes only
     return Response.json(
       {
@@ -43,20 +41,7 @@ export async function GET(request) {
     );
   }
 
-  // decode
-  const result = verifyToken(token);
-  if (!result.ok) {
-    // invalid token: treat as guest
-    return Response.json(
-      {
-        success: true,
-        votes,
-        hasVoted: false,
-      },
-      { status: 200 },
-    );
-  }
-  const participantId = result.payload.id;
+  const participantId = user.id;
 
   // fetch user vote
   let hasVoted = false;

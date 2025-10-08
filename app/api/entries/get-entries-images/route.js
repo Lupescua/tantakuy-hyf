@@ -1,7 +1,6 @@
 import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
-import { cookies } from 'next/headers'; // ← ADD
-import { verifyToken } from '@/utils/jwt'; // ← ADD
+import { getUserFromCookie } from '@/utils/server/auth';
 import { isValidObjectId } from 'mongoose';
 
 /* ───────── GET /api/entries/get-entries-images ───────── */
@@ -12,16 +11,11 @@ async function getEntriesImages(request) {
 
   /* If no userId param, fall back to the logged-in user   */
   if (!userId) {
-    const store = await cookies();
-    const token = store.get('token')?.value;
-    if (!token)
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const result = verifyToken(token);
-    if (!result.ok) {
+    const user = await getUserFromCookie();
+    if (!user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    userId = result.payload.id;
+    userId = user.id;
   }
 
   if (!isValidObjectId(userId)) {
