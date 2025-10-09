@@ -14,6 +14,52 @@ const montserrat = Montserrat({
   variable: '--font-montserrat',
 });
 
+export const metadata = {
+  title: {
+    default: 'Tantakuy - Konkurrencer og Fotoudfordringer',
+    template: '%s | Tantakuy',
+  },
+  description:
+    'Deltag i spændende fotokonkurrencer, stem på dine favoritter, og vind præmier. Tantakuy forbinder virksomheder med kreative deltagere.',
+  keywords: [
+    'konkurrencer',
+    'fotokonkurrencer',
+    'fotoudfordringer',
+    'vind præmier',
+    'kreativitet',
+    'Danmark',
+  ],
+  authors: [{ name: 'Tantakuy' }],
+  openGraph: {
+    type: 'website',
+    locale: 'da_DK',
+    url: 'https://tantakuy.com',
+    siteName: 'Tantakuy',
+    title: 'Tantakuy - Konkurrencer og Fotoudfordringer',
+    description:
+      'Deltag i spændende fotokonkurrencer, stem på dine favoritter, og vind præmier.',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Tantakuy - Konkurrencer og Fotoudfordringer',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Tantakuy - Konkurrencer og Fotoudfordringer',
+    description:
+      'Deltag i spændende fotokonkurrencer, stem på dine favoritter, og vind præmier.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
 export default async function RootLayout({ children }) {
   return (
     <html lang="da" suppressHydrationWarning>
