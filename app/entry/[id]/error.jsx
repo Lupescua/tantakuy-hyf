@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import styles from '../../error.module.css';
 
 export default function EntryError({ error, reset }) {
@@ -20,9 +21,9 @@ export default function EntryError({ error, reset }) {
           <button onClick={() => reset()} className={styles.retryButton}>
             Prøv igen
           </button>
-          <a href="/" className={styles.homeButton}>
+          <Link href="/" className={styles.homeButton}>
             Se alle konkurrencer
-          </a>
+          </Link>
         </div>
       </div>
     </div>

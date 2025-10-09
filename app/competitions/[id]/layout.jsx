@@ -1,26 +1,15 @@
-import { notFound } from 'next/navigation';
+import { generateDynamicMetadata } from '@/utils/metadata';
 
 export async function generateMetadata({ params }) {
   const { id } = await params;
 
-  try {
-    // Fetch competition data for metadata
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/competitions/${id}`, {
-      cache: 'no-store',
-    });
-
-    if (!res.ok) {
-      return {
-        title: 'Konkurrence ikke fundet',
-        description: 'Denne konkurrence kunne ikke findes.',
-      };
-    }
-
-    const data = await res.json();
-    const competition = data.competition || data;
-
-    return {
+  return generateDynamicMetadata({
+    id,
+    endpoint: '/api/competitions',
+    dataKey: 'competition',
+    fallbackTitle: 'Konkurrence',
+    fallbackDescription: 'Se konkurrencen og deltag for at vinde præmier',
+    buildMetadata: (competition) => ({
       title: competition.title,
       description:
         competition.description ||
@@ -50,14 +39,8 @@ export async function generateMetadata({ params }) {
           `Deltag i konkurrencen "${competition.title}"`,
         images: competition.image ? [competition.image] : [],
       },
-    };
-  } catch (error) {
-    console.error('Error fetching competition metadata:', error);
-    return {
-      title: 'Konkurrence',
-      description: 'Se konkurrencen og deltag for at vinde præmier',
-    };
-  }
+    }),
+  });
 }
 
 export default function CompetitionLayout({ children }) {

@@ -33,7 +33,7 @@ export const metadata = {
   openGraph: {
     type: 'website',
     locale: 'da_DK',
-    url: 'https://tantakuy.com',
+    url: process.env.NEXT_PUBLIC_SITE_URL || 'https://tantakuy.com',
     siteName: 'Tantakuy',
     title: 'Tantakuy - Konkurrencer og Fotoudfordringer',
     description:
