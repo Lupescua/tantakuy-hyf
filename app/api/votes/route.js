@@ -40,7 +40,7 @@ export const POST = withAuth(createVote);
 
 async function getVotes(req) {
   // extract entryId from query string
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = req.nextUrl;
   const entryId = searchParams.get('entryId');
   if (!entryId) {
     return badRequest('Missing entryId');
