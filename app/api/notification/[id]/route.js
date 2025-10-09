@@ -6,6 +6,7 @@ import {
   badRequest,
   notFound,
   forbidden,
+  noContent,
 } from '@/utils/apiResponse';
 import { isValidObjectId } from 'mongoose';
 
@@ -18,7 +19,7 @@ async function deleteNotification(request, context) {
   }
 
   try {
-    // First, find the notification to check ownership
+    // Find the notification to check ownership
     const notification = await Notification.findById(id);
 
     if (!notification) {
@@ -27,13 +28,13 @@ async function deleteNotification(request, context) {
 
     // Authorization: verify the notification belongs to the authenticated user
     const userId = context.user.id;
-    if (notification.recipient.toString() !== userId) {
+    if (String(notification.recipient) !== String(userId)) {
       return forbidden('You can only delete your own notifications');
     }
 
-    // Delete the notification
-    await Notification.findByIdAndDelete(id);
-    return success({});
+    // Delete the notification (already validated)
+    await notification.deleteOne();
+    return noContent();
   } catch (err) {
     console.error('Error deleting notification:', err);
     return serverError('Failed to delete notification', err);

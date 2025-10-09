@@ -1,4 +1,5 @@
 import dbConnect from './dbConnects';
+import { NextResponse } from 'next/server';
 
 /**
  * Higher-order function that ensures database connection before executing handler
@@ -16,7 +17,15 @@ import dbConnect from './dbConnects';
  */
 export function withDB(handler) {
   return async (req, context) => {
-    await dbConnect();
-    return handler(req, context);
+    try {
+      await dbConnect();
+      return handler(req, context);
+    } catch (err) {
+      console.error('Unhandled error in route handler:', err);
+      return NextResponse.json(
+        { error: 'Internal Server Error' },
+        { status: 500 },
+      );
+    }
   };
 }

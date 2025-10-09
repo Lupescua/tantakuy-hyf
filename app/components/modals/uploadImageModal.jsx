@@ -29,7 +29,7 @@ export default function UploadImageModal({
         .then((resp) => {
           // interceptor unwraps to array of items
           const items = Array.isArray(resp.data) ? resp.data : [];
-          setGallery(items.map((item) => item.imageUrl));
+          setGallery(items.map((item) => item.imageUrl).filter(Boolean));
         })
         .catch((err) => console.error('Gallery fetch error:', err));
     }

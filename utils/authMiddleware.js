@@ -1,5 +1,6 @@
 import { getUserFromCookie } from './server/auth';
 import { withDB } from './withDB';
+import { NextResponse } from 'next/server';
 
 /**
  * Higher-order function that adds authentication to a route handler
@@ -17,15 +18,23 @@ import { withDB } from './withDB';
  */
 function authHandler(handler) {
   return async function (req, context) {
-    const user = await getUserFromCookie(req);
+    try {
+      const user = await getUserFromCookie(req);
 
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-      });
+      if (!user) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+        });
+      }
+
+      return handler(req, { ...context, user });
+    } catch (err) {
+      console.error('Unhandled error in auth handler:', err);
+      return NextResponse.json(
+        { error: 'Internal Server Error' },
+        { status: 500 },
+      );
     }
-
-    return handler(req, { ...context, user });
   };
 }
 

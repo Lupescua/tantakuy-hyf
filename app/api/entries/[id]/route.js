@@ -49,23 +49,28 @@ async function deleteEntry(request, context) {
   // ↳ Get user from withAuth
   const userId = context.user.id;
 
-  const entry = await Entry.findById(id).lean();
-  if (!entry) return notFound('Entry not found');
-  if (entry.participant.toString() !== userId) {
-    return forbidden('You can only delete your own entries');
-  }
-
   try {
+    const entry = await Entry.findById(id).lean();
+    if (!entry) return notFound('Entry not found');
+    if (String(entry.participant) !== String(userId)) {
+      return forbidden('You can only delete your own entries');
+    }
     // Only delete from S3 if the URL is for your bucket
     try {
       const url = new URL(entry.imageUrl);
-      const bucketDomain = `${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
-      if (url.hostname === bucketDomain) {
+      const bucket = process.env.S3_BUCKET_NAME;
+      const region = process.env.AWS_REGION;
+      const allowedHosts = [
+        `${bucket}.s3.${region}.amazonaws.com`,
+        `${bucket}.s3.amazonaws.com`,
+        `${bucket}.s3-${region}.amazonaws.com`,
+      ].filter(Boolean);
+      if (allowedHosts.includes(url.hostname)) {
         const key = url.pathname.substring(1); // Remove leading '/'
         if (key) {
           await s3.send(
             new DeleteObjectCommand({
-              Bucket: process.env.S3_BUCKET_NAME,
+              Bucket: bucket,
               Key: key,
             }),
           );

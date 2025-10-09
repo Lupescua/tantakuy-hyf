@@ -27,6 +27,11 @@ async function createCompanyHandler(req) {
     const company = await createCompany(body);
     return created({ company });
   } catch (err) {
+    console.error('Error creating company:', err);
+    // Handle invalid JSON payload
+    if (err instanceof SyntaxError || err.name === 'SyntaxError') {
+      return badRequest('Invalid JSON payload');
+    }
     // Preserve the original status code from AppError
     const status = err?.statusCode ?? err?.status;
     if (typeof status === 'number') {

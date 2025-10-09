@@ -12,21 +12,9 @@ import {
 } from '@/utils/apiResponse';
 
 async function getNotifications(req, context) {
-  // Get authenticated user's ID from token
   const authenticatedUserId = context.user.id;
 
-  // Check if requesting own notifications or another user's
-  const requestedUserId = req.nextUrl.searchParams.get('userId');
-
-  // If userId param is provided, verify it matches authenticated user
-  if (requestedUserId && requestedUserId !== authenticatedUserId) {
-    return forbidden('You can only view your own notifications');
-  }
-
-  // Use authenticated user's ID
-  const userId = authenticatedUserId;
-
-  const notifications = await Notification.find({ recipient: userId })
+  const notifications = await Notification.find({ recipient: authenticatedUserId })
     .populate({
       path: 'actor',
       select: 'userName companyName',
@@ -54,7 +42,7 @@ async function getNotifications(req, context) {
       caption: n.entry?.caption || '', // Default caption if missing
     },
     competition: {
-      id: n.entry?.competition?._id,
+      id: n.entry?.competition?._id?.toString() || '',
       title: n.entry?.competition?.title,
     },
     type: n.type, // Either 'like' or 'share' (or other types if added later)
@@ -67,25 +55,12 @@ async function getNotifications(req, context) {
 export const GET = withAuth(getNotifications);
 
 async function deleteNotifications(req, context) {
-  // Get authenticated user's ID from token
   const authenticatedUserId = context.user.id;
 
-  // Check if requesting to delete own notifications or another user's
-  const requestedUserId = req.nextUrl.searchParams.get('userId');
-
-  // If userId param is provided, verify it matches authenticated user
-  if (requestedUserId && requestedUserId !== authenticatedUserId) {
-    return forbidden('You can only delete your own notifications');
-  }
-
-  // Use authenticated user's ID
-  const userId = authenticatedUserId;
-
   try {
-    await Notification.deleteMany({ recipient: userId });
+    await Notification.deleteMany({ recipient: authenticatedUserId });
     return success({});
   } catch (err) {
-    console.error('Error deleting notifications:', err);
     return serverError('Failed to delete notifications', err);
   }
 }
