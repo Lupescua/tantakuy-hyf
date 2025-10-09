@@ -1,4 +1,10 @@
 import { withAuth } from '@/utils/authMiddleware';
+import {
+  badRequest,
+  notFound,
+  forbidden,
+  noContent,
+} from '@/utils/apiResponse';
 import Vote from '@/app/api/models/Vote';
 import { isValidObjectId } from 'mongoose';
 
@@ -9,7 +15,7 @@ async function deleteVote(request, context) {
   const voteId = pathname.split('/').pop();
 
   if (!isValidObjectId(voteId)) {
-    return Response.json({ error: 'Bad id' }, { status: 400 });
+    return badRequest('Invalid vote ID');
   }
 
   /* 2️⃣  get user from withAuth */
@@ -17,13 +23,13 @@ async function deleteVote(request, context) {
 
   /* 3️⃣  DB */
   const vote = await Vote.findById(voteId);
-  if (!vote) return Response.json({ error: 'Vote not found' }, { status: 404 });
+  if (!vote) return notFound('Vote not found');
   if (vote.participant.toString() !== participantId) {
-    return Response.json({ error: 'Forbidden' }, { status: 403 });
+    return forbidden('You can only delete your own votes');
   }
 
   await Vote.deleteOne({ _id: voteId });
-  return new Response(null, { status: 204 });
+  return noContent();
 }
 
 export const DELETE = withAuth(deleteVote);

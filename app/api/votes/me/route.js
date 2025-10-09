@@ -1,4 +1,5 @@
 import { getUserFromCookie } from '@/utils/server/auth';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 import {
   countVotesForEntry,
   getUserVoteForEntry,
@@ -9,10 +10,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const entryId = searchParams.get('entryId');
   if (!entryId) {
-    return Response.json(
-      { success: false, message: 'Missing entryId' },
-      { status: 400 },
-    );
+    return badRequest('Missing entryId');
   }
 
   // total votes
@@ -21,24 +19,17 @@ export async function GET(request) {
     votes = await countVotesForEntry({ entryId }); // returns a NUMBER
   } catch (err) {
     console.error('countVotesForEntry failed:', err);
-    return Response.json(
-      { success: false, message: err.message || 'Could not count votes' },
-      { status: err.statusCode || 500 },
-    );
+    return serverError(err.message || 'Could not count votes', err);
   }
 
   // try to get user from cookie
   const user = await getUserFromCookie();
   if (!user) {
     // guest: total votes only
-    return Response.json(
-      {
-        success: true,
-        votes,
-        hasVoted: false,
-      },
-      { status: 200 },
-    );
+    return success({
+      votes,
+      hasVoted: false,
+    });
   }
 
   const participantId = user.id;
@@ -52,20 +43,12 @@ export async function GET(request) {
     recordId = res.recordId;
   } catch (err) {
     console.error('getUserVoteForEntry failed:', err);
-    // still return at least the total votes
-    return Response.json(
-      { success: false, message: err.message || 'Could not load user vote' },
-      { status: err.statusCode || 500 },
-    );
+    return serverError(err.message || 'Could not load user vote', err);
   }
 
-  return Response.json(
-    {
-      success: true,
-      votes,
-      hasVoted,
-      recordId,
-    },
-    { status: 200 },
-  );
+  return success({
+    votes,
+    hasVoted,
+    recordId,
+  });
 }

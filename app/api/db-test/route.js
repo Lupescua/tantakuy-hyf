@@ -1,13 +1,11 @@
 import dbConnect from '@/utils/dbConnects';
+import { success, serverError } from '@/utils/apiResponse';
 
 export async function GET() {
   try {
     await dbConnect();
-    return Response.json({ connected: true });
+    return success({ connected: true });
   } catch (err) {
-    return Responce.json(
-      { connected: false, error: err.message },
-      { status: 500 },
-    );
+    return serverError('Database connection failed', err);
   }
 }

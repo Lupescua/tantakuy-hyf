@@ -1,11 +1,18 @@
 import { withDB } from '@/utils/withDB';
 import { withAuth } from '@/utils/authMiddleware';
 import { getUserFromCookie } from '@/utils/server/auth';
+import {
+  success,
+  badRequest,
+  notFound,
+  forbidden,
+  serverError,
+  noContent,
+} from '@/utils/apiResponse';
 import Entry from '@/app/api/models/Entry';
 import '@/app/api/models/Participant';
 import { isValidObjectId } from 'mongoose';
 import s3 from '@/utils/s3Client';
-import { NextResponse } from 'next/server';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { createNotification } from '@/app/services/notificationServices';
 
@@ -19,7 +26,7 @@ function extractId(request) {
 /* ───────────── GET /api/entries/[id] ───────────── */
 async function getEntry(request) {
   const id = extractId(request);
-  if (!id) return Response.json({ error: 'Bad id' }, { status: 400 });
+  if (!id) return badRequest('Invalid entry ID');
 
   try {
     const entry = await Entry.findById(id)
@@ -30,13 +37,12 @@ async function getEntry(request) {
       })
       .lean();
 
-    if (!entry)
-      return Response.json({ error: 'Entry not found' }, { status: 404 });
+    if (!entry) return notFound('Entry not found');
 
-    return Response.json(entry, { status: 200 });
+    return success({ entry });
   } catch (err) {
     console.error('Error fetching entry:', err);
-    return Response.json({ error: 'Failed to fetch entry' }, { status: 500 });
+    return serverError('Failed to fetch entry', err);
   }
 }
 
@@ -44,17 +50,16 @@ async function getEntry(request) {
 async function deleteEntry(request, context) {
   const id = extractId(request);
   if (!id) {
-    return NextResponse.json({ error: 'Bad id' }, { status: 400 });
+    return badRequest('Invalid entry ID');
   }
 
   // ↳ Get user from withAuth
   const userId = context.user.id;
 
   const entry = await Entry.findById(id).lean();
-  if (!entry)
-    return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
+  if (!entry) return notFound('Entry not found');
   if (entry.participant.toString() !== userId) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    return forbidden('You can only delete your own entries');
   }
 
   try {
@@ -75,14 +80,10 @@ async function deleteEntry(request, context) {
     // delete the Mongo record
     await Entry.deleteOne({ _id: id });
 
-    // Return a clean 204 No Content
-    return new NextResponse(null, { status: 204 });
+    return noContent();
   } catch (err) {
     console.error('Error deleting entry:', err);
-    return NextResponse.json(
-      { error: 'Failed to delete entry' },
-      { status: 500 },
-    );
+    return serverError('Failed to delete entry', err);
   }
 }
 
@@ -90,7 +91,7 @@ async function deleteEntry(request, context) {
 async function patchEntry(request) {
   const id = extractId(request);
   if (!id) {
-    return Response.json({ error: 'Bad id' }, { status: 400 });
+    return badRequest('Invalid entry ID');
   }
 
   // Try to pull actor info if logged in
@@ -110,25 +111,18 @@ async function patchEntry(request) {
     );
 
     if (!updated) {
-      return Response.json({ error: 'Entry not found' }, { status: 404 });
+      return notFound('Entry not found');
     }
 
-    // If we have a valid actorId, fire a “share” notification:
+    // If we have a valid actorId, fire a "share" notification:
     if (actorId) {
       await createNotification(updated._id, actorId, 'share', actorType);
     }
 
-    // return the new share count (optional)
-    return Response.json(
-      { success: true, shares: updated.shares },
-      { status: 200 },
-    );
+    return success({ shares: updated.shares });
   } catch (err) {
     console.error('Error incrementing shares:', err);
-    return Response.json(
-      { error: 'Failed to increment shares' },
-      { status: 500 },
-    );
+    return serverError('Failed to increment shares', err);
   }
 }
 

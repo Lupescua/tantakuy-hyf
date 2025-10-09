@@ -1,6 +1,13 @@
 import { saveVote, countVotesForEntry } from '@/app/services/voteServices';
 import { getUserFromCookie } from '@/utils/server/auth';
 import { withAuth } from '@/utils/authMiddleware';
+import {
+  created,
+  conflict,
+  serverError,
+  success,
+  badRequest,
+} from '@/utils/apiResponse';
 import Vote from '../models/Vote';
 import { withDB } from '@/utils/withDB';
 
@@ -17,25 +24,15 @@ async function createVote(req, context) {
 
     if (!result.ok) {
       if (result.reason === 'duplicate') {
-        // client already has a vote – return 409
-        return Response.json(
-          { success: false, message: 'Already voted' },
-          { status: 409 },
-        );
+        return conflict('Already voted');
       }
-      return Response.json(
-        { success: false, message: 'Could not save vote' },
-        { status: 500 },
-      );
+      return serverError('Could not save vote');
     }
 
-    return Response.json({ success: true, vote: result.vote }, { status: 201 });
+    return created({ vote: result.vote });
   } catch (error) {
     console.error('POST /api/votes error:', error);
-    return Response.json(
-      { success: false, message: 'Server error' },
-      { status: 500 },
-    );
+    return serverError('Server error', error);
   }
 }
 
@@ -46,19 +43,13 @@ async function getVotes(req) {
   const { searchParams } = new URL(req.url);
   const entryId = searchParams.get('entryId');
   if (!entryId) {
-    return Response.json(
-      { success: false, message: 'Missing entryId' },
-      { status: 400 },
-    );
+    return badRequest('Missing entryId');
   }
 
   // 1) Count total votes
   const countResult = await countVotesForEntry({ entryId });
   if (!countResult.success) {
-    return Response.json(
-      { success: false, message: countResult.message },
-      { status: 400 },
-    );
+    return badRequest(countResult.message);
   }
 
   // 2) Check whether *this* user has voted
@@ -72,10 +63,7 @@ async function getVotes(req) {
     userVoted = !!existing;
   }
 
-  return Response.json(
-    { success: true, votes: countResult.data, userVoted },
-    { status: 200 },
-  );
+  return success({ votes: countResult.data, userVoted });
 }
 
 export const GET = withDB(getVotes);
