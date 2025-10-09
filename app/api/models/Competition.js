@@ -113,6 +113,10 @@ const CompetitionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Index for fetching competitions by company
+// Used in: GET /api/competitions (when filtering by company)
+CompetitionSchema.index({ company: 1 });
+
 const Competition =
   mongoose.models.Competition ||
   mongoose.model('Competition', CompetitionSchema);

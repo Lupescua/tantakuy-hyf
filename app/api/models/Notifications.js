@@ -35,6 +35,10 @@ const NotificationSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Compound index for fetching user's notifications sorted by date
+// Used in: GET /api/notification
+NotificationSchema.index({ recipient: 1, createdAt: -1 });
+
 const Notification =
   mongoose.models.Notification ||
   mongoose.model('Notification', NotificationSchema);
