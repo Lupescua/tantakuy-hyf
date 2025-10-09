@@ -1,6 +1,11 @@
 import { validateToken } from '@/app/services/tokenValidationService';
 import { AppError } from '@/utils/errorHandler';
-import { badRequest, serverError, success, unauthorized } from '@/utils/apiResponse';
+import {
+  badRequest,
+  serverError,
+  success,
+  unauthorized,
+} from '@/utils/apiResponse';
 
 export async function POST(req) {
   try {

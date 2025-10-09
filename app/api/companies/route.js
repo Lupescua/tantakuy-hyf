@@ -1,7 +1,13 @@
 import Company from '@/app/api/models/Company';
 import { createCompany } from '@/app/services/companyServices';
 import { withDB } from '@/utils/withDB';
-import { success, created, serverError, badRequest, error } from '@/utils/apiResponse';
+import {
+  success,
+  created,
+  serverError,
+  badRequest,
+  error,
+} from '@/utils/apiResponse';
 
 async function getCompanies() {
   try {

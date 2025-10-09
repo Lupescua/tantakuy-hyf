@@ -1,6 +1,12 @@
 import { withAuth } from '@/utils/authMiddleware';
 import Notification from '../../models/Notifications';
-import { serverError, success, badRequest, notFound, forbidden } from '@/utils/apiResponse';
+import {
+  serverError,
+  success,
+  badRequest,
+  notFound,
+  forbidden,
+} from '@/utils/apiResponse';
 import { isValidObjectId } from 'mongoose';
 
 async function deleteNotification(request, context) {

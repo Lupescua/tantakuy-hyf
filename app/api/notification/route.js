@@ -4,7 +4,12 @@ import Participant from '../models/Participant';
 import Company from '../models/Company';
 import Competition from '../models/Competition';
 import { withAuth } from '@/utils/authMiddleware';
-import { badRequest, serverError, success, forbidden } from '@/utils/apiResponse';
+import {
+  badRequest,
+  serverError,
+  success,
+  forbidden,
+} from '@/utils/apiResponse';
 
 async function getNotifications(req, context) {
   // Get authenticated user's ID from token
