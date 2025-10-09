@@ -21,7 +21,7 @@ function authHandler(handler) {
     // Handle authentication separately
     let user;
     try {
-      user = await getUserFromCookie(req);
+      user = await getUserFromCookie();
     } catch (err) {
       console.error('Authentication failed:', err);
       return NextResponse.json(
@@ -42,9 +42,13 @@ function authHandler(handler) {
 }
 
 /**
- * Combines withDB and authentication
+ * Combines withDB and authentication (auth-first composition)
  * Use this for routes that require both DB connection and user authentication
+ *
+ * Note: Authentication is checked BEFORE connecting to the database.
+ * This optimizes for failed auth cases by avoiding unnecessary DB connections
+ * for unauthorized requests. Only authorized requests incur DB connection overhead.
  */
 export function withAuth(handler) {
-  return withDB(authHandler(handler));
+  return authHandler(withDB(handler));
 }

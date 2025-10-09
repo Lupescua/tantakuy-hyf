@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prettier --write . && next build",
+    "build": "prettier --check . && next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write .",
-    "prepare": "husky"
+    "format:check": "prettier --check .",
+    "prepare": "husky",
+    "migrate:indexes": "node scripts/rebuild-competition-indexes.js"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.842.0",

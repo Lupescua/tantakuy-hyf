@@ -31,7 +31,7 @@ export function success(data, status = 200) {
       success: true,
       data,
     },
-    { status }
+    { status },
   );
 }
 
@@ -129,4 +129,15 @@ export function serverError(message = 'Internal server error', err = null) {
     console.error('Server Error:', err);
   }
   return error(message, 500);
+}
+
+/**
+ * Returns a 503 Service Unavailable error
+ * @param {string} [message='Service temporarily unavailable'] - Error message
+ * @returns {NextResponse}
+ */
+export function serviceUnavailable(
+  message = 'Service temporarily unavailable',
+) {
+  return error(message, 503);
 }
