@@ -1,7 +1,6 @@
 import { createNotification } from '@/app/services/notificationServices';
 import { success, badRequest, serverError } from '@/utils/apiResponse';
 import { withAuth } from '@/utils/authMiddleware';
-import { withDB } from '@/utils/withDB';
 import { isValidObjectId } from 'mongoose';
 
 async function createLikeNotification(req, context) {

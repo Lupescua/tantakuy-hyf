@@ -3,15 +3,23 @@ import Entry from '../models/Entry';
 import Participant from '../models/Participant';
 import Company from '../models/Company';
 import Competition from '../models/Competition';
-import { withDB } from '@/utils/withDB';
-import { badRequest, serverError, success } from '@/utils/apiResponse';
+import { withAuth } from '@/utils/authMiddleware';
+import { badRequest, serverError, success, forbidden } from '@/utils/apiResponse';
 
-async function getNotifications(req) {
-  const userId = req.nextUrl.searchParams.get('userId');
+async function getNotifications(req, context) {
+  // Get authenticated user's ID from token
+  const authenticatedUserId = context.user.id;
 
-  if (!userId) {
-    return badRequest('Missing userId');
+  // Check if requesting own notifications or another user's
+  const requestedUserId = req.nextUrl.searchParams.get('userId');
+
+  // If userId param is provided, verify it matches authenticated user
+  if (requestedUserId && requestedUserId !== authenticatedUserId) {
+    return forbidden('You can only view your own notifications');
   }
+
+  // Use authenticated user's ID
+  const userId = authenticatedUserId;
 
   const notifications = await Notification.find({ recipient: userId })
     .populate({
@@ -51,21 +59,30 @@ async function getNotifications(req) {
   return success({ notifications: cleaned });
 }
 
-export const GET = withDB(getNotifications);
+export const GET = withAuth(getNotifications);
 
-async function deleteNotifications(req) {
-  const userId = req.nextUrl.searchParams.get('userId');
+async function deleteNotifications(req, context) {
+  // Get authenticated user's ID from token
+  const authenticatedUserId = context.user.id;
 
-  if (!userId) {
-    return badRequest('Missing userId');
+  // Check if requesting to delete own notifications or another user's
+  const requestedUserId = req.nextUrl.searchParams.get('userId');
+
+  // If userId param is provided, verify it matches authenticated user
+  if (requestedUserId && requestedUserId !== authenticatedUserId) {
+    return forbidden('You can only delete your own notifications');
   }
+
+  // Use authenticated user's ID
+  const userId = authenticatedUserId;
 
   try {
     await Notification.deleteMany({ recipient: userId });
     return success({});
   } catch (err) {
-    return serverError(err.message, err);
+    console.error('Error deleting notifications:', err);
+    return serverError('Failed to delete notifications', err);
   }
 }
 
-export const DELETE = withDB(deleteNotifications);
+export const DELETE = withAuth(deleteNotifications);
