@@ -22,8 +22,7 @@ export default function CompetitionDetailsModal({ competitionId }) {
         })
         .finally(() => setLoading(false));
 
-      API
-        .get(`/entries`, { params: { competitionId } })
+      API.get(`/entries`, { params: { competitionId } })
         .then((response) => {
           // interceptor unwraps standardized response
           const entries = Array.isArray(response.data) ? response.data : [];

@@ -40,7 +40,7 @@ API.interceptors.response.use(
       error.message = error.response.data.error || 'Request failed';
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 export default API;
