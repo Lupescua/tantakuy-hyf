@@ -17,15 +17,18 @@ import { NextResponse } from 'next/server';
  */
 export function withDB(handler) {
   return async (req, context) => {
+    // Handle DB connection separately
     try {
       await dbConnect();
-      return handler(req, context);
     } catch (err) {
-      console.error('Unhandled error in route handler:', err);
+      console.error('Database connection failed:', err);
       return NextResponse.json(
-        { error: 'Internal Server Error' },
-        { status: 500 },
+        { error: 'Database connection failed' },
+        { status: 503 },
       );
     }
+
+    // Let handler manage its own errors
+    return handler(req, context);
   };
 }

@@ -18,23 +18,26 @@ import { NextResponse } from 'next/server';
  */
 function authHandler(handler) {
   return async function (req, context) {
+    // Handle authentication separately
+    let user;
     try {
-      const user = await getUserFromCookie(req);
-
-      if (!user) {
-        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-          status: 401,
-        });
-      }
-
-      return handler(req, { ...context, user });
+      user = await getUserFromCookie(req);
     } catch (err) {
-      console.error('Unhandled error in auth handler:', err);
+      console.error('Authentication failed:', err);
       return NextResponse.json(
-        { error: 'Internal Server Error' },
+        { error: 'Authentication failed' },
         { status: 500 },
       );
     }
+
+    if (!user) {
+      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+        status: 401,
+      });
+    }
+
+    // Let handler manage its own errors
+    return handler(req, { ...context, user });
   };
 }
 

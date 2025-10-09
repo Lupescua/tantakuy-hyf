@@ -14,7 +14,9 @@ import {
 async function getNotifications(req, context) {
   const authenticatedUserId = context.user.id;
 
-  const notifications = await Notification.find({ recipient: authenticatedUserId })
+  const notifications = await Notification.find({
+    recipient: authenticatedUserId,
+  })
     .populate({
       path: 'actor',
       select: 'userName companyName',
