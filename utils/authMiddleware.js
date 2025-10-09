@@ -31,9 +31,7 @@ function authHandler(handler) {
     }
 
     if (!user) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-      });
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Let handler manage its own errors

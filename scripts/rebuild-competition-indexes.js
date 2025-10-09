@@ -19,6 +19,8 @@ if (!MONGODB_URI) {
 }
 
 async function rebuildIndexes() {
+  let exitCode = 0;
+
   try {
     console.log('🔌 Connecting to MongoDB...');
     await mongoose.connect(MONGODB_URI);
@@ -73,11 +75,16 @@ async function rebuildIndexes() {
     console.log('\n✅ Index rebuild complete!');
   } catch (error) {
     console.error('\n❌ Error rebuilding indexes:', error);
-    process.exit(1);
+    exitCode = 1;
   } finally {
-    await mongoose.connection.close();
-    console.log('🔌 Disconnected from MongoDB');
-    process.exit(0);
+    try {
+      await mongoose.connection.close();
+      console.log('🔌 Disconnected from MongoDB');
+    } catch (closeError) {
+      console.error('❌ Error closing MongoDB connection:', closeError);
+      exitCode = 1;
+    }
+    process.exit(exitCode);
   }
 }
 

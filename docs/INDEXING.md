@@ -72,7 +72,7 @@ Competition.find({ $text: { $search: search } });
 
 ### How to Rebuild
 
-**Option 1: Run Migration Script (Recommended)**
+#### Option 1: Run Migration Script (Recommended)
 
 ```bash
 npm run migrate:indexes
@@ -86,7 +86,7 @@ This will:
 4. Create new indexes
 5. Verify the changes
 
-**Option 2: Manual MongoDB Commands**
+#### Option 2: Manual MongoDB Commands
 
 ```javascript
 // Connect to MongoDB
@@ -102,7 +102,7 @@ db.competitions.createIndex({ title: "text" }, { name: "title_text" })
 db.competitions.getIndexes()
 ```
 
-**Option 3: Mongoose Auto-Index (Development Only)**
+#### Option 3: Mongoose Auto-Index (Development Only)
 
 ```javascript
 // In development, indexes are created automatically
@@ -120,7 +120,7 @@ mongoose.set('autoIndex', false); // Recommended for production
 
 ### Before Text Index (Regex Search)
 
-```
+```text
 Query: { title: { $regex: "photo", $options: "i" } }
 Execution: Collection scan (COLLSCAN)
 Time: ~200ms for 1000 documents
@@ -128,13 +128,13 @@ Time: ~200ms for 1000 documents
 
 ### After Text Index
 
-```
+```text
 Query: { $text: { $search: "photo" } }
 Execution: Index scan (IXSCAN)
 Time: ~5ms for 1000 documents
 ```
 
-**Improvement: 40x faster! 🚀**
+#### Improvement: 40x faster! 🚀
 
 ## Text Search Features
 

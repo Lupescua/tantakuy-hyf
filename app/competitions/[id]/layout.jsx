@@ -19,6 +19,9 @@ export async function generateMetadata({ params }) {
         description:
           competition.description ||
           `Deltag i konkurrencen "${competition.title}"`,
+        siteName: 'Tantakuy',
+        locale: 'da_DK',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://tantakuy.com'}/competitions/${id}`,
         images: competition.image
           ? [
               {

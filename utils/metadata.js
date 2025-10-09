@@ -30,7 +30,13 @@ export async function generateDynamicMetadata({
 
     const data = await res.json();
     const resource = dataKey ? data[dataKey] : data;
-    return buildMetadata(resource || data);
+
+    if (!resource) {
+      console.warn(`Missing expected data key: ${dataKey}`);
+      return { title: fallbackTitle, description: fallbackDescription };
+    }
+
+    return buildMetadata(resource);
   } catch (error) {
     console.error(`Error fetching ${endpoint} metadata:`, error);
     return { title: fallbackTitle, description: fallbackDescription };

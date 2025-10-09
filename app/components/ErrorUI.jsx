@@ -8,9 +8,10 @@ import styles from '../error.module.css';
  * @param {Object} props
  * @param {string} props.title - The error title to display
  * @param {string} props.message - The error message to display
- * @param {Function} props.onRetry - Callback function for retry button
+ * @param {() => void} props.onRetry - Callback function invoked when retry button is clicked
  * @param {string} [props.homeHref='/'] - URL for the home/back button (defaults to '/')
  * @param {string} [props.homeText='Gå til forsiden'] - Text for the home/back button
+ * @param {string} [props.retryText='Prøv igen'] - Text for the retry button
  */
 export default function ErrorUI({
   title,
@@ -18,6 +19,7 @@ export default function ErrorUI({
   onRetry,
   homeHref = '/',
   homeText = 'Gå til forsiden',
+  retryText = 'Prøv igen',
 }) {
   return (
     <div className={styles.errorContainer}>
@@ -26,7 +28,7 @@ export default function ErrorUI({
         <p className={styles.errorMessage}>{message}</p>
         <div className={styles.errorActions}>
           <button onClick={onRetry} className={styles.retryButton}>
-            Prøv igen
+            {retryText}
           </button>
           <Link href={homeHref} className={styles.homeButton}>
             {homeText}
