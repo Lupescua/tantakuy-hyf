@@ -1,9 +1,8 @@
 import { withDB } from '@/utils/withDB';
-import Participant from '@/app/api/models/Participant';
 import { AppError } from '@/utils/errorHandler';
-import Company from '../models/Company';
 import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
 import { badRequest, success } from '@/utils/apiResponse';
+import { findUserByResetToken } from '@/utils/server/userLookup';
 
 const ratelimit = createRateLimiter(5, '15 m');
 
@@ -21,18 +20,7 @@ async function forgotPasswordHandler(request) {
   }
 
   // 1) find the user whose resetToken matches & hasn't expired
-  let user = await Participant.findOne({
-    email,
-    resetToken: token,
-    resetTokenExpiry: { $gt: Date.now() },
-  });
-  if (!user) {
-    user = await Company.findOne({
-      email,
-      resetToken: token,
-      resetTokenExpiry: { $gt: Date.now() },
-    });
-  }
+  const { user } = await findUserByResetToken(email, token);
   if (!user) {
     return badRequest('Invalid or expired token');
   }
