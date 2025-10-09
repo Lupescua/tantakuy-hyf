@@ -7,7 +7,7 @@ import {
 
 export async function GET(request) {
   // make sure they passed entryId
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = request.nextUrl;
   const entryId = searchParams.get('entryId');
   if (!entryId) {
     return badRequest('Missing entryId');

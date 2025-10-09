@@ -9,9 +9,8 @@ import {
   serverError,
 } from '@/utils/apiResponse';
 
-async function getCompetition(request) {
-  const pathname = new URL(request.url).pathname;
-  const id = pathname.split('/').pop();
+async function getCompetition(request, context) {
+  const { id } = await context.params;
 
   if (!isValidObjectId(id)) {
     return badRequest('Invalid competition ID');
@@ -32,9 +31,8 @@ async function getCompetition(request) {
 
 export const GET = withDB(getCompetition);
 
-async function deleteCompetition(request) {
-  const pathname = new URL(request.url).pathname;
-  const id = pathname.split('/').pop();
+async function deleteCompetition(request, context) {
+  const { id } = await context.params;
 
   if (!isValidObjectId(id)) {
     return badRequest('Invalid competition ID');
@@ -56,9 +54,8 @@ async function deleteCompetition(request) {
 export const DELETE = withDB(deleteCompetition);
 
 /* ─────────── PATCH /api/competitions/[id] ─────────── */
-async function patchCompetition(request) {
-  const pathname = new URL(request.url).pathname;
-  const id = pathname.split('/').pop();
+async function patchCompetition(request, context) {
+  const { id } = await context.params;
   if (!isValidObjectId(id)) {
     return badRequest('Invalid competition ID');
   }

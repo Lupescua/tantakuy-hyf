@@ -3,18 +3,17 @@ import Entry from '@/app/api/models/Entry';
 import { Types, isValidObjectId } from 'mongoose';
 import { badRequest, serverError, success } from '@/utils/apiResponse';
 
-async function getEntriesByCompetition(request) {
-  const pathname = new URL(request.url).pathname;
-  const competitionId = pathname.split('/').pop();
+async function getEntriesByCompetition(request, context) {
+  const { id: competitionId } = await context.params;
 
   if (!isValidObjectId(competitionId)) {
     return badRequest('Invalid competitionId');
   }
 
   // parse ?limit= & ?skip=
-  const url = new URL(request.url);
-  const limit = parseInt(url.searchParams.get('limit') || '20', 10);
-  const skip = parseInt(url.searchParams.get('skip') || '0', 10);
+  const { searchParams } = request.nextUrl;
+  const limit = parseInt(searchParams.get('limit') || '20', 10);
+  const skip = parseInt(searchParams.get('skip') || '0', 10);
 
   try {
     // this is an attempt at creating a trend algorithm, compute trendingScore = votes / hoursOld

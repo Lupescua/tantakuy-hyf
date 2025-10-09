@@ -10,9 +10,8 @@ import { isValidObjectId } from 'mongoose';
 
 /* ───────── DELETE  /api/votes/[id] ───────── */
 async function deleteVote(request, context) {
-  /* 1️⃣  grab :id from URL before the first await */
-  const { pathname } = new URL(request.url);
-  const voteId = pathname.split('/').pop();
+  /* 1️⃣  get route param */
+  const { id: voteId } = await context.params;
 
   if (!isValidObjectId(voteId)) {
     return badRequest('Invalid vote ID');

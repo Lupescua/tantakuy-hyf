@@ -16,17 +16,10 @@ import s3 from '@/utils/s3Client';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { createNotification } from '@/app/services/notificationServices';
 
-/* helper – pull :id safely from the URL string */
-function extractId(request) {
-  const { pathname } = new URL(request.url);
-  const id = pathname.split('/').pop(); // last segment
-  return isValidObjectId(id) ? id : null;
-}
-
 /* ───────────── GET /api/entries/[id] ───────────── */
-async function getEntry(request) {
-  const id = extractId(request);
-  if (!id) return badRequest('Invalid entry ID');
+async function getEntry(request, context) {
+  const { id } = await context.params;
+  if (!isValidObjectId(id)) return badRequest('Invalid entry ID');
 
   try {
     const entry = await Entry.findById(id)
@@ -48,8 +41,8 @@ async function getEntry(request) {
 
 /* ──────────── DELETE /api/entries/[id] (auth) ─────────── */
 async function deleteEntry(request, context) {
-  const id = extractId(request);
-  if (!id) {
+  const { id } = await context.params;
+  if (!isValidObjectId(id)) {
     return badRequest('Invalid entry ID');
   }
 
@@ -88,9 +81,9 @@ async function deleteEntry(request, context) {
 }
 
 /* ─────────── PATCH /api/entries/[id] ──────────── */
-async function patchEntry(request) {
-  const id = extractId(request);
-  if (!id) {
+async function patchEntry(request, context) {
+  const { id } = await context.params;
+  if (!isValidObjectId(id)) {
     return badRequest('Invalid entry ID');
   }
 

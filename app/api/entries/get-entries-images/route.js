@@ -7,7 +7,7 @@ import { unauthorized, badRequest, success } from '@/utils/apiResponse';
 /* ───────── GET /api/entries/get-entries-images ───────── */
 async function getEntriesImages(request) {
   /* 1. who is asking?  ─────────────────────────────────── */
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = request.nextUrl;
   let userId = searchParams.get('userId'); // optional
 
   /* If no userId param, fall back to the logged-in user   */
