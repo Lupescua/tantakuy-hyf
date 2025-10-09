@@ -18,20 +18,23 @@ async function getCompetitions(req) {
   const sort = searchParams.get('sort') || 'popularity';
 
   try {
-    // Fetch competitions + populate company to allow searching by name
-    let competitions = await Competition.find()
-      .populate('company', 'companyName') // get company name only
-      .sort({ createdAt: -1 }) // temp fallback; re-sort below
-      .lean(); // for easier filtering
-
-    // Filter by company ID
+    // Build database query object to leverage indexes
+    const query = {};
     if (companyId) {
-      competitions = competitions.filter(
-        (c) => c.company?._id?.toString() === companyId,
-      );
+      query.company = companyId;
+    }
+    if (search) {
+      // Use regex for case-insensitive title search
+      query.title = { $regex: search, $options: 'i' };
     }
 
-    // Filter by search (title or company name)
+    // Fetch competitions from database with filters applied
+    let competitions = await Competition.find(query)
+      .populate('company', 'companyName')
+      .sort({ createdAt: -1 })
+      .lean();
+
+    // If searching by company name (not covered by DB query), filter in-memory
     if (search) {
       competitions = competitions.filter((c) => {
         const titleMatch = c.title?.toLowerCase().includes(search);
