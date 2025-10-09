@@ -50,8 +50,16 @@ async function rebuildIndexes() {
 
     // Create text index on title
     console.log('\n📝 Creating text index on title...');
-    await collection.createIndex({ title: 'text' }, { name: 'title_text' });
-    console.log('✅ Created text index on title');
+    try {
+      await collection.createIndex({ title: 'text' }, { name: 'title_text' });
+      console.log('✅ Created text index on title');
+    } catch (err) {
+      if (err.code === 85) {
+        console.log('ℹ️  Text index on title already exists');
+      } else {
+        throw err;
+      }
+    }
 
     // Verify company index exists
     console.log('\n📝 Verifying company index...');

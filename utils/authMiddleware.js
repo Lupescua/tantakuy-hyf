@@ -35,7 +35,8 @@ function authHandler(handler) {
     }
 
     // Let handler manage its own errors
-    return handler(req, { ...context, user });
+    // Guard against undefined context by ensuring it's an object before spreading
+    return handler(req, { ...(context || {}), user });
   };
 }
 
