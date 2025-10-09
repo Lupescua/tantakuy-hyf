@@ -1,17 +1,14 @@
-import { NextResponse } from 'next/server';
 import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import { Types, isValidObjectId } from 'mongoose';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 
 async function getEntriesByCompetition(request) {
   const pathname = new URL(request.url).pathname;
   const competitionId = pathname.split('/').pop();
 
   if (!isValidObjectId(competitionId)) {
-    return NextResponse.json(
-      { success: false, message: 'Invalid competitionId' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competitionId');
   }
 
   // parse ?limit= & ?skip=
@@ -85,13 +82,9 @@ async function getEntriesByCompetition(request) {
 
     const entries = await Entry.aggregate(pipeline);
 
-    return NextResponse.json({ success: true, data: entries });
+    return success({ entries });
   } catch (err) {
-    console.error('Error in by-competition route:', err);
-    return NextResponse.json(
-      { success: false, message: 'Server error' },
-      { status: 500 },
-    );
+    return serverError('Server error', err);
   }
 }
 

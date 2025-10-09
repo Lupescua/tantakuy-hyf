@@ -1,5 +1,5 @@
-import { NextResponse } from 'next/server';
 import { withAuth } from '@/utils/authMiddleware';
+import { success, badRequest, forbidden, notFound } from '@/utils/apiResponse';
 import mongoose from 'mongoose';
 import Entry from '@/app/api/models/Entry';
 import Competition from '@/app/api/models/Competition';
@@ -11,16 +11,13 @@ async function drawWinner(request, context) {
   // 1) Grab and validate compId
   const { id: compId } = await context.params;
   if (!isValidObjectId(compId)) {
-    return NextResponse.json(
-      { error: 'Invalid competition ID' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competition ID');
   }
 
   // 2) Get user from withAuth
   const { id: actorId, role } = context.user;
   if (role !== 'company') {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    return forbidden('Only companies can draw winners');
   }
 
   // 3) Parse selection method
@@ -30,7 +27,7 @@ async function drawWinner(request, context) {
   // 4) Load all entries
   const entries = await Entry.find({ competition: compId }).lean();
   if (entries.length === 0) {
-    return NextResponse.json({ error: 'No entries found' }, { status: 404 });
+    return notFound('No entries found');
   }
 
   // 5) Pick based on method
@@ -80,17 +77,13 @@ async function drawWinner(request, context) {
   );
 
   // 8) Return the winner payload
-  return NextResponse.json(
-    {
-      success: true,
-      winner: {
-        id: winnerEntry._id.toString(),
-        url: `/entry/${winnerEntry._id}`,
-        method,
-      },
+  return success({
+    winner: {
+      id: winnerEntry._id.toString(),
+      url: `/entry/${winnerEntry._id}`,
+      method,
     },
-    { status: 200 },
-  );
+  });
 }
 
 export const POST = withAuth(drawWinner);

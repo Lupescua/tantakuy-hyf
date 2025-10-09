@@ -1,16 +1,16 @@
 import Notification from '../models/Notifications';
 import Entry from '../models/Entry';
-import { NextResponse } from 'next/server';
 import Participant from '../models/Participant';
 import Company from '../models/Company';
 import Competition from '../models/Competition';
 import { withDB } from '@/utils/withDB';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 
 async function getNotifications(req) {
   const userId = req.nextUrl.searchParams.get('userId');
 
   if (!userId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
+    return badRequest('Missing userId');
   }
 
   const notifications = await Notification.find({ recipient: userId })
@@ -48,7 +48,7 @@ async function getNotifications(req) {
   }));
 
   // Return the normalized notification list
-  return NextResponse.json({ success: true, notifications: cleaned });
+  return success({ notifications: cleaned });
 }
 
 export const GET = withDB(getNotifications);
@@ -57,17 +57,14 @@ async function deleteNotifications(req) {
   const userId = req.nextUrl.searchParams.get('userId');
 
   if (!userId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
+    return badRequest('Missing userId');
   }
 
   try {
     await Notification.deleteMany({ recipient: userId });
-    return NextResponse.json({ success: true });
+    return success({});
   } catch (err) {
-    return NextResponse.json(
-      { success: false, message: err.message },
-      { status: 500 },
-    );
+    return serverError(err.message, err);
   }
 }
 

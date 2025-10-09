@@ -2,6 +2,7 @@ import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import { getUserFromCookie } from '@/utils/server/auth';
 import { isValidObjectId } from 'mongoose';
+import { unauthorized, badRequest, success } from '@/utils/apiResponse';
 
 /* ───────── GET /api/entries/get-entries-images ───────── */
 async function getEntriesImages(request) {
@@ -13,13 +14,13 @@ async function getEntriesImages(request) {
   if (!userId) {
     const user = await getUserFromCookie();
     if (!user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+      return unauthorized();
     }
     userId = user.id;
   }
 
   if (!isValidObjectId(userId)) {
-    return Response.json({ error: 'Bad user id' }, { status: 400 });
+    return badRequest('Bad user id');
   }
 
   /* 2. DB – fetch entries for that user  ───────────────── */
@@ -36,7 +37,7 @@ async function getEntriesImages(request) {
     votes: e.votes || 0,
   }));
 
-  return Response.json({ success: true, data }, { status: 200 });
+  return success({ data });
 }
 
 export const GET = withDB(getEntriesImages);

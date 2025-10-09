@@ -2,6 +2,7 @@
 import { withAuth } from '@/utils/authMiddleware';
 import Entry from '@/app/api/models/Entry';
 import { isValidObjectId } from 'mongoose';
+import { badRequest, created } from '@/utils/apiResponse';
 
 async function createNewEntry(req, context) {
   // ── 1) Get user from withAuth
@@ -12,18 +13,12 @@ async function createNewEntry(req, context) {
   try {
     body = await req.json();
   } catch (e) {
-    return new Response(JSON.stringify({ error: 'Invalid JSON payload' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return badRequest('Invalid JSON payload');
   }
 
   const { imageUrl, caption = '', description = '', competition } = body;
   if (!imageUrl || !competition || !isValidObjectId(competition)) {
-    return new Response(JSON.stringify({ error: 'Bad payload' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return badRequest('Bad payload');
   }
 
   // ── 3) Write to DB
@@ -36,10 +31,7 @@ async function createNewEntry(req, context) {
   });
 
   // ── 4) Respond
-  return new Response(JSON.stringify({ success: true, entryId: entry._id }), {
-    status: 201,
-    headers: { 'Content-Type': 'application/json' },
-  });
+  return created({ entryId: entry._id });
 }
 
 export const POST = withAuth(createNewEntry);

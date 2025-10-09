@@ -1,10 +1,15 @@
 import Competition from '../models/Competition';
 import Company from '../models/Company';
 import Entry from '../models/Entry';
-import { NextResponse } from 'next/server';
-import { verifyToken } from '@/utils/jwt.js';
 import { getUserFromCookie } from '@/utils/server/auth';
 import { withDB } from '@/utils/withDB';
+import {
+  success,
+  created,
+  unauthorized,
+  badRequest,
+  serverError,
+} from '@/utils/apiResponse';
 
 async function getCompetitions(req) {
   const { searchParams } = new URL(req.url);
@@ -61,16 +66,10 @@ async function getCompetitions(req) {
       );
     }
 
-    return NextResponse.json(
-      { data: competitions, success: true },
-      { status: 200 },
-    );
+    return success({ competitions });
   } catch (error) {
     console.error('Error fetching competitions:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch competitions' },
-      { status: 500 },
-    );
+    return serverError('Failed to fetch competitions', error);
   }
 }
 
@@ -81,25 +80,20 @@ async function createCompetition(req) {
     // 1) auth
     const user = await getUserFromCookie(req);
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return unauthorized();
     }
 
     // 2) parse + validate payload
     const competitionData = await req.json();
     competitionData.company = user.id;
-    // to ensure competitionData.company = user.id here
 
     // 3) create
-    const created = await Competition.create(competitionData);
+    const competition = await Competition.create(competitionData);
 
-    return NextResponse.json(created, { status: 201 });
+    return created({ competition });
   } catch (err) {
     console.error('Error creating competition:', err);
-    // return the real error message so you can debug
-    return NextResponse.json(
-      { error: err.message || 'Failed to create competition' },
-      { status: 400 },
-    );
+    return badRequest(err.message || 'Failed to create competition');
   }
 }
 

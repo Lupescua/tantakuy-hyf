@@ -1,23 +1,16 @@
 import { validateToken } from '@/app/services/tokenValidationService';
 import { AppError } from '@/utils/errorHandler';
-import { NextResponse } from 'next/server';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 
 export async function POST(req) {
   try {
     const { token, email } = await req.json();
     if (!email || !token) {
-      return NextResponse.json(
-        { success: false, message: 'Missing email or token' },
-        { status: 400 },
-      );
+      return badRequest('Missing email or token');
     }
-    const { success, message } = await validateToken(email, token);
-    return NextResponse.json({ success, message });
+    const result = await validateToken(email, token);
+    return success(result);
   } catch (err) {
-    console.error('validate-token error:', err);
-    return NextResponse.json(
-      { success: false, message: 'Server error' },
-      { status: 500 },
-    );
+    return serverError('Server error', err);
   }
 }

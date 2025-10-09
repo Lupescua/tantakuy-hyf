@@ -1,18 +1,15 @@
 import { withDB } from '@/utils/withDB';
 import Notification from '../../models/Notifications';
-import { NextResponse } from 'next/server';
+import { serverError, success } from '@/utils/apiResponse';
 
 async function deleteNotification(request, context) {
   const { id } = await context.params;
 
   try {
     await Notification.findByIdAndDelete(id);
-    return NextResponse.json({ success: true });
+    return success({});
   } catch (err) {
-    return NextResponse.json(
-      { success: false, message: err.message },
-      { status: 500 },
-    );
+    return serverError(err.message, err);
   }
 }
 

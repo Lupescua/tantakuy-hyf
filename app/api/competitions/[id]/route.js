@@ -1,79 +1,55 @@
 // app/api/competitions/[id]/route.js
-import { NextResponse } from 'next/server';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
 import { withDB } from '@/utils/withDB';
+import {
+  success,
+  badRequest,
+  notFound,
+  serverError,
+} from '@/utils/apiResponse';
 
-async function getCompetition(request /* ← only one arg now */) {
-  /* ---------------------------------------------------------- *
-   * 1) Extract :id from the URL manually to avoid Next bug      *
-   * ---------------------------------------------------------- */
-  const pathname = new URL(request.url).pathname; // e.g. /api/competitions/64f…
-  const id = pathname.split('/').pop(); // "64f…"
+async function getCompetition(request) {
+  const pathname = new URL(request.url).pathname;
+  const id = pathname.split('/').pop();
 
-  // 1-bis) Validate ID format
   if (!isValidObjectId(id)) {
-    return NextResponse.json(
-      { error: 'Invalid competition ID' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competition ID');
   }
 
   try {
-    const comp = await Competition.findById(id);
-    if (!comp) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    const competition = await Competition.findById(id);
+    if (!competition) {
+      return notFound('Competition not found');
     }
 
-    /* -------------------------------------------------------- *
-     * 4) Return                                                *
-     * -------------------------------------------------------- */
-    return NextResponse.json(comp);
+    return success({ competition });
   } catch (err) {
     console.error('Error fetching competition:', err);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    return serverError('Internal Server Error', err);
   }
 }
 
 export const GET = withDB(getCompetition);
 
 async function deleteCompetition(request) {
-  /* ---------------------------------------------------------- *
-   * 1) Extract :id from the URL manually to avoid Next bug      *
-   * ---------------------------------------------------------- */
   const pathname = new URL(request.url).pathname;
   const id = pathname.split('/').pop();
 
-  // 1-bis) Validate ID format
   if (!isValidObjectId(id)) {
-    return NextResponse.json(
-      { error: 'Invalid competition ID' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competition ID');
   }
 
   try {
     const deleted = await Competition.findByIdAndDelete(id);
     if (!deleted) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return notFound('Competition not found');
     }
 
-    /* -------------------------------------------------------- *
-     * 4) Return success                                        *
-     * -------------------------------------------------------- */
-    return NextResponse.json({
-      success: true,
-      message: 'Deleted successfully',
-    });
+    return success({ message: 'Deleted successfully' });
   } catch (err) {
     console.error('Error deleting competition:', err);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 },
-    );
+    return serverError('Internal Server Error', err);
   }
 }
 
@@ -81,14 +57,10 @@ export const DELETE = withDB(deleteCompetition);
 
 /* ─────────── PATCH /api/competitions/[id] ─────────── */
 async function patchCompetition(request) {
-  // 1) Extract :id
   const pathname = new URL(request.url).pathname;
   const id = pathname.split('/').pop();
   if (!isValidObjectId(id)) {
-    return NextResponse.json(
-      { error: 'Invalid competition ID' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competition ID');
   }
 
   try {
@@ -98,20 +70,13 @@ async function patchCompetition(request) {
       { new: true },
     );
     if (!updated) {
-      return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      return notFound('Competition not found');
     }
 
-    // 4) Return the new count
-    return NextResponse.json(
-      { success: true, clicks: updated.clicks },
-      { status: 200 },
-    );
+    return success({ clicks: updated.clicks });
   } catch (err) {
     console.error('Error incrementing clicks:', err);
-    return NextResponse.json(
-      { error: 'Failed to increment clicks' },
-      { status: 500 },
-    );
+    return serverError('Failed to increment clicks', err);
   }
 }
 

@@ -1,8 +1,8 @@
-import { NextResponse } from 'next/server';
 import sanitizeHtml from 'sanitize-html';
 import { z } from 'zod';
 import { sendEmail } from '@/utils/sendEmail';
 import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 
 const ratelimit = createRateLimiter(10, '15 m', 'tokenBucket', 3);
 const emailSchema = z.object({
@@ -24,14 +24,7 @@ export async function POST(request) {
     const { to, subject, html } = await request.json();
     const validated = emailSchema.safeParse({ to, subject, html });
     if (!validated.success) {
-      return NextResponse.json(
-        {
-          success: false,
-          message: 'Invalid input',
-          errors: validated.error.errors,
-        },
-        { status: 400 },
-      );
+      return badRequest('Invalid input', { errors: validated.error.errors });
     }
 
     const safeHtml = sanitizeHtml(html, {
@@ -77,12 +70,8 @@ export async function POST(request) {
       html: safeHtml,
     });
 
-    return NextResponse.json({ success: true });
+    return success({});
   } catch (err) {
-    console.error('Email send failed:', err.message);
-    return NextResponse.json(
-      { success: false, message: 'Email send failed' },
-      { status: 500 },
-    );
+    return serverError('Email send failed', err);
   }
 }

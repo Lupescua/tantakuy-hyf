@@ -1,18 +1,15 @@
 import { createParticipant } from '@/app/services/participantServices';
-import { cookies } from 'next/headers';
 import { withDB } from '@/utils/withDB';
+import { created, badRequest } from '@/utils/apiResponse';
 
 async function createParticipantHandler(req) {
   try {
     const body = await req.json();
     const { participant, token } = await createParticipant(body);
 
-    return Response.json({ success: true, data: participant }, { status: 201 });
+    return created({ participant });
   } catch (error) {
-    return Response.json(
-      { success: false, message: error.message },
-      { status: 400 },
-    );
+    return badRequest(error.message);
   }
 }
 

@@ -1,17 +1,17 @@
-import { NextResponse } from 'next/server';
 import Entry from '@/app/api/models/Entry';
 import Company from '@/app/api/models/Company';
 import Competition from '../../models/Competition';
 import { isValidObjectId } from 'mongoose';
 import Vote from '../../models/Vote';
 import { withDB } from '@/utils/withDB';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 
 async function getUserProfile(request, context) {
   const params = await context.params;
   const userId = params.id;
 
   if (!isValidObjectId(userId)) {
-    return NextResponse.json({ error: 'Invalid user ID' }, { status: 400 });
+    return badRequest('Invalid user ID');
   }
 
   try {
@@ -22,7 +22,7 @@ async function getUserProfile(request, context) {
         select: 'title company', // only these two fields from Competition
         populate: {
           path: 'company',
-          select: 'companyName', // grab only the company’s name
+          select: 'companyName', // grab only the company's name
         },
       })
       .lean();
@@ -56,13 +56,9 @@ async function getUserProfile(request, context) {
       imageUrl: e.imageUrl,
     }));
 
-    return NextResponse.json({ success: true, data });
+    return success({ data });
   } catch (err) {
-    console.error('Error in profile stats route:', err);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 },
-    );
+    return serverError('Internal server error', err);
   }
 }
 
