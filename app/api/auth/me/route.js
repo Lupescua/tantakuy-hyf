@@ -37,7 +37,8 @@ async function getCurrentUser() {
         role,
       },
     });
-  } catch {
+  } catch (err) {
+    console.error('Error fetching user:', err);
     return success({ user: null });
   }
 }
