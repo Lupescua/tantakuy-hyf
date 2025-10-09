@@ -48,9 +48,6 @@ async function getVotes(req) {
 
   // 1) Count total votes
   const countResult = await countVotesForEntry({ entryId });
-  if (!countResult.success) {
-    return badRequest(countResult.message);
-  }
 
   // 2) Check whether *this* user has voted
   let userVoted = false;
@@ -63,7 +60,7 @@ async function getVotes(req) {
     userVoted = !!existing;
   }
 
-  return success({ votes: countResult.data, userVoted });
+  return success({ votes: countResult, userVoted });
 }
 
 export const GET = withDB(getVotes);
