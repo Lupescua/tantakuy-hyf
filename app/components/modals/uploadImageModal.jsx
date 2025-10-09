@@ -27,11 +27,8 @@ export default function UploadImageModal({
     if (showGallery && userId) {
       API.get('/entries/get-entries-images', { params: { userId } })
         .then((resp) => {
-          if (resp.data.success) {
-            setGallery(resp.data.data.map((item) => item.imageUrl));
-          } else {
-            console.error('Gallery fetch failed:', resp.data.message);
-          }
+          // interceptor unwraps to array of items
+          setGallery(resp.data.map((item) => item.imageUrl));
         })
         .catch((err) => console.error('Gallery fetch error:', err));
     }

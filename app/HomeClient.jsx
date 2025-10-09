@@ -34,7 +34,8 @@ export default function HomeClient() {
         const { data } = await API.get('/competitions', {
           params: { search, companyId, sort },
         });
-        setCompetitions(data?.data ?? []);
+        // interceptor unwraps { success: true, data: { competitions } } to { competitions }
+        setCompetitions(data?.competitions ?? []);
       } catch (err) {
         console.error('Failed to fetch competitions:', err);
       } finally {
@@ -49,7 +50,8 @@ export default function HomeClient() {
     const loadCompanies = async () => {
       try {
         const res = await API.get('/companies');
-        setCompanies(res.data?.data || []);
+        // interceptor unwraps to { companies }
+        setCompanies(res.data?.companies || []);
       } catch (e) {
         console.error('Failed to load companies:', e);
       }

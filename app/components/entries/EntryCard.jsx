@@ -37,9 +37,9 @@ export default function EntryCard({
     async function fetchVoteInfo() {
       setLoadingVotes(true);
       try {
-        // GET /api/votes/me?entryId=...
+        // GET /api/votes/me?entryId=... - interceptor unwraps response
         const { data } = await API.get('/votes/me', { params: { entryId } });
-        if (data.success && isMounted) {
+        if (isMounted) {
           setVotes(data.votes);
           setHasVoted(data.hasVoted);
           setVoteRecordId(data.recordId);
@@ -67,16 +67,14 @@ export default function EntryCard({
     setLoadingVotes(true);
     try {
       if (!hasVoted) {
-        // cast new vote
+        // cast new vote - interceptor unwraps to { vote: {...} }
         const { data } = await API.post('/votes', {
           entry: entryId,
           voteType: 'like',
         });
-        if (data.success) {
-          setVotes((v) => v + 1);
-          setHasVoted(true);
-          setVoteRecordId(data.vote._id);
-        }
+        setVotes((v) => v + 1);
+        setHasVoted(true);
+        setVoteRecordId(data.vote._id);
       } else {
         // remove existing vote
         await API.delete(`/votes/${voteRecordId}`);

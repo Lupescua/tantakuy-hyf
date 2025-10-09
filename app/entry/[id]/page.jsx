@@ -30,25 +30,26 @@ export default function EntryPage() {
     async function loadFeed() {
       setLoading(true);
       try {
-        // 1) fetch the clicked entry
-        const { data: clicked } = await API.get(`/entries/${id}`);
+        // 1) fetch the clicked entry - interceptor unwraps { success: true, data: { entry } } to { entry }
+        const { data } = await API.get(`/entries/${id}`);
+        const clicked = data.entry;
         // 1a) record a competition click
         API.patch(`/competitions/${clicked.competition}`).catch(console.error);
         // 2) pull competition ID off it
         const compId = clicked.competition;
-        // 3) fetch first 20 trending in same comp
-        const { data: listRes } = await API.get(
+        // 3) fetch first 20 trending in same comp - interceptor unwraps to { entries: [...] }
+        const { data: listData } = await API.get(
           `/entries/by-competition/${compId}`,
           { params: { limit: 20, skip: 0, sort: 'trending' } },
         );
-        const all = Array.isArray(listRes.data) ? listRes.data : [];
+        const all = Array.isArray(listData.entries) ? listData.entries : [];
         // 4) filter out the clicked one
         const rest = all.filter((e) => e._id !== id);
         // 5) build and set the feed
         const initial = [clicked, ...rest];
         setFeed(initial);
 
-        // initialize vote maps
+        // initialize vote maps - interceptor unwraps response, no need to check .success
         const voting = {},
           voted = {},
           votes = {},
@@ -59,15 +60,9 @@ export default function EntryPage() {
               params: { entryId: e._id },
             });
             voting[e._id] = false;
-            if (v.success) {
-              voted[e._id] = v.hasVoted;
-              votes[e._id] = v.votes;
-              records[e._id] = v.recordId; // ← store record ID
-            } else {
-              voted[e._id] = false;
-              votes[e._id] = e.votes || 0;
-              records[e._id] = null;
-            }
+            voted[e._id] = v.hasVoted;
+            votes[e._id] = v.votes;
+            records[e._id] = v.recordId; // ← store record ID
           }),
         );
         setVotingMap(voting);
@@ -97,17 +92,15 @@ export default function EntryPage() {
     setVotingMap((m) => ({ ...m, [entryId]: true }));
     try {
       if (!votedMap[entryId]) {
-        // cast new vote
+        // cast new vote - interceptor unwraps to { vote: {...} }
         const { data } = await API.post('/votes', {
           entry: entryId,
           voteType: 'like',
         });
-        if (data.success) {
-          setVotedMap((m) => ({ ...m, [entryId]: true }));
-          setVotesMap((m) => ({ ...m, [entryId]: m[entryId] + 1 }));
-          // also store the new recordId so we can delete it next time
-          setRecordIdMap((m) => ({ ...m, [entryId]: data.vote._id }));
-        }
+        setVotedMap((m) => ({ ...m, [entryId]: true }));
+        setVotesMap((m) => ({ ...m, [entryId]: m[entryId] + 1 }));
+        // also store the new recordId so we can delete it next time
+        setRecordIdMap((m) => ({ ...m, [entryId]: data.vote._id }));
       } else {
         // remove existing vote
         const recordId = recordIdMap[entryId]; // ← grab the right one
@@ -154,11 +147,11 @@ export default function EntryPage() {
       // competition lives on feed[0].competition
       const compId = feed[0].competition;
       const skip = page * 20;
-      const { data: listRes } = await API.get(
+      const { data: listData } = await API.get(
         `/entries/by-competition/${compId}`,
         { params: { limit: 20, skip, sort: 'trending' } },
       );
-      const next = Array.isArray(listRes.data) ? listRes.data : [];
+      const next = Array.isArray(listData.entries) ? listData.entries : [];
       // append
       setFeed((f) => [...f, ...next]);
       // init vote maps for new items

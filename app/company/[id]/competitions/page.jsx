@@ -38,9 +38,8 @@ export default function CompanyCompetitionsPage() {
             sort: 'date', // optional, or 'popularity' if needed
           },
         });
-        if (res.data.success) {
-          setCompetitions(res.data.data);
-        }
+        // interceptor unwraps to { competitions }
+        setCompetitions(res.data.competitions);
       } catch (err) {
         setError('Kunne ikke indlæse konkurrencer');
         console.error(err);

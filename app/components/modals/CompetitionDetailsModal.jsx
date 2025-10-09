@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { getCompetitionById } from '@/app/services/competitionService';
 import style from '@/style/CompetitionDetailsModal.module.css';
 import Loader from '../loader/Loader';
-import axios from 'axios';
+import API from '@/utils/axios';
 
 export default function CompetitionDetailsModal({ competitionId }) {
   const [competition, setCompetition] = useState(null);
@@ -22,13 +22,15 @@ export default function CompetitionDetailsModal({ competitionId }) {
         })
         .finally(() => setLoading(false));
 
-      axios
-        .get(`/api/entries?competitionId=${competitionId}`)
+      API
+        .get(`/entries`, { params: { competitionId } })
         .then((response) => {
-          setEntryCount(response.data.length);
+          // interceptor unwraps standardized response
+          const entries = Array.isArray(response.data) ? response.data : [];
+          setEntryCount(entries.length);
         })
         .catch((err) => {
-          console.error('Failed to fetch etry count:', err);
+          console.error('Failed to fetch entry count:', err);
         });
     }
   }, [open, competitionId]);

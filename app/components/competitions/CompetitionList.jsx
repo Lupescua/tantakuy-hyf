@@ -23,7 +23,8 @@ export default function CompetitionList({ competitions: propData }) {
     (async () => {
       try {
         const { data } = await API.get('/competitions');
-        setCompetitions(data?.data ?? []); // route returns { data: [...] }
+        // interceptor unwraps { success: true, data: { competitions } } to { competitions }
+        setCompetitions(data?.competitions ?? []);
       } catch (err) {
         console.error('Error fetching competitions:', err);
         setError('Could not load competitions.');
