@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
-import styles from '../../error.module.css';
+import ErrorUI from '../../components/ErrorUI';
 
 export default function EntryError({ error, reset }) {
   useEffect(() => {
@@ -10,22 +9,12 @@ export default function EntryError({ error, reset }) {
   }, [error]);
 
   return (
-    <div className={styles.errorContainer}>
-      <div className={styles.errorContent}>
-        <h1 className={styles.errorTitle}>Bidrag ikke tilgængeligt</h1>
-        <p className={styles.errorMessage}>
-          Vi kunne ikke indlæse dette bidrag. Det kan være slettet eller
-          utilgængeligt.
-        </p>
-        <div className={styles.errorActions}>
-          <button onClick={() => reset()} className={styles.retryButton}>
-            Prøv igen
-          </button>
-          <Link href="/" className={styles.homeButton}>
-            Se alle konkurrencer
-          </Link>
-        </div>
-      </div>
-    </div>
+    <ErrorUI
+      title="Bidrag ikke tilgængeligt"
+      message="Vi kunne ikke indlæse dette bidrag. Det kan være slettet eller utilgængeligt."
+      onRetry={reset}
+      homeHref="/"
+      homeText="Se alle konkurrencer"
+    />
   );
 }

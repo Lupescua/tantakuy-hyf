@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import Link from 'next/link';
-import styles from '../../error.module.css';
+import ErrorUI from '../../components/ErrorUI';
 
 export default function CompetitionError({ error, reset }) {
   useEffect(() => {
@@ -10,22 +9,12 @@ export default function CompetitionError({ error, reset }) {
   }, [error]);
 
   return (
-    <div className={styles.errorContainer}>
-      <div className={styles.errorContent}>
-        <h1 className={styles.errorTitle}>Konkurrence ikke tilgængelig</h1>
-        <p className={styles.errorMessage}>
-          Vi kunne ikke indlæse denne konkurrence. Den kan være slettet eller
-          utilgængelig.
-        </p>
-        <div className={styles.errorActions}>
-          <button onClick={() => reset()} className={styles.retryButton}>
-            Prøv igen
-          </button>
-          <Link href="/" className={styles.homeButton}>
-            Se alle konkurrencer
-          </Link>
-        </div>
-      </div>
-    </div>
+    <ErrorUI
+      title="Konkurrence ikke tilgængelig"
+      message="Vi kunne ikke indlæse denne konkurrence. Den kan være slettet eller utilgængelig."
+      onRetry={reset}
+      homeHref="/"
+      homeText="Se alle konkurrencer"
+    />
   );
 }

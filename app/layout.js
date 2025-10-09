@@ -40,7 +40,7 @@ export const metadata = {
       'Deltag i spændende fotokonkurrencer, stem på dine favoritter, og vind præmier.',
     images: [
       {
-        url: '/og-image.jpg',
+        url: `${process.env.NEXT_PUBLIC_SITE_URL || 'https://tantakuy.com'}/og-image.jpg`,
         width: 1200,
         height: 630,
         alt: 'Tantakuy - Konkurrencer og Fotoudfordringer',
@@ -52,7 +52,9 @@ export const metadata = {
     title: 'Tantakuy - Konkurrencer og Fotoudfordringer',
     description:
       'Deltag i spændende fotokonkurrencer, stem på dine favoritter, og vind præmier.',
-    images: ['/og-image.jpg'],
+    images: [
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://tantakuy.com'}/og-image.jpg`,
+    ],
   },
   robots: {
     index: true,
