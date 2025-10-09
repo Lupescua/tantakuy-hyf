@@ -4,10 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prettier --write . && next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.842.0",
@@ -43,6 +44,8 @@
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.4.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.3",
     "postcss": "^8.5.6",
     "prettier": "^3.5.3"
   },
@@ -59,5 +62,10 @@
   "bugs": {
     "url": "https://github.com/Lupescua/tantakuy-hyf/issues"
   },
-  "homepage": "https://github.com/Lupescua/tantakuy-hyf#readme"
+  "homepage": "https://github.com/Lupescua/tantakuy-hyf#readme",
+  "lint-staged": {
+    "*.{js,jsx,json,css,md}": [
+      "prettier --write"
+    ]
+  }
 }
