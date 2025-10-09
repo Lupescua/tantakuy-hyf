@@ -1,7 +1,7 @@
 import Company from '@/app/api/models/Company';
 import { createCompany } from '@/app/services/companyServices';
 import { withDB } from '@/utils/withDB';
-import { success, created, serverError, badRequest } from '@/utils/apiResponse';
+import { success, created, serverError, badRequest, error } from '@/utils/apiResponse';
 
 async function getCompanies() {
   try {
@@ -20,8 +20,13 @@ async function createCompanyHandler(req) {
     const body = await req.json();
     const company = await createCompany(body);
     return created({ company });
-  } catch (error) {
-    return badRequest(error.message);
+  } catch (err) {
+    // Preserve the original status code from AppError
+    const status = err?.statusCode ?? err?.status;
+    if (typeof status === 'number') {
+      return error(err.message, status);
+    }
+    return serverError('Failed to create company', err);
   }
 }
 
