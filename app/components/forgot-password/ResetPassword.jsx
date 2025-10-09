@@ -33,7 +33,8 @@ export default function ResetPasswordForm() {
         });
         // if no error thrown, token is valid
         setStatus('valid');
-      } catch {
+      } catch (err) {
+        console.error('Token validation failed:', err);
         setStatus('invalid');
       }
     }
