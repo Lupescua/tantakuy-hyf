@@ -28,11 +28,21 @@ export async function generateDynamicMetadata({
       return { title: fallbackTitle, description: fallbackDescription };
     }
 
-    const data = await res.json();
-    const resource = dataKey ? data[dataKey] : data;
+    const responseData = await res.json();
+
+    // Unwrap API envelope if present (e.g., { success: true, data: {...} })
+    const unwrapped =
+      responseData && typeof responseData === 'object' && 'data' in responseData
+        ? responseData.data
+        : responseData;
+
+    // Extract resource using dataKey or use unwrapped data directly
+    const resource = dataKey && unwrapped ? unwrapped[dataKey] : unwrapped;
 
     if (!resource) {
-      console.warn(`Missing expected data key: ${dataKey}`);
+      console.warn(
+        `Missing expected resource data${dataKey ? ` for key: ${dataKey}` : ''}`,
+      );
       return { title: fallbackTitle, description: fallbackDescription };
     }
 

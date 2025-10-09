@@ -43,9 +43,9 @@ function authHandler(handler) {
  * Combines withDB and authentication (auth-first composition)
  * Use this for routes that require both DB connection and user authentication
  *
- * Note: Authentication is checked BEFORE connecting to the database.
- * This optimizes for failed auth cases by avoiding unnecessary DB connections
- * for unauthorized requests. Only authorized requests incur DB connection overhead.
+ * Note: Authentication is checked first; the DB connection (via withDB) is only
+ * established after auth succeeds. This optimizes for unauthorized requests by
+ * avoiding DB connection overhead when auth fails.
  */
 export function withAuth(handler) {
   return authHandler(withDB(handler));
