@@ -17,7 +17,7 @@ async function forgotPasswordHandler(request) {
   const { email, newPassword, token } = await request.json();
 
   if (!email || !newPassword || !token) {
-    throw new AppError('Missing parameters', 400);
+    return badRequest('Missing parameters');
   }
 
   // 1) find the user whose resetToken matches & hasn't expired

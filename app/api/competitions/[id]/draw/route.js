@@ -58,7 +58,7 @@ async function drawWinner(request, context) {
   }
 
   if (!winnerEntry) {
-    return NextResponse.json({ error: 'No entries found' }, { status: 404 });
+    return notFound('No entries found');
   }
 
   // 6) Persist to competition
