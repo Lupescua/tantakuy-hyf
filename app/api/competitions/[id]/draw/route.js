@@ -20,8 +20,11 @@ async function drawWinner(request, context) {
     return forbidden('Only companies can draw winners');
   }
 
-  // 3) Parse selection method
+  // 3) Parse and validate selection method
   const { method } = await request.json();
+  if (!['random', 'shares', 'likes'].includes(method)) {
+    return badRequest('Invalid method. Must be one of: random, shares, likes');
+  }
   let winnerEntry = null;
 
   // 4) Load all entries
@@ -36,14 +39,14 @@ async function drawWinner(request, context) {
       { $match: { competition: new mongoose.Types.ObjectId(compId) } },
       { $sample: { size: 1 } },
     ]);
-    winnerEntry = picked && (await Entry.findById(picked._id).lean());
+    winnerEntry = picked;
   } else if (method === 'shares') {
     // we can reduce in JS since shares lives on Entry
     const best = entries.reduce(
       (max, e) => ((e.shares ?? 0) > (max.shares ?? 0) ? e : max),
       entries[0],
     );
-    winnerEntry = await Entry.findById(best._id).lean();
+    winnerEntry = best;
   } else if (method === 'likes') {
     // aggregate vote‐counts
     const top = await Vote.aggregate([
@@ -53,7 +56,7 @@ async function drawWinner(request, context) {
       { $limit: 1 },
     ]);
     if (top.length) {
-      winnerEntry = await Entry.findById(top[0]._id).lean();
+      winnerEntry = entries.find((e) => e._id.equals(top[0]._id));
     }
   }
 
@@ -69,12 +72,7 @@ async function drawWinner(request, context) {
   );
 
   // 7) Notify the winner
-  await createNotification(
-    winnerEntry._id,
-    actorId,
-    'win',
-    role === 'company' ? 'Company' : 'Participant',
-  );
+  await createNotification(winnerEntry._id, actorId, 'win', 'Company');
 
   // 8) Return the winner payload
   return success({

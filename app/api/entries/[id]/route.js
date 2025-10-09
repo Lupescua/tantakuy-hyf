@@ -57,17 +57,22 @@ async function deleteEntry(request, context) {
 
   try {
     // Only delete from S3 if the URL is for your bucket
-    const bucketDomain = `${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
-    if (entry.imageUrl.includes(bucketDomain)) {
-      const key = entry.imageUrl.split(`/${bucketDomain}/`)[1];
-      if (key) {
-        await s3.send(
-          new DeleteObjectCommand({
-            Bucket: process.env.S3_BUCKET_NAME,
-            Key: key,
-          }),
-        );
+    try {
+      const url = new URL(entry.imageUrl);
+      const bucketDomain = `${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
+      if (url.hostname === bucketDomain) {
+        const key = url.pathname.substring(1); // Remove leading '/'
+        if (key) {
+          await s3.send(
+            new DeleteObjectCommand({
+              Bucket: process.env.S3_BUCKET_NAME,
+              Key: key,
+            }),
+          );
+        }
       }
+    } catch (urlError) {
+      console.warn('Failed to parse S3 URL, skipping S3 deletion:', urlError);
     }
 
     // delete the Mongo record
