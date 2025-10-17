@@ -1,4 +1,5 @@
 import { cookies } from 'next/headers';
+import { noContent } from '@/utils/apiResponse';
 
 export async function POST() {
   // 1) await cookies()
@@ -12,5 +13,5 @@ export async function POST() {
   });
 
   // 2) 204 must have no body
-  return new Response(null, { status: 204 });
+  return noContent();
 }

@@ -1,18 +1,53 @@
 import { getUserFromCookie } from './server/auth';
-import dbConnect from './dbConnects';
+import { withDB } from './withDB';
+import { NextResponse } from 'next/server';
 
-export function withAuth(handler) {
+/**
+ * Higher-order function that adds authentication to a route handler
+ * Combines authentication check with automatic DB connection
+ *
+ * @param {Function} handler - The API route handler function
+ * @returns {Function} Wrapped handler with auth and DB connection
+ *
+ * @example
+ * export const POST = withAuth(async (req, { user }) => {
+ *   // user is automatically available here
+ *   // DB is already connected
+ *   return NextResponse.json({ userId: user.id });
+ * });
+ */
+function authHandler(handler) {
   return async function (req, context) {
-    await dbConnect();
-
-    const user = getUserFromCookie(req);
-
-    if (!user) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-      });
+    // Handle authentication separately
+    let user;
+    try {
+      user = await getUserFromCookie();
+    } catch (err) {
+      console.error('Authentication failed:', err);
+      return NextResponse.json(
+        { error: 'Authentication failed' },
+        { status: 500 },
+      );
     }
 
-    return handler(req, { ...context, user });
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Let handler manage its own errors
+    // Guard against undefined context by ensuring it's an object before spreading
+    return handler(req, { ...(context || {}), user });
   };
+}
+
+/**
+ * Combines withDB and authentication (auth-first composition)
+ * Use this for routes that require both DB connection and user authentication
+ *
+ * Note: Authentication is checked first; the DB connection (via withDB) is only
+ * established after auth succeeds. This optimizes for unauthorized requests by
+ * avoiding DB connection overhead when auth fails.
+ */
+export function withAuth(handler) {
+  return authHandler(withDB(handler));
 }

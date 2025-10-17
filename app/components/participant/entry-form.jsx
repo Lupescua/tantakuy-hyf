@@ -40,11 +40,8 @@ export default function EntryForm({ userId, competitionId }) {
     const resp = await API.get('/entries/get-entries-images', {
       params: { userId },
     });
-    if (resp.data.success) {
-      // expect an array of { imageUrl: string, … }
-      return resp.data.data;
-    }
-    throw new Error('Kunne ikke hente tidligere billeder');
+    // interceptor unwraps { success: true, data: [...] } to just the data array
+    return resp.data;
   };
 
   /* ───────── callback from modal ───────── */
@@ -70,16 +67,12 @@ export default function EntryForm({ userId, competitionId }) {
         caption,
         competition: competitionId,
       });
+      // interceptor unwraps to { entryId: ... }
       const { data } = resp;
-
-      if (data.success) {
-        router.push(`/entry/${data.entryId}`);
-      } else {
-        setError(data.error || 'Kunne ikke gemme indlægget');
-      }
+      router.push(`/entry/${data.entryId}`);
     } catch (err) {
       console.error('🔥 create-new-entry failed:', err.response?.data || err);
-      setError(err.response?.data?.error ?? 'Serverfejl – prøv igen');
+      setError(err.message ?? 'Serverfejl – prøv igen');
     } finally {
       setLoading(false);
     }

@@ -1,22 +1,17 @@
-import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
+import { success, badRequest } from '@/utils/apiResponse';
 import mongoose from 'mongoose';
 import Entry from '@/app/api/models/Entry';
 import Vote from '@/app/api/models/Vote';
 import Competition from '@/app/api/models/Competition';
 import { isValidObjectId } from 'mongoose';
 
-export async function GET(request, context) {
+async function getCompetitionStats(request, context) {
   // Await params to conform with Next.js dynamic API requirements
   const { id: compId } = await context.params;
   if (!isValidObjectId(compId)) {
-    return NextResponse.json(
-      { error: 'Invalid competition ID' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competition ID');
   }
-
-  await dbConnect();
 
   // 1) Participants = number of entries
   const participants = await Entry.countDocuments({ competition: compId });
@@ -50,5 +45,7 @@ export async function GET(request, context) {
   const compDoc = await Competition.findById(compId).select('clicks');
   const clicks = compDoc?.clicks || 0;
 
-  return NextResponse.json({ participants, votes, shares, clicks });
+  return success({ participants, votes, shares, clicks });
 }
+
+export const GET = withDB(getCompetitionStats);

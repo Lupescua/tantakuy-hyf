@@ -1,32 +1,44 @@
-import dbConnect from '@/utils/dbConnects';
 import Company from '@/app/api/models/Company';
 import { createCompany } from '@/app/services/companyServices';
-import { NextResponse } from 'next/server';
+import { withDB } from '@/utils/withDB';
+import {
+  success,
+  created,
+  serverError,
+  badRequest,
+  error,
+} from '@/utils/apiResponse';
 
-export async function GET() {
+async function getCompanies() {
   try {
-    await dbConnect();
     const companies = await Company.find().select('_id companyName').lean();
-    return NextResponse.json({ success: true, data: companies });
+    return success({ companies });
   } catch (err) {
     console.error('Error fetching companies:', err);
-    return NextResponse.json(
-      { success: false, error: 'Failed to fetch companies' },
-      { status: 500 },
-    );
+    return serverError('Failed to fetch companies', err);
   }
 }
 
-export async function POST(req) {
+export const GET = withDB(getCompanies);
+
+async function createCompanyHandler(req) {
   try {
-    await dbConnect();
     const body = await req.json();
     const company = await createCompany(body);
-    return NextResponse.json({ success: true, data: company }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json(
-      { success: false, message: error.message },
-      { status: 400 },
-    );
+    return created({ company });
+  } catch (err) {
+    console.error('Error creating company:', err);
+    // Handle invalid JSON payload
+    if (err instanceof SyntaxError || err.name === 'SyntaxError') {
+      return badRequest('Invalid JSON payload');
+    }
+    // Preserve the original status code from AppError
+    const status = err?.statusCode ?? err?.status;
+    if (typeof status === 'number') {
+      return error(err.message, status);
+    }
+    return serverError('Failed to create company', err);
   }
 }
+
+export const POST = withDB(createCompanyHandler);

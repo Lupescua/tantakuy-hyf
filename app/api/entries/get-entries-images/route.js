@@ -1,35 +1,29 @@
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
-import { cookies } from 'next/headers'; // ← ADD
-import { verifyToken } from '@/utils/jwt'; // ← ADD
+import { getUserFromCookie } from '@/utils/server/auth';
 import { isValidObjectId } from 'mongoose';
+import { unauthorized, badRequest, success } from '@/utils/apiResponse';
 
 /* ───────── GET /api/entries/get-entries-images ───────── */
-export async function GET(request) {
+async function getEntriesImages(request) {
   /* 1. who is asking?  ─────────────────────────────────── */
-  const { searchParams } = new URL(request.url);
+  const { searchParams } = request.nextUrl;
   let userId = searchParams.get('userId'); // optional
 
   /* If no userId param, fall back to the logged-in user   */
   if (!userId) {
-    const store = await cookies();
-    const token = store.get('token')?.value;
-    if (!token)
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
-    const result = verifyToken(token);
-    if (!result.ok) {
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    const user = await getUserFromCookie();
+    if (!user) {
+      return unauthorized();
     }
-    userId = result.payload.id;
+    userId = user.id;
   }
 
   if (!isValidObjectId(userId)) {
-    return Response.json({ error: 'Bad user id' }, { status: 400 });
+    return badRequest('Bad user id');
   }
 
   /* 2. DB – fetch entries for that user  ───────────────── */
-  await dbConnect();
   const entries = await Entry.find({ participant: userId })
     .select('imageUrl caption description votes') // leaner payload
     .lean();
@@ -43,5 +37,7 @@ export async function GET(request) {
     votes: e.votes || 0,
   }));
 
-  return Response.json({ success: true, data }, { status: 200 });
+  return success({ data });
 }
+
+export const GET = withDB(getEntriesImages);

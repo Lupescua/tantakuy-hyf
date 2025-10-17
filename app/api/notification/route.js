@@ -1,20 +1,22 @@
-import dbConnect from '@/utils/dbConnects';
 import Notification from '../models/Notifications';
 import Entry from '../models/Entry';
-import { NextResponse } from 'next/server';
 import Participant from '../models/Participant';
 import Company from '../models/Company';
 import Competition from '../models/Competition';
+import { withAuth } from '@/utils/authMiddleware';
+import {
+  badRequest,
+  serverError,
+  success,
+  forbidden,
+} from '@/utils/apiResponse';
 
-export async function GET(req) {
-  await dbConnect();
-  const userId = req.nextUrl.searchParams.get('userId');
+async function getNotifications(req, context) {
+  const authenticatedUserId = context.user.id;
 
-  if (!userId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
-  }
-
-  const notifications = await Notification.find({ recipient: userId })
+  const notifications = await Notification.find({
+    recipient: authenticatedUserId,
+  })
     .populate({
       path: 'actor',
       select: 'userName companyName',
@@ -42,31 +44,27 @@ export async function GET(req) {
       caption: n.entry?.caption || '', // Default caption if missing
     },
     competition: {
-      id: n.entry?.competition?._id,
+      id: n.entry?.competition?._id?.toString() || '',
       title: n.entry?.competition?.title,
     },
     type: n.type, // Either 'like' or 'share' (or other types if added later)
   }));
 
   // Return the normalized notification list
-  return NextResponse.json({ success: true, notifications: cleaned });
+  return success({ notifications: cleaned });
 }
 
-export async function DELETE(req) {
-  await dbConnect();
-  const userId = req.nextUrl.searchParams.get('userId');
+export const GET = withAuth(getNotifications);
 
-  if (!userId) {
-    return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
-  }
+async function deleteNotifications(req, context) {
+  const authenticatedUserId = context.user.id;
 
   try {
-    await Notification.deleteMany({ recipient: userId });
-    return NextResponse.json({ success: true });
+    await Notification.deleteMany({ recipient: authenticatedUserId });
+    return success({});
   } catch (err) {
-    return NextResponse.json(
-      { success: false, message: err.message },
-      { status: 500 },
-    );
+    return serverError('Failed to delete notifications', err);
   }
 }
+
+export const DELETE = withAuth(deleteNotifications);

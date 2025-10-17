@@ -1,24 +1,19 @@
-import dbConnect from '@/utils/dbConnects';
 import Entry from '../models/Entry';
 import mongoose from 'mongoose';
 import { withAuth } from '@/utils/authMiddleware';
+import { withDB } from '@/utils/withDB';
+import { badRequest, serverError, success, created } from '@/utils/apiResponse';
 
-export async function GET(req) {
-  await dbConnect();
+async function getEntries(req) {
   const { searchParams } = new URL(req.url);
   const competitionId = searchParams.get('competitionId');
 
   if (!competitionId) {
-    return new Response(
-      JSON.stringify({ error: 'competitionId query parameter is required' }),
-      { status: 400 },
-    );
+    return badRequest('competitionId query parameter is required');
   }
 
   if (!mongoose.Types.ObjectId.isValid(competitionId)) {
-    return new Response(JSON.stringify({ error: 'Invalid competitionId' }), {
-      status: 400,
-    });
+    return badRequest('Invalid competitionId');
   }
 
   try {
@@ -26,27 +21,21 @@ export async function GET(req) {
       createdAt: -1,
     });
 
-    return new Response(JSON.stringify(entries), { status: 200 });
+    return success(entries);
   } catch (error) {
-    console.error('Error fetching entries:', error);
-    return new Response(JSON.stringify({ error: 'Failed to fetch entries' }), {
-      status: 500,
-    });
+    return serverError('Failed to fetch entries', error);
   }
 }
 
-async function createEntry(req, { params, user }) {
-  await dbConnect();
+export const GET = withDB(getEntries);
 
+async function createEntry(req, { params, user }) {
   try {
     const body = await req.json();
     const { competition, imageUrl, caption } = body;
 
     if (!competition || !imageUrl) {
-      return new Response(
-        JSON.stringify({ error: 'Competition and imageUrl are required' }),
-        { status: 400 },
-      );
+      return badRequest('Competition and imageUrl are required');
     }
 
     const newEntry = await Entry.create({
@@ -56,12 +45,9 @@ async function createEntry(req, { params, user }) {
       caption,
     });
 
-    return new Response(JSON.stringify(newEntry), { status: 201 });
+    return created(newEntry);
   } catch (error) {
-    console.error('Error creating entry:', error);
-    return new Response(JSON.stringify({ error: 'Failed to create entry' }), {
-      status: 500,
-    });
+    return serverError('Failed to create entry', error);
   }
 }
 

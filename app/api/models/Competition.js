@@ -113,6 +113,15 @@ const CompetitionSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// Index for fetching competitions by company
+// Used in: GET /api/competitions (when filtering by company)
+CompetitionSchema.index({ company: 1 });
+
+// Text index for case-insensitive search on title
+// Used in: GET /api/competitions (when searching by title)
+// Supports efficient text search without collection scans
+CompetitionSchema.index({ title: 'text' });
+
 const Competition =
   mongoose.models.Competition ||
   mongoose.model('Competition', CompetitionSchema);

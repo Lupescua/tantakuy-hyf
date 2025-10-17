@@ -1,18 +1,16 @@
 import { createParticipant } from '@/app/services/participantServices';
-import dbConnect from '@/utils/dbConnects';
-import { cookies } from 'next/headers';
+import { withDB } from '@/utils/withDB';
+import { created, badRequest } from '@/utils/apiResponse';
 
-export async function POST(req) {
+async function createParticipantHandler(req) {
   try {
-    await dbConnect();
     const body = await req.json();
     const { participant, token } = await createParticipant(body);
 
-    return Response.json({ success: true, data: participant }, { status: 201 });
+    return created({ participant });
   } catch (error) {
-    return Response.json(
-      { success: false, message: error.message },
-      { status: 400 },
-    );
+    return badRequest(error.message);
   }
 }
+
+export const POST = withDB(createParticipantHandler);

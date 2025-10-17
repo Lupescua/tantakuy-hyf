@@ -1,27 +1,21 @@
-import { NextResponse } from 'next/server';
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
 import Entry from '@/app/api/models/Entry';
 import { Types, isValidObjectId } from 'mongoose';
+import { badRequest, serverError, success } from '@/utils/apiResponse';
 
-export async function GET(request) {
-  const pathname = new URL(request.url).pathname;
-  const competitionId = pathname.split('/').pop();
+async function getEntriesByCompetition(request, context) {
+  const { id: competitionId } = await context.params;
 
   if (!isValidObjectId(competitionId)) {
-    return NextResponse.json(
-      { success: false, message: 'Invalid competitionId' },
-      { status: 400 },
-    );
+    return badRequest('Invalid competitionId');
   }
 
   // parse ?limit= & ?skip=
-  const url = new URL(request.url);
-  const limit = parseInt(url.searchParams.get('limit') || '20', 10);
-  const skip = parseInt(url.searchParams.get('skip') || '0', 10);
+  const { searchParams } = request.nextUrl;
+  const limit = parseInt(searchParams.get('limit') || '20', 10);
+  const skip = parseInt(searchParams.get('skip') || '0', 10);
 
   try {
-    await dbConnect();
-
     // this is an attempt at creating a trend algorithm, compute trendingScore = votes / hoursOld
     const now = new Date();
     const pipeline = [
@@ -87,12 +81,10 @@ export async function GET(request) {
 
     const entries = await Entry.aggregate(pipeline);
 
-    return NextResponse.json({ success: true, data: entries });
+    return success({ entries });
   } catch (err) {
-    console.error('Error in by-competition route:', err);
-    return NextResponse.json(
-      { success: false, message: 'Server error' },
-      { status: 500 },
-    );
+    return serverError('Server error', err);
   }
 }
+
+export const GET = withDB(getEntriesByCompetition);

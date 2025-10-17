@@ -1,27 +1,25 @@
-import dbConnect from '@/utils/dbConnects';
+import { withDB } from '@/utils/withDB';
+import { withAuth } from '@/utils/authMiddleware';
+import { getUserFromCookie } from '@/utils/server/auth';
+import {
+  success,
+  badRequest,
+  notFound,
+  forbidden,
+  serverError,
+  noContent,
+} from '@/utils/apiResponse';
 import Entry from '@/app/api/models/Entry';
 import '@/app/api/models/Participant';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 import s3 from '@/utils/s3Client';
-import { NextResponse } from 'next/server';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { createNotification } from '@/app/services/notificationServices';
 
-/* helper – pull :id safely from the URL string */
-function extractId(request) {
-  const { pathname } = new URL(request.url);
-  const id = pathname.split('/').pop(); // last segment
-  return isValidObjectId(id) ? id : null;
-}
-
 /* ───────────── GET /api/entries/[id] ───────────── */
-export async function GET(request) {
-  const id = extractId(request);
-  if (!id) return Response.json({ error: 'Bad id' }, { status: 400 });
-
-  await dbConnect();
+async function getEntry(request, context) {
+  const { id } = await context.params;
+  if (!isValidObjectId(id)) return badRequest('Invalid entry ID');
 
   try {
     const entry = await Entry.findById(id)
@@ -32,92 +30,79 @@ export async function GET(request) {
       })
       .lean();
 
-    if (!entry)
-      return Response.json({ error: 'Entry not found' }, { status: 404 });
+    if (!entry) return notFound('Entry not found');
 
-    return Response.json(entry, { status: 200 });
+    return success({ entry });
   } catch (err) {
     console.error('Error fetching entry:', err);
-    return Response.json({ error: 'Failed to fetch entry' }, { status: 500 });
+    return serverError('Failed to fetch entry', err);
   }
 }
 
 /* ──────────── DELETE /api/entries/[id] (auth) ─────────── */
-export async function DELETE(request) {
-  const id = extractId(request);
-  if (!id) {
-    return NextResponse.json({ error: 'Bad id' }, { status: 400 });
+async function deleteEntry(request, context) {
+  const { id } = await context.params;
+  if (!isValidObjectId(id)) {
+    return badRequest('Invalid entry ID');
   }
 
-  // ↳ Auth flow
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (!token)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const result = verifyToken(token);
-  if (!result.ok) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const userId = result.payload.id;
-
-  await dbConnect();
-
-  const entry = await Entry.findById(id).lean();
-  if (!entry)
-    return NextResponse.json({ error: 'Entry not found' }, { status: 404 });
-  if (entry.participant.toString() !== userId) {
-    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-  }
+  // ↳ Get user from withAuth
+  const userId = context.user.id;
 
   try {
+    const entry = await Entry.findById(id).lean();
+    if (!entry) return notFound('Entry not found');
+    if (String(entry.participant) !== String(userId)) {
+      return forbidden('You can only delete your own entries');
+    }
     // Only delete from S3 if the URL is for your bucket
-    const bucketDomain = `${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`;
-    if (entry.imageUrl.includes(bucketDomain)) {
-      const key = entry.imageUrl.split(`/${bucketDomain}/`)[1];
-      if (key) {
-        await s3.send(
-          new DeleteObjectCommand({
-            Bucket: process.env.S3_BUCKET_NAME,
-            Key: key,
-          }),
-        );
+    try {
+      const url = new URL(entry.imageUrl);
+      const bucket = process.env.S3_BUCKET_NAME;
+      const region = process.env.AWS_REGION;
+      const allowedHosts = [
+        `${bucket}.s3.${region}.amazonaws.com`,
+        `${bucket}.s3.amazonaws.com`,
+        `${bucket}.s3-${region}.amazonaws.com`,
+      ].filter(Boolean);
+      if (allowedHosts.includes(url.hostname)) {
+        const key = url.pathname.substring(1); // Remove leading '/'
+        if (key) {
+          await s3.send(
+            new DeleteObjectCommand({
+              Bucket: bucket,
+              Key: key,
+            }),
+          );
+        }
       }
+    } catch (urlError) {
+      console.warn('Failed to parse S3 URL, skipping S3 deletion:', urlError);
     }
 
     // delete the Mongo record
     await Entry.deleteOne({ _id: id });
 
-    // Return a clean 204 No Content
-    return new NextResponse(null, { status: 204 });
+    return noContent();
   } catch (err) {
     console.error('Error deleting entry:', err);
-    return NextResponse.json(
-      { error: 'Failed to delete entry' },
-      { status: 500 },
-    );
+    return serverError('Failed to delete entry', err);
   }
 }
 
 /* ─────────── PATCH /api/entries/[id] ──────────── */
-export async function PATCH(request) {
-  const id = extractId(request);
-  if (!id) {
-    return Response.json({ error: 'Bad id' }, { status: 400 });
+async function patchEntry(request, context) {
+  const { id } = await context.params;
+  if (!isValidObjectId(id)) {
+    return badRequest('Invalid entry ID');
   }
 
-  await dbConnect();
-
   // Try to pull actor info if logged in
+  const user = await getUserFromCookie();
   let actorId, actorType;
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (token) {
-    const result = verifyToken(token);
-    if (result.ok) {
-      actorId = result.payload.id;
-      actorType = result.payload.role === 'company' ? 'Company' : 'Participant';
-    }
+  if (user) {
+    actorId = user.id;
+    actorType = user.role === 'company' ? 'Company' : 'Participant';
   }
 
   try {
@@ -129,24 +114,21 @@ export async function PATCH(request) {
     );
 
     if (!updated) {
-      return Response.json({ error: 'Entry not found' }, { status: 404 });
+      return notFound('Entry not found');
     }
 
-    // If we have a valid actorId, fire a “share” notification:
+    // If we have a valid actorId, fire a "share" notification:
     if (actorId) {
       await createNotification(updated._id, actorId, 'share', actorType);
     }
 
-    // return the new share count (optional)
-    return Response.json(
-      { success: true, shares: updated.shares },
-      { status: 200 },
-    );
+    return success({ shares: updated.shares });
   } catch (err) {
     console.error('Error incrementing shares:', err);
-    return Response.json(
-      { error: 'Failed to increment shares' },
-      { status: 500 },
-    );
+    return serverError('Failed to increment shares', err);
   }
 }
+
+export const GET = withDB(getEntry);
+export const DELETE = withAuth(deleteEntry);
+export const PATCH = withDB(patchEntry);

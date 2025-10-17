@@ -95,21 +95,17 @@ export default function CreateCompetitionForm() {
 
       const res = await API.post('/competitions', formData);
 
-      if (res.status === 201) {
-        setShowSuccessModal(true);
+      // interceptor unwraps successful response
+      setShowSuccessModal(true);
 
-        // Hide the modal after 5 seconds
-        setTimeout(() => {
-          setShowSuccessModal(false);
-          router.push(`/company/${companyId}/competitions`);
-        }, 5000);
-      } else {
-        setErrorMsg(res.data?.error || 'Kunne ikke oprette konkurrence.');
-        console.error('API error:', res.data);
-      }
+      // Hide the modal after 5 seconds
+      setTimeout(() => {
+        setShowSuccessModal(false);
+        router.push(`/company/${companyId}/competitions`);
+      }, 5000);
     } catch (error) {
       console.error('Unexpected error:', error);
-      setErrorMsg(error.response?.data?.error || 'En uventet fejl opstod.');
+      setErrorMsg(error.message || 'En uventet fejl opstod.');
     } finally {
       setIsSubmitting(false);
     }

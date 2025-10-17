@@ -1,0 +1,74 @@
+.errorContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.errorContent {
+  background: white;
+  border-radius: 1rem;
+  padding: 3rem;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.errorTitle {
+  font-size: 2rem;
+  color: #1a202c;
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.errorMessage {
+  font-size: 1.125rem;
+  color: #4a5568;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.errorActions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.retryButton,
+.homeButton {
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.retryButton {
+  background: #667eea;
+  color: white;
+  border: none;
+}
+
+.retryButton:hover {
+  background: #5568d3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.homeButton {
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+}
+
+.homeButton:hover {
+  background: #f7fafc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}

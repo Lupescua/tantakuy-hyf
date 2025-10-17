@@ -1,32 +1,20 @@
 import { saveVote, countVotesForEntry } from '@/app/services/voteServices';
-import { cookies } from 'next/headers';
-import dbConnect from '@/utils/dbConnects';
-import { verifyToken } from '@/utils/jwt';
+import { getUserFromCookie } from '@/utils/server/auth';
+import { withAuth } from '@/utils/authMiddleware';
+import {
+  created,
+  conflict,
+  serverError,
+  success,
+  badRequest,
+} from '@/utils/apiResponse';
 import Vote from '../models/Vote';
+import { withDB } from '@/utils/withDB';
 
-export async function POST(req) {
-  await dbConnect();
-
+async function createVote(req, context) {
   try {
     const { entry, voteType } = await req.json();
-    const cookieStore = await cookies();
-    const token = cookieStore.get('token')?.value;
-
-    if (!token) {
-      return Response.json(
-        { success: false, message: 'Unauthorized' },
-        { status: 401 },
-      );
-    }
-
-    const tokenResult = verifyToken(token);
-    if (!tokenResult.ok) {
-      return Response.json(
-        { success: false, message: 'Unauthorized' },
-        { status: 401 },
-      );
-    }
-    const participantId = tokenResult.payload.id;
+    const participantId = context.user.id;
 
     const result = await saveVote({
       entryId: entry,
@@ -36,68 +24,43 @@ export async function POST(req) {
 
     if (!result.ok) {
       if (result.reason === 'duplicate') {
-        // client already has a vote – return 409
-        return Response.json(
-          { success: false, message: 'Already voted' },
-          { status: 409 },
-        );
+        return conflict('Already voted');
       }
-      return Response.json(
-        { success: false, message: 'Could not save vote' },
-        { status: 500 },
-      );
+      return serverError('Could not save vote');
     }
 
-    return Response.json({ success: true, vote: result.vote }, { status: 201 });
+    return created({ vote: result.vote });
   } catch (error) {
     console.error('POST /api/votes error:', error);
-    return Response.json(
-      { success: false, message: 'Server error' },
-      { status: 500 },
-    );
+    return serverError('Server error', error);
   }
 }
 
-export async function GET(req) {
-  await dbConnect();
+export const POST = withAuth(createVote);
 
+async function getVotes(req) {
   // extract entryId from query string
-  const { searchParams } = new URL(req.url);
+  const { searchParams } = req.nextUrl;
   const entryId = searchParams.get('entryId');
   if (!entryId) {
-    return Response.json(
-      { success: false, message: 'Missing entryId' },
-      { status: 400 },
-    );
+    return badRequest('Missing entryId');
   }
 
   // 1) Count total votes
   const countResult = await countVotesForEntry({ entryId });
-  if (!countResult.success) {
-    return Response.json(
-      { success: false, message: countResult.message },
-      { status: 400 },
-    );
-  }
 
   // 2) Check whether *this* user has voted
   let userVoted = false;
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-  if (token) {
-    const result = verifyToken(token);
-    if (result.ok) {
-      const participantId = result.payload.id;
-      const existing = await Vote.findOne({
-        entry: entryId,
-        participant: participantId,
-      });
-      userVoted = !!existing;
-    }
+  const user = await getUserFromCookie();
+  if (user) {
+    const existing = await Vote.findOne({
+      entry: entryId,
+      participant: user.id,
+    });
+    userVoted = !!existing;
   }
 
-  return Response.json(
-    { success: true, votes: countResult.data, userVoted },
-    { status: 200 },
-  );
+  return success({ votes: countResult, userVoted });
 }
+
+export const GET = withDB(getVotes);

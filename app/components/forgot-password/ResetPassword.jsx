@@ -27,12 +27,14 @@ export default function ResetPasswordForm() {
     }
     async function validate() {
       try {
-        const res = await API.post('/validate-token', {
+        await API.post('/validate-token', {
           email: emailParam,
           token,
         });
-        setStatus(res.data.success ? 'valid' : 'invalid');
-      } catch {
+        // if no error thrown, token is valid
+        setStatus('valid');
+      } catch (err) {
+        console.error('Token validation failed:', err);
         setStatus('invalid');
       }
     }

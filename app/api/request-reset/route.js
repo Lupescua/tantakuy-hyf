@@ -1,6 +1,7 @@
 import { sendResetLink } from '@/app/services/resetLinkServices';
 import { sendEmail } from '@/utils/sendEmail';
 import { createRateLimiter, checkRateLimit } from '@/utils/rateLimit';
+import { serverError, success } from '@/utils/apiResponse';
 
 const ratelimit = createRateLimiter(3, '1 h');
 
@@ -24,12 +25,8 @@ export async function POST(req) {
         <p>Linket udløber om 15 minutter.</p>
       `,
     });
-    return Response.json({ success: true, message: 'Reset link sent' });
+    return success({ message: 'Reset link sent' });
   } catch (error) {
-    console.error('Error in request-reset:', error);
-    return Response.json(
-      { success: false, message: error.message },
-      { status: 500 },
-    );
+    return serverError(error.message, error);
   }
 }

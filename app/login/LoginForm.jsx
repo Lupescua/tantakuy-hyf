@@ -42,8 +42,9 @@ function LoginForm() {
         password: data.password,
       });
 
-      const user = res.data?.user;
-      if (res.data?.success && user) {
+      // interceptor unwraps { success: true, data: { user, message } } to { user, message }
+      const user = res.data.user;
+      if (user) {
         // update the AuthContext
         refresh();
 
@@ -53,11 +54,10 @@ function LoginForm() {
           router.push('/');
         }
       } else {
-        throw new Error(res.data?.message || 'Login failed');
+        throw new Error('Login failed');
       }
     } catch (error) {
-      const msg =
-        error.response?.data?.message || error.message || 'Login failed';
+      const msg = error.message || 'Login failed';
       console.error('❌ Login failed:', msg);
       setErrorMsg(msg);
     }

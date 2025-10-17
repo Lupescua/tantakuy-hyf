@@ -1,39 +1,34 @@
-import dbConnect from '@/utils/dbConnects';
+import { withAuth } from '@/utils/authMiddleware';
+import {
+  badRequest,
+  notFound,
+  forbidden,
+  noContent,
+} from '@/utils/apiResponse';
 import Vote from '@/app/api/models/Vote';
-import { cookies } from 'next/headers';
-import { verifyToken } from '@/utils/jwt';
 import { isValidObjectId } from 'mongoose';
 
 /* ───────── DELETE  /api/votes/[id] ───────── */
-export async function DELETE(request) {
-  /* 1️⃣  grab :id from URL before the first await */
-  const { pathname } = new URL(request.url);
-  const voteId = pathname.split('/').pop();
+async function deleteVote(request, context) {
+  /* 1️⃣  get route param */
+  const { id: voteId } = await context.params;
 
   if (!isValidObjectId(voteId)) {
-    return Response.json({ error: 'Bad id' }, { status: 400 });
+    return badRequest('Invalid vote ID');
   }
 
-  /* 2️⃣  auth */
-  const store = await cookies();
-  const token = store.get('token')?.value;
-  if (!token) return Response.json({ error: 'Unauthorized' }, { status: 401 });
-
-  const result = verifyToken(token);
-  if (!result.ok) {
-    return Response.json({ error: 'Unauthorized' }, { status: 401 });
-  }
-  const participantId = result.payload.id;
+  /* 2️⃣  get user from withAuth */
+  const participantId = context.user.id;
 
   /* 3️⃣  DB */
-  await dbConnect();
-
   const vote = await Vote.findById(voteId);
-  if (!vote) return Response.json({ error: 'Vote not found' }, { status: 404 });
+  if (!vote) return notFound('Vote not found');
   if (vote.participant.toString() !== participantId) {
-    return Response.json({ error: 'Forbidden' }, { status: 403 });
+    return forbidden('You can only delete your own votes');
   }
 
   await Vote.deleteOne({ _id: voteId });
-  return new Response(null, { status: 204 });
+  return noContent();
 }
+
+export const DELETE = withAuth(deleteVote);

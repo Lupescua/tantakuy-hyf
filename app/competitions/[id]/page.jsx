@@ -48,14 +48,11 @@ export default function CompetitionGalleryPage() {
           API.get('/entries', { params: { competitionId: id } }),
         ]);
 
-        /* back-end contract:
-           /competitions/:id   → document or { error }
-           /entries?competitionId → [ … ] or { error }                  */
-        if (compRes.data?.error) throw new Error(compRes.data.error);
-        if (entriesRes.data?.error) throw new Error(entriesRes.data.error);
-
-        setCompetition(compRes.data);
-        setEntries(entriesRes.data); // plain array of entry docs
+        /* interceptor unwraps responses:
+           /competitions/:id   → { competition: {...} }
+           /entries?competitionId → array of entries */
+        setCompetition(compRes.data.competition || compRes.data);
+        setEntries(Array.isArray(entriesRes.data) ? entriesRes.data : []);
       } catch (err) {
         console.error('Error loading competition:', err);
         setError('Kunne ikke indlæse konkurrencen 😕');

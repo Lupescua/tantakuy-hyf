@@ -18,7 +18,7 @@ function getClientIdentifier(req) {
   const forwardedFor = req.headers.get('x-forwarded-for');
   const clientIp = forwardedFor
     ? forwardedFor.split(',')[0].trim()
-    : req.headers.get('x-real-ip') ?? null;
+    : (req.headers.get('x-real-ip') ?? null);
 
   if (!clientIp) {
     // For anonymous users, create a fingerprint from user-agent
